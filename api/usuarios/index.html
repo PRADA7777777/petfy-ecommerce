@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Usuarios - Petfy</title>
+    <style>
+        body { font-family: monospace; padding: 2rem; background: #1a1a2e; color: #10B981; }
+        h1 { color: #FF6B35; }
+        pre { background: #0F172A; padding: 1.5rem; border-radius: 8px; overflow-x: auto; }
+        .endpoint { color: #F59E0B; }
+        .method { color: #3B82F6; }
+    </style>
+</head>
+<body>
+    <h1>🐾 PETFY API - Usuarios</h1>
+    <p>Base URL: <code>https://api.petfy.com/v1</code></p>
+    
+    <h2>Endpoints Disponibles</h2>
+    
+    <h3><span class="method">POST</span> <span class="endpoint">/usuarios/registro</span></h3>
+    <p>Crear nueva cuenta</p>
+    <pre>// Request
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "email": "juan@email.com",
+  "password": "********",
+  "telefono": "+573001234567"
+}
+
+// Response
+{
+  "status": "success",
+  "message": "Cuenta creada exitosamente",
+  "data": {
+    "id": "usr-001",
+    "nombre": "Juan",
+    "email": "juan@email.com",
+    "token": "eyJhbGciOiJIUzI1NiIs..."
+  }
+}</pre>
+
+    <h3><span class="method">POST</span> <span class="endpoint">/usuarios/login</span></h3>
+    <p>Iniciar sesión</p>
+    <pre>// Request
+{
+  "email": "juan@email.com",
+  "password": "********"
+}
+
+// Response
+{
+  "status": "success",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "data": {
+    "id": "usr-001",
+    "nombre": "Juan Pérez",
+    "email": "juan@email.com"
+  }
+}</pre>
+
+    <h3><span class="method">GET</span> <span class="endpoint">/usuarios/perfil</span></h3>
+    <p>Obtener perfil (requiere token)</p>
+    <pre>// Headers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+// Response
+{
+  "status": "success",
+  "data": {
+    "id": "usr-001",
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "email": "juan@email.com",
+    "telefono": "+573001234567",
+    "direcciones": [...],
+    "created_at": "2024-06-24T00:00:00Z"
+  }
+}</pre>
+
+    <h3><span class="method">PUT</span> <span class="endpoint">/usuarios/perfil</span></h3>
+    <p>Actualizar perfil</p>
+
+    <h3><span class="method">POST</span> <span class="endpoint">/usuarios/recuperar</span></h3>
+    <p>Recuperar contraseña</p>
+
+    <script>
+        console.log('🐾 Petfy API - Usuarios');
+        console.log('Endpoints:', ['POST /usuarios/registro', 'POST /usuarios/login', 'GET /usuarios/perfil', 'PUT /usuarios/perfil']);
+    </script>
+</body>
+</html>

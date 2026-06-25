@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PETFY - Tienda online para mascotas. Alimentación, medicamentos, accesorios y más.">
+    <meta name="keywords" content="mascotas, perros, gatos, pet shop, comida mascotas, accesorios mascotas">
+    <title>PETFY - Tienda Online para Mascotas | Un Universo Peludo</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="assets/css/petfy.css">
+</head>
+<body>
+    <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/img/petfy.png" alt="Petfy">
+                    </a>
+                </div>
+                
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger">
+                        <a href="tienda/index.html" class="nav-link">
+                            Tienda <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicios/index.html" class="nav-link">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contacto/index.html" class="nav-link">Contacto</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <div class="city-selector">
+                        <i class="fas fa-map-marker-alt city-icon"></i>
+                        <select class="city-select">
+                            <option value="">Selecciona una ciudad</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="medellin">Medellín</option>
+                            <option value="cali">Cali</option>
+                            <option value="barranquilla">Barranquilla</option>
+                            <option value="cartagena">Cartagena</option>
+                        </select>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar productos...">
+                        <button>Buscar</button>
+                    </div>
+                    <div class="user-actions">
+                        <a href="cuenta/login.html" class="icon-link" title="Mi cuenta">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="Ruta de navegación">
+                <ol class="breadcrumb-list" id="breadcrumbList"></ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="hero">
+                    <div class="hero-content">
+                        <span class="hero-badge">🐾 Nueva Colección 2024</span>
+                        <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
+                        <p class="hero-description">
+                            Descubre todo lo que necesitas para el cuidado y felicidad de tus mascotas. 
+                            Alimentación premium, juguetes, accesorios y mucho más.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="tienda/" class="btn btn-primary">
+                                Explorar Tienda <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="#categorias" class="btn btn-outline">
+                                Ver Categorías
+                            </a>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat-item"><span class="stat-number">+1000</span><span class="stat-label">Productos</span></div>
+                            <div class="stat-item"><span class="stat-number">5000+</span><span class="stat-label">Clientes Felices</span></div>
+                            <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <div class="image-wrapper">
+                            <img src="assets/img/Group 1.png" alt="Mascotas felices - Petfy">
+                            <div class="floating-badge">
+                                <i class="fas fa-star"></i>
+                                <span>4.9/5 Reseñas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS DESTACADOS -->
+        <section id="servicios" class="services-home-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-subtitle">Cuidado Integral</span>
+                    <h2 class="section-title">Nuestros Servicios</h2>
+                    <p class="section-description">Profesionales dedicados al bienestar de tu mascota</p>
+                </div>
+                
+                <div class="services-home-grid">
+                    <a href="servicios/" class="service-home-card activo">
+                        <div class="service-home-icon"><i class="fas fa-dog"></i></div>
+                        <span class="service-home-badge badge-disponible">Disponible</span>
+                        <h3>Paseos Diarios</h3>
+                        <p>Paseos con GPS, paseador fijo y reportes diarios</p>
+                        <div class="service-home-price">Desde $8.990</div>
+                    </a>
+                    <a href="servicios/" class="service-home-card inactivo">
+                        <div class="service-home-icon"><i class="fas fa-house-chimney"></i></div>
+                        <span class="service-home-badge badge-proximo">Próximamente</span>
+                        <h3>Guardería</h3>
+                        <p>Espacio seguro con cámaras 24/7</p>
+                        <div class="service-home-price">Desde $15.990</div>
+                    </a>
+                    <a href="servicios/" class="service-home-card inactivo">
+                        <div class="service-home-icon"><i class="fas fa-shower"></i></div>
+                        <span class="service-home-badge badge-proximo">Próximamente</span>
+                        <h3>Baños & Peluquería</h3>
+                        <p>Productos hipoalergénicos profesionales</p>
+                        <div class="service-home-price">Desde $12.990</div>
+                    </a>
+                    <a href="servicios/" class="service-home-card inactivo">
+                        <div class="service-home-icon"><i class="fas fa-stethoscope"></i></div>
+                        <span class="service-home-badge badge-proximo">Próximamente</span>
+                        <h3>Veterinaria</h3>
+                        <p>Atención integral y urgencias 24/7</p>
+                        <div class="service-home-price">Desde $20.000</div>
+                    </a>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="servicios/" class="btn btn-outline">
+                        Ver Todos los Servicios <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍAS PRINCIPALES -->
+        <section id="categorias" class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-subtitle">¿Qué necesitas?</span>
+                    <h2 class="section-title">Categorías Destacadas</h2>
+                    <p class="section-description">Explora nuestra amplia selección de productos</p>
+                </div>
+                <div class="categories-grid">
+                    <a href="tienda/?cat=alimentacion" class="category-card">
+                        <div class="category-icon"><i class="fas fa-drumstick-bite"></i></div>
+                        <div class="category-info"><h3>Alimentación</h3><p>Comida balanceada, snacks y premios</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                    <a href="tienda/?cat=medicamentos" class="category-card">
+                        <div class="category-icon"><i class="fas fa-capsules"></i></div>
+                        <div class="category-info"><h3>Medicamentos</h3><p>Salud y cuidado veterinary</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                    <a href="tienda/?cat=accesorios" class="category-card">
+                        <div class="category-icon"><i class="fas fa-paw"></i></div>
+                        <div class="category-info"><h3>Accesorios</h3><p>Collares, correas, juguetes y más</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                    <a href="tienda/?cat=hogar" class="category-card">
+                        <div class="category-icon"><i class="fas fa-home"></i></div>
+                        <div class="category-info"><h3>Hogar & Descanso</h3><p>Camas, casas y espacios acogedores</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                    <a href="tienda/?cat=higiene" class="category-card">
+                        <div class="category-icon"><i class="fas fa-shower"></i></div>
+                        <div class="category-info"><h3>Higiene & Belleza</h3><p>Shampoo, cepillos y cuidado personal</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                    <a href="tienda/?cat=ropa" class="category-card">
+                        <div class="category-icon"><i class="fas fa-tshirt"></i></div>
+                        <div class="category-info"><h3>Ropa & Moda</h3><p>Abrigos, disfraces y accesorios</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTOS DESTACADOS -->
+        <section id="productos" class="products-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-subtitle">Lo más vendido</span>
+                    <h2 class="section-title">Productos Destacados</h2>
+                    <p class="section-description">Los favoritos de nuestros clientes peludos</p>
+                </div>
+                <div class="products-grid">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <span class="product-badge">-20%</span>
+                            <img src="assets/img/producto1.jpg" alt="Royal Canin Adult" loading="lazy">
+                            <div class="product-actions">
+                                <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
+                                <button class="action-btn" title="Añadir a favoritos"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">Royal Canin</span>
+                            <h3 class="product-title"><a href="tienda/producto.html">Alimento Adulto Raza Pequeña 2kg</a></h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <span>(128)</span>
+                            </div>
+                            <div class="product-price"><span class="old-price">$25.000</span><span class="current-price">$19.999</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="assets/img/SAM00838.jpg" alt="Cama ortopédica" loading="lazy">
+                            <div class="product-actions">
+                                <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
+                                <button class="action-btn" title="Añadir a favoritos"><i class="fas fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">PetStyle</span>
+                            <h3 class="product-title">Cama Ortopédica Memory Foam Grande</h3>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span>(95)</span>
+                            </div>
+                            <div class="product-price"><span class="current-price">$45.990</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+                    <div class="product-card product-placeholder">
+                        <div class="placeholder-content"><i class="fas fa-plus-circle"></i><p>Próximamente más productos</p></div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="tienda/" class="btn btn-primary btn-lg">Ver Todos los Productos <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFICIOS -->
+        <section class="benefits-section">
+            <div class="container">
+                <div class="benefits-grid">
+                    <div class="benefit-card"><i class="fas fa-truck"></i><h3>Envío Gratis</h3><p>En compras sobre $30.000</p></div>
+                    <div class="benefit-card"><i class="fas fa-shield-alt"></i><h3>Compra Segura</h3><p>Pagos encriptados SSL</p></div>
+                    <div class="benefit-card"><i class="fas fa-undo"></i><h3>Devolución Fácil</h3><p>30 días de garantía</p></div>
+                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte 24/7</h3><p>Te ayudamos siempre</p></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="assets/img/petfy.png" alt="Petfy" class="footer-logo">
+                    <p>Tu tienda de confianza para el bienestar de tus mascotas.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="tienda/">Tienda</a></li>
+                        <li><a href="servicios/">Servicios</a></li>
+                        <li><a href="nosotros/">Nosotros</a></li>
+                        <li><a href="contacto/">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="cuenta/login.html">Mi Cuenta</a></li>
+                        <li><a href="cuenta/pedidos.html">Seguimiento de Pedido</a></li>
+                        <li><a href="legal/devoluciones.html">Devoluciones</a></li>
+                        <li><a href="legal/terminos.html">Términos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Recibe ofertas y novedades</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Tu email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-amex"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Petfy. Todos los derechos reservados. | 
+                    <a href="legal/terminos.html">Términos</a> | 
+                    <a href="legal/privacidad.html">Privacidad</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

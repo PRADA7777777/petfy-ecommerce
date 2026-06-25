@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias - Petfy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    <style>
+        .gracias-page { display: flex; align-items: center; justify-content: center; min-height: 70vh; text-align: center; }
+        .gracias-card { background: var(--white); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); max-width: 500px; }
+        .gracias-icon { font-size: 5rem; color: var(--success); margin-bottom: 1rem; }
+        .gracias-card h1 { font-size: 2rem; font-weight: 800; color: var(--dark); }
+        .gracias-card p { color: var(--gray-500); margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="../tienda/index.html" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="gracias-page">
+        <div class="container">
+            <div class="gracias-card">
+                <div class="gracias-icon"><i class="fas fa-check-circle"></i></div>
+                <h1>¡Gracias por contactarnos!</h1>
+                <p>Te responderemos en menos de 2 horas.</p>
+                <a href="../index.html" class="btn btn-primary">Volver al Inicio</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

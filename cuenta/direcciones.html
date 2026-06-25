@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Direcciones - Petfy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    <style>
+        .direcciones-page { padding: 2rem 0 4rem; min-height: 70vh; }
+        .direcciones-page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; }
+        .direccion-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--gray-200); margin-bottom: 1rem; }
+        .btn-agregar { padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; font-family: inherit; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="../tienda/index.html" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <main class="direcciones-page">
+        <div class="container">
+            <h1><i class="fas fa-map-marked-alt"></i> Mis Direcciones</h1>
+            <div class="direccion-card"><strong>Casa</strong><p>Calle 123 #45-67, Bogotá</p></div>
+            <button class="btn-agregar"><i class="fas fa-plus"></i> Agregar Dirección</button>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

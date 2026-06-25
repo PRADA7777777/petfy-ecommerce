@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Pedidos - Petfy</title>
+    <style>
+        body { font-family: monospace; padding: 2rem; background: #1a1a2e; color: #10B981; }
+        h1 { color: #FF6B35; }
+        pre { background: #0F172A; padding: 1.5rem; border-radius: 8px; overflow-x: auto; }
+        .endpoint { color: #F59E0B; }
+        .method { color: #3B82F6; }
+    </style>
+</head>
+<body>
+    <h1>🐾 PETFY API - Pedidos</h1>
+    <p>Base URL: <code>https://api.petfy.com/v1</code></p>
+    
+    <h2>Endpoints Disponibles</h2>
+    
+    <h3><span class="method">GET</span> <span class="endpoint">/pedidos</span></h3>
+    <p>Obtener todos los pedidos del usuario</p>
+    <pre>// Headers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+
+// Response
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "ped-001",
+      "fecha": "2024-06-24",
+      "estado": "entregado",
+      "total": 19999,
+      "items": [...]
+    }
+  ]
+}</pre>
+
+    <h3><span class="method">POST</span> <span class="endpoint">/pedidos</span></h3>
+    <p>Crear nuevo pedido</p>
+    <pre>// Request
+{
+  "items": [
+    { "producto_id": "prod-01", "cantidad": 1 }
+  ],
+  "direccion_envio": "Calle 123 #45-67, Bogotá",
+  "metodo_pago": "mercadopago"
+}
+
+// Response
+{
+  "status": "success",
+  "data": {
+    "id": "ped-002",
+    "total": 19999,
+    "envio": 3990,
+    "total_final": 23989,
+    "estado": "pendiente",
+    "payment_url": "https://mercadopago.com/..."
+  }
+}</pre>
+
+    <h3><span class="method">GET</span> <span class="endpoint">/pedidos/:id</span></h3>
+    <p>Obtener detalle de pedido</p>
+
+    <h3><span class="method">POST</span> <span class="endpoint">/pedidos/:id/cancelar</span></h3>
+    <p>Cancelar pedido</p>
+
+    <hr style="border-color: #333; margin: 2rem 0;">
+
+    <h2>💳 Integración con Pasarelas de Pago</h2>
+    <pre>// MercadoPago
+POST /api/pedidos/pagar/mercadopago
+→ Redirige a checkout MP
+
+// PayPal  
+POST /api/pedidos/pagar/paypal
+→ Redirige a PayPal
+
+// Stripe
+POST /api/pedidos/pagar/stripe
+→ Procesa pago con Stripe</pre>
+
+    <script>
+        console.log('🐾 Petfy API - Pedidos');
+        console.log('Endpoints:', ['GET /pedidos', 'POST /pedidos', 'GET /pedidos/:id', 'POST /pedidos/:id/cancelar']);
+    </script>
+</body>
+</html>

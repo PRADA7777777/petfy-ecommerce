@@ -1,0 +1,23 @@
+# ========== PETFY - ROBOTS.TXT ==========
+# https://petfy.com/robots.txt
+
+User-agent: *
+Allow: /
+
+# Rutas privadas (no indexar)
+Disallow: /api/
+Disallow: /cuenta/
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /docs/
+
+# Evitar parámetros duplicados
+Disallow: /*?*
+Allow: /*?cat=*
+Allow: /*?search=*
+
+# Sitemap
+Sitemap: https://petfy.com/sitemap.xml
+
+# Crawl-delay (segundos entre peticiones)
+Crawl-delay: 5

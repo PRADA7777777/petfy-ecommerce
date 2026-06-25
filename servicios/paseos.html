@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paseos - Petfy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    <style>
+        .paseos-page { padding: 2rem 0 4rem; background: var(--gray-100); min-height: 100vh; }
+        .paseos-header { background: linear-gradient(135deg, #FF6B35, #E55A2B); color: white; padding: 3rem; border-radius: var(--radius-lg); text-align: center; margin-bottom: 2rem; }
+        .paseos-header h1 { font-size: 2.5rem; font-weight: 800; }
+        .planes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .plan-card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; text-align: center; border: 2px solid var(--gray-200); transition: var(--transition); position: relative; }
+        .plan-card:hover { border-color: var(--primary); box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .plan-card.destacado { border-color: var(--primary); background: var(--primary-light); }
+        .plan-badge { position: absolute; top: -12px; right: 20px; background: var(--primary); color: white; padding: 0.25rem 1rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; }
+        .plan-icono { font-size: 3rem; margin-bottom: 1rem; }
+        .plan-nombre { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .plan-precio { font-size: 2rem; font-weight: 800; color: var(--primary); margin: 1rem 0; }
+        .plan-precio small { font-size: 0.9rem; color: var(--gray-500); }
+        .plan-features { list-style: none; text-align: left; margin: 1.5rem 0; }
+        .plan-features li { padding: 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        .plan-features li i { color: var(--success); }
+        .btn-plan { width: 100%; padding: 0.875rem; border-radius: var(--radius); font-weight: 700; cursor: pointer; border: none; font-family: inherit; font-size: 1rem; transition: var(--transition); }
+        .btn-contratar { background: var(--primary); color: white; }
+        .btn-contratar:hover { background: var(--primary-dark); }
+        .btn-whatsapp { background: #25D366; color: white; margin-top: 0.5rem; }
+        .btn-whatsapp:hover { background: #1ea851; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
+                </ul>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <main class="paseos-page">
+        <div class="container">
+            <div class="paseos-header">
+                <h1>🐕 Paseos Profesionales</h1>
+                <p style="color:rgba(255,255,255,0.9)">Elige el plan perfecto para tu peludo</p>
+            </div>
+            
+            <div class="planes-grid">
+                <div class="plan-card">
+                    <div class="plan-icono">⚡</div>
+                    <h3 class="plan-nombre">Paseo Express</h3>
+                    <p style="color:var(--gray-500)">30 minutos</p>
+                    <div class="plan-precio">$8.990<small>/paseo</small></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 30 minutos de paseo</li>
+                        <li><i class="fas fa-check"></i> Paseador certificado</li>
+                        <li><i class="fas fa-check"></i> Reporte con foto</li>
+                    </ul>
+                    <button class="btn-plan btn-contratar" onclick="contratar('Express', 8990)"><i class="fas fa-shopping-cart"></i> Contratar</button>
+                    <button class="btn-plan btn-whatsapp" onclick="window.open('https://wa.me/573001234567')"><i class="fab fa-whatsapp"></i> Consultar</button>
+                </div>
+                
+                <div class="plan-card destacado">
+                    <span class="plan-badge">🌟 Popular</span>
+                    <div class="plan-icono">🌟</div>
+                    <h3 class="plan-nombre">Paseo Estándar</h3>
+                    <p style="color:var(--gray-500)">45 minutos</p>
+                    <div class="plan-precio">$10.990<small>/paseo</small></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 45 minutos de paseo</li>
+                        <li><i class="fas fa-check"></i> Snack incluido</li>
+                        <li><i class="fas fa-check"></i> GPS en vivo</li>
+                        <li><i class="fas fa-check"></i> Reporte con fotos</li>
+                    </ul>
+                    <button class="btn-plan btn-contratar" onclick="contratar('Estándar', 10990)"><i class="fas fa-shopping-cart"></i> Contratar</button>
+                    <button class="btn-plan btn-whatsapp" onclick="window.open('https://wa.me/573001234567')"><i class="fab fa-whatsapp"></i> Consultar</button>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-icono">💎</div>
+                    <h3 class="plan-nombre">Paseo Premium</h3>
+                    <p style="color:var(--gray-500)">60 minutos</p>
+                    <div class="plan-precio">$14.990<small>/paseo</small></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 60 minutos de paseo</li>
+                        <li><i class="fas fa-check"></i> Parque + socialización</li>
+                        <li><i class="fas fa-check"></i> Snack premium</li>
+                        <li><i class="fas fa-check"></i> Video del paseo</li>
+                    </ul>
+                    <button class="btn-plan btn-contratar" onclick="contratar('Premium', 14990)"><i class="fas fa-shopping-cart"></i> Contratar</button>
+                    <button class="btn-plan btn-whatsapp" onclick="window.open('https://wa.me/573001234567')"><i class="fab fa-whatsapp"></i> Consultar</button>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-icono">📦</div>
+                    <h3 class="plan-nombre">Pack 5 Paseos</h3>
+                    <p style="color:var(--gray-500)">45 min c/u</p>
+                    <div class="plan-precio">$35.990<small>/pack</small></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 5 paseos estándar</li>
+                        <li><i class="fas fa-check"></i> Ahorro del 35%</li>
+                        <li><i class="fas fa-check"></i> Paseador fijo</li>
+                        <li><i class="fas fa-check"></i> Sin vencimiento</li>
+                    </ul>
+                    <button class="btn-plan btn-contratar" onclick="contratar('Pack 5', 35990)"><i class="fas fa-shopping-cart"></i> Contratar</button>
+                </div>
+                
+                <div class="plan-card">
+                    <div class="plan-icono">🏆</div>
+                    <h3 class="plan-nombre">Pack 10 Paseos</h3>
+                    <p style="color:var(--gray-500)">45 min c/u</p>
+                    <div class="plan-precio">$64.990<small>/pack</small></div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check"></i> 10 paseos estándar</li>
+                        <li><i class="fas fa-check"></i> Ahorro del 41%</li>
+                        <li><i class="fas fa-check"></i> Paseador VIP</li>
+                        <li><i class="fas fa-check"></i> Regalo sorpresa</li>
+                    </ul>
+                    <button class="btn-plan btn-contratar" onclick="contratar('Pack 10', 64990)"><i class="fas fa-shopping-cart"></i> Contratar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        function contratar(plan, precio) {
+            alert('✅ Has seleccionado: ' + plan + ' por $' + precio.toLocaleString() + '\n\nSerás contactado para coordinar el servicio.');
+        }
+    </script>
+</body>
+</html>

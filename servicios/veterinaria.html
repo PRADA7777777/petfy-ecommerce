@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veterinaria Petfy - Atención integral para tu mascota">
+    <title>Veterinaria - Petfy | Próximamente</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    
+    <style>
+        .servicio-detalle-page { background: var(--gray-100); min-height: 100vh; }
+        .servicio-detalle-header { background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%); padding: 3rem 0; color: var(--white); }
+        .servicio-detalle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .servicio-detalle-info h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .servicio-detalle-info .badge-prox { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.4rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem; }
+        .servicio-detalle-info p { color: rgba(255,255,255,0.9); font-size: 1.1rem; line-height: 1.6; }
+        .servicio-detalle-imagen { text-align: center; font-size: 8rem; opacity: 0.5; }
+        
+        .servicio-content { padding: 4rem 0; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .feature-card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; text-align: center; border: 1px solid var(--gray-200); transition: var(--transition); }
+        .feature-card:hover { border-color: var(--primary); box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+        .feature-icon { width: 60px; height: 60px; background: #FFFBEB; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; color: var(--warning); }
+        .feature-card h3 { font-weight: 700; margin-bottom: 0.5rem; color: var(--dark); }
+        .feature-card p { color: var(--gray-500); font-size: 0.9rem; }
+        
+        .planes-preview { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--gray-200); margin-bottom: 2rem; }
+        .planes-preview h3 { margin-bottom: 1rem; }
+        .plan-preview-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: var(--gray-50); border-radius: var(--radius-sm); margin-bottom: 0.5rem; }
+        .plan-preview-precio { font-weight: 700; color: var(--primary); }
+        
+        .notify-section { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; text-align: center; border: 2px dashed var(--gray-300); }
+        .notify-form { display: flex; gap: 0.5rem; max-width: 450px; margin: 1rem auto 0; }
+        .notify-form input { flex: 1; padding: 0.75rem 1rem; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; }
+        .notify-form button { padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; font-family: inherit; transition: var(--transition); }
+        .notify-form button:hover { background: var(--primary-dark); }
+        
+        @media (max-width: 768px) { 
+            .servicio-detalle-grid { grid-template-columns: 1fr; text-align: center; }
+            .servicio-detalle-imagen { order: -1; font-size: 5rem; }
+            .notify-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body class="servicio-detalle-page">
+    
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="user-actions">
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <section class="servicio-detalle-header">
+        <div class="container">
+            <div class="servicio-detalle-grid">
+                <div class="servicio-detalle-info">
+                    <span class="badge-prox">⏳ Próximamente</span>
+                    <h1>Veterinaria</h1>
+                    <p>Atención veterinaria integral con equipos de última generación. Consultas, vacunación, desparasitación y urgencias 24/7.</p>
+                </div>
+                <div class="servicio-detalle-imagen">🩺</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="servicio-content">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Lo que ofreceremos</span>
+                <h2 class="section-title">Servicios Incluidos</h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Consultas Generales</h3>
+                    <p>Revisión completa, diagnóstico y tratamiento por veterinarios titulados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-syringe"></i></div>
+                    <h3>Vacunación</h3>
+                    <p>Plan de vacunación completo según edad, especie y estilo de vida.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Urgencias 24/7</h3>
+                    <p>Atención de emergencias veterinarias en cualquier momento del día.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-x-ray"></i></div>
+                    <h3>Diagnóstico por Imagen</h3>
+                    <p>Radiografías, ecografías y análisis clínicos con resultados rápidos.</p>
+                </div>
+            </div>
+            
+            <div class="planes-preview">
+                <h3><i class="fas fa-tag"></i> Planes que tendremos disponibles</h3>
+                <div class="plan-preview-item">
+                    <span>🩺 <strong>Consulta General</strong> - Revisión completa</span>
+                    <span class="plan-preview-precio">$20.000</span>
+                </div>
+                <div class="plan-preview-item">
+                    <span>💉 <strong>Plan Vacunación</strong> - 3 dosis</span>
+                    <span class="plan-preview-precio">$45.000</span>
+                </div>
+                <div class="plan-preview-item">
+                    <span>🏥 <strong>Urgencia</strong> - Atención inmediata</span>
+                    <span class="plan-preview-precio">$35.000</span>
+                </div>
+            </div>
+            
+            <div class="notify-section">
+                <h3>🔔 ¿Quieres ser el primero en saber?</h3>
+                <p>Déjanos tu email y te notificaremos cuando el servicio de Veterinaria esté disponible.</p>
+                <form class="notify-form" onsubmit="return notificar(event)">
+                    <input type="email" placeholder="tu@email.com" required id="emailInput">
+                    <button type="submit"><i class="fas fa-bell"></i> Avísame</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo"><p>Tu tienda de confianza.</p></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        function notificar(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            if (!email) return false;
+            alert('✅ Te notificaremos a ' + email + ' cuando Veterinaria esté disponible.');
+            document.getElementById('emailInput').value = '';
+            return false;
+        }
+    </script>
+</body>
+</html>

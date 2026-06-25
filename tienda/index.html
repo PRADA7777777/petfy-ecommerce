@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tienda Petfy - Encuentra todo para tu mascota">
+    <title>Tienda - Petfy | Productos para Mascotas</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    
+    <style>
+        .shop-page { padding: 2rem 0 4rem; min-height: 100vh; background: var(--gray-100); }
+        .shop-header { text-align: center; margin-bottom: 2rem; }
+        .shop-header h1 { font-size: 2.5rem; font-weight: 800; color: var(--dark); }
+        .shop-header p { color: var(--gray-500); }
+        .shop-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; align-items: start; }
+        .shop-sidebar { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); position: sticky; top: 100px; }
+        .filter-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-200); }
+        .filter-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .filter-title { font-weight: 700; margin-bottom: 0.75rem; font-size: 0.95rem; color: var(--dark); }
+        .filter-options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .filter-option { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--gray-700); }
+        .filter-option input { accent-color: var(--primary); }
+        .filter-option .count { color: var(--gray-400); font-size: 0.8rem; margin-left: auto; }
+        .price-inputs { display: flex; gap: 0.5rem; }
+        .price-inputs input { width: 100%; padding: 0.5rem; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; }
+        .btn-aplicar { width: 100%; padding: 0.75rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 0.5rem; transition: var(--transition); }
+        .btn-aplicar:hover { background: var(--primary-dark); }
+        .btn-limpiar { width: 100%; padding: 0.75rem; background: transparent; color: var(--gray-600); border: 2px solid var(--gray-200); border-radius: var(--radius); font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 0.5rem; transition: var(--transition); }
+        .shop-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: var(--white); padding: 1rem 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+        .results-count { color: var(--gray-600); font-size: 0.9rem; }
+        .sort-select { padding: 0.5rem 1rem; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; cursor: pointer; font-size: 0.9rem; }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; }
+        .mobile-filter-btn { display: none; width: 100%; padding: 0.75rem; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius); font-weight: 600; cursor: pointer; font-family: inherit; margin-bottom: 1rem; }
+        .filter-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; }
+        .filter-overlay.active { display: block; }
+        
+        @media (max-width: 1024px) {
+            .shop-layout { grid-template-columns: 1fr; }
+            .shop-sidebar { position: fixed; left: -100%; top: 0; bottom: 0; width: 300px; z-index: 999; transition: left 0.3s ease; overflow-y: auto; border-radius: 0; }
+            .shop-sidebar.active { left: 0; }
+            .mobile-filter-btn { display: block; }
+        }
+        @media (max-width: 768px) { .shop-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
+    </style>
+</head>
+<body>
+    
+    <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="index.html" class="nav-link active">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Selecciona una ciudad</option><option value="bogota">Bogotá</option><option value="medellin">Medellín</option><option value="cali">Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar productos..."><button>Buscar</button></div>
+                    <div class="user-actions">
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <!-- ========== TIENDA ========== -->
+    <main class="shop-page">
+        <div class="container">
+            <div class="shop-header">
+                <h1>Nuestra Tienda</h1>
+                <p>Encuentra todo lo que necesitas para tu mascota</p>
+            </div>
+            
+            <button class="mobile-filter-btn" onclick="toggleFilters()"><i class="fas fa-filter"></i> Filtros</button>
+            <div class="filter-overlay" id="filterOverlay" onclick="toggleFilters()"></div>
+            
+            <div class="shop-layout">
+                <!-- Sidebar Filtros -->
+                <aside class="shop-sidebar" id="shopSidebar">
+                    <h3 style="margin-bottom: 1rem;"><i class="fas fa-sliders-h"></i> Filtros</h3>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Categorías</div>
+                        <div class="filter-options">
+                            <label class="filter-option"><input type="checkbox" value="alimentacion" onchange="aplicarFiltros()"> Alimentación <span class="count">(2)</span></label>
+                            <label class="filter-option"><input type="checkbox" value="hogar" onchange="aplicarFiltros()"> Hogar <span class="count">(1)</span></label>
+                            <label class="filter-option"><input type="checkbox" value="accesorios" onchange="aplicarFiltros()"> Accesorios <span class="count">(0)</span></label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Mascota</div>
+                        <div class="filter-options">
+                            <label class="filter-option"><input type="checkbox" value="perros" onchange="aplicarFiltros()"> Perros <span class="count">(2)</span></label>
+                            <label class="filter-option"><input type="checkbox" value="gatos" onchange="aplicarFiltros()"> Gatos <span class="count">(0)</span></label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-title">Precio</div>
+                        <div class="price-inputs">
+                            <input type="number" placeholder="Min" id="priceMin" onchange="aplicarFiltros()">
+                            <input type="number" placeholder="Max" id="priceMax" onchange="aplicarFiltros()">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-aplicar" onclick="aplicarFiltros()"><i class="fas fa-check"></i> Aplicar Filtros</button>
+                    <button class="btn-limpiar" onclick="limpiarFiltros()"><i class="fas fa-times"></i> Limpiar Filtros</button>
+                </aside>
+                
+                <!-- Grid Productos -->
+                <div class="shop-content">
+                    <div class="shop-toolbar">
+                        <span class="results-count">Mostrando <strong id="resultsNumber">3</strong> productos</span>
+                        <select class="sort-select" onchange="ordenarProductos(this.value)">
+                            <option value="featured">Destacados</option>
+                            <option value="price-asc">Precio: Menor a Mayor</option>
+                            <option value="price-desc">Precio: Mayor a Menor</option>
+                            <option value="name-asc">Nombre: A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="shop-grid" id="productsGrid">
+                        
+                        <!-- Producto 1: Royal Canin -->
+                        <article class="product-card" data-categoria="alimentacion" data-precio="19999" data-mascota="perros">
+                            <div class="product-image">
+                                <span class="product-badge">-20%</span>
+                                <img src="../assets/img/productos/producto-01.jpg" alt="Royal Canin Adult" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
+                                <div class="product-actions">
+                                    <button class="action-btn" title="Añadir al carrito" onclick="agregarAlCarrito('prod-01','Royal Canin Adult Raza Pequeña 2kg','$19.999','../assets/img/productos/producto-01.jpg')"><i class="fas fa-cart-plus"></i></button>
+                                    <button class="action-btn" title="Añadir a favoritos" onclick="agregarAFavoritos('prod-01')"><i class="fas fa-heart"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-brand">Royal Canin</span>
+                                <h3 class="product-title"><a href="producto.html?id=prod-01">Alimento Adulto Raza Pequeña 2kg</a></h3>
+                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(128)</span></div>
+                                <div class="product-price"><span class="old-price">$25.000</span><span class="current-price">$19.999</span></div>
+                                <button class="btn-add-cart" onclick="agregarAlCarrito('prod-01','Royal Canin Adult Raza Pequeña 2kg','$19.999','../assets/img/productos/producto-01.jpg')"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                            </div>
+                        </article>
+                        
+                        <!-- Producto 2: Cama -->
+                        <article class="product-card" data-categoria="hogar" data-precio="45990" data-mascota="perros">
+                            <div class="product-image">
+                                <img src="../assets/img/productos/producto-02.jpg" alt="Cama Ortopédica" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
+                                <div class="product-actions">
+                                    <button class="action-btn" title="Añadir al carrito" onclick="agregarAlCarrito('prod-02','Cama Ortopédica Memory Foam Grande','$45.990','../assets/img/productos/producto-02.jpg')"><i class="fas fa-cart-plus"></i></button>
+                                    <button class="action-btn" title="Añadir a favoritos" onclick="agregarAFavoritos('prod-02')"><i class="fas fa-heart"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-brand">PetStyle</span>
+                                <h3 class="product-title"><a href="producto.html?id=prod-02">Cama Ortopédica Memory Foam Grande</a></h3>
+                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(95)</span></div>
+                                <div class="product-price"><span class="current-price">$45.990</span></div>
+                                <button class="btn-add-cart" onclick="agregarAlCarrito('prod-02','Cama Ortopédica Memory Foam Grande','$45.990','../assets/img/productos/producto-02.jpg')"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                            </div>
+                        </article>
+                        
+                        <!-- Producto 3: Pro Plan -->
+                        <article class="product-card" data-categoria="alimentacion" data-precio="35990" data-mascota="perros">
+                            <div class="product-image">
+                                <span class="product-badge">Nuevo</span>
+                                <img src="../assets/img/productos/producto-03.jpg" alt="Pro Plan Adulto" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
+                                <div class="product-actions">
+                                    <button class="action-btn" title="Añadir al carrito" onclick="agregarAlCarrito('prod-03','Pro Plan Adulto Raza Mediana 3kg','$35.990','../assets/img/productos/producto-03.jpg')"><i class="fas fa-cart-plus"></i></button>
+                                    <button class="action-btn" title="Añadir a favoritos" onclick="agregarAFavoritos('prod-03')"><i class="fas fa-heart"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <span class="product-brand">Pro Plan</span>
+                                <h3 class="product-title"><a href="producto.html?id=prod-03">Pro Plan Adulto Raza Mediana 3kg</a></h3>
+                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(67)</span></div>
+                                <div class="product-price"><span class="current-price">$35.990</span></div>
+                                <button class="btn-add-cart" onclick="agregarAlCarrito('prod-03','Pro Plan Adulto Raza Mediana 3kg','$35.990','../assets/img/productos/producto-03.jpg')"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                            </div>
+                        </article>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo">
+                    <p>Tu tienda de confianza para el bienestar de tus mascotas.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tienda</h4>
+                    <ul>
+                        <li><a href="index.html">Productos</a></li>
+                        <li><a href="carrito.html">Carrito</a></li>
+                        <li><a href="wishlist.html">Favoritos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="../legal/terminos.html">Términos</a></li>
+                        <li><a href="../legal/privacidad.html">Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p></div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        function toggleFilters() {
+            document.getElementById('shopSidebar').classList.toggle('active');
+            document.getElementById('filterOverlay').classList.toggle('active');
+        }
+        
+        function aplicarFiltros() {
+            const checkboxes = document.querySelectorAll('.filter-option input[type="checkbox"]:checked');
+            const categorias = Array.from(checkboxes).map(cb => cb.value);
+            const precioMin = parseFloat(document.getElementById('priceMin')?.value) || 0;
+            const precioMax = parseFloat(document.getElementById('priceMax')?.value) || Infinity;
+            
+            let visibles = 0;
+            document.querySelectorAll('.product-card').forEach(card => {
+                const cat = card.dataset.categoria;
+                const precio = parseFloat(card.dataset.precio) || 0;
+                const cumpleCat = categorias.length === 0 || categorias.includes(cat);
+                const cumplePrecio = precio >= precioMin && precio <= precioMax;
+                
+                if (cumpleCat && cumplePrecio) { card.style.display = ''; visibles++; }
+                else { card.style.display = 'none'; }
+            });
+            
+            document.getElementById('resultsNumber').textContent = visibles;
+        }
+        
+        function limpiarFiltros() {
+            document.querySelectorAll('.filter-option input').forEach(cb => cb.checked = false);
+            document.getElementById('priceMin').value = '';
+            document.getElementById('priceMax').value = '';
+            aplicarFiltros();
+        }
+        
+        function ordenarProductos(criterio) {
+            const grid = document.getElementById('productsGrid');
+            const cards = Array.from(grid.querySelectorAll('.product-card'));
+            cards.sort((a, b) => {
+                const pa = parseFloat(a.dataset.precio) || 0;
+                const pb = parseFloat(b.dataset.precio) || 0;
+                if (criterio === 'price-asc') return pa - pb;
+                if (criterio === 'price-desc') return pb - pa;
+                return 0;
+            });
+            cards.forEach(c => grid.appendChild(c));
+        }
+        
+        function agregarAFavoritos(id) {
+            let favs = JSON.parse(localStorage.getItem('petfyFavs')) || [];
+            if (favs.includes(id)) {
+                favs = favs.filter(f => f !== id);
+                mostrarFeedback('💔 Eliminado de favoritos');
+            } else {
+                favs.push(id);
+                mostrarFeedback('❤️ Añadido a favoritos');
+            }
+            localStorage.setItem('petfyFavs', JSON.stringify(favs));
+        }
+        
+        function mostrarFeedback(msg) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#10B981;color:white;padding:1rem 1.5rem;border-radius:10px;font-weight:600;z-index:9999;animation:slideIn 0.3s ease;box-shadow:0 10px 25px rgba(0,0,0,0.2);font-family:Inter,sans-serif;';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 2500);
+        }
+    </script>
+</body>
+</html>

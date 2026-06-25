@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    
+    <!-- Página Principal -->
+    <url>
+        <loc>https://petfy.com/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Tienda -->
+    <url>
+        <loc>https://petfy.com/tienda/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Producto -->
+    <url>
+        <loc>https://petfy.com/tienda/producto.html</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Servicios -->
+    <url>
+        <loc>https://petfy.com/servicios/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Contacto -->
+    <url>
+        <loc>https://petfy.com/contacto/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Nosotros -->
+    <url>
+        <loc>https://petfy.com/nosotros/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    
+    <!-- Blog -->
+    <url>
+        <loc>https://petfy.com/blog/</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    
+    <!-- Legal -->
+    <url>
+        <loc>https://petfy.com/legal/terminos.html</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://petfy.com/legal/privacidad.html</loc>
+        <lastmod>2024-06-24</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+</urlset>
