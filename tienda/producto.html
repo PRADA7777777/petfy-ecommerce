@@ -44,6 +44,79 @@
         @media (max-width: 768px) { .producto-grid { grid-template-columns: 1fr; } .producto-galeria { position: static; } }
     </style>
 </head>
+    <!-- ========== FOOTER UNIFICADO ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            
+            <!-- Columna 1: Conócenos -->
+            <div class="footer-col">
+                <h4>Conócenos</h4>
+                <ul>
+                    <li><a href="../nosotros/">Nosotros</a></li>
+                    <li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li>
+                    <li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li>
+                    <li><a href="../servicios/">Servicios</a></li>
+                    <li><a href="../tienda/">Tienda</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 2: Blog -->
+            <div class="footer-col">
+                <h4>Blog</h4>
+                <ul>
+                    <li><a href="../blog/">Artículos</a></li>
+                    <li><a href="../blog/articulo.html">Tips de Alimentación</a></li>
+                    <li><a href="../blog/articulo.html">Cuidados en Verano</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Información -->
+            <div class="footer-col">
+                <h4>Información</h4>
+                <ul>
+                    <li><a href="../legal/terminos.html">Términos y Condiciones</a></li>
+                    <li><a href="#faq">Preguntas Frecuentes</a></li>
+                    <li><a href="../legal/privacidad.html">Política de Privacidad</a></li>
+                    <li><a href="../legal/envios.html">Políticas de Entrega</a></li>
+                    <li><a href="../legal/devoluciones.html">Devoluciones</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Contacto y Suscríbete -->
+            <div class="footer-col">
+                <h4>Contáctanos</h4>
+                <ul>
+                    <li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp: 320 482 9244</a></li>
+                    <li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li>
+                    <li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li>
+                    <li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                </ul>
+                <h4 style="margin-top: 1.5rem;">Suscríbete</h4>
+                <p>Recibe noticias y promociones diarias</p>
+                <form class="newsletter-form" onsubmit="return suscribirFooter(event)">
+                    <input type="email" placeholder="Correo electrónico" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Línea divisoria -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
+                <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
+                <div class="payment-methods">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 <body>
     
     <header class="header">
