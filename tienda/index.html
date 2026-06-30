@@ -47,6 +47,50 @@
     </style>
 </head>
 <body>
+  <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="assets/img/petfy.png" alt="Petfy">
+                    </a>
+                </div>
+                
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger">
+                        <a href="tienda/index.html" class="nav-link">
+                            Tienda <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="servicios/index.html" class="nav-link">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contacto/index.html" class="nav-link">Contacto</a>
+                    </li>
+                </ul>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar productos...">
+                        <button>Buscar</button>
+                    </div>
+                    <div class="user-actions">
+                        <a href="cuenta/login.html" class="icon-link" title="Mi cuenta">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn" aria-label="Menú">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
     </header>
 
     <!-- ========== BREADCRUMB ========== -->
