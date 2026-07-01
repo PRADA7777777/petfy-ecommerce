@@ -3,50 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PETFY - Tienda y Servicios para Mascotas. Alimentación, paseos, guardería y más.">
-    <meta name="keywords" content="mascotas, perros, gatos, pet shop, paseos, comida mascotas, accesorios mascotas">
+    <meta name="description" content="Servicios Petfy - Paseos, guardería, baños, veterinaria y entrenamiento para tu mascota">
+    <title>Servicios - Petfy | Cuidado Integral para Mascotas</title>
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="PETFY - Un Mundo Peludo">
-    <meta property="og:description" content="Tienda online y servicios para el bienestar de tu mascota">
-    <meta property="og:image" content="assets/img/og-image.png">
-    <meta property="og:url" content="https://petfy.com">
-    
-    <title>PETFY - Tienda y Servicios para Mascotas | Un Universo Peludo</title>
-    
-    <!-- Fuentes: Fredoka One + Nunito -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
     
-    <!-- Estilos -->
-    <link rel="stylesheet" href="assets/css/petfy.css">
+    <style>
+        /* ========== SERVICIOS - ESTILOS ESPECÍFICOS ========== */
+        .servicios-page { background: var(--bg); }
+        
+        /* Header Servicios */
+        .servicios-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 3.5rem 0; color: var(--white); text-align: center;
+            position: relative; overflow: hidden;
+            border-radius: 0 0 40% 40% / 0 0 5% 5%;
+        }
+        .servicios-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; margin-bottom: 0.5rem; }
+        .servicios-header p { color: rgba(255,255,255,0.9); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
+        .header-mini-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+        .header-stat { text-align: center; }
+        .header-stat-value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; display: block; }
+        .header-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Barra de categorías */
+        .categorias-nav {
+            background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
+            position: sticky; top: 0; z-index: 99; box-shadow: var(--shadow-sm);
+        }
+        .categorias-nav .container {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.6rem 0; gap: 0.4rem; flex-wrap: wrap;
+        }
+        .cat-nav-btn {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.45rem 1rem; border-radius: 25px;
+            border: 2px solid transparent; cursor: pointer;
+            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.8rem;
+            white-space: nowrap; transition: var(--transition);
+            background: var(--bg); color: var(--text);
+        }
+        .cat-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
+        .cat-nav-btn.active { background: var(--primary); color: var(--white); }
+        .cat-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .cat-dot.activo { background: var(--success); }
+        .cat-dot.inactivo { background: var(--warning); }
+        .cat-nav-contador { font-size: 0.65rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.4rem; border-radius: 10px; font-weight: 800; }
+        .cat-nav-btn.active .cat-nav-contador { background: rgba(255,255,255,0.25); }
+        
+        /* Grid de Servicios */
+        .servicios-content { padding: 2rem 0 4rem; }
+        .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        
+        /* Card de Servicio */
+        .servicio-card {
+            background: var(--white); border-radius: var(--radius-lg);
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.04);
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: var(--shadow-sm);
+        }
+        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .servicio-card.activo { border-top: 4px solid var(--success); }
+        .servicio-card.inactivo { border-top: 4px solid var(--warning); opacity: 0.9; background: #FFFBEB; }
+        
+        .servicio-card-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
+        .servicio-card-icono {
+            width: 55px; height: 55px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+        .servicio-card.activo .servicio-card-icono { background: #ECFDF5; color: var(--success); }
+        .servicio-card.inactivo .servicio-card-icono { background: #FEF3C7; color: var(--warning); }
+        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        .badge-proximo { background: #FEF3C7; color: #D97706; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        
+        .servicio-card-body { padding: 1rem 1.5rem; flex: 1; }
+        .servicio-card-titulo { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .servicio-card-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1rem; }
+        .servicio-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+        .servicio-tag { padding: 0.25rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 700; }
+        .servicio-card.activo .servicio-tag { background: #ECFDF5; color: #059669; }
+        .servicio-card.inactivo .servicio-tag { background: rgba(0,0,0,0.04); color: var(--text-muted); }
+        
+        .servicio-planes { margin-top: 0.5rem; }
+        .servicio-planes-titulo {
+            font-size: 0.78rem; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .plan-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.55rem 0.75rem; background: var(--bg); border-radius: var(--radius-sm);
+            margin-bottom: 0.3rem; transition: var(--transition); cursor: pointer; border: 1px solid transparent;
+        }
+        .plan-item:hover { background: var(--primary-light); border-color: var(--primary); }
+        .plan-item.destacado { background: var(--primary-light); border-color: var(--primary); position: relative; }
+        .plan-item.destacado::after {
+            content: 'POPULAR'; position: absolute; top: -8px; right: 10px;
+            background: var(--primary); color: var(--white); font-size: 0.6rem;
+            font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 10px;
+        }
+        .plan-info { display: flex; align-items: center; gap: 0.5rem; }
+        .plan-icono { font-size: 1rem; }
+        .plan-nombre { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+        .plan-detalle { font-size: 0.7rem; color: var(--text-muted); }
+        .plan-precio { text-align: right; }
+        .plan-precio-valor { font-family: 'Fredoka One', cursive; font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        .plan-precio-unitario { font-size: 0.68rem; color: var(--text-muted); }
+        
+        .servicio-card-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.04);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .servicio-card-precio-desde { font-size: 0.7rem; color: var(--text-muted); }
+        .servicio-card-precio { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 800; color: var(--text); }
+        .servicio-card-precio small { font-size: 0.7rem; font-weight: 400; color: var(--text-muted); }
+        .servicio-card-btn {
+            padding: 0.55rem 1.2rem; border-radius: var(--radius-btn);
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem;
+            cursor: pointer; transition: var(--transition); border: none;
+            display: flex; align-items: center; gap: 0.4rem; text-decoration: none;
+        }
+        .btn-activo { background: var(--success); color: var(--white); }
+        .btn-activo:hover { background: #059669; }
+        .btn-espera { background: var(--white); color: #D97706; border: 2px solid var(--warning); }
+        .btn-espera:hover { background: #FFFBEB; }
+        
+        .notify-section {
+            background: var(--white); border-radius: var(--radius-lg); padding: 2rem;
+            text-align: center; margin-top: 2rem; border: 2px dashed rgba(0,0,0,0.08);
+        }
+        .notify-section h3 { font-family: 'Fredoka One', cursive; margin-bottom: 0.5rem; }
+        .notify-section p { color: var(--text-light); margin-bottom: 1rem; }
+        .notify-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+        .notify-form input {
+            flex: 1; padding: 0.65rem 1rem; border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 25px; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+        }
+        .notify-form input:focus { outline: none; border-color: var(--primary); }
+        .notify-form button {
+            padding: 0.65rem 1.5rem; background: var(--primary); color: var(--white);
+            border: none; border-radius: 25px; font-family: 'Nunito', sans-serif;
+            font-weight: 800; cursor: pointer; transition: var(--transition);
+        }
+        .notify-form button:hover { background: var(--primary-dark); }
+        
+        @media (max-width: 768px) {
+            .servicios-header h1 { font-size: 2rem; }
+            .servicios-grid { grid-template-columns: 1fr; }
+            .notify-form { flex-direction: column; }
+            .notify-form button { width: 100%; }
+        }
+    </style>
 </head>
-<body>
+<body class="servicios-page">
     
     <!-- ========== HEADER / NAVBAR ========== -->
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
                 <div class="logo">
-                    <a href="index.html">
-                        <img src="assets/img/petfy.png" alt="Petfy - Tienda y Servicios para Mascotas">
-                    </a>
+                    <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
                 </div>
-                
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger">
-                        <a href="tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="servicios/" class="nav-link">Servicios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="contacto/" class="nav-link">Contacto</a>
-                    </li>
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
-                
                 <div class="nav-actions">
                     <div class="city-selector">
                         <i class="fas fa-map-marker-alt city-icon"></i>
@@ -55,169 +179,195 @@
                             <option value="bogota">Bogotá</option>
                             <option value="medellin">Medellín</option>
                             <option value="cali">Cali</option>
-                            <option value="barranquilla">Barranquilla</option>
-                            <option value="cartagena">Cartagena</option>
                         </select>
                     </div>
                     <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Buscar productos...">
-                        <button>Buscar</button>
+                        <i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button>
                     </div>
                     <div class="user-actions">
-                        <a href="cuenta/login.html" class="icon-link" title="Mi cuenta"><i class="fas fa-user"></i></a>
-                        <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
-                
-                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
 
     <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb-wrapper">
-        <div class="container">
-            <nav class="breadcrumb" aria-label="Ruta de navegación">
-                <ol class="breadcrumb-list" id="breadcrumbList"></ol>
-            </nav>
-        </div>
-    </div>
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== MAIN ========== -->
-    <main>
-        
-        <!-- HERO SECTION - Fondo claro y amigable -->
-        <section id="home" class="hero-section">
-            <div class="container">
-                <div class="hero">
-                    <div class="hero-content">
-                        <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
-                        <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
-                        <p class="hero-description">
-                            Tienda online y servicios profesionales para el cuidado de tu mascota. 
-                            Alimentación premium, paseos, guardería y mucho más.
-                        </p>
-                        <div class="hero-buttons">
-                            <a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a>
-                            <a href="servicios/" class="btn btn-outline">Ver Servicios</a>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div>
-                            <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div>
-                            <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
-                        </div>
+    <!-- ========== HEADER SERVICIOS ========== -->
+    <section class="servicios-header">
+        <div class="container">
+            <h1>Servicios Premium</h1>
+            <p>Soluciones integrales para el cuidado de tu mascota. Profesionales certificados y la mejor atención.</p>
+            <div class="header-mini-stats">
+                <div class="header-stat"><span class="header-stat-value">+500</span><span class="header-stat-label">Paseos</span></div>
+                <div class="header-stat"><span class="header-stat-value">4.9</span><span class="header-stat-label">Rating</span></div>
+                <div class="header-stat"><span class="header-stat-value">1</span><span class="header-stat-label">Activo</span></div>
+                <div class="header-stat"><span class="header-stat-value">4</span><span class="header-stat-label">Próximos</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BARRA DE CATEGORÍAS ========== -->
+    <nav class="categorias-nav">
+        <div class="container">
+            <button class="cat-nav-btn active" onclick="filtrar('todos', this)"><i class="fas fa-th-large"></i> Todos <span class="cat-nav-contador">5</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('activos', this)"><span class="cat-dot activo"></span> Activos <span class="cat-nav-contador">1</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('proximos', this)"><span class="cat-dot inactivo"></span> Próximos <span class="cat-nav-contador">4</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('paseos', this)"><i class="fas fa-dog"></i> Paseos</button>
+            <button class="cat-nav-btn" onclick="filtrar('guarderia', this)"><i class="fas fa-home"></i> Guardería</button>
+            <button class="cat-nav-btn" onclick="filtrar('banos', this)"><i class="fas fa-shower"></i> Baños</button>
+            <button class="cat-nav-btn" onclick="filtrar('veterinaria', this)"><i class="fas fa-stethoscope"></i> Veterinaria</button>
+            <button class="cat-nav-btn" onclick="filtrar('entrenamiento', this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button>
+        </div>
+    </nav>
+
+    <!-- ========== GRID DE SERVICIOS ========== -->
+    <section class="servicios-content">
+        <div class="container">
+            <div class="servicios-grid" id="serviciosGrid">
+                
+                <!-- PASEOS - ACTIVO -->
+                <div class="servicio-card activo" data-categoria="paseos" data-estado="activo">
+                    <div class="servicio-card-header">
+                        <div class="servicio-card-icono"><i class="fas fa-dog"></i></div>
+                        <span class="badge-activo">● Disponible</span>
                     </div>
-                    <div class="hero-image">
-                        <div class="image-wrapper">
-                            <img src="assets/img/Group 1.png" alt="Mascotas felices - Petfy" class="floating-image">
-                            <div class="floating-badge">
-                                <i class="fas fa-star"></i>
-                                <span>4.9/5 Reseñas</span>
+                    <div class="servicio-card-body">
+                        <h3 class="servicio-card-titulo">Paseos Diarios</h3>
+                        <p class="servicio-card-desc">Paseos personalizados con GPS en vivo, paseador fijo y reporte diario con fotos.</p>
+                        <div class="servicio-card-tags">
+                            <span class="servicio-tag"><i class="fas fa-clock"></i> 30-60 min</span>
+                            <span class="servicio-tag"><i class="fas fa-map-marker-alt"></i> GPS</span>
+                            <span class="servicio-tag"><i class="fas fa-camera"></i> Fotos</span>
+                            <span class="servicio-tag"><i class="fas fa-user-check"></i> Paseador fijo</span>
+                        </div>
+                        <div class="servicio-planes">
+                            <div class="servicio-planes-titulo"><i class="fas fa-list-check"></i> Planes Disponibles</div>
+                            <div class="plan-item" onclick="contratar('Paseo Express', 8990)">
+                                <div class="plan-info"><span class="plan-icono">⚡</span><div><div class="plan-nombre">Paseo Express</div><div class="plan-detalle">30 minutos</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$8.990</div></div>
+                            </div>
+                            <div class="plan-item destacado" onclick="contratar('Paseo Estándar', 10990)">
+                                <div class="plan-info"><span class="plan-icono">🌟</span><div><div class="plan-nombre">Paseo Estándar</div><div class="plan-detalle">45 min • Snack incluido</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$10.990</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Paseo Premium', 14990)">
+                                <div class="plan-info"><span class="plan-icono">💎</span><div><div class="plan-nombre">Paseo Premium</div><div class="plan-detalle">60 min • Parque • Socialización</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$14.990</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Pack 5 Paseos', 35990)">
+                                <div class="plan-info"><span class="plan-icono">📦</span><div><div class="plan-nombre">Pack 5 Paseos</div><div class="plan-detalle">Ahorra 20% • 45 min c/u</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$35.990</div><div class="plan-precio-unitario">$7.198 c/u</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Pack 10 Paseos', 64990)">
+                                <div class="plan-info"><span class="plan-icono">🏆</span><div><div class="plan-nombre">Pack 10 Paseos</div><div class="plan-detalle">Ahorra 40% • 45 min c/u</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$64.990</div><div class="plan-precio-unitario">$6.499 c/u</div></div>
                             </div>
                         </div>
                     </div>
+                    <div class="servicio-card-footer">
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$8.990 <small>/paseo</small></span></div>
+                        <a href="paseos.html" class="servicio-card-btn btn-activo">Contratar <i class="fas fa-arrow-right"></i></a>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- SERVICIOS DESTACADOS -->
-        <section id="servicios-destacados" class="services-home-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-subtitle">Cuidado Integral</span>
-                    <h2 class="section-title">Nuestros Servicios</h2>
-                    <p class="section-description">Profesionales dedicados al bienestar de tu mascota</p>
+                <!-- GUARDERÍA -->
+                <div class="servicio-card inactivo" data-categoria="guarderia" data-estado="inactivo">
+                    <div class="servicio-card-header">
+                        <div class="servicio-card-icono"><i class="fas fa-house-chimney"></i></div>
+                        <span class="badge-proximo">◉ Próximamente</span>
+                    </div>
+                    <div class="servicio-card-body">
+                        <h3 class="servicio-card-titulo">Guardería</h3>
+                        <p class="servicio-card-desc">Espacio seguro con áreas de juego, cámaras 24/7 y personal veterinario en sitio.</p>
+                        <div class="servicio-card-tags">
+                            <span class="servicio-tag"><i class="fas fa-video"></i> Cámaras</span>
+                            <span class="servicio-tag"><i class="fas fa-users"></i> Socialización</span>
+                        </div>
+                    </div>
+                    <div class="servicio-card-footer">
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$15.990 <small>/día</small></span></div>
+                        <a href="guarderia.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
+                    </div>
                 </div>
-                
-                <div class="services-home-grid">
-                    <a href="servicios/paseos.html" class="service-home-card activo">
-                        <div class="service-home-icon"><i class="fas fa-dog"></i></div>
-                        <span class="service-home-badge badge-disponible">Disponible</span>
-                        <h3>Paseos Diarios</h3>
-                        <p>GPS en vivo, fotos y paseador fijo</p>
-                        <div class="service-home-price">Desde $8.990</div>
-                    </a>
-                    <a href="servicios/guarderia.html" class="service-home-card inactivo">
-                        <div class="service-home-icon"><i class="fas fa-house-chimney"></i></div>
-                        <span class="service-home-badge badge-proximo">Próximamente</span>
-                        <h3>Guardería</h3>
-                        <p>Espacio seguro con cámaras 24/7</p>
-                        <div class="service-home-price">Desde $15.990</div>
-                    </a>
-                    <a href="servicios/banos.html" class="service-home-card inactivo">
-                        <div class="service-home-icon"><i class="fas fa-shower"></i></div>
-                        <span class="service-home-badge badge-proximo">Próximamente</span>
-                        <h3>Baños & Peluquería</h3>
-                        <p>Productos hipoalergénicos</p>
-                        <div class="service-home-price">Desde $12.990</div>
-                    </a>
-                    <a href="servicios/veterinaria.html" class="service-home-card inactivo">
-                        <div class="service-home-icon"><i class="fas fa-stethoscope"></i></div>
-                        <span class="service-home-badge badge-proximo">Próximamente</span>
-                        <h3>Veterinaria</h3>
-                        <p>Atención integral y urgencias</p>
-                        <div class="service-home-price">Desde $20.000</div>
-                    </a>
-                </div>
-                
-                <div class="text-center mt-4">
-                    <a href="servicios/" class="btn btn-primary">Ver Todos los Servicios <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
-        </section>
 
-        <!-- CATEGORÍAS TIENDA -->
-        <section id="categorias" class="categories-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-subtitle">Tienda Online</span>
-                    <h2 class="section-title">Categorías Destacadas</h2>
-                    <p class="section-description">Explora nuestra selección de productos para tu mascota</p>
+                <!-- BAÑOS -->
+                <div class="servicio-card inactivo" data-categoria="banos" data-estado="inactivo">
+                    <div class="servicio-card-header">
+                        <div class="servicio-card-icono"><i class="fas fa-shower"></i></div>
+                        <span class="badge-proximo">◉ Próximamente</span>
+                    </div>
+                    <div class="servicio-card-body">
+                        <h3 class="servicio-card-titulo">Baños & Peluquería</h3>
+                        <p class="servicio-card-desc">Servicio completo con productos hipoalergénicos, corte de pelo y uñas.</p>
+                        <div class="servicio-card-tags">
+                            <span class="servicio-tag"><i class="fas fa-spray-can"></i> Hipoalergénico</span>
+                            <span class="servicio-tag"><i class="fas fa-scissors"></i> Corte</span>
+                        </div>
+                    </div>
+                    <div class="servicio-card-footer">
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$12.990 <small>/sesión</small></span></div>
+                        <a href="banos.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
+                    </div>
                 </div>
-                
-                <div class="categories-grid">
-                    <a href="tienda/?cat=alimentacion" class="category-card">
-                        <div class="category-icon"><i class="fas fa-drumstick-bite"></i></div>
-                        <div class="category-info"><h3>Alimentación</h3><p>Comida y snacks premium</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                    <a href="tienda/?cat=accesorios" class="category-card">
-                        <div class="category-icon"><i class="fas fa-paw"></i></div>
-                        <div class="category-info"><h3>Accesorios</h3><p>Collares, juguetes y más</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                    <a href="tienda/?cat=hogar" class="category-card">
-                        <div class="category-icon"><i class="fas fa-home"></i></div>
-                        <div class="category-info"><h3>Hogar & Descanso</h3><p>Camas y espacios acogedores</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                    <a href="tienda/?cat=higiene" class="category-card">
-                        <div class="category-icon"><i class="fas fa-shower"></i></div>
-                        <div class="category-info"><h3>Higiene & Belleza</h3><p>Shampoo y cuidado personal</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                    <a href="tienda/?cat=medicamentos" class="category-card">
-                        <div class="category-icon"><i class="fas fa-capsules"></i></div>
-                        <div class="category-info"><h3>Medicamentos</h3><p>Salud y cuidado veterinary</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                    <a href="tienda/?cat=ropa" class="category-card">
-                        <div class="category-icon"><i class="fas fa-tshirt"></i></div>
-                        <div class="category-info"><h3>Ropa & Moda</h3><p>Abrigos y accesorios</p><span class="category-link">Ver productos <i class="fas fa-chevron-right"></i></span></div>
-                    </a>
-                </div>
-            </div>
-        </section>
 
-        <!-- BENEFICIOS -->
-        <section class="benefits-section">
-            <div class="container">
-                <div class="benefits-grid">
-                    <div class="benefit-card"><i class="fas fa-truck"></i><h3>Envío Gratis</h3><p>En compras sobre $30.000</p></div>
-                    <div class="benefit-card"><i class="fas fa-shield-alt"></i><h3>Compra Segura</h3><p>SSL Encriptado</p></div>
-                    <div class="benefit-card"><i class="fas fa-undo"></i><h3>Devolución Fácil</h3><p>30 días de garantía</p></div>
-                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte 24/7</h3><p>WhatsApp 320 482 9244</p></div>
+                <!-- VETERINARIA -->
+                <div class="servicio-card inactivo" data-categoria="veterinaria" data-estado="inactivo">
+                    <div class="servicio-card-header">
+                        <div class="servicio-card-icono"><i class="fas fa-stethoscope"></i></div>
+                        <span class="badge-proximo">◉ Próximamente</span>
+                    </div>
+                    <div class="servicio-card-body">
+                        <h3 class="servicio-card-titulo">Veterinaria</h3>
+                        <p class="servicio-card-desc">Atención integral: consultas, vacunas y urgencias 24/7.</p>
+                        <div class="servicio-card-tags">
+                            <span class="servicio-tag"><i class="fas fa-syringe"></i> Vacunas</span>
+                            <span class="servicio-tag"><i class="fas fa-clock"></i> 24/7</span>
+                        </div>
+                    </div>
+                    <div class="servicio-card-footer">
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$20.000 <small>/consulta</small></span></div>
+                        <a href="veterinaria.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-    </main>
+                <!-- ENTRENAMIENTO -->
+                <div class="servicio-card inactivo" data-categoria="entrenamiento" data-estado="inactivo">
+                    <div class="servicio-card-header">
+                        <div class="servicio-card-icono"><i class="fas fa-graduation-cap"></i></div>
+                        <span class="badge-proximo">◉ Próximamente</span>
+                    </div>
+                    <div class="servicio-card-body">
+                        <h3 class="servicio-card-titulo">Entrenamiento</h3>
+                        <p class="servicio-card-desc">Obediencia básica y avanzada con refuerzo positivo.</p>
+                        <div class="servicio-card-tags">
+                            <span class="servicio-tag"><i class="fas fa-brain"></i> Refuerzo +</span>
+                            <span class="servicio-tag"><i class="fas fa-user-graduate"></i> Certificado</span>
+                        </div>
+                    </div>
+                    <div class="servicio-card-footer">
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$25.000 <small>/sesión</small></span></div>
+                        <a href="entrenamiento.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Notificación -->
+            <div class="notify-section">
+                <h3>🔔 ¿Quieres saber cuándo activamos nuevos servicios?</h3>
+                <p>Déjanos tu email y te notificaremos</p>
+                <form class="notify-form" onsubmit="return notificar(event)">
+                    <input type="email" placeholder="tu@email.com" required id="notifyEmail">
+                    <button type="submit"><i class="fas fa-bell"></i> Avísame</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <!-- ========== FOOTER ========== -->
     <footer class="footer">
@@ -226,21 +376,21 @@
                 <div class="footer-col">
                     <h4>Conócenos</h4>
                     <ul>
-                        <li><a href="nosotros/">Nosotros</a></li>
-                        <li><a href="nosotros/equipo.html">Nuestro Equipo</a></li>
-                        <li><a href="nosotros/trabaja.html">Trabaja con Nosotros</a></li>
-                        <li><a href="servicios/">Servicios</a></li>
-                        <li><a href="tienda/">Tienda</a></li>
+                        <li><a href="../nosotros/">Nosotros</a></li>
+                        <li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li>
+                        <li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li>
+                        <li><a href="index.html">Servicios</a></li>
+                        <li><a href="../tienda/">Tienda</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
                     <h4>Información</h4>
                     <ul>
-                        <li><a href="legal/terminos.html">Términos y Condiciones</a></li>
+                        <li><a href="../legal/terminos.html">Términos y Condiciones</a></li>
                         <li><a href="#faq">Preguntas Frecuentes</a></li>
-                        <li><a href="legal/privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="legal/envios.html">Políticas de Entrega</a></li>
-                        <li><a href="legal/devoluciones.html">Devoluciones</a></li>
+                        <li><a href="../legal/privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="../legal/envios.html">Políticas de Entrega</a></li>
+                        <li><a href="../legal/devoluciones.html">Devoluciones</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -263,50 +413,40 @@
             </div>
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
-                    <img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
+                    <img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
                     <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
                     <div class="payment-methods">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- WhatsApp Flotante -->
-    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Necesito%20informaci%C3%B3n" 
-       target="_blank" class="whatsapp-float" aria-label="Chat por WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- WhatsApp -->
+    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Quiero%20informaci%C3%B3n%20de%20servicios" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
+    <script src="../assets/js/main.js"></script>
     <script>
-        // Header Sticky
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('mainHeader');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Menú móvil
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            const icon = this.querySelector('i');
-            if (document.querySelector('.nav-links').classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
+        function filtrar(filtro, btn) {
+            document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.servicio-card').forEach(card => {
+                if (filtro === 'todos') card.style.display = 'flex';
+                else if (filtro === 'activos') card.style.display = card.dataset.estado === 'activo' ? 'flex' : 'none';
+                else if (filtro === 'proximos') card.style.display = card.dataset.estado === 'inactivo' ? 'flex' : 'none';
+                else card.style.display = card.dataset.categoria === filtro ? 'flex' : 'none';
+            });
+        }
+        function contratar(plan, precio) {
+            alert('✅ Has seleccionado: ' + plan + ' por $' + precio.toLocaleString() + '\n\nSerás redirigido al pago.');
+        }
+        function notificar(e) {
+            e.preventDefault();
+            const email = document.getElementById('notifyEmail').value;
+            if (email) { alert('✅ Te notificaremos a ' + email); e.target.reset(); }
+            return false;
+        }
     </script>
-
-    <script src="assets/js/main.js"></script>
 </body>
 </html>
