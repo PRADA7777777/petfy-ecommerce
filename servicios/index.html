@@ -8,7 +8,7 @@
     
     <!-- Open Graph -->
     <meta property="og:title" content="PETFY - Un Mundo Peludo">
-    <meta property="og:description" content="Tienda y servicios para el bienestar de tu mascota">
+    <meta property="og:description" content="Tienda online y servicios para el bienestar de tu mascota">
     <meta property="og:image" content="assets/img/og-image.png">
     <meta property="og:url" content="https://petfy.com">
     
@@ -25,7 +25,7 @@
 </head>
 <body>
     
-    <!-- ========== HEADER / NAVBAR (Fondo transparente) ========== -->
+    <!-- ========== HEADER / NAVBAR ========== -->
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
@@ -75,7 +75,7 @@
         </div>
     </header>
 
-    <!-- ========== BREADCRUMB (Minimalista) ========== -->
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper">
         <div class="container">
             <nav class="breadcrumb" aria-label="Ruta de navegación">
@@ -87,7 +87,7 @@
     <!-- ========== MAIN ========== -->
     <main>
         
-        <!-- HERO SECTION (Fondo Naranja con borde curvo) -->
+        <!-- HERO SECTION - Fondo claro y amigable -->
         <section id="home" class="hero-section">
             <div class="container">
                 <div class="hero">
@@ -100,12 +100,11 @@
                         </p>
                         <div class="hero-buttons">
                             <a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a>
-                            <a href="#categorias" class="btn btn-outline">Ver Categorías</a>
+                            <a href="servicios/" class="btn btn-outline">Ver Servicios</a>
                         </div>
-                        <!-- Círculos Puplaza -->
                         <div class="hero-stats">
                             <div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div>
-                            <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes Felices</span></div>
+                            <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div>
                             <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
                         </div>
                     </div>
@@ -122,7 +121,7 @@
             </div>
         </section>
 
-        <!-- SERVICIOS DESTACADOS (Glassmorphism) -->
+        <!-- SERVICIOS DESTACADOS -->
         <section id="servicios-destacados" class="services-home-section">
             <div class="container">
                 <div class="section-header">
@@ -163,12 +162,12 @@
                 </div>
                 
                 <div class="text-center mt-4">
-                    <a href="servicios/" class="btn btn-outline" style="background: var(--primary); color: white; border-color: var(--primary);">Ver Todos los Servicios <i class="fas fa-arrow-right"></i></a>
+                    <a href="servicios/" class="btn btn-primary">Ver Todos los Servicios <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </section>
 
-        <!-- CATEGORÍAS (Esquinas redondas) -->
+        <!-- CATEGORÍAS TIENDA -->
         <section id="categorias" class="categories-section">
             <div class="container">
                 <div class="section-header">
@@ -213,14 +212,14 @@
                     <div class="benefit-card"><i class="fas fa-truck"></i><h3>Envío Gratis</h3><p>En compras sobre $30.000</p></div>
                     <div class="benefit-card"><i class="fas fa-shield-alt"></i><h3>Compra Segura</h3><p>SSL Encriptado</p></div>
                     <div class="benefit-card"><i class="fas fa-undo"></i><h3>Devolución Fácil</h3><p>30 días de garantía</p></div>
-                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte 24/7</h3><p>WhatsApp 3204829244</p></div>
+                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte 24/7</h3><p>WhatsApp 320 482 9244</p></div>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- ========== FOOTER (Fondo Verde Profundo) ========== -->
+    <!-- ========== FOOTER ========== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -283,9 +282,8 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Script para Header Sticky -->
     <script>
-        // Efecto Sticky Header
+        // Header Sticky
         window.addEventListener('scroll', function() {
             const header = document.getElementById('mainHeader');
             if (window.scrollY > 50) {
