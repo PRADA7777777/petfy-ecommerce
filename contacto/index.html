@@ -6,87 +6,168 @@
     <meta name="description" content="Contacto Petfy - Estamos para ayudarte 24/7">
     <title>Contacto - Petfy | Atención al Cliente</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     
     <style>
-        .contacto-page { background: var(--gray-100); min-height: 100vh; }
-        .contacto-header { background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%); padding: 4rem 0; color: var(--white); text-align: center; }
-        .contacto-header h1 { font-size: 2.8rem; font-weight: 800; }
-        .contacto-header p { color: rgba(255,255,255,0.9); max-width: 500px; margin: 1rem auto 0; }
-        .contacto-content { padding: 4rem 0; }
-        .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; }
-        
-        .info-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; border: 1px solid var(--gray-200); margin-bottom: 1rem; transition: var(--transition); }
-        .info-card:hover { border-color: var(--primary); box-shadow: var(--shadow-md); transform: translateX(5px); }
-        .info-icon { width: 50px; height: 50px; background: var(--primary-light); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: var(--primary); flex-shrink: 0; }
-        .info-text h4 { font-weight: 700; color: var(--dark); margin-bottom: 0.25rem; }
-        .info-text p { color: var(--gray-600); font-size: 0.9rem; }
-        .info-text a { color: var(--primary); text-decoration: none; font-weight: 600; }
-        
-        .social-contacto { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--gray-200); margin-top: 1rem; }
-        .social-contacto h4 { font-weight: 700; margin-bottom: 1rem; }
+        /* ========== CONTACTO - ESTILOS ESPECÍFICOS ========== */
+        .contacto-page { background: var(--bg); }
+
+        /* Header Contacto - Mismo estilo suave */
+        .contacto-header {
+            background: linear-gradient(160deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
+            padding: 5rem 0 6rem;
+            color: var(--text);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 40% 40% / 0 0 8% 8%;
+        }
+
+        /* Doodles animados */
+        .doodle {
+            position: absolute; pointer-events: none; z-index: 1;
+            opacity: 0.3; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+        }
+        .doodle-1 { top: 10%; left: 5%; font-size: 3.5rem; animation: floatDoodle 5s ease-in-out infinite; }
+        .doodle-2 { top: 20%; right: 8%; font-size: 2.5rem; animation: floatDoodle 6s ease-in-out 1s infinite; }
+        .doodle-3 { bottom: 20%; left: 10%; font-size: 2rem; animation: floatDoodle 4s ease-in-out 0.5s infinite; }
+        .doodle-4 { bottom: 15%; right: 12%; font-size: 3.5rem; animation: floatDoodle 7s ease-in-out 2s infinite; }
+        .doodle-5 { top: 45%; left: 50%; font-size: 2.2rem; animation: floatDoodle 5.5s ease-in-out 0.8s infinite; }
+        .doodle-6 { top: 12%; left: 35%; font-size: 1.8rem; animation: floatDoodle 4.5s ease-in-out 1.5s infinite; }
+
+        @keyframes floatDoodle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(-8px) rotate(-3deg); }
+            75% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .contacto-header-content { position: relative; z-index: 2; }
+        .contacto-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text); }
+        .contacto-header p { color: var(--text-light); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
+
+        /* Contenido principal */
+        .contacto-content { padding: 3rem 0 5rem; }
+        .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: start; }
+
+        /* Tarjetas de información */
+        .info-card {
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
+            padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;
+            margin-bottom: 1rem; transition: var(--transition);
+        }
+        .info-card:hover { transform: translateX(5px); box-shadow: var(--shadow-md); }
+        .info-icon {
+            width: 50px; height: 50px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+        .info-card:nth-child(1) .info-icon { background: #ECFDF5; color: #059669; }
+        .info-card:nth-child(2) .info-icon { background: #EFF6FF; color: #3B82F6; }
+        .info-card:nth-child(3) .info-icon { background: #FEF3C7; color: #D97706; }
+        .info-card:nth-child(4) .info-icon { background: #FCE7F3; color: #EC4899; }
+        .info-text h4 { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+        .info-text p { color: var(--text-light); font-size: 0.9rem; }
+        .info-text a { color: var(--primary); text-decoration: none; font-weight: 700; }
+
+        /* Redes sociales */
+        .social-contacto {
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
+            padding: 1.5rem; margin-top: 1rem;
+        }
+        .social-contacto h4 { font-family: 'Fredoka One', cursive; margin-bottom: 1rem; }
         .social-btns { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .social-btn { padding: 0.6rem 1rem; border-radius: var(--radius); text-decoration: none; font-weight: 600; font-size: 0.85rem; color: white; transition: var(--transition); display: flex; align-items: center; gap: 0.4rem; }
-        .social-btn.fb { background: #1877F2; } .social-btn.ig { background: #E4405F; } .social-btn.wa { background: #25D366; } .social-btn.tt { background: #000; }
-        .social-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        
-        .form-wrapper { background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow); }
-        .form-wrapper h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .social-btn {
+            padding: 0.6rem 1.2rem; border-radius: 25px; text-decoration: none;
+            font-weight: 700; font-size: 0.85rem; color: white; transition: var(--transition);
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .social-btn.fb { background: #1877F2; }
+        .social-btn.ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); }
+        .social-btn.wa { background: #25D366; }
+        .social-btn.tt { background: #000; }
+        .social-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+        /* Formulario */
+        .form-wrapper {
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.9); border-radius: var(--radius-lg);
+            padding: 2.5rem; box-shadow: var(--shadow-lg);
+        }
+        .form-wrapper h2 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; margin-bottom: 1.5rem; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-weight: 600; color: var(--gray-700); margin-bottom: 0.4rem; font-size: 0.85rem; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem 1rem; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; transition: var(--transition); }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
-        .form-group textarea { resize: vertical; min-height: 120px; }
-        .btn-enviar { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 700; font-size: 1rem; cursor: pointer; font-family: inherit; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-enviar:hover { background: var(--primary-dark); }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius); font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem; transition: var(--transition); background: var(--white);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .form-group textarea { resize: vertical; min-height: 130px; }
         
+        .btn-enviar {
+            width: 100%; padding: 0.9rem; background: var(--primary); color: var(--white);
+            border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
+            font-weight: 800; font-size: 1rem; cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .btn-enviar:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* Horarios */
         .horario-section { padding: 0 0 4rem; }
         .horario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-        .horario-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--gray-200); }
-        .horario-dia { font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
-        .horario-hora { font-size: 1.3rem; font-weight: 800; color: var(--dark); }
-        
-        @media (max-width: 768px) { .contacto-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } .contacto-header h1 { font-size: 2rem; } }
+        .horario-card {
+            background: var(--white); border-radius: var(--radius-lg);
+            padding: 1.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .horario-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .horario-dia { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--primary); margin-bottom: 0.3rem; }
+        .horario-hora { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+
+        /* Mapa */
+        .mapa-section { padding: 0 0 4rem; }
+        .mapa-container {
+            background: var(--white); border-radius: var(--radius-lg);
+            overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.04);
+        }
+        .mapa-container iframe { display: block; }
+
+        @media (max-width: 768px) {
+            .contacto-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .contacto-header h1 { font-size: 2rem; }
+        }
     </style>
 </head>
 <body class="contacto-page">
     
     <!-- ========== HEADER / NAVBAR ========== -->
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
-                    <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
-                </div>
-                
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger">
-                        <a href="../tienda/index.html" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../servicios/index.html" class="nav-link">Servicios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="../contacto/index.html" class="nav-link active">Contacto</a>
-                    </li>
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
                 </ul>
-                
                 <div class="nav-actions">
-                    <div class="search-bar">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Buscar...">
-                        <button>Buscar</button>
-                    </div>
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Selecciona una ciudad</option><option value="bogota">Bogotá</option><option value="medellin">Medellín</option><option value="cali">Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
                     <div class="user-actions">
-                        <a href="../cuenta/login.html" class="icon-link" title="Mi cuenta"><i class="fas fa-user"></i></a>
-                        <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
-                
-                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
@@ -94,64 +175,50 @@
     <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== HERO CONTACTO ========== -->
+    <!-- ========== HEADER CONTACTO ========== -->
     <section class="contacto-header">
-        <div class="container">
+        <span class="doodle doodle-1">📞</span>
+        <span class="doodle doodle-2">✨</span>
+        <span class="doodle doodle-3">💬</span>
+        <span class="doodle doodle-4">🐾</span>
+        <span class="doodle doodle-5">⭐</span>
+        <span class="doodle doodle-6">❤️</span>
+        <div class="contacto-header-content">
             <h1>Contacto</h1>
             <p>Estamos aquí para ayudarte. Contáctanos por cualquier medio y te responderemos lo antes posible.</p>
         </div>
     </section>
 
-    <!-- ========== CONTENIDO ========== -->
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <section class="contacto-content">
         <div class="container">
             <div class="contacto-grid">
                 
-                <!-- Información de Contacto -->
+                <!-- Información -->
                 <div>
                     <div class="info-card">
-                        <div class="info-icon"><i class="fas fa-phone"></i></div>
-                        <div class="info-text">
-                            <h4>Teléfono</h4>
-                            <p><a href="tel:+573001234567">+57 300 123 4567</a></p>
-                            <p style="font-size:0.8rem;color:var(--gray-500)">Lun a Vie - 8:00 a 20:00</p>
-                        </div>
-                    </div>
-                    
-                    <div class="info-card">
                         <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
-                        <div class="info-text">
-                            <h4>WhatsApp</h4>
-                            <p><a href="https://wa.me/573001234567" target="_blank">+57 300 123 4567</a></p>
-                            <p style="font-size:0.8rem;color:var(--gray-500)">Respuesta inmediata</p>
-                        </div>
+                        <div class="info-text"><h4>WhatsApp</h4><p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p><p style="font-size:0.8rem;color:var(--text-muted);">Respuesta inmediata</p></div>
                     </div>
-                    
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-envelope"></i></div>
-                        <div class="info-text">
-                            <h4>Email</h4>
-                            <p><a href="mailto:hola@petfy.com">hola@petfy.com</a></p>
-                            <p style="font-size:0.8rem;color:var(--gray-500)">Respondemos en menos de 2 horas</p>
-                        </div>
+                        <div class="info-text"><h4>Email</h4><p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p><p style="font-size:0.8rem;color:var(--text-muted);">Respondemos en menos de 2 horas</p></div>
                     </div>
-                    
                     <div class="info-card">
-                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="info-text">
-                            <h4>Dirección</h4>
-                            <p>Calle 123 #45-67, Bogotá, Colombia</p>
-                        </div>
+                        <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                        <div class="info-text"><h4>Instagram</h4><p><a href="https://www.instagram.com/petfyservice___/" target="_blank">@petfyservice___</a></p></div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fab fa-facebook"></i></div>
+                        <div class="info-text"><h4>Facebook</h4><p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank">Petfy Service</a></p></div>
                     </div>
                     
-                    <!-- Redes Sociales -->
                     <div class="social-contacto">
-                        <h4>🌐 Síguenos en Redes</h4>
+                        <h4>🌐 Síguenos</h4>
                         <div class="social-btns">
-                            <a href="#" class="social-btn fb"><i class="fab fa-facebook"></i> Facebook</a>
-                            <a href="#" class="social-btn ig"><i class="fab fa-instagram"></i> Instagram</a>
-                            <a href="#" class="social-btn wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                            <a href="#" class="social-btn tt"><i class="fab fa-tiktok"></i> TikTok</a>
+                            <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank" class="social-btn fb"><i class="fab fa-facebook"></i> Facebook</a>
+                            <a href="https://www.instagram.com/petfyservice___/" target="_blank" class="social-btn ig"><i class="fab fa-instagram"></i> Instagram</a>
+                            <a href="https://wa.me/573204829244" target="_blank" class="social-btn wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
                         </div>
                     </div>
                 </div>
@@ -161,41 +228,15 @@
                     <h2>✉️ Escríbenos</h2>
                     <form onsubmit="return enviarFormulario(event)">
                         <div class="form-row">
-                            <div class="form-group">
-                                <label>Nombre *</label>
-                                <input type="text" id="nombre" required placeholder="Tu nombre">
-                            </div>
-                            <div class="form-group">
-                                <label>Apellido *</label>
-                                <input type="text" id="apellido" required placeholder="Tu apellido">
-                            </div>
+                            <div class="form-group"><label>Nombre *</label><input type="text" id="nombre" required placeholder="Tu nombre"></div>
+                            <div class="form-group"><label>Apellido *</label><input type="text" id="apellido" required placeholder="Tu apellido"></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" id="email" required placeholder="tu@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" id="telefono" placeholder="+57 300 123 4567">
-                            </div>
+                            <div class="form-group"><label>Email *</label><input type="email" id="email" required placeholder="tu@email.com"></div>
+                            <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono" placeholder="+57 300 123 4567"></div>
                         </div>
-                        <div class="form-group">
-                            <label>Asunto *</label>
-                            <select id="asunto" required>
-                                <option value="">Selecciona un asunto</option>
-                                <option>Consulta general</option>
-                                <option>Estado de mi pedido</option>
-                                <option>Devolución o garantía</option>
-                                <option>Información de servicios</option>
-                                <option>Reclamo o queja</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Mensaje *</label>
-                            <textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
-                        </div>
+                        <div class="form-group"><label>Asunto *</label><select id="asunto" required><option value="">Selecciona un asunto</option><option>Consulta general</option><option>Estado de mi pedido</option><option>Información de servicios</option><option>Reclamo o queja</option><option>Otro</option></select></div>
+                        <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea></div>
                         <button type="submit" class="btn-enviar"><i class="fas fa-paper-plane"></i> Enviar Mensaje</button>
                     </form>
                 </div>
@@ -211,22 +252,23 @@
                 <h2 class="section-title">Horarios de Atención</h2>
             </div>
             <div class="horario-grid">
-                <div class="horario-card">
-                    <div class="horario-dia">Lunes a Viernes</div>
-                    <div class="horario-hora">8:00 - 20:00</div>
-                </div>
-                <div class="horario-card">
-                    <div class="horario-dia">Sábados</div>
-                    <div class="horario-hora">9:00 - 18:00</div>
-                </div>
-                <div class="horario-card">
-                    <div class="horario-dia">Domingos</div>
-                    <div class="horario-hora">9:00 - 14:00</div>
-                </div>
-                <div class="horario-card">
-                    <div class="horario-dia">Emergencias</div>
-                    <div class="horario-hora">24/7</div>
-                </div>
+                <div class="horario-card"><div class="horario-dia">Lunes a Viernes</div><div class="horario-hora">8:00 - 20:00</div></div>
+                <div class="horario-card"><div class="horario-dia">Sábados</div><div class="horario-hora">9:00 - 18:00</div></div>
+                <div class="horario-card"><div class="horario-dia">Domingos</div><div class="horario-hora">9:00 - 14:00</div></div>
+                <div class="horario-card"><div class="horario-dia">Emergencias</div><div class="horario-hora">24/7</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== MAPA ========== -->
+    <section class="mapa-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Encuéntranos</span>
+                <h2 class="section-title">Nuestra Ubicación</h2>
+            </div>
+            <div class="mapa-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.824563636364!2d-74.065!3d4.625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sPetfy!5e0!3m2!1ses!2sco!4v1719432000000!5m2!1ses!2sco" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Petfy"></iframe>
             </div>
         </div>
     </section>
@@ -235,48 +277,37 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo">
-                    <p>Tu tienda de confianza para el bienestar de tus mascotas.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Enlaces</h4>
-                    <ul>
-                        <li><a href="../tienda/">Tienda</a></li>
-                        <li><a href="../servicios/">Servicios</a></li>
-                        <li><a href="../nosotros/">Nosotros</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="../legal/terminos.html">Términos</a></li>
-                        <li><a href="../legal/privacidad.html">Privacidad</a></li>
-                    </ul>
-                </div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
+                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
-            </div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
 
+    <!-- WhatsApp Flotante -->
+    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Necesito%20informaci%C3%B3n" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
     <script src="../assets/js/main.js"></script>
     <script>
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) { header.classList.add('scrolled'); }
+            else { header.classList.remove('scrolled'); }
+        });
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times');
+        });
         function enviarFormulario(e) {
             e.preventDefault();
             const nombre = document.getElementById('nombre').value;
             const email = document.getElementById('email').value;
-            const mensaje = document.getElementById('mensaje').value;
-            
-            if (!nombre || !email || !mensaje) {
-                alert('Completa todos los campos requeridos');
-                return false;
-            }
-            
+            if (!nombre || !email) { alert('Completa los campos requeridos'); return false; }
             alert('✅ Mensaje enviado con éxito. Te responderemos pronto.');
-            e.target.reset();
-            return false;
+            e.target.reset(); return false;
         }
     </script>
 </body>
