@@ -1,20 +1,3 @@
-Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integra bien y la barra de categorías se pega visualmente al header. Vamos a solucionarlo con **tonos más suaves y amigables, mejor separación visual y figuras mejor integradas**.
-
----
-
-## ✅ Cambios Clave Aplicados
-
-1.  **Nuevo fondo del header**: Reemplazamos el naranja intenso por un **degradado suave y cremoso** (melocotón claro) que es mucho más amigable y combina mejor con el fondo general `#F4EBE2`.
-2.  **Texto a oscuro**: Al aclarar el fondo, pasamos los textos del header a `var(--text)` (casi negro) para mejorar la legibilidad.
-3.  **Figuras integradas**: Bajamos la opacidad de los doodles y usamos colores como blanco, dorado y marrón claro para que se mimeticen con el fondo en lugar de gritar.
-4.  **Separación física**: Añadimos un `padding-top` extra en la sección de debajo para evitar que el menú de categorías se monte sobre el header. El menú de categorías ahora tiene un fondo blanco sólido y una ligera sombra para separarse visualmente.
-5.  **Navbar más limpio**: El navbar principal ahora es completamente transparente sobre el nuevo header claro y cambia a sólido al hacer scroll.
-
----
-
-## 📄 `servicios/index.html` - CORREGIDO (Colores Amigables + Figuras)
-
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,24 +14,22 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
         /* ========== SERVICIOS - ESTILOS ESPECÍFICOS ========== */
         .servicios-page { background: var(--bg); }
 
-        /* --- NUEVO HEADER: Fondo Suave y Amigable --- */
+        /* Header Servicios - Fondo suave y amigable */
         .servicios-header {
-            background: linear-gradient(135deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
-            padding: 5rem 0 6rem; /* Aumentado para dar más espacio */
-            color: var(--text); /* Texto oscuro para contraste */
+            background: linear-gradient(160deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
+            padding: 5rem 0 6rem;
+            color: var(--text);
             text-align: center;
             position: relative;
             overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
 
-        /* --- FIGURAS (DOODLES) MEJOR INTEGRADAS --- */
+        /* Doodles animados */
         .doodle {
             position: absolute; pointer-events: none; z-index: 1;
-            opacity: 0.3; /* Más sutiles */
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+            opacity: 0.3; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
         }
-        /* Usamos colores que combinan: blanco, dorado, marrón claro */
         .doodle-1 { top: 10%; left: 5%; font-size: 3.5rem; animation: floatDoodle 5s ease-in-out infinite; }
         .doodle-2 { top: 20%; right: 8%; font-size: 2.5rem; animation: floatDoodle 6s ease-in-out 1s infinite; }
         .doodle-3 { bottom: 20%; left: 10%; font-size: 2rem; animation: floatDoodle 4s ease-in-out 0.5s infinite; }
@@ -74,7 +55,7 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
         .header-stat-value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; display: block; color: var(--primary); }
         .header-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- BARRA DE CATEGORÍAS (SEPARADA) --- */
+        /* Barra de categorías - SEPARADA */
         .categorias-nav {
             background: var(--white);
             border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -107,12 +88,104 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
         /* Grid de Servicios */
         .servicios-content { padding: 2rem 0 4rem; }
         .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
-        
-        /* ... (El resto de estilos de las cards, planes, footer se mantienen igual) ... */
+
+        /* Card de Servicio */
+        .servicio-card {
+            background: var(--white); border-radius: var(--radius-lg);
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.04);
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: var(--shadow-sm);
+        }
+        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .servicio-card.activo { border-top: 4px solid var(--success); }
+        .servicio-card.inactivo { border-top: 4px solid var(--warning); opacity: 0.92; background: #FFFDF5; }
+
+        .servicio-card-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
+        .servicio-card-icono {
+            width: 55px; height: 55px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+        .servicio-card.activo .servicio-card-icono { background: #ECFDF5; color: var(--success); }
+        .servicio-card.inactivo .servicio-card-icono { background: #FEF3C7; color: var(--warning); }
+        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        .badge-proximo { background: #FEF3C7; color: #D97706; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+
+        .servicio-card-body { padding: 1rem 1.5rem; flex: 1; }
+        .servicio-card-titulo { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .servicio-card-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1rem; }
+        .servicio-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+        .servicio-tag { padding: 0.25rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 700; }
+        .servicio-card.activo .servicio-tag { background: #ECFDF5; color: #059669; }
+        .servicio-card.inactivo .servicio-tag { background: rgba(0,0,0,0.04); color: var(--text-muted); }
+
+        .servicio-planes { margin-top: 0.5rem; }
+        .servicio-planes-titulo {
+            font-size: 0.78rem; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .plan-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.55rem 0.75rem; background: var(--bg); border-radius: var(--radius-sm);
+            margin-bottom: 0.3rem; transition: var(--transition); cursor: pointer; border: 1px solid transparent;
+        }
+        .plan-item:hover { background: var(--primary-light); border-color: var(--primary); }
+        .plan-item.destacado { background: var(--primary-light); border-color: var(--primary); position: relative; }
+        .plan-item.destacado::after {
+            content: 'POPULAR'; position: absolute; top: -8px; right: 10px;
+            background: var(--primary); color: var(--white); font-size: 0.6rem;
+            font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 10px;
+        }
+        .plan-info { display: flex; align-items: center; gap: 0.5rem; }
+        .plan-icono { font-size: 1rem; }
+        .plan-nombre { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+        .plan-detalle { font-size: 0.7rem; color: var(--text-muted); }
+        .plan-precio { text-align: right; }
+        .plan-precio-valor { font-family: 'Fredoka One', cursive; font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        .plan-precio-unitario { font-size: 0.68rem; color: var(--text-muted); }
+
+        .servicio-card-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.04);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .servicio-card-precio-desde { font-size: 0.7rem; color: var(--text-muted); }
+        .servicio-card-precio { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 800; color: var(--text); }
+        .servicio-card-precio small { font-size: 0.7rem; font-weight: 400; color: var(--text-muted); }
+        .servicio-card-btn {
+            padding: 0.55rem 1.2rem; border-radius: var(--radius-btn);
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem;
+            cursor: pointer; transition: var(--transition); border: none;
+            display: flex; align-items: center; gap: 0.4rem; text-decoration: none;
+        }
+        .btn-activo { background: var(--success); color: var(--white); }
+        .btn-activo:hover { background: #059669; }
+        .btn-espera { background: var(--white); color: #D97706; border: 2px solid var(--warning); }
+        .btn-espera:hover { background: #FFFBEB; }
+
+        .notify-section {
+            background: var(--white); border-radius: var(--radius-lg); padding: 2rem;
+            text-align: center; margin-top: 2rem; border: 2px dashed rgba(0,0,0,0.08);
+        }
+        .notify-section h3 { font-family: 'Fredoka One', cursive; margin-bottom: 0.5rem; }
+        .notify-section p { color: var(--text-light); margin-bottom: 1rem; }
+        .notify-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+        .notify-form input {
+            flex: 1; padding: 0.65rem 1rem; border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 25px; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+        }
+        .notify-form input:focus { outline: none; border-color: var(--primary); }
+        .notify-form button {
+            padding: 0.65rem 1.5rem; background: var(--primary); color: var(--white);
+            border: none; border-radius: 25px; font-family: 'Nunito', sans-serif;
+            font-weight: 800; cursor: pointer; transition: var(--transition);
+        }
+        .notify-form button:hover { background: var(--primary-dark); }
 
         @media (max-width: 768px) {
             .servicios-header h1 { font-size: 2rem; }
             .servicios-grid { grid-template-columns: 1fr; }
+            .notify-form { flex-direction: column; }
+            .notify-form button { width: 100%; }
             .categorias-nav { margin-top: -1.5rem; }
         }
     </style>
@@ -157,9 +230,8 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
     <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== HEADER SERVICIOS (FONDO CLARO) ========== -->
+    <!-- ========== HEADER SERVICIOS CON DOODLES ========== -->
     <section class="servicios-header">
-        <!-- Doodles sutiles y bien integrados -->
         <span class="doodle doodle-1">🐾</span>
         <span class="doodle doodle-2">✨</span>
         <span class="doodle doodle-3">🦴</span>
@@ -181,7 +253,7 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
         </div>
     </section>
 
-    <!-- ========== BARRA DE CATEGORÍAS (BIEN SEPARADA) ========== -->
+    <!-- ========== BARRA DE CATEGORÍAS SEPARADA ========== -->
     <div class="categorias-nav">
         <div class="container">
             <button class="cat-nav-btn active" onclick="filtrar('todos', this)"><i class="fas fa-th-large"></i> Todos</button>
@@ -334,11 +406,27 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
         </div>
     </footer>
 
-    <!-- WhatsApp -->
+    <!-- WhatsApp Flotante -->
     <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Quiero%20informaci%C3%B3n%20de%20servicios" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
     <script>
+        // Header sticky
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) { header.classList.add('scrolled'); }
+            else { header.classList.remove('scrolled'); }
+        });
+
+        // Menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Filtros
         function filtrar(filtro, btn) {
             document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -349,10 +437,10 @@ Tienes toda la razón. El naranja actual (`#E0633F`) con las figuras no se integ
                 else card.style.display = card.dataset.categoria === filtro ? 'flex' : 'none';
             });
         }
+
         function contratar(plan, precio) {
             alert('✅ Has seleccionado: ' + plan + ' por $' + precio.toLocaleString());
         }
     </script>
 </body>
 </html>
-```
