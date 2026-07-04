@@ -3,81 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Servicios Petfy - Paseos, guardería, baños, veterinaria y entrenamiento">
+    <meta name="description" content="Servicios Petfy - Paseos, guardería, baños, veterinaria y entrenamiento para tu mascota">
     <title>Servicios - Petfy | Cuidado Integral para Mascotas</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     
     <style>
-        .servicios-page { background: var(--gray-100); min-height: 100vh; }
+        /* ========== SERVICIOS - ESTILOS ESPECÍFICOS ========== */
+        .servicios-page { background: var(--bg); }
         
-        .categorias-nav { background: var(--white); border-bottom: 1px solid var(--gray-200); position: sticky; top: 0; z-index: 99; box-shadow: var(--shadow-sm); }
-        .categorias-nav .container { display: flex; align-items: center; justify-content: center; padding: 0.75rem 0; gap: 0.5rem; flex-wrap: wrap; }
-        .cat-nav-btn { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: var(--radius-full); border: 2px solid transparent; cursor: pointer; font-weight: 600; font-size: 0.82rem; white-space: nowrap; transition: var(--transition); background: var(--gray-100); color: var(--gray-600); font-family: inherit; }
-        .cat-nav-btn:hover { background: var(--gray-200); }
-        .cat-nav-btn.active { background: var(--dark); color: var(--white); }
-        .cat-dot { width: 7px; height: 7px; border-radius: 50%; }
-        .cat-dot.activo { background: var(--success); box-shadow: 0 0 0 2px rgba(39,174,96,0.3); }
-        .cat-dot.inactivo { background: var(--warning); box-shadow: 0 0 0 2px rgba(243,156,18,0.3); }
+        /* Header Servicios con doodles animados */
+        .servicios-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #C94E2E 50%, #F08060 100%);
+            padding: 4rem 0 4.5rem; color: var(--white); text-align: center;
+            position: relative; overflow: hidden;
+            border-radius: 0 0 40% 40% / 0 0 8% 8%;
+        }
         
-        .servicios-header { background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%); padding: 3rem 0; color: var(--white); text-align: center; }
-        .servicios-header h1 { font-size: 2.8rem; font-weight: 800; }
-        .servicios-header p { color: rgba(255,255,255,0.9); max-width: 500px; margin: 1rem auto 0; }
-        .header-mini-stats { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+        /* Doodles animados */
+        .doodle {
+            position: absolute; opacity: 0.25; z-index: 1; pointer-events: none;
+        }
+        .doodle-1 { top: 10%; left: 5%; font-size: 3rem; animation: floatDoodle 5s ease-in-out infinite; }
+        .doodle-2 { top: 20%; right: 8%; font-size: 2.5rem; animation: floatDoodle 6s ease-in-out 1s infinite; }
+        .doodle-3 { bottom: 25%; left: 10%; font-size: 2rem; animation: floatDoodle 4s ease-in-out 0.5s infinite; }
+        .doodle-4 { bottom: 15%; right: 12%; font-size: 3.5rem; animation: floatDoodle 7s ease-in-out 2s infinite; }
+        .doodle-5 { top: 40%; left: 50%; font-size: 2rem; animation: floatDoodle 5.5s ease-in-out 0.8s infinite; }
+        .doodle-6 { top: 15%; left: 30%; font-size: 1.8rem; animation: floatDoodle 4.5s ease-in-out 1.5s infinite; }
+        .doodle-7 { bottom: 30%; right: 25%; font-size: 2.2rem; animation: floatDoodle 6.5s ease-in-out 0.3s infinite; }
+        .doodle-8 { top: 55%; right: 5%; font-size: 3rem; animation: floatDoodle 5s ease-in-out 2.5s infinite; }
+        
+        @keyframes floatDoodle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(5deg); }
+            50% { transform: translateY(-8px) rotate(-3deg); }
+            75% { transform: translateY(-20px) rotate(2deg); }
+        }
+        
+        .servicios-header-content { position: relative; z-index: 2; }
+        .servicios-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; margin-bottom: 0.5rem; }
+        .servicios-header p { color: rgba(255,255,255,0.9); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
+        .header-mini-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
         .header-stat { text-align: center; }
-        .header-stat-value { font-size: 1.8rem; font-weight: 800; display: block; }
-        .header-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-stat-value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; display: block; }
+        .header-stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 1px; }
         
+        /* Barra de categorías - SEPARADA del header */
+        .categorias-nav {
+            background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            margin-top: -3rem;
+            border-radius: 20px 20px 0 0;
+            padding-top: 0.5rem;
+        }
+        .categorias-nav .container {
+            display: flex; align-items: center; justify-content: center;
+            padding: 0.6rem 0; gap: 0.4rem; flex-wrap: wrap;
+        }
+        .cat-nav-btn {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.5rem 1.1rem; border-radius: 25px;
+            border: 2px solid transparent; cursor: pointer;
+            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.82rem;
+            white-space: nowrap; transition: var(--transition);
+            background: var(--bg); color: var(--text);
+        }
+        .cat-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
+        .cat-nav-btn.active { background: var(--primary); color: var(--white); }
+        .cat-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .cat-dot.activo { background: var(--success); }
+        .cat-dot.inactivo { background: var(--warning); }
+        .cat-nav-contador { font-size: 0.65rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.4rem; border-radius: 10px; font-weight: 800; }
+        .cat-nav-btn.active .cat-nav-contador { background: rgba(255,255,255,0.25); }
+        
+        /* Grid de Servicios */
         .servicios-content { padding: 2rem 0 4rem; }
-        .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+        .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1.5rem; }
         
-        .servicio-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); transition: var(--transition); display: flex; flex-direction: column; }
-        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
-        .servicio-card.activo { border-top: 3px solid var(--success); }
-        .servicio-card.inactivo { border-top: 3px solid var(--warning); background: var(--gray-50); }
+        /* Card de Servicio */
+        .servicio-card {
+            background: var(--white); border-radius: var(--radius-lg);
+            overflow: hidden; border: 1px solid rgba(0,0,0,0.04);
+            transition: var(--transition); display: flex; flex-direction: column;
+            box-shadow: var(--shadow-sm);
+        }
+        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .servicio-card.activo { border-top: 4px solid var(--success); }
+        .servicio-card.inactivo { border-top: 4px solid var(--warning); opacity: 0.92; background: #FFFDF5; }
         
         .servicio-card-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
-        .servicio-card-icono { width: 50px; height: 50px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+        .servicio-card-icono {
+            width: 55px; height: 55px; border-radius: var(--radius);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
         .servicio-card.activo .servicio-card-icono { background: #ECFDF5; color: var(--success); }
-        .servicio-card.inactivo .servicio-card-icono { background: #FFFBEB; color: var(--warning); }
-        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.3rem 0.8rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 700; }
-        .badge-proximo { background: #FFFBEB; color: #D97706; padding: 0.3rem 0.8rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 700; }
+        .servicio-card.inactivo .servicio-card-icono { background: #FEF3C7; color: var(--warning); }
+        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        .badge-proximo { background: #FEF3C7; color: #D97706; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
         
         .servicio-card-body { padding: 1rem 1.5rem; flex: 1; }
-        .servicio-card-titulo { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem; }
-        .servicio-card-desc { font-size: 0.85rem; color: var(--gray-500); line-height: 1.5; margin-bottom: 1rem; }
+        .servicio-card-titulo { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+        .servicio-card-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1rem; }
         .servicio-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
-        .servicio-tag { padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.72rem; font-weight: 600; }
+        .servicio-tag { padding: 0.25rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 700; }
         .servicio-card.activo .servicio-tag { background: #ECFDF5; color: #059669; }
-        .servicio-card.inactivo .servicio-tag { background: var(--gray-200); color: var(--gray-500); }
+        .servicio-card.inactivo .servicio-tag { background: rgba(0,0,0,0.04); color: var(--text-muted); }
         
-        .servicio-card-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--gray-100); display: flex; align-items: center; justify-content: space-between; }
-        .servicio-card-precio { font-size: 1.2rem; font-weight: 800; color: var(--dark); }
-        .servicio-card-precio small { font-size: 0.7rem; font-weight: 400; color: var(--gray-400); }
-        .servicio-card-btn { padding: 0.6rem 1.2rem; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: var(--transition); border: none; font-family: inherit; display: flex; align-items: center; gap: 0.4rem; text-decoration: none; }
+        .servicio-planes { margin-top: 0.5rem; }
+        .servicio-planes-titulo {
+            font-size: 0.78rem; font-weight: 800; color: var(--text-light);
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .plan-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.55rem 0.75rem; background: var(--bg); border-radius: var(--radius-sm);
+            margin-bottom: 0.3rem; transition: var(--transition); cursor: pointer; border: 1px solid transparent;
+        }
+        .plan-item:hover { background: var(--primary-light); border-color: var(--primary); }
+        .plan-item.destacado { background: var(--primary-light); border-color: var(--primary); position: relative; }
+        .plan-item.destacado::after {
+            content: 'POPULAR'; position: absolute; top: -8px; right: 10px;
+            background: var(--primary); color: var(--white); font-size: 0.6rem;
+            font-weight: 800; padding: 0.12rem 0.5rem; border-radius: 10px;
+        }
+        .plan-info { display: flex; align-items: center; gap: 0.5rem; }
+        .plan-icono { font-size: 1rem; }
+        .plan-nombre { font-weight: 700; font-size: 0.85rem; color: var(--text); }
+        .plan-detalle { font-size: 0.7rem; color: var(--text-muted); }
+        .plan-precio { text-align: right; }
+        .plan-precio-valor { font-family: 'Fredoka One', cursive; font-weight: 700; font-size: 0.9rem; color: var(--primary); }
+        .plan-precio-unitario { font-size: 0.68rem; color: var(--text-muted); }
+        
+        .servicio-card-footer {
+            padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.04);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .servicio-card-precio-desde { font-size: 0.7rem; color: var(--text-muted); }
+        .servicio-card-precio { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 800; color: var(--text); }
+        .servicio-card-precio small { font-size: 0.7rem; font-weight: 400; color: var(--text-muted); }
+        .servicio-card-btn {
+            padding: 0.55rem 1.2rem; border-radius: var(--radius-btn);
+            font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.8rem;
+            cursor: pointer; transition: var(--transition); border: none;
+            display: flex; align-items: center; gap: 0.4rem; text-decoration: none;
+        }
         .btn-activo { background: var(--success); color: var(--white); }
         .btn-activo:hover { background: #059669; }
         .btn-espera { background: var(--white); color: #D97706; border: 2px solid var(--warning); }
         .btn-espera:hover { background: #FFFBEB; }
         
-        @media (max-width: 768px) { .servicios-header h1 { font-size: 2rem; } .servicios-grid { grid-template-columns: 1fr; } }
+        .notify-section {
+            background: var(--white); border-radius: var(--radius-lg); padding: 2rem;
+            text-align: center; margin-top: 2rem; border: 2px dashed rgba(0,0,0,0.08);
+        }
+        .notify-section h3 { font-family: 'Fredoka One', cursive; margin-bottom: 0.5rem; }
+        .notify-section p { color: var(--text-light); margin-bottom: 1rem; }
+        .notify-form { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+        .notify-form input {
+            flex: 1; padding: 0.65rem 1rem; border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 25px; font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+        }
+        .notify-form input:focus { outline: none; border-color: var(--primary); }
+        .notify-form button {
+            padding: 0.65rem 1.5rem; background: var(--primary); color: var(--white);
+            border: none; border-radius: 25px; font-family: 'Nunito', sans-serif;
+            font-weight: 800; cursor: pointer; transition: var(--transition);
+        }
+        .notify-form button:hover { background: var(--primary-dark); }
+        
+        @media (max-width: 768px) {
+            .servicios-header h1 { font-size: 2rem; }
+            .servicios-grid { grid-template-columns: 1fr; }
+            .notify-form { flex-direction: column; }
+            .notify-form button { width: 100%; }
+            .categorias-nav { margin-top: -2rem; }
+        }
     </style>
 </head>
 <body class="servicios-page">
     
-    <header class="header">
+    <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <div class="logo">
+                    <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
+                </div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/index.html" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
                     <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="city-selector">
+                        <i class="fas fa-map-marker-alt city-icon"></i>
+                        <select class="city-select">
+                            <option value="">Selecciona una ciudad</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="medellin">Medellín</option>
+                            <option value="cali">Cali</option>
+                        </select>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button>
+                    </div>
                     <div class="user-actions">
                         <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
                         <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
@@ -88,24 +221,23 @@
         </div>
     </header>
 
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <nav class="categorias-nav">
-        <div class="container">
-            <button class="cat-nav-btn active" onclick="filtrar('todos', this)"><i class="fas fa-th-large"></i> Todos</button>
-            <button class="cat-nav-btn" onclick="filtrar('activos', this)"><span class="cat-dot activo"></span> Activos</button>
-            <button class="cat-nav-btn" onclick="filtrar('proximos', this)"><span class="cat-dot inactivo"></span> Próximos</button>
-            <button class="cat-nav-btn" onclick="filtrar('paseos', this)"><i class="fas fa-dog"></i> Paseos</button>
-            <button class="cat-nav-btn" onclick="filtrar('guarderia', this)"><i class="fas fa-home"></i> Guardería</button>
-            <button class="cat-nav-btn" onclick="filtrar('banos', this)"><i class="fas fa-shower"></i> Baños</button>
-            <button class="cat-nav-btn" onclick="filtrar('veterinaria', this)"><i class="fas fa-stethoscope"></i> Veterinaria</button>
-            <button class="cat-nav-btn" onclick="filtrar('entrenamiento', this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button>
-        </div>
-    </nav>
-
+    <!-- ========== HEADER SERVICIOS CON DOODLES ========== -->
     <section class="servicios-header">
-        <div class="container">
-            <h1>Servicios <span style="color:#fff;">Premium</span></h1>
+        <!-- Doodles animados -->
+        <span class="doodle doodle-1">🐾</span>
+        <span class="doodle doodle-2">⭐</span>
+        <span class="doodle doodle-3">🐕</span>
+        <span class="doodle doodle-4">🐾</span>
+        <span class="doodle doodle-5">✨</span>
+        <span class="doodle doodle-6">🦴</span>
+        <span class="doodle doodle-7">🐾</span>
+        <span class="doodle doodle-8">💫</span>
+        
+        <div class="servicios-header-content">
+            <h1>Servicios Premium</h1>
             <p>Soluciones integrales para el cuidado de tu mascota. Profesionales certificados y la mejor atención.</p>
             <div class="header-mini-stats">
                 <div class="header-stat"><span class="header-stat-value">+500</span><span class="header-stat-label">Paseos</span></div>
@@ -116,6 +248,21 @@
         </div>
     </section>
 
+    <!-- ========== BARRA DE CATEGORÍAS SEPARADA ========== -->
+    <div class="categorias-nav">
+        <div class="container">
+            <button class="cat-nav-btn active" onclick="filtrar('todos', this)"><i class="fas fa-th-large"></i> Todos <span class="cat-nav-contador">5</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('activos', this)"><span class="cat-dot activo"></span> Activos <span class="cat-nav-contador">1</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('proximos', this)"><span class="cat-dot inactivo"></span> Próximos <span class="cat-nav-contador">4</span></button>
+            <button class="cat-nav-btn" onclick="filtrar('paseos', this)"><i class="fas fa-dog"></i> Paseos</button>
+            <button class="cat-nav-btn" onclick="filtrar('guarderia', this)"><i class="fas fa-home"></i> Guardería</button>
+            <button class="cat-nav-btn" onclick="filtrar('banos', this)"><i class="fas fa-shower"></i> Baños</button>
+            <button class="cat-nav-btn" onclick="filtrar('veterinaria', this)"><i class="fas fa-stethoscope"></i> Veterinaria</button>
+            <button class="cat-nav-btn" onclick="filtrar('entrenamiento', this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button>
+        </div>
+    </div>
+
+    <!-- ========== GRID DE SERVICIOS ========== -->
     <section class="servicios-content">
         <div class="container">
             <div class="servicios-grid" id="serviciosGrid">
@@ -133,11 +280,35 @@
                             <span class="servicio-tag"><i class="fas fa-clock"></i> 30-60 min</span>
                             <span class="servicio-tag"><i class="fas fa-map-marker-alt"></i> GPS</span>
                             <span class="servicio-tag"><i class="fas fa-camera"></i> Fotos</span>
+                            <span class="servicio-tag"><i class="fas fa-user-check"></i> Paseador fijo</span>
+                        </div>
+                        <div class="servicio-planes">
+                            <div class="servicio-planes-titulo"><i class="fas fa-list-check"></i> Planes Disponibles</div>
+                            <div class="plan-item" onclick="contratar('Paseo Express', 8990)">
+                                <div class="plan-info"><span class="plan-icono">⚡</span><div><div class="plan-nombre">Paseo Express</div><div class="plan-detalle">30 minutos</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$8.990</div></div>
+                            </div>
+                            <div class="plan-item destacado" onclick="contratar('Paseo Estándar', 10990)">
+                                <div class="plan-info"><span class="plan-icono">🌟</span><div><div class="plan-nombre">Paseo Estándar</div><div class="plan-detalle">45 min • Snack incluido</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$10.990</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Paseo Premium', 14990)">
+                                <div class="plan-info"><span class="plan-icono">💎</span><div><div class="plan-nombre">Paseo Premium</div><div class="plan-detalle">60 min • Parque • Socialización</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$14.990</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Pack 5 Paseos', 35990)">
+                                <div class="plan-info"><span class="plan-icono">📦</span><div><div class="plan-nombre">Pack 5 Paseos</div><div class="plan-detalle">Ahorra 20% • 45 min c/u</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$35.990</div><div class="plan-precio-unitario">$7.198 c/u</div></div>
+                            </div>
+                            <div class="plan-item" onclick="contratar('Pack 10 Paseos', 64990)">
+                                <div class="plan-info"><span class="plan-icono">🏆</span><div><div class="plan-nombre">Pack 10 Paseos</div><div class="plan-detalle">Ahorra 40% • 45 min c/u</div></div></div>
+                                <div class="plan-precio"><div class="plan-precio-valor">$64.990</div><div class="plan-precio-unitario">$6.499 c/u</div></div>
+                            </div>
                         </div>
                     </div>
                     <div class="servicio-card-footer">
-                        <div><span class="servicio-card-precio">$8.990 <small>/paseo</small></span></div>
-                        <a href="paseos.html" class="servicio-card-btn btn-activo">Ver Planes <i class="fas fa-arrow-right"></i></a>
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$8.990 <small>/paseo</small></span></div>
+                        <a href="paseos.html" class="servicio-card-btn btn-activo">Contratar <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -156,7 +327,7 @@
                         </div>
                     </div>
                     <div class="servicio-card-footer">
-                        <div><span class="servicio-card-precio">$15.990 <small>/día</small></span></div>
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$15.990 <small>/día</small></span></div>
                         <a href="guarderia.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
                     </div>
                 </div>
@@ -176,7 +347,7 @@
                         </div>
                     </div>
                     <div class="servicio-card-footer">
-                        <div><span class="servicio-card-precio">$12.990 <small>/sesión</small></span></div>
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$12.990 <small>/sesión</small></span></div>
                         <a href="banos.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
                     </div>
                 </div>
@@ -196,7 +367,7 @@
                         </div>
                     </div>
                     <div class="servicio-card-footer">
-                        <div><span class="servicio-card-precio">$20.000 <small>/consulta</small></span></div>
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$20.000 <small>/consulta</small></span></div>
                         <a href="veterinaria.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
                     </div>
                 </div>
@@ -216,25 +387,40 @@
                         </div>
                     </div>
                     <div class="servicio-card-footer">
-                        <div><span class="servicio-card-precio">$25.000 <small>/sesión</small></span></div>
+                        <div><span class="servicio-card-precio-desde">Desde</span><span class="servicio-card-precio">$25.000 <small>/sesión</small></span></div>
                         <a href="entrenamiento.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a>
                     </div>
                 </div>
 
             </div>
+
+            <!-- Notificación -->
+            <div class="notify-section">
+                <h3>🔔 ¿Quieres saber cuándo activamos nuevos servicios?</h3>
+                <p>Déjanos tu email y te notificaremos</p>
+                <form class="notify-form" onsubmit="return notificar(event)">
+                    <input type="email" placeholder="tu@email.com" required id="notifyEmail">
+                    <button type="submit"><i class="fas fa-bell"></i> Avísame</button>
+                </form>
+            </div>
         </div>
     </section>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo"><p>Tu tienda de confianza.</p></div>
-                <div class="footer-col"><h4>Servicios</h4><ul><li><a href="paseos.html">Paseos</a></li><li><a href="guarderia.html">Guardería</a></li><li><a href="banos.html">Baños</a></li></ul></div>
-                <div class="footer-col"><h4>Empresa</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../contacto/">Contacto</a></li></ul></div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="index.html">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
+                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
+
+    <!-- WhatsApp -->
+    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Quiero%20informaci%C3%B3n%20de%20servicios" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
     <script>
@@ -247,6 +433,15 @@
                 else if (filtro === 'proximos') card.style.display = card.dataset.estado === 'inactivo' ? 'flex' : 'none';
                 else card.style.display = card.dataset.categoria === filtro ? 'flex' : 'none';
             });
+        }
+        function contratar(plan, precio) {
+            alert('✅ Has seleccionado: ' + plan + ' por $' + precio.toLocaleString());
+        }
+        function notificar(e) {
+            e.preventDefault();
+            const email = document.getElementById('notifyEmail').value;
+            if (email) { alert('✅ Te notificaremos a ' + email); e.target.reset(); }
+            return false;
         }
     </script>
 </body>
