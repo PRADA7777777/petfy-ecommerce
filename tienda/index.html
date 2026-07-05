@@ -229,34 +229,54 @@
         </div>
     </section>
 
-   <!-- ========== HEADER / NAVBAR ========== -->
-    <header class="header" id="mainHeader">
+  <!-- ========== FOOTER ========== -->
+    <footer class="footer">
         <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
-                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Selecciona una ciudad</option><option value="bogota">Bogotá</option><option value="medellin">Medellín</option><option value="cali">Cali</option></select></div>
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
-                    <div class="user-actions">
-                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
-                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                    </div>
-                </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
-            </nav>
+            <div class="footer-grid">
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="index.html">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
+                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+            </div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
-    </header>
+    </footer>
 
-    <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
-    <!-- WHATSAPP -->
-    <a href="https://wa.me/573204829244" target="_blank" style="position:fixed;bottom:25px;right:25px;width:55px;height:55px;background:#25D366;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:999;text-decoration:none;box-shadow:0 4px 15px rgba(37,211,102,0.4);"><i class="fab fa-whatsapp"></i></a>
+    <!-- WhatsApp Flotante -->
+    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Quiero%20informaci%C3%B3n%20de%20servicios" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
+    <script>
+        // Header sticky
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) { header.classList.add('scrolled'); }
+            else { header.classList.remove('scrolled'); }
+        });
+
+        // Menú móvil
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Filtros
+        function filtrar(filtro, btn) {
+            document.querySelectorAll('.cat-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.servicio-card').forEach(card => {
+                if (filtro === 'todos') card.style.display = 'flex';
+                else if (filtro === 'activos') card.style.display = card.dataset.estado === 'activo' ? 'flex' : 'none';
+                else if (filtro === 'proximos') card.style.display = card.dataset.estado === 'inactivo' ? 'flex' : 'none';
+                else card.style.display = card.dataset.categoria === filtro ? 'flex' : 'none';
+            });
+        }
+
+        function contratar(plan, precio) {
+            alert('✅ Has seleccionado: ' + plan + ' por $' + precio.toLocaleString());
+        }
+    </script>
 </body>
 </html>
