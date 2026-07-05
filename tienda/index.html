@@ -221,39 +221,31 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer style="background:#064F56;color:white;padding:3rem 0 1.5rem;margin-top:2rem;">
+   <!-- ========== HEADER / NAVBAR ========== -->
+    <header class="header" id="mainHeader">
         <div class="container">
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.1);">
-                <div>
-                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Conócenos</h4>
-                    <ul style="list-style:none;padding:0;">
-                        <li><a href="../nosotros/" style="color:rgba(255,255,255,0.75);text-decoration:none;">Nosotros</a></li>
-                        <li><a href="../servicios/" style="color:rgba(255,255,255,0.75);text-decoration:none;">Servicios</a></li>
-                        <li><a href="index.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Tienda</a></li>
-                    </ul>
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Selecciona una ciudad</option><option value="bogota">Bogotá</option><option value="medellin">Medellín</option><option value="cali">Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="user-actions">
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
                 </div>
-                <div>
-                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Info</h4>
-                    <ul style="list-style:none;padding:0;">
-                        <li><a href="../legal/terminos.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Términos</a></li>
-                        <li><a href="../legal/privacidad.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Privacidad</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Contacto</h4>
-                    <ul style="list-style:none;padding:0;">
-                        <li><a href="https://wa.me/573204829244" style="color:rgba(255,255,255,0.75);text-decoration:none;"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li>
-                        <li><a href="mailto:petfyservice@gmail.com" style="color:rgba(255,255,255,0.75);text-decoration:none;"><i class="fas fa-envelope"></i> Email</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div style="text-align:center;padding-top:1.5rem;color:rgba(255,255,255,0.5);font-size:0.85rem;">
-                <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
-            </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
         </div>
-    </footer>
+    </header>
 
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
     <!-- WHATSAPP -->
     <a href="https://wa.me/573204829244" target="_blank" style="position:fixed;bottom:25px;right:25px;width:55px;height:55px;background:#25D366;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:999;text-decoration:none;box-shadow:0 4px 15px rgba(37,211,102,0.4);"><i class="fab fa-whatsapp"></i></a>
 
