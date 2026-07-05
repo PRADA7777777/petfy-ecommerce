@@ -3,76 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Inicia sesión en tu cuenta de Petfy">
     <title>Iniciar Sesión - Petfy</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     <style>
-        .auth-page { display: flex; align-items: center; justify-content: center; min-height: 85vh; padding: 2rem; background: var(--bg); }
-        .auth-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 420px; width: 100%; box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.9); }
-        .auth-card h1 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; color: var(--text); margin-bottom: 0.5rem; }
-        .auth-card .sub { text-align: center; color: var(--text-light); margin-bottom: 2rem; font-size: 0.9rem; }
+        body { background: #F4EBE2; font-family: 'Nunito', sans-serif; margin: 0; }
+        .auth-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+        .auth-card { background: white; border-radius: 30px; padding: 2.5rem; max-width: 400px; width: 100%; box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+        .auth-card h1 { font-family: 'Fredoka One', cursive; text-align: center; color: #1F1B24; margin-bottom: 0.5rem; }
+        .auth-card .sub { text-align: center; color: #6B7280; margin-bottom: 2rem; }
         .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.95rem; transition: var(--transition); }
-        .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
-        .btn-auth { width: 100%; padding: 0.85rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem; cursor: pointer; transition: var(--transition); }
-        .btn-auth:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-light); }
-        .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
-        .social-login { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-        .btn-social { flex: 1; padding: 0.7rem; border-radius: var(--radius-btn); border: 2px solid rgba(0,0,0,0.06); background: var(--white); cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: var(--transition); }
-        .btn-social:hover { background: var(--bg); }
+        .form-group label { display: block; font-weight: 700; color: #1F1B24; margin-bottom: 0.3rem; font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 0.85rem; border: 2px solid #E5E7EB; border-radius: 15px; font-family: 'Nunito', sans-serif; font-size: 1rem; }
+        .form-group input:focus { outline: none; border-color: #E0633F; }
+        .btn { width: 100%; padding: 0.9rem; background: #E0633F; color: white; border: none; border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem; cursor: pointer; }
+        .btn:hover { background: #C94E2E; }
+        .error { color: #EF4444; text-align: center; margin-top: 0.5rem; display: none; }
+        .footer-text { text-align: center; margin-top: 1.5rem; color: #6B7280; }
+        .footer-text a { color: #E0633F; text-decoration: none; font-weight: 700; }
     </style>
 </head>
 <body>
-    <header class="header" id="mainHeader">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
-                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <a href="login.html" class="icon-link active"><i class="fas fa-user"></i></a>
-                    <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
-            </nav>
-        </div>
-    </header>
-
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
-
     <main class="auth-page">
         <div class="auth-card">
-            <h1>Iniciar Sesión</h1>
-            <p class="sub">Bienvenido de vuelta a Petfy 🐾</p>
-            <form onsubmit="return login(event)">
-                <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required placeholder="tu@email.com"></div>
-                <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" required placeholder="••••••••"></div>
-                <button type="submit" class="btn-auth">Iniciar Sesión</button>
+            <h1>🐾 Iniciar Sesión</h1>
+            <p class="sub">Bienvenido de vuelta a Petfy</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+                <p class="error" id="errorMsg">Credenciales incorrectas</p>
             </form>
-            <div class="social-login">
-                <button class="btn-social"><i class="fab fa-google" style="color:#DB4437;"></i> Google</button>
-                <button class="btn-social"><i class="fab fa-facebook" style="color:#1877F2;"></i> Facebook</button>
-            </div>
-            <p class="auth-footer">¿No tienes cuenta? <a href="registro.html">Crear cuenta</a></p>
+            <p class="footer-text">¿No tienes cuenta? <a href="registro.html">Crear cuenta</a></p>
         </div>
     </main>
 
-    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
-    <script src="../assets/js/main.js"></script>
     <script>
-        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
-        document.querySelector('.mobile-menu-btn').onclick = function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
-        };
-        function login(e) { e.preventDefault(); alert('✅ Bienvenido ' + document.getElementById('loginEmail').value); return false; }
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Validación simple: cualquier email + contraseña de 4+ caracteres
+            if (email && password.length >= 4) {
+                // Guardar sesión
+                const usuario = {
+                    nombre: email.split('@')[0],
+                    email: email,
+                    telefono: ''
+                };
+                localStorage.setItem('petfyUser', JSON.stringify(usuario));
+                localStorage.setItem('petfyLogged', 'true');
+                
+                // Redirigir al perfil
+                window.location.href = 'perfil.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
