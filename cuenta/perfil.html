@@ -9,32 +9,36 @@
     <link rel="stylesheet" href="../assets/css/petfy.css">
     <style>
         .perfil-page { padding: 2rem 0 4rem; background: var(--bg); min-height: 100vh; }
-        .perfil-grid { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; }
+        .perfil-grid { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; }
         .perfil-sidebar { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-radius: var(--radius-lg); padding: 1.5rem; position: sticky; top: 100px; border: 1px solid rgba(255,255,255,0.9); height: fit-content; }
         .perfil-avatar { text-align: center; margin-bottom: 1.5rem; }
-        .perfil-avatar img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background: var(--bg); }
-        .perfil-avatar h3 { font-family: 'Fredoka One', cursive; color: var(--text); }
-        .perfil-menu { display: flex; flex-direction: column; gap: 0.25rem; }
-        .perfil-menu a { padding: 0.7rem 1rem; border-radius: var(--radius); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; transition: var(--transition); }
+        .perfil-avatar img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background: var(--bg); }
+        .perfil-avatar h3 { font-family: 'Fredoka One', cursive; color: var(--text); font-size: 1.1rem; }
+        .perfil-avatar p { color: var(--text-light); font-size: 0.8rem; }
+        .perfil-menu { display: flex; flex-direction: column; gap: 0.2rem; }
+        .perfil-menu a { padding: 0.65rem 1rem; border-radius: var(--radius); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.88rem; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition); }
         .perfil-menu a:hover, .perfil-menu a.active { background: var(--primary-light); color: var(--primary); }
         .perfil-content { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
-        .perfil-content h2 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1.5rem; }
+        .perfil-content h2 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1.5rem; font-size: 1.5rem; }
         .tab { display: none; }
         .tab.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .form-group { margin-bottom: 1rem; }
         .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; }
+        .form-group input { width: 100%; padding: 0.7rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; }
         .form-group input:focus { outline: none; border-color: var(--primary); }
         .btn-guardar { padding: 0.7rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; }
-        .btn-agregar { padding: 0.6rem 1.2rem; background: var(--primary-light); color: var(--primary); border: 2px dashed var(--primary); border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; }
-        .mascota-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .mascota-card { background: var(--bg); border-radius: var(--radius); padding: 1.25rem; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
-        .mascota-card h4 { font-family: 'Fredoka One', cursive; }
-        .item-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
-        .badge-estado { padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.75rem; font-weight: 800; }
+        .btn-agregar { padding: 0.6rem 1.2rem; background: var(--primary-light); color: var(--primary); border: 2px dashed var(--primary); border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; margin-top: 1rem; }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .mini-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
+        .mini-card h4 { font-family: 'Fredoka One', cursive; font-size: 1rem; }
+        .item-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+        .badge { padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 800; }
         .badge-ok { background: #D1FAE5; color: #059669; }
         .badge-pend { background: #FEF3C7; color: #D97706; }
+        .badge-blue { background: #DBEAFE; color: #2563EB; }
+        .btn-chico { padding: 0.3rem 0.8rem; border-radius: 15px; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.75rem; }
+        .btn-rojo { background: #FEE2E2; color: #DC2626; }
         @media (max-width: 768px) { .perfil-grid { grid-template-columns: 1fr; } .perfil-sidebar { position: static; } }
     </style>
 </head>
@@ -58,32 +62,32 @@
         </div>
     </header>
 
-    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== PERFIL ========== -->
     <main class="perfil-page">
         <div class="container">
             <div class="perfil-grid">
-                <!-- Sidebar -->
+                <!-- SIDEBAR -->
                 <aside class="perfil-sidebar">
                     <div class="perfil-avatar">
-                        <img src="../assets/img/placeholder.png" alt="Avatar" id="avatarPerfil">
+                        <img src="../assets/img/placeholder.png" alt="Avatar">
                         <h3 id="nombrePerfil">Juan Pérez</h3>
-                        <p style="color:var(--text-light);font-size:0.85rem;" id="emailPerfil">juan@email.com</p>
+                        <p id="emailPerfil">juan@email.com</p>
                     </div>
                     <nav class="perfil-menu">
                         <a href="#" class="active" onclick="cambiarTab('datos')"><i class="fas fa-user-edit"></i> Editar Datos</a>
                         <a href="#" onclick="cambiarTab('mascotas')"><i class="fas fa-paw"></i> Mis Mascotas</a>
                         <a href="#" onclick="cambiarTab('paseos')"><i class="fas fa-calendar"></i> Mis Paseos</a>
                         <a href="#" onclick="cambiarTab('pedidos')"><i class="fas fa-shopping-bag"></i> Mis Pedidos</a>
+                        <a href="#" onclick="cambiarTab('direcciones')"><i class="fas fa-map-marker-alt"></i> Mis Direcciones</a>
                         <a href="#" onclick="cerrarSesion()" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
                     </nav>
                 </aside>
 
-                <!-- Contenido -->
+                <!-- CONTENIDO -->
                 <div class="perfil-content">
-                    <!-- TAB: Editar Datos -->
+                    
+                    <!-- TAB: Datos -->
                     <div class="tab active" id="tab-datos">
                         <h2>✏️ Editar Mis Datos</h2>
                         <form onsubmit="return guardarDatos(event)">
@@ -101,51 +105,53 @@
                     <!-- TAB: Mascotas -->
                     <div class="tab" id="tab-mascotas">
                         <h2>🐾 Mis Mascotas</h2>
-                        <div class="mascota-grid" id="mascotasContainer">
-                            <div class="mascota-card"><h4>🐕 Max</h4><p style="color:var(--text-light);">Golden Retriever • 3 años</p></div>
-                            <div class="mascota-card"><h4>🐱 Luna</h4><p style="color:var(--text-light);">Siamés • 2 años</p></div>
+                        <div class="grid-cards" id="mascotasContainer">
+                            <div class="mini-card"><h4>🐕 Max</h4><p style="color:var(--text-light);font-size:0.85rem;">Golden • 3 años</p></div>
+                            <div class="mini-card"><h4>🐱 Luna</h4><p style="color:var(--text-light);font-size:0.85rem;">Siamés • 2 años</p></div>
                         </div>
-                        <button class="btn-agregar" onclick="agregarMascota()" style="margin-top:1rem;"><i class="fas fa-plus"></i> Agregar Mascota</button>
+                        <button class="btn-agregar" onclick="agregarMascota()"><i class="fas fa-plus"></i> Agregar Mascota</button>
                     </div>
 
                     <!-- TAB: Paseos -->
                     <div class="tab" id="tab-paseos">
                         <h2>📅 Mis Paseos</h2>
-                        <div class="item-card"><div><strong>Paseo Estándar - Max</strong><p style="color:var(--text-light);">26/06/2024 • 10:00 AM</p></div><span class="badge-estado badge-ok">Confirmado</span></div>
-                        <div class="item-card"><div><strong>Paseo Express - Max</strong><p style="color:var(--text-light);">24/06/2024 • 8:00 AM</p></div><span class="badge-estado badge-ok">Completado</span></div>
+                        <div class="item-card"><div><strong>Paseo Estándar - Max</strong><p style="color:var(--text-light);font-size:0.85rem;">26/06/2024 • 10:00 AM</p></div><span class="badge badge-ok">Confirmado</span></div>
+                        <div class="item-card"><div><strong>Paseo Express - Max</strong><p style="color:var(--text-light);font-size:0.85rem;">24/06/2024 • 8:00 AM</p></div><span class="badge badge-ok">Completado</span></div>
                     </div>
 
                     <!-- TAB: Pedidos -->
                     <div class="tab" id="tab-pedidos">
                         <h2>🛍️ Mis Pedidos</h2>
-                        <div class="item-card"><div><strong>Pedido #2024001</strong><p style="color:var(--text-light);">Royal Canin Adult 2kg</p></div><span class="badge-estado badge-ok">Entregado</span><span style="font-weight:800;">$19.999</span></div>
-                        <div class="item-card"><div><strong>Pedido #2024002</strong><p style="color:var(--text-light);">Cama Ortopédica</p></div><span class="badge-estado badge-pend">En camino</span><span style="font-weight:800;">$45.990</span></div>
+                        <div class="item-card"><div><strong>#2024001 - Royal Canin 2kg</strong><p style="color:var(--text-light);font-size:0.85rem;">25/06/2024</p></div><span class="badge badge-ok">Entregado</span><span style="font-weight:800;">$19.999</span></div>
+                        <div class="item-card"><div><strong>#2024002 - Cama Ortopédica</strong><p style="color:var(--text-light);font-size:0.85rem;">20/06/2024</p></div><span class="badge badge-blue">En camino</span><span style="font-weight:800;">$45.990</span></div>
+                    </div>
+
+                    <!-- TAB: Direcciones -->
+                    <div class="tab" id="tab-direcciones">
+                        <h2>📍 Mis Direcciones</h2>
+                        <div id="direccionesContainer">
+                            <div class="item-card"><div><strong>🏠 Casa</strong><p style="color:var(--text-light);font-size:0.85rem;">Calle 123 #45-67, Bogotá</p></div><span class="badge badge-ok">Principal</span><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button></div>
+                            <div class="item-card"><div><strong>🏢 Oficina</strong><p style="color:var(--text-light);font-size:0.85rem;">Carrera 15 #93-25, Bogotá</p></div><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button></div>
+                        </div>
+                        <button class="btn-agregar" onclick="agregarDireccion()"><i class="fas fa-plus"></i> Agregar Dirección</button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- ========== FOOTER ========== -->
     <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
     <script>
-        // Header sticky
         window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
-        
-        // Menú móvil
         document.querySelector('.mobile-menu-btn').onclick = function() {
             document.querySelector('.nav-links').classList.toggle('active');
-            const i = this.querySelector('i');
-            i.classList.toggle('fa-bars'); i.classList.toggle('fa-times');
+            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
         };
-
-        // Verificar sesión
         if (localStorage.getItem('petfyLogged') !== 'true') { window.location.href = 'login.html'; }
 
-        // Cargar datos del usuario
         const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
         if (user.nombre) {
             document.getElementById('nombrePerfil').textContent = user.nombre + ' ' + (user.apellido || '');
@@ -156,7 +162,6 @@
             document.getElementById('editTelefono').value = user.telefono || '';
         }
 
-        // Cambiar tabs
         function cambiarTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.perfil-menu a').forEach(a => a.classList.remove('active'));
@@ -164,39 +169,38 @@
             event.target.closest('a').classList.add('active');
         }
 
-        // Guardar datos
         function guardarDatos(e) {
             e.preventDefault();
-            const user = {
-                nombre: document.getElementById('editNombre').value.trim(),
-                apellido: document.getElementById('editApellido').value.trim(),
-                email: document.getElementById('editEmail').value.trim(),
-                telefono: document.getElementById('editTelefono').value.trim()
-            };
-            localStorage.setItem('petfyUser', JSON.stringify(user));
-            document.getElementById('nombrePerfil').textContent = user.nombre + ' ' + user.apellido;
-            document.getElementById('emailPerfil').textContent = user.email;
+            const u = { nombre: document.getElementById('editNombre').value.trim(), apellido: document.getElementById('editApellido').value.trim(), email: document.getElementById('editEmail').value.trim(), telefono: document.getElementById('editTelefono').value.trim() };
+            localStorage.setItem('petfyUser', JSON.stringify(u));
+            document.getElementById('nombrePerfil').textContent = u.nombre + ' ' + u.apellido;
+            document.getElementById('emailPerfil').textContent = u.email;
             document.getElementById('saveMsg').style.display = 'inline';
             setTimeout(() => document.getElementById('saveMsg').style.display = 'none', 2000);
             return false;
         }
 
-        // Cerrar sesión
-        function cerrarSesion() {
-            localStorage.removeItem('petfyLogged');
-            localStorage.removeItem('petfyUser');
-            window.location.href = '../index.html';
-        }
+        function cerrarSesion() { localStorage.clear(); window.location.href = '../index.html'; }
 
-        // Agregar mascota
         function agregarMascota() {
             const nombre = prompt('Nombre de la mascota:');
             if (nombre) {
-                const tipo = prompt('Tipo (perro/gato):');
-                const div = document.createElement('div');
-                div.className = 'mascota-card';
-                div.innerHTML = `<h4>${tipo === 'gato' ? '🐱' : '🐕'} ${nombre}</h4><p style="color:var(--text-light);">${tipo || 'Mascota'}</p>`;
-                document.getElementById('mascotasContainer').appendChild(div);
+                const tipo = prompt('Tipo (perro/gato):', 'perro');
+                const d = document.createElement('div');
+                d.className = 'mini-card';
+                d.innerHTML = `<h4>${tipo === 'gato' ? '🐱' : '🐕'} ${nombre}</h4><p style="color:var(--text-light);font-size:0.85rem;">${tipo || 'Mascota'}</p>`;
+                document.getElementById('mascotasContainer').appendChild(d);
+            }
+        }
+
+        function agregarDireccion() {
+            const calle = prompt('Dirección (ej: Calle 123 #45-67):');
+            const ciudad = prompt('Ciudad:', 'Bogotá');
+            if (calle && ciudad) {
+                const d = document.createElement('div');
+                d.className = 'item-card';
+                d.innerHTML = `<div><strong>📍 Nueva</strong><p style="color:var(--text-light);font-size:0.85rem;">${calle}, ${ciudad}</p></div><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button>`;
+                document.getElementById('direccionesContainer').appendChild(d);
             }
         }
     </script>
