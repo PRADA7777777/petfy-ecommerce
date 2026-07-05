@@ -5,40 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Crea tu cuenta en Petfy">
     <title>Crear Cuenta - Petfy</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
-    
     <style>
-        .auth-page { display: flex; align-items: center; justify-content: center; min-height: 80vh; padding: 2rem; background: var(--gray-100); }
-        .auth-card { background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 420px; width: 100%; box-shadow: var(--shadow-lg); }
-        .auth-card h1 { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; color: var(--dark); }
-        .auth-card .subtitle { text-align: center; color: var(--gray-500); margin-bottom: 2rem; font-size: 0.9rem; }
+        .auth-page { display: flex; align-items: center; justify-content: center; min-height: 85vh; padding: 2rem; background: var(--bg); }
+        .auth-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(15px); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 460px; width: 100%; box-shadow: var(--shadow-lg); border: 1px solid rgba(255,255,255,0.9); }
+        .auth-card h1 { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; color: var(--text); margin-bottom: 0.5rem; }
+        .auth-card .sub { text-align: center; color: var(--text-light); margin-bottom: 2rem; font-size: 0.9rem; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; font-weight: 600; color: var(--gray-700); margin-bottom: 0.4rem; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 0.85rem 1rem; border: 2px solid var(--gray-200); border-radius: var(--radius); font-family: inherit; font-size: 0.95rem; transition: var(--transition); }
+        .form-group { margin-bottom: 1.1rem; }
+        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
+        .form-group input { width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.95rem; transition: var(--transition); }
         .form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
-        .btn-auth { width: 100%; padding: 0.9rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 700; font-size: 1rem; cursor: pointer; font-family: inherit; transition: var(--transition); }
+        .btn-auth { width: 100%; padding: 0.85rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem; cursor: pointer; transition: var(--transition); }
         .btn-auth:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--gray-500); }
-        .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-light); }
+        .auth-footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
     </style>
 </head>
 <body>
-    
-    <!-- ========== HEADER ========== -->
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/index.html" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
-                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
+                    <a href="registro.html" class="icon-link active"><i class="fas fa-user-plus"></i></a>
                     <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                 </div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
@@ -46,15 +43,12 @@
         </div>
     </header>
 
-    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== FORMULARIO ========== -->
     <main class="auth-page">
         <div class="auth-card">
             <h1>Crear Cuenta</h1>
-            <p class="subtitle">Únete a la familia Petfy</p>
-            
+            <p class="sub">Únete a la familia Petfy 🐾</p>
             <form onsubmit="return registro(event)">
                 <div class="form-row">
                     <div class="form-group"><label>Nombre</label><input type="text" id="regNombre" required placeholder="Nombre"></div>
@@ -63,38 +57,27 @@
                 <div class="form-group"><label>Email</label><input type="email" id="regEmail" required placeholder="tu@email.com"></div>
                 <div class="form-group"><label>Teléfono</label><input type="tel" id="regTelefono" placeholder="+57 300 123 4567"></div>
                 <div class="form-group"><label>Contraseña</label><input type="password" id="regPassword" required placeholder="Mínimo 8 caracteres"></div>
-                <div class="form-group"><label>Confirmar Contraseña</label><input type="password" id="regPassword2" required placeholder="Repite la contraseña"></div>
                 <button type="submit" class="btn-auth">Crear Cuenta</button>
             </form>
-            
             <p class="auth-footer">¿Ya tienes cuenta? <a href="login.html">Iniciar Sesión</a></p>
         </div>
     </main>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo"><p>Tu tienda de confianza.</p></div>
-                <div class="footer-col"><h4>Cuenta</h4><ul><li><a href="login.html">Iniciar Sesión</a></li><li><a href="registro.html">Crear Cuenta</a></li></ul></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
-        </div>
-    </footer>
-
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
     <script src="../assets/js/main.js"></script>
     <script>
+        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
+        document.querySelector('.mobile-menu-btn').onclick = function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
+        };
         function registro(e) {
             e.preventDefault();
-            const nombre = document.getElementById('regNombre').value;
-            const email = document.getElementById('regEmail').value;
-            const pass1 = document.getElementById('regPassword').value;
-            const pass2 = document.getElementById('regPassword2').value;
-            
-            if (pass1 !== pass2) { alert('Las contraseñas no coinciden'); return false; }
-            if (pass1.length < 8) { alert('La contraseña debe tener al menos 8 caracteres'); return false; }
-            
-            alert('✅ Cuenta creada exitosamente. Bienvenido ' + nombre + '!');
+            const n = document.getElementById('regNombre').value;
+            const e2 = document.getElementById('regEmail').value;
+            const p = document.getElementById('regPassword').value;
+            if (p.length < 8) { alert('La contraseña debe tener al menos 8 caracteres'); return false; }
+            alert('✅ Cuenta creada exitosamente. Bienvenido ' + n + '! Te hemos enviado un email de verificación.');
             return false;
         }
     </script>

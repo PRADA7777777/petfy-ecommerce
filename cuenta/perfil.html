@@ -4,30 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Petfy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     <style>
-        .perfil-page { padding: 2rem 0 4rem; min-height: 70vh; }
-        .perfil-page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; }
-        .perfil-grid { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; }
-        .perfil-sidebar { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow); }
-        .perfil-sidebar a { display: block; padding: 0.75rem 1rem; border-radius: var(--radius-sm); text-decoration: none; color: var(--gray-700); font-weight: 500; transition: var(--transition); margin-bottom: 0.25rem; }
-        .perfil-sidebar a:hover, .perfil-sidebar a.active { background: var(--primary-light); color: var(--primary); }
+        .perfil-page { padding: 2rem 0 4rem; background: var(--bg); min-height: 100vh; }
+        .perfil-grid { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; }
+        .perfil-sidebar { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-radius: var(--radius-lg); padding: 1.5rem; position: sticky; top: 100px; border: 1px solid rgba(255,255,255,0.9); height: fit-content; }
+        .perfil-avatar { text-align: center; margin-bottom: 1.5rem; }
+        .perfil-avatar img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background: var(--bg); }
+        .perfil-avatar h3 { font-family: 'Fredoka One', cursive; color: var(--text); }
+        .perfil-menu { display: flex; flex-direction: column; gap: 0.25rem; }
+        .perfil-menu a { padding: 0.7rem 1rem; border-radius: var(--radius); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 0.6rem; transition: var(--transition); }
+        .perfil-menu a:hover, .perfil-menu a.active { background: var(--primary-light); color: var(--primary); }
         .perfil-content { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
-        @media (max-width: 768px) { .perfil-grid { grid-template-columns: 1fr; } }
+        .perfil-content h2 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1.5rem; }
+        .tab { display: none; }
+        .tab.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .mascota-card { background: var(--bg); border-radius: var(--radius); padding: 1.25rem; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
+        .mascota-card h4 { font-family: 'Fredoka One', cursive; }
+        .mascota-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .item-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
+        .badge-estado { padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.75rem; font-weight: 800; }
+        .badge-ok { background: #D1FAE5; color: #059669; }
+        .badge-pend { background: #FEF3C7; color: #D97706; }
+        @media (max-width: 768px) { .perfil-grid { grid-template-columns: 1fr; } .perfil-sidebar { position: static; } }
     </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/index.html" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
-                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
+                <div class="nav-actions">
+                    <a href="perfil.html" class="icon-link active"><i class="fas fa-user"></i></a>
+                    <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                </div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
@@ -37,24 +55,66 @@
 
     <main class="perfil-page">
         <div class="container">
-            <h1><i class="fas fa-user-circle"></i> Mi Perfil</h1>
             <div class="perfil-grid">
                 <aside class="perfil-sidebar">
-                    <a href="perfil.html" class="active"><i class="fas fa-user"></i> Información Personal</a>
-                    <a href="pedidos.html"><i class="fas fa-receipt"></i> Mis Pedidos</a>
-                    <a href="direcciones.html"><i class="fas fa-map-marked-alt"></i> Direcciones</a>
-                    <a href="../index.html" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    <div class="perfil-avatar">
+                        <img src="../assets/img/placeholder.png" alt="Avatar">
+                        <h3>Juan Pérez</h3>
+                    </div>
+                    <nav class="perfil-menu">
+                        <a href="#" class="active" onclick="cambiarTab('datos')"><i class="fas fa-user"></i> Mis Datos</a>
+                        <a href="#" onclick="cambiarTab('mascotas')"><i class="fas fa-paw"></i> Mis Mascotas</a>
+                        <a href="#" onclick="cambiarTab('paseos')"><i class="fas fa-calendar"></i> Mis Paseos</a>
+                        <a href="#" onclick="cambiarTab('pedidos')"><i class="fas fa-shopping-bag"></i> Mis Pedidos</a>
+                        <a href="../index.html" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </nav>
                 </aside>
                 <div class="perfil-content">
-                    <h3>Información Personal</h3>
-                    <p style="color:var(--gray-500);">Nombre: Usuario Petfy</p>
-                    <p style="color:var(--gray-500);">Email: usuario@petfy.com</p>
+                    <div class="tab active" id="tab-datos">
+                        <h2>👤 Mis Datos</h2>
+                        <p style="color:var(--text-light);">Nombre: <strong>Juan Pérez</strong></p>
+                        <p style="color:var(--text-light);">Email: <strong>juan@email.com</strong></p>
+                        <p style="color:var(--text-light);">Teléfono: <strong>+57 300 123 4567</strong></p>
+                    </div>
+                    <div class="tab" id="tab-mascotas">
+                        <h2>🐾 Mis Mascotas</h2>
+                        <div class="mascota-grid">
+                            <div class="mascota-card"><h4>🐕 Max</h4><p style="color:var(--text-light);">Golden Retriever • 3 años</p></div>
+                            <div class="mascota-card"><h4>🐱 Luna</h4><p style="color:var(--text-light);">Siamés • 2 años</p></div>
+                        </div>
+                    </div>
+                    <div class="tab" id="tab-paseos">
+                        <h2>📅 Mis Paseos</h2>
+                        <div class="item-card"><div><strong>Paseo Estándar - Max</strong><p style="color:var(--text-light);">26/06/2024 • 10:00 AM</p></div><span class="badge-estado badge-ok">Confirmado</span></div>
+                        <div class="item-card"><div><strong>Paseo Express - Max</strong><p style="color:var(--text-light);">24/06/2024 • 8:00 AM</p></div><span class="badge-estado badge-ok">Completado</span></div>
+                    </div>
+                    <div class="tab" id="tab-pedidos">
+                        <h2>🛍️ Mis Pedidos</h2>
+                        <div class="item-card"><div><strong>Pedido #2024001</strong><p style="color:var(--text-light);">Royal Canin Adult 2kg</p></div><span class="badge-estado badge-ok">Entregado</span><span>$19.999</span></div>
+                        <div class="item-card"><div><strong>Pedido #2024002</strong><p style="color:var(--text-light);">Cama Ortopédica</p></div><span class="badge-estado badge-pend">En camino</span><span>$45.990</span></div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    <footer class="footer">
+        <div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div>
+    </footer>
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
     <script src="../assets/js/main.js"></script>
+    <script>
+        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
+        document.querySelector('.mobile-menu-btn').onclick = function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
+        };
+        function cambiarTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.perfil-menu a').forEach(a => a.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.closest('a').classList.add('active');
+        }
+    </script>
 </body>
 </html>
