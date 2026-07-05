@@ -22,9 +22,15 @@
         .tab { display: none; }
         .tab.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; font-size: 0.85rem; }
+        .form-group input { width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        .btn-guardar { padding: 0.7rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; }
+        .btn-agregar { padding: 0.6rem 1.2rem; background: var(--primary-light); color: var(--primary); border: 2px dashed var(--primary); border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; }
+        .mascota-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .mascota-card { background: var(--bg); border-radius: var(--radius); padding: 1.25rem; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
         .mascota-card h4 { font-family: 'Fredoka One', cursive; }
-        .mascota-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
         .item-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
         .badge-estado { padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.75rem; font-weight: 800; }
         .badge-ok { background: #D1FAE5; color: #059669; }
@@ -33,6 +39,7 @@
     </style>
 </head>
 <body>
+    <!-- ========== HEADER ========== -->
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
@@ -51,69 +58,146 @@
         </div>
     </header>
 
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
+    <!-- ========== PERFIL ========== -->
     <main class="perfil-page">
         <div class="container">
             <div class="perfil-grid">
+                <!-- Sidebar -->
                 <aside class="perfil-sidebar">
                     <div class="perfil-avatar">
-                        <img src="../assets/img/placeholder.png" alt="Avatar">
-                        <h3>Juan Pérez</h3>
+                        <img src="../assets/img/placeholder.png" alt="Avatar" id="avatarPerfil">
+                        <h3 id="nombrePerfil">Juan Pérez</h3>
+                        <p style="color:var(--text-light);font-size:0.85rem;" id="emailPerfil">juan@email.com</p>
                     </div>
                     <nav class="perfil-menu">
-                        <a href="#" class="active" onclick="cambiarTab('datos')"><i class="fas fa-user"></i> Mis Datos</a>
+                        <a href="#" class="active" onclick="cambiarTab('datos')"><i class="fas fa-user-edit"></i> Editar Datos</a>
                         <a href="#" onclick="cambiarTab('mascotas')"><i class="fas fa-paw"></i> Mis Mascotas</a>
                         <a href="#" onclick="cambiarTab('paseos')"><i class="fas fa-calendar"></i> Mis Paseos</a>
                         <a href="#" onclick="cambiarTab('pedidos')"><i class="fas fa-shopping-bag"></i> Mis Pedidos</a>
-                        <a href="../index.html" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                        <a href="#" onclick="cerrarSesion()" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
                     </nav>
                 </aside>
+
+                <!-- Contenido -->
                 <div class="perfil-content">
+                    <!-- TAB: Editar Datos -->
                     <div class="tab active" id="tab-datos">
-                        <h2>👤 Mis Datos</h2>
-                        <p style="color:var(--text-light);">Nombre: <strong>Juan Pérez</strong></p>
-                        <p style="color:var(--text-light);">Email: <strong>juan@email.com</strong></p>
-                        <p style="color:var(--text-light);">Teléfono: <strong>+57 300 123 4567</strong></p>
+                        <h2>✏️ Editar Mis Datos</h2>
+                        <form onsubmit="return guardarDatos(event)">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                <div class="form-group"><label>Nombre</label><input type="text" id="editNombre" value="Juan"></div>
+                                <div class="form-group"><label>Apellido</label><input type="text" id="editApellido" value="Pérez"></div>
+                            </div>
+                            <div class="form-group"><label>Email</label><input type="email" id="editEmail" value="juan@email.com"></div>
+                            <div class="form-group"><label>Teléfono</label><input type="tel" id="editTelefono" value="+57 300 123 4567"></div>
+                            <button type="submit" class="btn-guardar"><i class="fas fa-save"></i> Guardar Cambios</button>
+                            <span id="saveMsg" style="color:var(--success);margin-left:1rem;display:none;">✅ Guardado</span>
+                        </form>
                     </div>
+
+                    <!-- TAB: Mascotas -->
                     <div class="tab" id="tab-mascotas">
                         <h2>🐾 Mis Mascotas</h2>
-                        <div class="mascota-grid">
+                        <div class="mascota-grid" id="mascotasContainer">
                             <div class="mascota-card"><h4>🐕 Max</h4><p style="color:var(--text-light);">Golden Retriever • 3 años</p></div>
                             <div class="mascota-card"><h4>🐱 Luna</h4><p style="color:var(--text-light);">Siamés • 2 años</p></div>
                         </div>
+                        <button class="btn-agregar" onclick="agregarMascota()" style="margin-top:1rem;"><i class="fas fa-plus"></i> Agregar Mascota</button>
                     </div>
+
+                    <!-- TAB: Paseos -->
                     <div class="tab" id="tab-paseos">
                         <h2>📅 Mis Paseos</h2>
                         <div class="item-card"><div><strong>Paseo Estándar - Max</strong><p style="color:var(--text-light);">26/06/2024 • 10:00 AM</p></div><span class="badge-estado badge-ok">Confirmado</span></div>
                         <div class="item-card"><div><strong>Paseo Express - Max</strong><p style="color:var(--text-light);">24/06/2024 • 8:00 AM</p></div><span class="badge-estado badge-ok">Completado</span></div>
                     </div>
+
+                    <!-- TAB: Pedidos -->
                     <div class="tab" id="tab-pedidos">
                         <h2>🛍️ Mis Pedidos</h2>
-                        <div class="item-card"><div><strong>Pedido #2024001</strong><p style="color:var(--text-light);">Royal Canin Adult 2kg</p></div><span class="badge-estado badge-ok">Entregado</span><span>$19.999</span></div>
-                        <div class="item-card"><div><strong>Pedido #2024002</strong><p style="color:var(--text-light);">Cama Ortopédica</p></div><span class="badge-estado badge-pend">En camino</span><span>$45.990</span></div>
+                        <div class="item-card"><div><strong>Pedido #2024001</strong><p style="color:var(--text-light);">Royal Canin Adult 2kg</p></div><span class="badge-estado badge-ok">Entregado</span><span style="font-weight:800;">$19.999</span></div>
+                        <div class="item-card"><div><strong>Pedido #2024002</strong><p style="color:var(--text-light);">Cama Ortopédica</p></div><span class="badge-estado badge-pend">En camino</span><span style="font-weight:800;">$45.990</span></div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div>
-    </footer>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
     <script src="../assets/js/main.js"></script>
     <script>
+        // Header sticky
         window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
+        
+        // Menú móvil
         document.querySelector('.mobile-menu-btn').onclick = function() {
             document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
+            const i = this.querySelector('i');
+            i.classList.toggle('fa-bars'); i.classList.toggle('fa-times');
         };
+
+        // Verificar sesión
+        if (localStorage.getItem('petfyLogged') !== 'true') { window.location.href = 'login.html'; }
+
+        // Cargar datos del usuario
+        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (user.nombre) {
+            document.getElementById('nombrePerfil').textContent = user.nombre + ' ' + (user.apellido || '');
+            document.getElementById('emailPerfil').textContent = user.email;
+            document.getElementById('editNombre').value = user.nombre || '';
+            document.getElementById('editApellido').value = user.apellido || '';
+            document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editTelefono').value = user.telefono || '';
+        }
+
+        // Cambiar tabs
         function cambiarTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.perfil-menu a').forEach(a => a.classList.remove('active'));
             document.getElementById('tab-' + tab).classList.add('active');
             event.target.closest('a').classList.add('active');
+        }
+
+        // Guardar datos
+        function guardarDatos(e) {
+            e.preventDefault();
+            const user = {
+                nombre: document.getElementById('editNombre').value.trim(),
+                apellido: document.getElementById('editApellido').value.trim(),
+                email: document.getElementById('editEmail').value.trim(),
+                telefono: document.getElementById('editTelefono').value.trim()
+            };
+            localStorage.setItem('petfyUser', JSON.stringify(user));
+            document.getElementById('nombrePerfil').textContent = user.nombre + ' ' + user.apellido;
+            document.getElementById('emailPerfil').textContent = user.email;
+            document.getElementById('saveMsg').style.display = 'inline';
+            setTimeout(() => document.getElementById('saveMsg').style.display = 'none', 2000);
+            return false;
+        }
+
+        // Cerrar sesión
+        function cerrarSesion() {
+            localStorage.removeItem('petfyLogged');
+            localStorage.removeItem('petfyUser');
+            window.location.href = '../index.html';
+        }
+
+        // Agregar mascota
+        function agregarMascota() {
+            const nombre = prompt('Nombre de la mascota:');
+            if (nombre) {
+                const tipo = prompt('Tipo (perro/gato):');
+                const div = document.createElement('div');
+                div.className = 'mascota-card';
+                div.innerHTML = `<h4>${tipo === 'gato' ? '🐱' : '🐕'} ${nombre}</h4><p style="color:var(--text-light);">${tipo || 'Mascota'}</p>`;
+                document.getElementById('mascotasContainer').appendChild(div);
+            }
         }
     </script>
 </body>

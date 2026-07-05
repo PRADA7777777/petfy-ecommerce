@@ -4,41 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Direcciones - Petfy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     <style>
-        .direcciones-page { padding: 2rem 0 4rem; min-height: 70vh; }
-        .direcciones-page h1 { font-size: 2rem; font-weight: 800; margin-bottom: 2rem; }
-        .direccion-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--gray-200); margin-bottom: 1rem; }
-        .btn-agregar { padding: 0.75rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; font-family: inherit; }
+        .direcciones-page { padding: 2rem 0 4rem; background: var(--bg); min-height: 100vh; }
+        .direcciones-page h1 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 2rem; font-size: 2rem; }
+        .direccion-card { background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.04); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .direccion-principal { border-left: 4px solid var(--primary); }
+        .direccion-info h4 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 0.25rem; }
+        .direccion-info p { color: var(--text-light); font-size: 0.9rem; }
+        .badge-principal { background: var(--primary-light); color: var(--primary); padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.75rem; font-weight: 800; }
+        .btn-agregar { padding: 0.7rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; margin-top: 1rem; }
+        .btn-eliminar { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
 <body>
-    <header class="header">
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item"><a href="../tienda/index.html" class="nav-link">Tienda</a></li>
-                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
+                <div class="nav-actions">
+                    <a href="perfil.html" class="icon-link"><i class="fas fa-user"></i></a>
+                    <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
 
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
+    <!-- ========== DIRECCIONES ========== -->
     <main class="direcciones-page">
         <div class="container">
-            <h1><i class="fas fa-map-marked-alt"></i> Mis Direcciones</h1>
-            <div class="direccion-card"><strong>Casa</strong><p>Calle 123 #45-67, Bogotá</p></div>
-            <button class="btn-agregar"><i class="fas fa-plus"></i> Agregar Dirección</button>
+            <h1>📍 Mis Direcciones</h1>
+            
+            <div id="direccionesContainer">
+                <div class="direccion-card direccion-principal">
+                    <div class="direccion-info">
+                        <h4>🏠 Casa <span class="badge-principal">Principal</span></h4>
+                        <p>Calle 123 #45-67, Bogotá, Colombia</p>
+                    </div>
+                    <button class="btn-eliminar" onclick="eliminarDireccion(this)" title="Eliminar"><i class="fas fa-trash"></i></button>
+                </div>
+                
+                <div class="direccion-card">
+                    <div class="direccion-info">
+                        <h4>🏢 Oficina</h4>
+                        <p>Carrera 15 #93-25, Bogotá, Colombia</p>
+                    </div>
+                    <button class="btn-eliminar" onclick="eliminarDireccion(this)" title="Eliminar"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            
+            <button class="btn-agregar" onclick="agregarDireccion()"><i class="fas fa-plus"></i> Agregar Dirección</button>
         </div>
     </main>
 
-    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>Cuenta</h4><ul><li><a href="perfil.html">Mi Perfil</a></li><li><a href="pedidos.html">Mis Pedidos</a></li><li><a href="direcciones.html">Direcciones</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
     <script src="../assets/js/main.js"></script>
+    <script>
+        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
+        document.querySelector('.mobile-menu-btn').onclick = function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
+        };
+        if (localStorage.getItem('petfyLogged') !== 'true') { window.location.href = 'login.html'; }
+        
+        function agregarDireccion() {
+            const calle = prompt('Dirección (ej: Calle 123 #45-67):');
+            const ciudad = prompt('Ciudad:');
+            if (calle && ciudad) {
+                const div = document.createElement('div');
+                div.className = 'direccion-card';
+                div.innerHTML = `<div class="direccion-info"><h4>📍 Nueva Dirección</h4><p>${calle}, ${ciudad}</p></div><button class="btn-eliminar" onclick="eliminarDireccion(this)"><i class="fas fa-trash"></i></button>`;
+                document.getElementById('direccionesContainer').appendChild(div);
+            }
+        }
+        
+        function eliminarDireccion(btn) {
+            if (confirm('¿Eliminar esta dirección?')) { btn.closest('.direccion-card').remove(); }
+        }
+    </script>
 </body>
 </html>
