@@ -190,6 +190,241 @@
         }
     </style>
 </head>
+<!-- ========== MODAL DE LOGIN / REGISTRO ========== -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal-container">
+        <button class="modal-close" onclick="cerrarModal()">&times;</button>
+        
+        <!-- FORMULARIO LOGIN -->
+        <div id="formLogin">
+            <div class="modal-icon">🐾</div>
+            <h2>Iniciar Sesión</h2>
+            <p class="modal-sub">Bienvenido de vuelta a Petfy</p>
+            <form onsubmit="return loginModal(event)">
+                <div class="modal-input-group">
+                    <input type="email" id="modalEmail" placeholder="tu@email.com" required>
+                </div>
+                <div class="modal-input-group">
+                    <input type="password" id="modalPassword" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="modal-btn">Iniciar Sesión</button>
+                <p class="modal-error" id="modalError">Email o contraseña incorrectos</p>
+            </form>
+            <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
+        </div>
+
+        <!-- FORMULARIO REGISTRO -->
+        <div id="formRegistro" style="display:none;">
+            <div class="modal-icon">🐾</div>
+            <h2>Crear Cuenta</h2>
+            <p class="modal-sub">Únete a la familia Petfy</p>
+            <form onsubmit="return registroModal(event)">
+                <div class="modal-input-group">
+                    <input type="text" id="regModalNombre" placeholder="Nombre" required>
+                </div>
+                <div class="modal-input-group">
+                    <input type="email" id="regModalEmail" placeholder="tu@email.com" required>
+                </div>
+                <div class="modal-input-group">
+                    <input type="password" id="regModalPassword" placeholder="Contraseña (mín 8 caracteres)" required>
+                </div>
+                <button type="submit" class="modal-btn">Crear Cuenta</button>
+                <p class="modal-success" id="modalSuccess">✅ ¡Cuenta creada! Ya puedes iniciar sesión.</p>
+            </form>
+            <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Modal Overlay */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+    }
+    .modal-overlay.active { display: flex; }
+
+    /* Modal Container */
+    .modal-container {
+        background: var(--white);
+        border-radius: 30px;
+        padding: 2.5rem;
+        max-width: 420px;
+        width: 90%;
+        position: relative;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+        from { transform: translateY(30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Botón cerrar */
+    .modal-close {
+        position: absolute;
+        top: 15px; right: 20px;
+        background: none; border: none;
+        font-size: 1.5rem; color: var(--text-muted);
+        cursor: pointer; transition: var(--transition);
+    }
+    .modal-close:hover { color: var(--danger); }
+
+    /* Icono */
+    .modal-icon { font-size: 3rem; text-align: center; margin-bottom: 0.5rem; }
+    .modal-container h2 {
+        font-family: 'Fredoka One', cursive;
+        text-align: center; color: var(--text);
+        margin-bottom: 0.25rem; font-size: 1.5rem;
+    }
+    .modal-sub { text-align: center; color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+    /* Inputs */
+    .modal-input-group { margin-bottom: 1rem; }
+    .modal-input-group input {
+        width: 100%; padding: 0.85rem 1rem;
+        border: 2px solid rgba(0,0,0,0.08);
+        border-radius: 15px; font-family: 'Nunito', sans-serif;
+        font-size: 0.95rem; transition: var(--transition);
+    }
+    .modal-input-group input:focus {
+        outline: none; border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    /* Botón */
+    .modal-btn {
+        width: 100%; padding: 0.85rem;
+        background: var(--primary); color: var(--white);
+        border: none; border-radius: 50px;
+        font-family: 'Nunito', sans-serif; font-weight: 800;
+        font-size: 1rem; cursor: pointer; transition: var(--transition);
+    }
+    .modal-btn:hover { background: var(--primary-dark); }
+
+    /* Mensajes */
+    .modal-error { color: var(--danger); text-align: center; margin-top: 0.75rem; font-size: 0.85rem; display: none; }
+    .modal-success { color: var(--success); text-align: center; margin-top: 0.75rem; font-size: 0.85rem; display: none; }
+
+    /* Switch */
+    .modal-switch { text-align: center; margin-top: 1.25rem; font-size: 0.9rem; color: var(--text-light); }
+    .modal-switch a { color: var(--primary); text-decoration: none; font-weight: 700; cursor: pointer; }
+</style>
+
+<script>
+    // Abrir modal desde el icono de usuario
+    document.querySelectorAll('.icon-link[title="Mi cuenta"], .icon-link .fa-user').forEach(el => {
+        el.closest('a').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginModal').classList.add('active');
+        });
+    });
+
+    // Cerrar modal
+    function cerrarModal() {
+        document.getElementById('loginModal').classList.remove('active');
+    }
+
+    // Cerrar al hacer clic fuera
+    document.getElementById('loginModal').addEventListener('click', function(e) {
+        if (e.target === this) cerrarModal();
+    });
+
+    // Cerrar con ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') cerrarModal();
+    });
+
+    // Cambiar a registro
+    function mostrarRegistro() {
+        document.getElementById('formLogin').style.display = 'none';
+        document.getElementById('formRegistro').style.display = 'block';
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'none';
+    }
+
+    // Cambiar a login
+    function mostrarLogin() {
+        document.getElementById('formRegistro').style.display = 'none';
+        document.getElementById('formLogin').style.display = 'block';
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'none';
+    }
+
+    // Login desde modal
+    function loginModal(e) {
+        e.preventDefault();
+        const email = document.getElementById('modalEmail').value.trim();
+        const password = document.getElementById('modalPassword').value.trim();
+
+        if (email && password.length >= 4) {
+            const usuario = {
+                nombre: email.split('@')[0],
+                apellido: '',
+                email: email,
+                telefono: ''
+            };
+            localStorage.setItem('petfyUser', JSON.stringify(usuario));
+            localStorage.setItem('petfyLogged', 'true');
+            actualizarNavbarUsuario(usuario.nombre);
+            cerrarModal();
+        } else {
+            document.getElementById('modalError').style.display = 'block';
+        }
+        return false;
+    }
+
+    // Registro desde modal
+    function registroModal(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('regModalNombre').value.trim();
+        const email = document.getElementById('regModalEmail').value.trim();
+        const password = document.getElementById('regModalPassword').value.trim();
+
+        if (password.length < 8) {
+            alert('La contraseña debe tener al menos 8 caracteres');
+            return false;
+        }
+
+        const usuario = {
+            nombre: nombre,
+            apellido: '',
+            email: email,
+            telefono: ''
+        };
+        localStorage.setItem('petfyUser', JSON.stringify(usuario));
+        localStorage.setItem('petfyLogged', 'true');
+
+        document.getElementById('modalSuccess').style.display = 'block';
+        setTimeout(() => {
+            actualizarNavbarUsuario(nombre);
+            cerrarModal();
+            mostrarLogin(); // Reset para próxima vez
+        }, 1500);
+        return false;
+    }
+
+    // Actualizar navbar después de login
+    function actualizarNavbarUsuario(nombre) {
+        document.querySelectorAll('.icon-link[title="Mi cuenta"]').forEach(link => {
+            link.href = 'cuenta/perfil.html';
+            link.innerHTML = '<i class="fas fa-user-check"></i>';
+            link.title = 'Mi Perfil';
+        });
+    }
+
+    // Si ya está logueado, mostrar perfil
+    if (localStorage.getItem('petfyLogged') === 'true') {
+        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (user.nombre) actualizarNavbarUsuario(user.nombre);
+    }
+</script>
 <body class="servicios-page">
     
     <!-- ========== HEADER / NAVBAR ========== -->
@@ -218,9 +453,14 @@
                         <i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button>
                     </div>
                     <div class="user-actions">
-                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
-                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                    </div>
+    <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta">
+        <i class="fas fa-user"></i>
+    </a>
+    <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </a>
+</div>
                 </div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
