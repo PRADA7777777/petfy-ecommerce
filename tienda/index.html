@@ -75,18 +75,26 @@
 <body>
 
     <!-- HEADER -->
+    <!-- ========== HEADER / NAVBAR ========== -->
     <header class="header" id="mainHeader">
-        <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
-            <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy" style="height:45px;"></a>
-            <ul style="display:flex;list-style:none;gap:0.5rem;">
-                <li><a href="index.html" style="font-weight:800;color:#E0633F;text-decoration:none;padding:0.5rem 1rem;border-radius:20px;background:rgba(224,99,63,0.1);">Tienda</a></li>
-                <li><a href="../servicios/" style="font-weight:700;color:#1F1B24;text-decoration:none;padding:0.5rem 1rem;">Servicios</a></li>
-                <li><a href="../contacto/" style="font-weight:700;color:#1F1B24;text-decoration:none;padding:0.5rem 1rem;">Contacto</a></li>
-            </ul>
-            <div style="display:flex;align-items:center;gap:0.75rem;">
-                <input type="text" placeholder="Buscar..." style="padding:0.5rem 1rem;border-radius:20px;border:1px solid rgba(0,0,0,0.1);font-family:inherit;">
-                <a href="carrito.html" style="color:#1F1B24;font-size:1.2rem;"><i class="fas fa-shopping-cart"></i></a>
-            </div>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Selecciona una ciudad</option><option value="bogota">Bogotá</option><option value="medellin">Medellín</option><option value="cali">Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="user-actions">
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
         </div>
     </header>
 
