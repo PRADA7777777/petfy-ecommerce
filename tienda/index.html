@@ -3,309 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tienda Petfy - Encuentra todo para tu mascota. Alimentación, accesorios, higiene y más.">
+    <meta name="description" content="Tienda Petfy - Productos para tu mascota">
     <title>Tienda - Petfy | Productos para Mascotas</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
-    
     <style>
-        .tienda-page { background: var(--bg); }
-
-        /* Header Tienda con doodles */
-        .tienda-header {
-            background: linear-gradient(160deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
-            padding: 4.5rem 0 5.5rem; text-align: center; position: relative; overflow: hidden;
-            border-radius: 0 0 40% 40% / 0 0 8% 8%;
+        body { background: #F4EBE2; font-family: 'Nunito', sans-serif; }
+        .tienda-banner {
+            background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
+            padding: 4rem 0 5rem; text-align: center; border-radius: 0 0 40% 40% / 0 0 8% 8%;
+            position: relative; overflow: hidden;
         }
+        .tienda-banner h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; color: #1F1B24; }
+        .tienda-banner p { color: #4B5563; font-size: 1.1rem; }
         .doodle {
-            position: absolute; pointer-events: none; z-index: 1;
-            opacity: 0.28; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.04));
+            position: absolute; opacity: 0.25; pointer-events: none; z-index: 1;
+            font-size: 2.5rem; animation: flotar 5s ease-in-out infinite;
         }
-        .doodle-1 { top: 10%; left: 4%; font-size: 3.5rem; animation: floatDoodle 5s ease-in-out infinite; }
-        .doodle-2 { top: 18%; right: 6%; font-size: 2.8rem; animation: floatDoodle 6.5s ease-in-out 1s infinite; }
-        .doodle-3 { bottom: 22%; left: 8%; font-size: 2.2rem; animation: floatDoodle 4.5s ease-in-out 0.5s infinite; }
-        .doodle-4 { bottom: 18%; right: 10%; font-size: 3.2rem; animation: floatDoodle 7s ease-in-out 2s infinite; }
-        .doodle-5 { top: 40%; left: 50%; font-size: 2rem; animation: floatDoodle 5.5s ease-in-out 0.8s infinite; }
-        .doodle-6 { top: 55%; right: 20%; font-size: 2.5rem; animation: floatDoodle 4s ease-in-out 1.5s infinite; }
-
-        @keyframes floatDoodle {
+        .d1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .d2 { top: 20%; right: 8%; animation-delay: 1s; }
+        .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; }
+        .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
+        .d5 { top: 45%; left: 50%; animation-delay: 0.8s; font-size: 2rem; }
+        @keyframes flotar {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(4deg); }
-            50% { transform: translateY(-8px) rotate(-3deg); }
-            75% { transform: translateY(-20px) rotate(2deg); }
+            50% { transform: translateY(-18px) rotate(5deg); }
         }
-
-        .tienda-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; color: var(--text); position: relative; z-index: 2; margin-bottom: 0.5rem; }
-        .tienda-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
-
-        /* Contenido */
-        .tienda-content { padding: 2rem 0 4rem; }
-        .tienda-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; align-items: start; }
-
-        /* Sidebar */
-        .tienda-sidebar {
-            background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
-            padding: 1.5rem; position: sticky; top: 100px; box-shadow: var(--shadow-sm);
+        .contenido { padding: 2rem 0 4rem; max-width: 1200px; margin: 0 auto; padding: 2rem 20px 4rem; }
+        .layout { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; }
+        .sidebar {
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(12px);
+            border-radius: 20px; padding: 1.5rem; position: sticky; top: 100px;
+            border: 1px solid rgba(255,255,255,0.9);
         }
-        .tienda-sidebar h3 { font-family: 'Fredoka One', cursive; margin-bottom: 1rem; color: var(--text); font-size: 1.1rem; }
-        .filter-section { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .filter-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .filter-title { font-weight: 800; margin-bottom: 0.5rem; font-size: 0.88rem; color: var(--text); }
-        .filter-options { display: flex; flex-direction: column; gap: 0.4rem; }
-        .filter-option { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.84rem; color: var(--text-light); }
-        .filter-option input { accent-color: var(--primary); }
-        .filter-option .count { color: var(--text-muted); font-size: 0.73rem; margin-left: auto; }
-
-        .btn-aplicar {
-            width: 100%; padding: 0.65rem; background: var(--primary); color: var(--white);
-            border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
-            font-weight: 800; cursor: pointer; transition: var(--transition); font-size: 0.85rem;
+        .sidebar h3 { font-family: 'Fredoka One', cursive; margin-bottom: 1rem; font-size: 1.1rem; }
+        .filtro { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .filtro:last-child { border: none; }
+        .filtro h4 { font-weight: 800; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .filtro label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer; padding: 0.2rem 0; color: #4B5563; }
+        .filtro input { accent-color: #E0633F; }
+        .btn-filtro {
+            width: 100%; padding: 0.6rem; border-radius: 25px; font-weight: 800; cursor: pointer;
+            font-family: 'Nunito', sans-serif; font-size: 0.85rem; border: none; margin-top: 0.5rem;
         }
-        .btn-aplicar:hover { background: var(--primary-dark); }
-        .btn-limpiar {
-            width: 100%; padding: 0.65rem; background: transparent; color: var(--text-light);
-            border: 2px solid rgba(0,0,0,0.08); border-radius: var(--radius-btn);
-            font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer;
-            transition: var(--transition); font-size: 0.85rem; margin-top: 0.5rem;
-        }
-        .btn-limpiar:hover { border-color: var(--primary); color: var(--primary); }
-
-        /* Toolbar */
-        .tienda-toolbar {
+        .btn-aplicar { background: #E0633F; color: white; }
+        .btn-limpiar { background: transparent; color: #4B5563; border: 2px solid rgba(0,0,0,0.1); }
+        .toolbar {
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 1.5rem; background: var(--white); padding: 1rem 1.5rem;
-            border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+            background: white; padding: 1rem 1.5rem; border-radius: 20px; margin-bottom: 1.5rem;
         }
-        .results-count { color: var(--text-light); font-size: 0.88rem; }
-        .results-count strong { color: var(--primary); }
-        .sort-select {
-            padding: 0.5rem 1rem; border: 2px solid rgba(0,0,0,0.06);
-            border-radius: 25px; font-family: 'Nunito', sans-serif; cursor: pointer;
-            font-size: 0.85rem; background: var(--white);
+        .toolbar span { color: #4B5563; font-size: 0.9rem; }
+        .toolbar strong { color: #E0633F; }
+        .toolbar select {
+            padding: 0.5rem 1rem; border-radius: 20px; border: 2px solid rgba(0,0,0,0.06);
+            font-family: 'Nunito', sans-serif;
         }
-
-        /* Grid productos */
-        .tienda-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr)); gap: 1.5rem; }
-
-        .product-placeholder {
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+        .placeholder-card {
             display: flex; align-items: center; justify-content: center;
-            min-height: 280px; border: 2px dashed rgba(0,0,0,0.08);
-            border-radius: var(--radius-lg); background: transparent;
-        }
-        .placeholder-content { text-align: center; color: var(--text-muted); }
-        .placeholder-content i { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; }
-
-        /* Móvil */
-        .mobile-filter-btn {
-            display: none; width: 100%; padding: 0.75rem;
-            background: var(--white); border: 2px solid rgba(0,0,0,0.08);
-            border-radius: var(--radius); font-family: 'Nunito', sans-serif;
-            font-weight: 700; cursor: pointer; margin-bottom: 1rem;
-        }
-        .filter-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 998; }
-        .filter-overlay.active { display: block; }
-
-        @media (max-width: 1024px) {
-            .tienda-layout { grid-template-columns: 1fr; }
-            .tienda-sidebar { position: fixed; left: -100%; top: 0; bottom: 0; width: 300px; z-index: 999; transition: left 0.3s; border-radius: 0; overflow-y: auto; }
-            .tienda-sidebar.active { left: 0; }
-            .mobile-filter-btn { display: block; }
+            min-height: 250px; border: 2px dashed rgba(0,0,0,0.1); border-radius: 30px;
         }
         @media (max-width: 768px) {
-            .tienda-header h1 { font-size: 2rem; }
-            .tienda-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
-        }
-        @media (max-width: 480px) {
-            .tienda-grid { grid-template-columns: 1fr 1fr; }
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .tienda-banner h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
-<body class="tienda-page">
-    
-    <!-- ========== HEADER / NAVBAR ========== -->
+<body>
+
+    <!-- HEADER -->
     <header class="header" id="mainHeader">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="index.html" class="nav-link active">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
-                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar productos..."><button>Buscar</button></div>
-                    <div class="user-actions">
-                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
-                        <a href="carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                    </div>
-                </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
-            </nav>
+        <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:1rem 0;">
+            <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy" style="height:45px;"></a>
+            <ul style="display:flex;list-style:none;gap:0.5rem;">
+                <li><a href="index.html" style="font-weight:800;color:#E0633F;text-decoration:none;padding:0.5rem 1rem;border-radius:20px;background:rgba(224,99,63,0.1);">Tienda</a></li>
+                <li><a href="../servicios/" style="font-weight:700;color:#1F1B24;text-decoration:none;padding:0.5rem 1rem;">Servicios</a></li>
+                <li><a href="../contacto/" style="font-weight:700;color:#1F1B24;text-decoration:none;padding:0.5rem 1rem;">Contacto</a></li>
+            </ul>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+                <input type="text" placeholder="Buscar..." style="padding:0.5rem 1rem;border-radius:20px;border:1px solid rgba(0,0,0,0.1);font-family:inherit;">
+                <a href="carrito.html" style="color:#1F1B24;font-size:1.2rem;"><i class="fas fa-shopping-cart"></i></a>
+            </div>
         </div>
     </header>
 
-    <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+    <!-- BREADCRUMB -->
+    <div style="background:rgba(244,235,226,0.6);padding:0.5rem 0;font-size:0.8rem;color:#9CA3AF;">
+        <div class="container"><a href="../index.html" style="color:#9CA3AF;text-decoration:none;">Inicio</a> › <strong style="color:#1F1B24;">Tienda</strong></div>
+    </div>
 
-    <!-- ========== HEADER TIENDA ========== -->
-    <section class="tienda-header">
-        <span class="doodle doodle-1">🛍️</span>
-        <span class="doodle doodle-2">🐾</span>
-        <span class="doodle doodle-3">🦴</span>
-        <span class="doodle doodle-4">⭐</span>
-        <span class="doodle doodle-5">🐕</span>
-        <span class="doodle doodle-6">✨</span>
+    <!-- BANNER TIENDA -->
+    <section class="tienda-banner">
+        <span class="doodle d1">🛍️</span>
+        <span class="doodle d2">🐾</span>
+        <span class="doodle d3">🦴</span>
+        <span class="doodle d4">⭐</span>
+        <span class="doodle d5">🐕</span>
         <h1>Nuestra Tienda</h1>
-        <p>Encuentra todo lo que necesitas para tu mascota. Productos de calidad al mejor precio.</p>
+        <p>Encuentra todo lo que necesitas para tu mascota</p>
     </section>
 
-    <!-- ========== CONTENIDO ========== -->
-    <section class="tienda-content">
-        <div class="container">
-            <button class="mobile-filter-btn" onclick="toggleFilters()"><i class="fas fa-filter"></i> Filtros</button>
-            <div class="filter-overlay" id="filterOverlay" onclick="toggleFilters()"></div>
-            
-            <div class="tienda-layout">
-                <aside class="tienda-sidebar" id="shopSidebar">
-                    <h3><i class="fas fa-sliders-h"></i> Filtros</h3>
-                    <div class="filter-section">
-                        <div class="filter-title">Categorías</div>
-                        <div class="filter-options">
-                            <label class="filter-option"><input type="checkbox" value="alimentacion" onchange="aplicarFiltros()"> Alimentación <span class="count">(2)</span></label>
-                            <label class="filter-option"><input type="checkbox" value="hogar" onchange="aplicarFiltros()"> Hogar <span class="count">(1)</span></label>
-                            <label class="filter-option"><input type="checkbox" value="accesorios" onchange="aplicarFiltros()"> Accesorios <span class="count">(1)</span></label>
-                            <label class="filter-option"><input type="checkbox" value="higiene" onchange="aplicarFiltros()"> Higiene <span class="count">(1)</span></label>
+    <!-- CONTENIDO -->
+    <section class="contenido">
+        <div class="layout">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <h3>🔍 Filtros</h3>
+                <div class="filtro">
+                    <h4>Categorías</h4>
+                    <label><input type="checkbox"> Alimentación</label>
+                    <label><input type="checkbox"> Hogar</label>
+                    <label><input type="checkbox"> Accesorios</label>
+                    <label><input type="checkbox"> Higiene</label>
+                </div>
+                <div class="filtro">
+                    <h4>Precio</h4>
+                    <div style="display:flex;gap:0.5rem;">
+                        <input type="number" placeholder="Min" style="width:100%;padding:0.4rem;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-family:inherit;">
+                        <input type="number" placeholder="Max" style="width:100%;padding:0.4rem;border-radius:8px;border:1px solid rgba(0,0,0,0.1);font-family:inherit;">
+                    </div>
+                </div>
+                <button class="btn-filtro btn-aplicar">Aplicar Filtros</button>
+                <button class="btn-filtro btn-limpiar">Limpiar</button>
+            </aside>
+
+            <!-- PRODUCTOS -->
+            <div>
+                <div class="toolbar">
+                    <span>Mostrando <strong>5</strong> productos</span>
+                    <select>
+                        <option>Destacados</option>
+                        <option>Precio: Menor a Mayor</option>
+                        <option>Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+
+                <div class="grid">
+                    <!-- PRODUCTO 1 -->
+                    <article class="product-card">
+                        <div class="product-image">
+                            <span class="product-badge">-20%</span>
+                            <img src="../assets/img/productos/producto-01.jpg" alt="Royal Canin" style="width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;" onerror="this.style.background='#eee'">
                         </div>
-                    </div>
-                    <div class="filter-section">
-                        <div class="filter-title">Mascota</div>
-                        <div class="filter-options">
-                            <label class="filter-option"><input type="checkbox" value="perros" onchange="aplicarFiltros()"> Perros <span class="count">(4)</span></label>
-                            <label class="filter-option"><input type="checkbox" value="gatos" onchange="aplicarFiltros()"> Gatos <span class="count">(1)</span></label>
+                        <div class="product-info">
+                            <span class="product-brand">Royal Canin</span>
+                            <h3 class="product-title">Alimento Adulto Raza Pequeña 2kg</h3>
+                            <div class="product-price"><span class="old-price">$25.000</span><span class="current-price">$19.999</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
                         </div>
-                    </div>
-                    <div class="filter-section">
-                        <div class="filter-title">Precio</div>
-                        <div style="display:flex;gap:0.5rem;">
-                            <input type="number" placeholder="Min" id="priceMin" style="width:100%;padding:0.5rem;border:2px solid rgba(0,0,0,0.06);border-radius:8px;font-family:inherit;" onchange="aplicarFiltros()">
-                            <input type="number" placeholder="Max" id="priceMax" style="width:100%;padding:0.5rem;border:2px solid rgba(0,0,0,0.06);border-radius:8px;font-family:inherit;" onchange="aplicarFiltros()">
+                    </article>
+
+                    <!-- PRODUCTO 2 -->
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/img/productos/producto-02.jpg" alt="Cama" style="width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;" onerror="this.style.background='#eee'">
                         </div>
-                    </div>
-                    <button class="btn-aplicar" onclick="aplicarFiltros()"><i class="fas fa-check"></i> Aplicar Filtros</button>
-                    <button class="btn-limpiar" onclick="limpiarFiltros()"><i class="fas fa-times"></i> Limpiar Filtros</button>
-                </aside>
-                
-                <div>
-                    <div class="tienda-toolbar">
-                        <span class="results-count">Mostrando <strong id="resultsNumber">5</strong> productos</span>
-                        <select class="sort-select" onchange="ordenarProductos(this.value)">
-                            <option value="featured">Destacados</option>
-                            <option value="price-asc">Precio: Menor a Mayor</option>
-                            <option value="price-desc">Precio: Mayor a Menor</option>
-                        </select>
-                    </div>
-                    
-                    <div class="tienda-grid" id="productsGrid">
-                        
-                        <!-- Producto 1 -->
-                        <article class="product-card" data-categoria="alimentacion" data-precio="19999" data-mascota="perros">
-                            <div class="product-image">
-                                <span class="product-badge">-20%</span>
-                                <img src="../assets/img/productos/producto-01.jpg" alt="Royal Canin Adult" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
-                                <div class="product-actions">
-                                    <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
-                                    <button class="action-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <span class="product-brand">Royal Canin</span>
-                                <h3 class="product-title"><a href="producto.html?id=prod-01">Alimento Adulto Raza Pequeña 2kg</a></h3>
-                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>(128)</span></div>
-                                <div class="product-price"><span class="old-price">$25.000</span><span class="current-price">$19.999</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                            </div>
-                        </article>
-                        
-                        <!-- Producto 2 -->
-                        <article class="product-card" data-categoria="hogar" data-precio="45990" data-mascota="perros">
-                            <div class="product-image">
-                                <img src="../assets/img/productos/producto-02.jpg" alt="Cama Ortopédica" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
-                                <div class="product-actions">
-                                    <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
-                                    <button class="action-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <span class="product-brand">PetStyle</span>
-                                <h3 class="product-title"><a href="producto.html?id=prod-02">Cama Ortopédica Memory Foam Grande</a></h3>
-                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(95)</span></div>
-                                <div class="product-price"><span class="current-price">$45.990</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                            </div>
-                        </article>
-                        
-                        <!-- Producto 3 -->
-                        <article class="product-card" data-categoria="alimentacion" data-precio="35990" data-mascota="perros">
-                            <div class="product-image">
-                                <span class="product-badge">Nuevo</span>
-                                <img src="../assets/img/productos/producto-03.jpg" alt="Pro Plan Adulto" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
-                                <div class="product-actions">
-                                    <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
-                                    <button class="action-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <span class="product-brand">Pro Plan</span>
-                                <h3 class="product-title"><a href="producto.html?id=prod-03">Pro Plan Adulto Raza Mediana 3kg</a></h3>
-                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(67)</span></div>
-                                <div class="product-price"><span class="current-price">$35.990</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                            </div>
-                        </article>
-                        
-                        <!-- Producto 4 - Kong -->
-                        <article class="product-card" data-categoria="accesorios" data-precio="25990" data-mascota="perros">
-                            <div class="product-image">
-                                <img src="../assets/img/productos/producto-04.jpg" alt="Kong Classic" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
-                                <div class="product-actions">
-                                    <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
-                                    <button class="action-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <span class="product-brand">Kong</span>
-                                <h3 class="product-title"><a href="producto.html?id=prod-04">Juguete Kong Classic Rojo</a></h3>
-                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(210)</span></div>
-                                <div class="product-price"><span class="current-price">$25.990</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                            </div>
-                        </article>
-                        
-                        <!-- Producto 5 - Shampoo -->
-                        <article class="product-card" data-categoria="higiene" data-precio="18990" data-mascota="perros">
-                            <div class="product-image">
-                                <img src="../assets/img/productos/producto-05.jpg" alt="Shampoo Hipoalergénico" loading="lazy" onerror="this.src='../assets/img/placeholder.png'">
-                                <div class="product-actions">
-                                    <button class="action-btn" title="Añadir al carrito"><i class="fas fa-cart-plus"></i></button>
-                                    <button class="action-btn" title="Favoritos"><i class="fas fa-heart"></i></button>
-                                </div>
-                            </div>
-                            <div class="product-info">
-                                <span class="product-brand">PetStyle</span>
-                                <h3 class="product-title"><a href="producto.html?id=prod-05">Shampoo Hipoalergénico 500ml</a></h3>
-                                <div class="product-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(45)</span></div>
-                                <div class="product-price"><span class="current-price">$18.990</span></div>
-                                <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
-                            </div>
-                        </article>
-                        
-                        <!-- Placeholder -->
-                        <div class="product-placeholder">
-                            <div class="placeholder-content"><i class="fas fa-plus-circle"></i><p>Próximamente más productos</p></div>
+                        <div class="product-info">
+                            <span class="product-brand">PetStyle</span>
+                            <h3 class="product-title">Cama Ortopédica Memory Foam</h3>
+                            <div class="product-price"><span class="current-price">$45.990</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+
+                    <!-- PRODUCTO 3 -->
+                    <article class="product-card">
+                        <div class="product-image">
+                            <span class="product-badge">Nuevo</span>
+                            <img src="../assets/img/productos/producto-03.jpg" alt="Pro Plan" style="width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;" onerror="this.style.background='#eee'">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">Pro Plan</span>
+                            <h3 class="product-title">Pro Plan Adulto Raza Mediana 3kg</h3>
+                            <div class="product-price"><span class="current-price">$35.990</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+
+                    <!-- PRODUCTO 4 -->
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/img/productos/producto-04.jpg" alt="Kong" style="width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;" onerror="this.style.background='#eee'">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">Kong</span>
+                            <h3 class="product-title">Juguete Kong Classic Rojo</h3>
+                            <div class="product-price"><span class="current-price">$25.990</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+
+                    <!-- PRODUCTO 5 -->
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/img/productos/producto-05.jpg" alt="Shampoo" style="width:100%;height:200px;object-fit:cover;border-radius:20px 20px 0 0;" onerror="this.style.background='#eee'">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-brand">PetStyle</span>
+                            <h3 class="product-title">Shampoo Hipoalergénico 500ml</h3>
+                            <div class="product-price"><span class="current-price">$18.990</span></div>
+                            <button class="btn-add-cart"><i class="fas fa-shopping-cart"></i> Agregar</button>
+                        </div>
+                    </article>
+
+                    <!-- PLACEHOLDER -->
+                    <div class="placeholder-card">
+                        <div style="text-align:center;color:#9CA3AF;">
+                            <i class="fas fa-plus-circle" style="font-size:2.5rem;display:block;margin-bottom:0.5rem;"></i>
+                            Próximamente
                         </div>
                     </div>
                 </div>
@@ -313,111 +221,42 @@
         </div>
     </section>
 
-    <!-- ========== FOOTER COMPLETO ========== -->
-    <footer class="footer">
+    <!-- FOOTER -->
+    <footer style="background:#064F56;color:white;padding:3rem 0 1.5rem;margin-top:2rem;">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Conócenos</h4>
-                    <ul>
-                        <li><a href="../nosotros/">Nosotros</a></li>
-                        <li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li>
-                        <li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li>
-                        <li><a href="../servicios/">Servicios</a></li>
-                        <li><a href="index.html">Tienda</a></li>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.1);">
+                <div>
+                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Conócenos</h4>
+                    <ul style="list-style:none;padding:0;">
+                        <li><a href="../nosotros/" style="color:rgba(255,255,255,0.75);text-decoration:none;">Nosotros</a></li>
+                        <li><a href="../servicios/" style="color:rgba(255,255,255,0.75);text-decoration:none;">Servicios</a></li>
+                        <li><a href="index.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Tienda</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h4>Información</h4>
-                    <ul>
-                        <li><a href="../legal/terminos.html">Términos y Condiciones</a></li>
-                        <li><a href="#faq">Preguntas Frecuentes</a></li>
-                        <li><a href="../legal/privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="../legal/envios.html">Políticas de Entrega</a></li>
-                        <li><a href="../legal/devoluciones.html">Devoluciones</a></li>
+                <div>
+                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Info</h4>
+                    <ul style="list-style:none;padding:0;">
+                        <li><a href="../legal/terminos.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Términos</a></li>
+                        <li><a href="../legal/privacidad.html" style="color:rgba(255,255,255,0.75);text-decoration:none;">Privacidad</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h4>Contáctanos</h4>
-                    <ul>
-                        <li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li>
-                        <li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li>
-                        <li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li>
-                        <li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li>
+                <div>
+                    <h4 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;">Contacto</h4>
+                    <ul style="list-style:none;padding:0;">
+                        <li><a href="https://wa.me/573204829244" style="color:rgba(255,255,255,0.75);text-decoration:none;"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li>
+                        <li><a href="mailto:petfyservice@gmail.com" style="color:rgba(255,255,255,0.75);text-decoration:none;"><i class="fas fa-envelope"></i> Email</a></li>
                     </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Suscríbete</h4>
-                    <p>Recibe noticias y promociones diarias</p>
-                    <form class="newsletter-form" onsubmit="return false;">
-                        <input type="email" placeholder="Correo electrónico" required>
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
-                    <div class="payment-methods" style="margin-top:1rem;">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-paypal"></i>
-                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
-                    <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
-                </div>
+            <div style="text-align:center;padding-top:1.5rem;color:rgba(255,255,255,0.5);font-size:0.85rem;">
+                <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <!-- WhatsApp Flotante -->
-    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Quiero%20comprar%20productos" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/573204829244" target="_blank" style="position:fixed;bottom:25px;right:25px;width:55px;height:55px;background:#25D366;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:999;text-decoration:none;box-shadow:0 4px 15px rgba(37,211,102,0.4);"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
-    <script>
-        // Header sticky
-        window.addEventListener('scroll', () => {
-            const h = document.getElementById('mainHeader');
-            h.classList.toggle('scrolled', window.scrollY > 50);
-        });
-        
-        // Menú móvil
-        document.querySelector('.mobile-menu-btn').onclick = function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            const i = this.querySelector('i');
-            i.classList.toggle('fa-bars'); i.classList.toggle('fa-times');
-        };
-        
-        // Filtros
-        function toggleFilters() {
-            document.getElementById('shopSidebar').classList.toggle('active');
-            document.getElementById('filterOverlay').classList.toggle('active');
-        }
-        function aplicarFiltros() {
-            const cats = Array.from(document.querySelectorAll('.filter-option input:checked')).map(c => c.value);
-            const min = +document.getElementById('priceMin')?.value || 0;
-            const max = +document.getElementById('priceMax')?.value || Infinity;
-            let n = 0;
-            document.querySelectorAll('.product-card:not(.product-placeholder)').forEach(c => {
-                const p = +c.dataset.precio || 0;
-                const ok = (cats.length === 0 || cats.includes(c.dataset.categoria)) && p >= min && p <= max;
-                c.style.display = ok ? '' : 'none';
-                if (ok) n++;
-            });
-            document.getElementById('resultsNumber').textContent = n;
-        }
-        function limpiarFiltros() {
-            document.querySelectorAll('.filter-option input').forEach(c => c.checked = false);
-            document.getElementById('priceMin').value = '';
-            document.getElementById('priceMax').value = '';
-            aplicarFiltros();
-        }
-        function ordenarProductos(c) {
-            const g = document.getElementById('productsGrid');
-            Array.from(g.querySelectorAll('.product-card:not(.product-placeholder)'))
-                .sort((a, b) => c === 'price-asc' ? (+a.dataset.precio - +b.dataset.precio) : (+b.dataset.precio - +a.dataset.precio))
-                .forEach(card => g.appendChild(card));
-        }
-    </script>
 </body>
 </html>
