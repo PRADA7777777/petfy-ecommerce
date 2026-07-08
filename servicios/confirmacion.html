@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación - Petfy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    <style>
+        .confirmacion-page { display:flex; align-items:center; justify-content:center; min-height:80vh; padding:2rem; background:var(--bg); }
+        .confirmacion-card { background:white; border-radius:30px; padding:3rem; text-align:center; max-width:500px; width:100%; box-shadow:0 20px 50px rgba(0,0,0,0.1); }
+        .confirmacion-icon { font-size:5rem; color:var(--success); margin-bottom:1rem; animation:bounceIn 0.6s ease; }
+        @keyframes bounceIn { 0%{transform:scale(0);} 50%{transform:scale(1.2);} 100%{transform:scale(1);} }
+        .confirmacion-card h1 { font-family:'Fredoka One',cursive; color:var(--text); margin-bottom:0.5rem; }
+        .confirmacion-card p { color:var(--text-light); margin-bottom:1.5rem; }
+        .confirmacion-detalle { background:var(--bg); border-radius:15px; padding:1.5rem; text-align:left; margin:1.5rem 0; }
+        .confirmacion-detalle strong { color:var(--primary); }
+    </style>
+</head>
+<body>
+    <header class="header"><div class="container"><nav class="navbar"><div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div></nav></div></header>
+    
+    <main class="confirmacion-page">
+        <div class="confirmacion-card" id="confirmacionCard">
+            <div class="confirmacion-icon">✅</div>
+            <h1>¡Pago Exitoso!</h1>
+            <p>Tu paseo ha sido confirmado</p>
+            <div class="confirmacion-detalle" id="detallePedido"></div>
+            <a href="../index.html" class="btn btn-primary">Volver al Inicio</a>
+        </div>
+    </main>
+    
+    <script>
+        var pedido = JSON.parse(localStorage.getItem('petfyUltimoPedido') || '{}');
+        if (pedido.referencia) {
+            document.getElementById('detallePedido').innerHTML = 
+                '<p><strong>📋 Referencia:</strong> ' + pedido.referencia + '</p>' +
+                '<p><strong>🐾 Plan:</strong> ' + pedido.plan + '</p>' +
+                '<p><strong>🐕 Mascota:</strong> ' + pedido.mascota + '</p>' +
+                '<p><strong>📅 Fecha:</strong> ' + pedido.fecha + '</p>' +
+                '<p><strong>⏰ Hora:</strong> ' + pedido.hora + '</p>' +
+                '<p><strong>💰 Total:</strong> $' + pedido.precio.toLocaleString() + '</p>';
+        } else {
+            document.getElementById('confirmacionCard').innerHTML = '<h1>No se encontró pedido</h1><p>Realiza una nueva contratación.</p><a href="index.html" class="btn btn-primary">Ir a Servicios</a>';
+        }
+    </script>
+</body>
+</html>
