@@ -12,66 +12,147 @@
     
     <style>
         .servicios-page { background: var(--bg); }
+        
+        /* Header servicios */
         .servicios-header {
             background: linear-gradient(160deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
             padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
-        .doodle { position: absolute; pointer-events: none; z-index: 1; opacity: 0.3; }
-        .doodle-1 { top: 10%; left: 5%; font-size: 3rem; animation: floatDoodle 5s ease-in-out infinite; }
-        .doodle-2 { top: 20%; right: 8%; font-size: 2.5rem; animation: floatDoodle 6s ease-in-out 1s infinite; }
-        .doodle-3 { bottom: 20%; left: 10%; font-size: 2rem; animation: floatDoodle 4s ease-in-out 0.5s infinite; }
-        .doodle-4 { bottom: 15%; right: 12%; font-size: 3rem; animation: floatDoodle 7s ease-in-out 2s infinite; }
-        .doodle-5 { top: 45%; left: 50%; font-size: 2rem; animation: floatDoodle 5.5s ease-in-out 0.8s infinite; }
-        .doodle-6 { top: 12%; left: 35%; font-size: 1.8rem; animation: floatDoodle 4.5s ease-in-out 1.5s infinite; }
-        @keyframes floatDoodle {
-            0%,100%{transform:translateY(0)rotate(0);}
-            25%{transform:translateY(-15px)rotate(5deg);}
-            50%{transform:translateY(-8px)rotate(-3deg);}
-            75%{transform:translateY(-20px)rotate(2deg);}
+        .doodle { position: absolute; pointer-events: none; z-index: 1; opacity: 0.28; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; }
+        .d1 { top: 10%; left: 5%; } .d2 { top: 20%; right: 8%; animation-delay: 1s; }
+        .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; } .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
+        .d5 { top: 45%; left: 50%; animation-delay: 0.8s; font-size: 2rem; }
+        .d6 { top: 12%; left: 35%; animation-delay: 1.5s; font-size: 1.8rem; }
+        @keyframes floatDoodle { 0%,100%{transform:translateY(0)rotate(0);} 50%{transform:translateY(-18px)rotate(5deg);} }
+        .servicios-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
+        .servicios-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
+        .header-mini-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .header-stat { text-align: center; }
+        .header-stat-value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--primary); display: block; }
+        .header-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Barra categorías */
+        .categorias-nav {
+            background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
+            position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);
+            margin-top: -2rem; border-radius: 20px 20px 0 0; padding-top: 0.5rem;
         }
-        .servicios-header h1 { font-family:'Fredoka One',cursive; font-size:2.5rem; color:var(--text); position:relative; z-index:2; }
-        .servicios-header p { color:var(--text-light); position:relative; z-index:2; }
-        .header-mini-stats { display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; }
-        .header-stat { text-align:center; }
-        .header-stat-value { font-family:'Fredoka One',cursive; font-size:1.8rem; color:var(--primary); }
-        .header-stat-label { font-size:0.8rem; color:var(--text-muted); }
+        .categorias-nav .container { display: flex; align-items: center; justify-content: center; padding: 0.6rem 0; gap: 0.4rem; flex-wrap: wrap; }
+        .cat-nav-btn {
+            display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem;
+            border-radius: 25px; border: 2px solid transparent; cursor: pointer;
+            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.82rem;
+            background: var(--bg); color: var(--text); transition: var(--transition);
+        }
+        .cat-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
+        .cat-nav-btn.active { background: var(--primary); color: var(--white); }
+        .cat-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .cat-dot.activo { background: var(--success); }
+        .cat-dot.inactivo { background: var(--warning); }
         
-        .categorias-nav { background:var(--white); border-bottom:1px solid rgba(0,0,0,0.04); position:sticky; top:0; z-index:100; box-shadow:var(--shadow-sm); margin-top:-2rem; border-radius:20px 20px 0 0; padding-top:0.5rem; }
-        .categorias-nav .container { display:flex; align-items:center; justify-content:center; padding:0.6rem 0; gap:0.4rem; flex-wrap:wrap; }
-        .cat-nav-btn { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 1rem; border-radius:25px; border:2px solid transparent; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.82rem; background:var(--bg); color:var(--text); transition:var(--transition); }
-        .cat-nav-btn:hover { background:rgba(224,99,63,0.08); color:var(--primary); }
-        .cat-nav-btn.active { background:var(--primary); color:var(--white); }
-        .cat-dot { width:7px; height:7px; border-radius:50%; }
-        .cat-dot.activo { background:var(--success); }
-        .cat-dot.inactivo { background:var(--warning); }
+        /* Grid servicios */
+        .servicios-content { padding: 2rem 0 4rem; }
+        .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .servicio-card {
+            background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.04); transition: var(--transition);
+            display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
+        }
+        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
+        .servicio-card.activo { border-top: 4px solid var(--success); }
+        .servicio-card.inactivo { border-top: 4px solid var(--warning); opacity: 0.92; }
+        .servicio-card-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
+        .servicio-card-icono { width: 55px; height: 55px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .servicio-card.activo .servicio-card-icono { background: #ECFDF5; color: var(--success); }
+        .servicio-card.inactivo .servicio-card-icono { background: #FEF3C7; color: var(--warning); }
+        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        .badge-proximo { background: #FEF3C7; color: #D97706; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
+        .servicio-card-body { padding: 1rem 1.5rem; flex: 1; }
+        .servicio-card-titulo { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--text); margin-bottom: 0.5rem; }
+        .servicio-card-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1rem; }
+        .servicio-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+        .servicio-tag { padding: 0.25rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 700; }
+        .servicio-card.activo .servicio-tag { background: #ECFDF5; color: #059669; }
+        .servicio-card.inactivo .servicio-tag { background: rgba(0,0,0,0.04); color: var(--text-muted); }
+        .servicio-card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between; }
+        .servicio-card-precio { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 800; }
+        .servicio-card-precio small { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; }
+        .servicio-card-btn {
+            padding: 0.55rem 1.2rem; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
+            font-weight: 800; font-size: 0.8rem; cursor: pointer; text-decoration: none;
+            display: flex; align-items: center; gap: 0.4rem;
+        }
+        .btn-activo { background: var(--success); color: var(--white); border: none; }
+        .btn-espera { background: var(--white); color: #D97706; border: 2px solid var(--warning); }
         
-        .servicios-content { padding:2rem 0 4rem; }
-        .servicios-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; }
-        .servicio-card { background:var(--white); border-radius:var(--radius-lg); overflow:hidden; border:1px solid rgba(0,0,0,0.04); transition:var(--transition); display:flex; flex-direction:column; box-shadow:var(--shadow-sm); }
-        .servicio-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-5px); }
-        .servicio-card.activo { border-top:4px solid var(--success); }
-        .servicio-card.inactivo { border-top:4px solid var(--warning); opacity:0.92; }
-        .servicio-card-header { padding:1.5rem 1.5rem 0; display:flex; align-items:flex-start; justify-content:space-between; }
-        .servicio-card-icono { width:55px; height:55px; border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-size:1.5rem; }
-        .servicio-card.activo .servicio-card-icono { background:#ECFDF5; color:var(--success); }
-        .servicio-card.inactivo .servicio-card-icono { background:#FEF3C7; color:var(--warning); }
-        .badge-activo { background:#ECFDF5; color:#059669; padding:0.25rem 0.75rem; border-radius:20px; font-size:0.7rem; font-weight:800; }
-        .badge-proximo { background:#FEF3C7; color:#D97706; padding:0.25rem 0.75rem; border-radius:20px; font-size:0.7rem; font-weight:800; }
-        .servicio-card-body { padding:1rem 1.5rem; flex:1; }
-        .servicio-card-titulo { font-family:'Fredoka One',cursive; font-size:1.2rem; color:var(--text); margin-bottom:0.5rem; }
-        .servicio-card-desc { font-size:0.88rem; color:var(--text-light); line-height:1.5; margin-bottom:1rem; }
-        .servicio-card-tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem; }
-        .servicio-tag { padding:0.25rem 0.7rem; border-radius:15px; font-size:0.72rem; font-weight:700; }
-        .servicio-card.activo .servicio-tag { background:#ECFDF5; color:#059669; }
-        .servicio-card.inactivo .servicio-tag { background:rgba(0,0,0,0.04); color:var(--text-muted); }
-        .servicio-card-footer { padding:1rem 1.5rem; border-top:1px solid rgba(0,0,0,0.04); display:flex; align-items:center; justify-content:space-between; }
-        .servicio-card-precio-desde { font-size:0.7rem; color:var(--text-muted); }
-        .servicio-card-precio { font-family:'Fredoka One',cursive; font-size:1.2rem; font-weight:800; }
-        .servicio-card-btn { padding:0.55rem 1.2rem; border-radius:var(--radius-btn); font-family:'Nunito',sans-serif; font-weight:800; font-size:0.8rem; cursor:pointer; text-decoration:none; display:flex; align-items:center; gap:0.4rem; }
-        .btn-activo { background:var(--success); color:var(--white); border:none; }
-        .btn-espera { background:var(--white); color:#D97706; border:2px solid var(--warning); }
-        @media(max-width:768px){ .servicios-grid{grid-template-columns:1fr;} .servicios-header h1{font-size:2rem;} }
+        /* Reseñas */
+        .reviews-section { padding: 4rem 0; background: var(--white); }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .review-card {
+            background: var(--white); border: 1px solid rgba(0,0,0,0.04); border-radius: var(--radius-lg);
+            padding: 1.75rem; box-shadow: var(--shadow-sm); transition: var(--transition);
+        }
+        .review-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+        .review-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .review-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--primary); }
+        .review-header h4 { font-family: 'Fredoka One', cursive; font-size: 1rem; color: var(--text); }
+        .review-pet { font-size: 0.8rem; color: var(--text-muted); }
+        .review-stars { margin-left: auto; color: #F59E0B; }
+        .review-text { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; font-style: italic; }
+        .review-footer { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid rgba(0,0,0,0.04); padding-top: 0.75rem; margin-top: 0.75rem; }
+        
+        /* COMPONENTES GLOBALES */
+        .profile-sidebar{position:fixed;top:0;right:-420px;width:400px;height:100vh;background:var(--white);z-index:10000;transition:right 0.4s;box-shadow:-10px 0 40px rgba(0,0,0,0.15);overflow-y:auto;padding:0;}
+        .profile-sidebar.active{right:0;}
+        .profile-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;backdrop-filter:blur(3px);}
+        .profile-overlay.active{display:block;}
+        .profile-panel-header{background:linear-gradient(135deg,var(--primary),#C94E2E);padding:2.5rem 2rem 2rem;color:var(--white);position:relative;}
+        .profile-panel-close{position:absolute;top:1rem;right:1.5rem;background:rgba(255,255,255,0.2);border:none;color:white;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+        .profile-avatar-large{width:75px;height:75px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:0.75rem;border:3px solid rgba(255,255,255,0.4);}
+        .profile-panel-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:0.25rem;}
+        .profile-panel-header p{font-size:0.85rem;opacity:0.85;}
+        .profile-badge-vip{display:inline-block;background:#F59E0B;color:#1F1B24;padding:0.2rem 0.75rem;border-radius:15px;font-size:0.7rem;font-weight:800;margin-top:0.5rem;}
+        .profile-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;padding:1.5rem 2rem;background:#FFF8F5;}
+        .profile-kpi{text-align:center;padding:0.75rem 0.5rem;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+        .profile-kpi-number{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--primary);display:block;}
+        .profile-kpi-label{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;}
+        .profile-rewards{padding:1.25rem 2rem;background:linear-gradient(135deg,#FFFBEB,#FEF3C7);display:flex;align-items:center;justify-content:space-between;}
+        .profile-points{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#D97706;}
+        .profile-points small{display:block;font-family:'Nunito',sans-serif;font-size:0.7rem;color:#92400E;font-weight:400;}
+        .profile-coupons{background:#F59E0B;color:white;padding:0.4rem 1rem;border-radius:20px;font-size:0.75rem;font-weight:800;}
+        .profile-menu{padding:0.75rem 1.5rem;}
+        .profile-menu-item{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;text-decoration:none;color:var(--text);font-weight:600;font-size:0.9rem;transition:all 0.2s;cursor:pointer;border:none;background:none;width:100%;font-family:'Nunito',sans-serif;}
+        .profile-menu-item:hover{background:var(--primary-light);color:var(--primary);}
+        .profile-menu-item i{width:22px;text-align:center;font-size:1.1rem;color:var(--primary);}
+        .badge-count{margin-left:auto;background:var(--primary);color:white;padding:0.15rem 0.5rem;border-radius:10px;font-size:0.7rem;font-weight:800;}
+        .profile-menu-divider{height:1px;background:rgba(0,0,0,0.06);margin:0.5rem 0;}
+        .profile-menu-item.logout{color:var(--danger);}
+        .profile-menu-item.logout i{color:var(--danger);}
+        .profile-menu-item.logout:hover{background:#FEE2E2;}
+        .profile-notification{padding:0.75rem 2rem;background:#EFF6FF;border-left:3px solid #3B82F6;margin:0.5rem 1.5rem;border-radius:8px;font-size:0.8rem;color:#1E40AF;}
+        
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10001;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
+        .modal-overlay.active{display:flex;}
+        .modal-container{background:var(--white);border-radius:30px;padding:2.5rem;max-width:420px;width:90%;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
+        @keyframes modalIn{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+        @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+        .modal-close-btn{position:absolute;top:15px;right:20px;background:none;border:none;font-size:1.5rem;color:var(--text-muted);cursor:pointer;}
+        .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.5rem;}
+        .modal-container h2{font-family:'Fredoka One',cursive;text-align:center;color:var(--text);margin-bottom:0.25rem;font-size:1.5rem;}
+        .modal-sub{text-align:center;color:var(--text-light);margin-bottom:1.5rem;font-size:0.9rem;}
+        .modal-input-group{margin-bottom:1rem;}
+        .modal-input-group input{width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;}
+        .modal-input-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
+        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;display:block;text-align:center;}
+        .modal-btn:hover{background:var(--primary-dark);}
+        .modal-error{color:var(--danger);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
+        .modal-success{color:var(--success);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
+        .modal-switch{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-light);}
+        .modal-switch a{color:var(--primary);text-decoration:none;font-weight:700;cursor:pointer;}
+        .cookies-banner{background:white;width:100%;padding:1.5rem 2rem;box-shadow:0 -10px 40px rgba(0,0,0,0.1);animation:slideUp 0.5s ease;}
+
+        @media(max-width:768px){.servicios-header h1{font-size:2rem;}.servicios-grid{grid-template-columns:1fr;}.profile-sidebar{width:100%;right:-100%;}}
     </style>
 </head>
 <body class="servicios-page">
@@ -104,7 +185,8 @@
 
     <!-- ========== HEADER SERVICIOS ========== -->
     <section class="servicios-header">
-        <span class="doodle doodle-1">🐾</span><span class="doodle doodle-2">✨</span><span class="doodle doodle-3">🦴</span><span class="doodle doodle-4">🐾</span><span class="doodle doodle-5">⭐</span><span class="doodle doodle-6">🐕</span>
+        <span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span>
+        <span class="doodle d4">🐾</span><span class="doodle d5">⭐</span><span class="doodle d6">🐕</span>
         <h1>Servicios Premium</h1>
         <p>Soluciones integrales para el cuidado de tu mascota. Profesionales certificados y la mejor atención.</p>
         <div class="header-mini-stats">
@@ -146,7 +228,7 @@
                 
                 <div class="servicio-card inactivo" data-categoria="guarderia" data-estado="inactivo">
                     <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-house-chimney"></i></div><span class="badge-proximo">◉ Próximamente</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Guardería</h3><p class="servicio-card-desc">Espacio seguro con áreas de juego, cámaras 24/7 y personal veterinario.</p></div>
+                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Guardería</h3><p class="servicio-card-desc">Espacio seguro con áreas de juego, cámaras 24/7 y personal veterinario en sitio.</p></div>
                     <div class="servicio-card-footer"><div><span class="servicio-card-precio">$15.990 <small>/día</small></span></div><a href="guarderia.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a></div>
                 </div>
                 
@@ -172,6 +254,30 @@
         </div>
     </section>
 
+    <!-- ========== RESEÑAS ========== -->
+    <section class="reviews-section">
+        <div class="container">
+            <div class="section-header"><span class="section-subtitle">Testimonios</span><h2 class="section-title">Clientes Felices</h2></div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header"><div class="review-avatar">👤</div><div><h4>María Gómez</h4><span class="review-pet">🐕 Max - Golden</span></div><div class="review-stars">★★★★★</div></div>
+                    <p class="review-text">"¡Increíble servicio! Mi perro Max regresa feliz después de cada paseo. El GPS en vivo me da mucha tranquilidad."</p>
+                    <div class="review-footer"><span>📅 Hace 2 días</span><span>✅ Paseo Estándar</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><div class="review-avatar">👤</div><div><h4>Ana López</h4><span class="review-pet">🐱 Luna - Siamés</span></div><div class="review-stars">★★★★★</div></div>
+                    <p class="review-text">"La agenda de paseos es súper fácil. El paseador llegó puntual. Mi gata Luna se adaptó rapidísimo."</p>
+                    <div class="review-footer"><span>📅 Hace 2 semanas</span><span>✅ Paseo Premium</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><div class="review-avatar">👤</div><div><h4>Carlos Ruiz</h4><span class="review-pet">🐕 Rocky - Bulldog</span></div><div class="review-stars">★★★★★</div></div>
+                    <p class="review-text">"Petfy lo tiene todo. Compré alimento y agendé mi paseo gratis. ¡Súper recomendado!"</p>
+                    <div class="review-footer"><span>📅 Hace 1 semana</span><span>🛍️ Compra + Paseo</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ========== FOOTER ========== -->
     <footer class="footer">
         <div class="container">
@@ -179,84 +285,99 @@
                 <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="index.html">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
                 <div class="footer-col"><h4>Info</h4><ul><li><a href="../legal/terminos.html">Términos</a></li><li><a href="../legal/privacidad.html">Privacidad</a></li></ul></div>
                 <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
             <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
         </div>
     </footer>
 
-    <!-- WhatsApp -->
+    <!-- ========== WHATSAPP ========== -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- ========== MODAL DE LOGIN / REGISTRO ========== -->
+    <!-- ========== MODAL LOGIN ========== -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
-            <button class="modal-close" onclick="document.getElementById('loginModal').classList.remove('active')">&times;</button>
-            <div id="formLogin">
-                <div class="modal-icon">🐾</div>
-                <h2>Iniciar Sesión</h2>
-                <p class="modal-sub">Bienvenido de vuelta a Petfy</p>
-                <form onsubmit="return loginModal(event)">
-                    <div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div>
-                    <div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div>
-                    <button type="submit" class="modal-btn">Iniciar Sesión</button>
-                    <p class="modal-error" id="modalError">Email o contraseña incorrectos</p>
-                </form>
-                <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
-            </div>
-            <div id="formRegistro" style="display:none;">
-                <div class="modal-icon">🐾</div>
-                <h2>Crear Cuenta</h2>
-                <p class="modal-sub">Únete a la familia Petfy</p>
-                <form onsubmit="return registroModal(event)">
-                    <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div>
-                    <div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="tu@email.com" required></div>
-                    <div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8 caracteres)" required></div>
-                    <button type="submit" class="modal-btn">Crear Cuenta</button>
-                    <p class="modal-success" id="modalSuccess">✅ ¡Cuenta creada! Iniciando sesión...</p>
-                </form>
-                <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
+            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+            <div id="formLogin"><div class="modal-icon">🐾</div><h2>Iniciar Sesión</h2><form onsubmit="return loginModal(event)"><div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div><div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div><button type="submit" class="modal-btn">Iniciar Sesión</button></form><p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p></div>
+            <div id="formRegistro" style="display:none;"><div class="modal-icon">🐾</div><h2>Crear Cuenta</h2><form onsubmit="return registroModal(event)"><div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div><div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="tu@email.com" required></div><div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div><button type="submit" class="modal-btn">Crear Cuenta</button></form><p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p></div>
+        </div>
+    </div>
+
+    <!-- ========== PROFILE SIDEBAR ========== -->
+    <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
+    <div class="profile-sidebar" id="profileSidebar">
+        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
+        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
+        <div class="profile-rewards"><div class="profile-points">💰 1,250 Pts</div><div class="profile-coupons">🎁 2 Cupones</div></div>
+        <div class="profile-menu">
+            <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
+            <a href="../cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
+            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
+            <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
+            <div class="profile-menu-divider"></div>
+            <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- ========== COOKIES ========== -->
+    <div class="modal-overlay" id="cookiesModal" style="display:flex;align-items:flex-end;background:rgba(0,0,0,0.3);">
+        <div class="cookies-banner">
+            <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+                <div style="flex:1;min-width:250px;"><h4 style="font-family:'Fredoka One',cursive;">🍪 Cookies</h4><p style="font-size:0.85rem;color:var(--text-light);margin:0;">Usamos cookies. <a href="../legal/terminos.html" style="color:var(--primary);">Términos</a></p></div>
+                <div style="display:flex;gap:0.5rem;"><button onclick="rechazarCookies()" style="padding:0.6rem 1.5rem;border:2px solid rgba(0,0,0,0.1);border-radius:25px;background:white;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;">Solo necesarias</button><button onclick="aceptarCookies()" style="padding:0.6rem 1.5rem;background:var(--primary);color:white;border:none;border-radius:25px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;">Aceptar</button></div>
             </div>
         </div>
     </div>
 
-    <style>
-        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
-        .modal-overlay.active{display:flex;}
-        .modal-container{background:var(--white);border-radius:30px;padding:2.5rem;max-width:420px;width:90%;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
-        @keyframes modalIn{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-        .modal-close{position:absolute;top:15px;right:20px;background:none;border:none;font-size:1.5rem;color:var(--text-muted);cursor:pointer;}
-        .modal-close:hover{color:var(--danger);}
-        .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.5rem;}
-        .modal-container h2{font-family:'Fredoka One',cursive;text-align:center;color:var(--text);margin-bottom:0.25rem;font-size:1.5rem;}
-        .modal-sub{text-align:center;color:var(--text-light);margin-bottom:1.5rem;font-size:0.9rem;}
-        .modal-input-group{margin-bottom:1rem;}
-        .modal-input-group input{width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;}
-        .modal-input-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
-        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;}
-        .modal-btn:hover{background:var(--primary-dark);}
-        .modal-error{color:var(--danger);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-success{color:var(--success);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-switch{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-light);}
-        .modal-switch a{color:var(--primary);text-decoration:none;font-weight:700;cursor:pointer;}
-    </style>
+    <!-- ========== OFERTA ========== -->
+    <div class="modal-overlay" id="ofertaModal">
+        <div class="modal-container" style="text-align:center;max-width:480px;">
+            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
+            <div style="font-size:4rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
+            <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
+            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
+        </div>
+    </div>
 
+    <!-- ========== REGISTRO RÁPIDO ========== -->
+    <div class="modal-overlay" id="registroRapidoModal">
+        <div class="modal-container"><button class="modal-close-btn" onclick="document.getElementById('registroRapidoModal').classList.remove('active')">&times;</button>
+            <div style="font-size:3rem;text-align:center;">🐾</div><h2 style="text-align:center;">Crear Cuenta</h2>
+            <form onsubmit="return registroRapido(event)"><div class="modal-input-group"><input type="text" id="rapidoNombre" placeholder="Nombre" required></div><div class="modal-input-group"><input type="email" id="rapidoEmail" placeholder="Email" required></div><div class="modal-input-group"><input type="password" id="rapidoPassword" placeholder="Contraseña (mín 8)" required></div><button type="submit" class="modal-btn">🚀 Crear Cuenta</button></form>
+        </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
     <script src="../assets/js/main.js"></script>
     <script>
         window.addEventListener('scroll',()=>document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>50));
-        document.querySelector('.mobile-menu-btn').onclick=function(){
-            document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars');this.querySelector('i').classList.toggle('fa-times');
-        };
-        function filtrar(filtro,btn){
-            document.querySelectorAll('.cat-nav-btn').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.servicio-card').forEach(card=>{
-                if(filtro==='todos')card.style.display='flex';
-                else if(filtro==='activos')card.style.display=card.dataset.estado==='activo'?'flex':'none';
-                else if(filtro==='proximos')card.style.display=card.dataset.estado==='inactivo'?'flex':'none';
-                else card.style.display=card.dataset.categoria===filtro?'flex':'none';
-            });
-        }
+        document.querySelector('.mobile-menu-btn').onclick=()=>document.querySelector('.nav-links').classList.toggle('active');
+        
+        function abrirSidebar(){document.getElementById('profileSidebar').classList.add('active');document.getElementById('profileOverlay').classList.add('active');}
+        function cerrarSidebar(){document.getElementById('profileSidebar').classList.remove('active');document.getElementById('profileOverlay').classList.remove('active');}
+        function abrirModal(){document.getElementById('loginModal').classList.add('active');}
+        function cerrarModal(){document.getElementById('loginModal').classList.remove('active');}
+        function mostrarRegistro(){document.getElementById('formLogin').style.display='none';document.getElementById('formRegistro').style.display='block';}
+        function mostrarLogin(){document.getElementById('formRegistro').style.display='none';document.getElementById('formLogin').style.display='block';}
+        
+        function loginModal(e){e.preventDefault();var em=document.getElementById('modalEmail').value.trim();var pw=document.getElementById('modalPassword').value.trim();if(em&&pw.length>=4){var u={nombre:em.split('@')[0],apellido:'',email:em,telefono:''};localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');actualizarUI(u);cerrarModal();}return false;}
+        function registroModal(e){e.preventDefault();var n=document.getElementById('regModalNombre').value.trim();var em=document.getElementById('regModalEmail').value.trim();var pw=document.getElementById('regModalPassword').value.trim();if(pw.length<8){alert('Mínimo 8 caracteres');return false;}var u={nombre:n,apellido:'',email:em,telefono:''};localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');actualizarUI(u);cerrarModal();return false;}
+        function actualizarUI(u){var b=document.getElementById('btnCuenta');b.innerHTML='<i class="fas fa-user-check" style="color:#10B981;"></i>';b.setAttribute('data-logged','true');document.getElementById('sidebarNombre').textContent=u.nombre;document.getElementById('sidebarEmail').textContent=u.email;}
+        function cerrarSesion(){localStorage.clear();window.location.href='../index.html';}
+        
+        document.getElementById('btnCuenta').onclick=function(e){e.preventDefault();if(localStorage.getItem('petfyLogged')==='true'){abrirSidebar();}else{abrirModal();}return false;};
+        document.addEventListener('keydown',e=>{if(e.key==='Escape'){cerrarSidebar();cerrarModal();}});
+        if(localStorage.getItem('petfyLogged')==='true'){var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');if(u.nombre)actualizarUI(u);}
+        
+        function filtrar(filtro,btn){document.querySelectorAll('.cat-nav-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.servicio-card').forEach(c=>{if(filtro==='todos')c.style.display='flex';else if(filtro==='activos')c.style.display=c.dataset.estado==='activo'?'flex':'none';else if(filtro==='proximos')c.style.display=c.dataset.estado==='inactivo'?'flex':'none';else c.style.display=c.dataset.categoria===filtro?'flex':'none';});}
+        
+        function aceptarCookies(){localStorage.setItem('cookiesAceptadas','true');document.getElementById('cookiesModal').style.display='none';if(!localStorage.getItem('ofertaVista')&&localStorage.getItem('petfyLogged')!=='true'){setTimeout(()=>document.getElementById('ofertaModal').classList.add('active'),1000);}}
+        function rechazarCookies(){localStorage.setItem('cookiesAceptadas','minimas');document.getElementById('cookiesModal').style.display='none';}
+        if(localStorage.getItem('cookiesAceptadas'))document.getElementById('cookiesModal').style.display='none';
+        function cerrarOferta(){document.getElementById('ofertaModal').classList.remove('active');localStorage.setItem('ofertaVista','true');}
+        function reclamarOferta(){document.getElementById('ofertaModal').classList.remove('active');document.getElementById('registroRapidoModal').classList.add('active');}
+        if(localStorage.getItem('ofertaVista')||localStorage.getItem('petfyLogged')==='true')document.getElementById('ofertaModal').style.display='none';
+        function registroRapido(e){e.preventDefault();var n=document.getElementById('rapidoNombre').value.trim();var em=document.getElementById('rapidoEmail').value.trim();var pw=document.getElementById('rapidoPassword').value.trim();if(pw.length<8){alert('Mínimo 8 caracteres');return false;}var u={nombre:n,apellido:'',email:em,telefono:'',beneficios:{descuento50:true,paseoGratis:true}};localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');actualizarUI(u);document.getElementById('registroRapidoModal').classList.remove('active');alert('🎉 ¡Felicidades '+n+'! Tienes 50% OFF + Paseo Gratis.');return false;}
     </script>
 </body>
 </html>
