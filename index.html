@@ -16,83 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/petfy.css">
-    
-    <style>
-        /* ========== PROFILE SIDEBAR ========== */
-        .profile-sidebar{position:fixed;top:0;right:-420px;width:400px;height:100vh;background:var(--white);z-index:10000;transition:right 0.4s;box-shadow:-10px 0 40px rgba(0,0,0,0.15);overflow-y:auto;padding:0;}
-        .profile-sidebar.active{right:0;}
-        .profile-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;backdrop-filter:blur(3px);}
-        .profile-overlay.active{display:block;}
-        .profile-panel-header{background:linear-gradient(135deg,var(--primary),#C94E2E);padding:2.5rem 2rem 2rem;color:var(--white);position:relative;}
-        .profile-panel-close{position:absolute;top:1rem;right:1.5rem;background:rgba(255,255,255,0.2);border:none;color:white;width:35px;height:35px;border-radius:50%;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-        .profile-avatar-large{width:75px;height:75px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:0.75rem;border:3px solid rgba(255,255,255,0.4);}
-        .profile-panel-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:0.25rem;}
-        .profile-panel-header p{font-size:0.85rem;opacity:0.85;}
-        .profile-badge-vip{display:inline-block;background:#F59E0B;color:#1F1B24;padding:0.2rem 0.75rem;border-radius:15px;font-size:0.7rem;font-weight:800;margin-top:0.5rem;}
-        .profile-kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;padding:1.5rem 2rem;background:#FFF8F5;}
-        .profile-kpi{text-align:center;padding:0.75rem 0.5rem;background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-        .profile-kpi-number{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--primary);display:block;}
-        .profile-kpi-label{font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;}
-        .profile-rewards{padding:1.25rem 2rem;background:linear-gradient(135deg,#FFFBEB,#FEF3C7);display:flex;align-items:center;justify-content:space-between;}
-        .profile-points{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#D97706;}
-        .profile-points small{display:block;font-family:'Nunito',sans-serif;font-size:0.7rem;color:#92400E;font-weight:400;}
-        .profile-coupons{background:#F59E0B;color:white;padding:0.4rem 1rem;border-radius:20px;font-size:0.75rem;font-weight:800;}
-        .profile-menu{padding:0.75rem 1.5rem;}
-        .profile-menu-item{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border-radius:12px;text-decoration:none;color:var(--text);font-weight:600;font-size:0.9rem;transition:all 0.2s;cursor:pointer;border:none;background:none;width:100%;font-family:'Nunito',sans-serif;}
-        .profile-menu-item:hover{background:var(--primary-light);color:var(--primary);}
-        .profile-menu-item i{width:22px;text-align:center;font-size:1.1rem;color:var(--primary);}
-        .badge-count{margin-left:auto;background:var(--primary);color:white;padding:0.15rem 0.5rem;border-radius:10px;font-size:0.7rem;font-weight:800;}
-        .profile-menu-divider{height:1px;background:rgba(0,0,0,0.06);margin:0.5rem 0;}
-        .profile-menu-item.logout{color:var(--danger);}
-        .profile-menu-item.logout i{color:var(--danger);}
-        .profile-menu-item.logout:hover{background:#FEE2E2;}
-        .profile-notification{padding:0.75rem 2rem;background:#EFF6FF;border-left:3px solid #3B82F6;margin:0.5rem 1.5rem;border-radius:8px;font-size:0.8rem;color:#1E40AF;}
-        
-        /* ========== MODAL LOGIN ========== */
-        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:10001;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
-        .modal-overlay.active{display:flex;}
-        .modal-container{background:var(--white);border-radius:30px;padding:2.5rem;max-width:420px;width:90%;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
-        @keyframes modalIn{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-        @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-        .modal-close-btn{position:absolute;top:15px;right:20px;background:none;border:none;font-size:1.5rem;color:var(--text-muted);cursor:pointer;}
-        .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.5rem;}
-        .modal-container h2{font-family:'Fredoka One',cursive;text-align:center;color:var(--text);margin-bottom:0.25rem;font-size:1.5rem;}
-        .modal-sub{text-align:center;color:var(--text-light);margin-bottom:1.5rem;font-size:0.9rem;}
-        .modal-input-group{margin-bottom:1rem;}
-        .modal-input-group input{width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;}
-        .modal-input-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
-        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;display:block;text-align:center;}
-        .modal-btn:hover{background:var(--primary-dark);}
-        .modal-error{color:var(--danger);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-success{color:var(--success);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-switch{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-light);}
-        .modal-switch a{color:var(--primary);text-decoration:none;font-weight:700;cursor:pointer;}
-
-        /* ========== CARRUSEL ========== */
-        .banner-carousel{padding:1.5rem 0 0;background:var(--bg);}
-        .carousel-container{position:relative;overflow:hidden;border-radius:24px;box-shadow:var(--shadow-lg);}
-        .carousel-track{display:flex;transition:transform 0.5s ease-in-out;}
-        .carousel-slide{min-width:100%;position:relative;min-height:300px;display:flex;align-items:center;}
-        .carousel-slide img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:24px;}
-        .carousel-content{position:relative;z-index:2;padding:3rem;max-width:550px;}
-        .carousel-badge{display:inline-block;background:rgba(255,255,255,0.9);color:var(--primary);padding:0.3rem 1rem;border-radius:20px;font-weight:800;font-size:0.8rem;margin-bottom:1rem;}
-        .carousel-content h2{font-family:'Fredoka One',cursive;font-size:2rem;color:white;margin-bottom:0.75rem;text-shadow:0 2px 10px rgba(0,0,0,0.3);}
-        .carousel-content p{color:rgba(255,255,255,0.95);margin-bottom:1.5rem;font-size:1rem;text-shadow:0 1px 5px rgba(0,0,0,0.3);}
-        .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.9);border:none;width:45px;height:45px;border-radius:50%;font-size:1.8rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;color:var(--text);}
-        .carousel-prev{left:15px;}.carousel-next{right:15px;}
-        .carousel-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;z-index:10;}
-        .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.3s;}
-        .dot.active{background:white;width:25px;border-radius:10px;}
-
-        /* ========== COOKIES BANNER ========== */
-        .cookies-banner{background:white;width:100%;padding:1.5rem 2rem;box-shadow:0 -10px 40px rgba(0,0,0,0.1);animation:slideUp 0.5s ease;}
-
-        @media(max-width:768px){
-            .carousel-content{padding:2rem;}.carousel-content h2{font-size:1.5rem;}
-            .carousel-slide{min-height:250px;}
-            .profile-sidebar{width:100%;right:-100%;}
-        }
-    </style>
 </head>
 <body>
     
@@ -100,15 +23,22 @@
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <div class="logo"><a href="index.html"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
+                <div class="logo">
+                    <a href="index.html"><img src="assets/img/petfy.png" alt="Petfy"></a>
+                </div>
                 <ul class="nav-links">
                     <li class="nav-item dropdown-trigger"><a href="tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
                     <li class="nav-item"><a href="servicios/" class="nav-link">Servicios</a></li>
                     <li class="nav-item"><a href="contacto/" class="nav-link">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="city-selector">
+                        <i class="fas fa-map-marker-alt city-icon"></i>
+                        <select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button>
+                    </div>
                     <div class="user-actions">
                         <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
                         <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
@@ -128,17 +58,17 @@
         <!-- ========== CARRUSEL DE BANNERS ========== -->
         <section class="banner-carousel">
             <div class="container">
-                <div class="carousel-container">
-                    <button class="carousel-btn carousel-prev" onclick="moverCarrusel(-1)">‹</button>
-                    <button class="carousel-btn carousel-next" onclick="moverCarrusel(1)">›</button>
-                    <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-container" id="mainCarousel">
+                    <button class="carousel-btn carousel-prev">‹</button>
+                    <button class="carousel-btn carousel-next">›</button>
+                    <div class="carousel-track">
                         <div class="carousel-slide">
                             <img src="assets/img/banners/banner-paseos.jpg" alt="Agenda tu paseo" onerror="this.style.background='linear-gradient(135deg, #E0633F, #F08060)';this.style.minHeight='300px';">
                             <div class="carousel-content">
                                 <span class="carousel-badge">🐾 Paseos</span>
-                                <h2>Crea tu cuenta y recibe 50% de descuento</h2>
-                                <p>Registrate y crea una cuenta y recibe 50% de descuento en tu primera compra</p>
-                                <a href="servicios/paseos.html" class="btn btn-primary">Crear cuentai class="fas fa-arrow-right"></i></a>
+                                <h2>📅 Agenda tu Paseo</h2>
+                                <p>Elige el día, la hora y el plan perfecto para tu peludo.</p>
+                                <a href="servicios/paseos.html" class="btn btn-primary">Agendar Ahora <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="carousel-slide">
@@ -169,11 +99,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-dots" id="carouselDots">
-                        <span class="dot active" onclick="irSlide(0)"></span>
-                        <span class="dot" onclick="irSlide(1)"></span>
-                        <span class="dot" onclick="irSlide(2)"></span>
-                        <span class="dot" onclick="irSlide(3)"></span>
+                    <div class="carousel-dots">
+                        <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
                     </div>
                 </div>
             </div>
@@ -230,251 +157,32 @@
                 </div>
             </div>
         </section>
-<!-- ========== RESEÑAS DE CLIENTES ========== -->
-<section class="reviews-section">
-    <div class="container">
-        <div class="section-header">
-            <span class="section-subtitle">Testimonios</span>
-            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
-            <p class="section-description">La satisfacción de tus mascotas es nuestra mejor recompensa</p>
-        </div>
-        
-        <!-- Rating general -->
-        <div class="reviews-overall">
-            <div class="overall-score">
-                <span class="overall-number">4.9</span>
-                <div class="overall-stars">★★★★★</div>
-                <span class="overall-count">Basado en 256 reseñas</span>
-            </div>
-            <div class="overall-bars">
-                <div class="bar-row"><span>5 ★</span><div class="bar"><div class="bar-fill" style="width:92%"></div></div><span>92%</span></div>
-                <div class="bar-row"><span>4 ★</span><div class="bar"><div class="bar-fill" style="width:6%"></div></div><span>6%</span></div>
-                <div class="bar-row"><span>3 ★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
-                <div class="bar-row"><span>2 ★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
-                <div class="bar-row"><span>1 ★</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0%</span></div>
-            </div>
-        </div>
-        
-        <!-- Grid de reseñas -->
-        <div class="reviews-grid">
-            <!-- Reseña 1 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <img src="assets/img/placeholder.png" alt="María Gómez" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
-                    <div>
-                        <h4>María Gómez</h4>
-                        <span class="review-pet">🐕 Max - Golden Retriever</span>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <p class="review-text">"¡Increíble servicio! Mi perro Max regresa feliz después de cada paseo. El GPS en vivo me da mucha tranquilidad. Las fotos que envían son hermosas. ¡100% recomendado!"</p>
-                <div class="review-footer">
-                    <span>📅 Hace 2 días</span>
-                    <span>✅ Paseo Estándar</span>
-                </div>
-            </div>
-            
-            <!-- Reseña 2 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <img src="assets/img/placeholder.png" alt="Carlos Ruiz" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
-                    <div>
-                        <h4>Carlos Ruiz</h4>
-                        <span class="review-pet">🐕 Rocky - Bulldog</span>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <p class="review-text">"Compré el alimento Royal Canin con el 50% de descuento de bienvenida. Llegó en 24 horas y mi perro lo ama. Además agendé mi paseo gratis. ¡Petfy lo tiene todo!"</p>
-                <div class="review-footer">
-                    <span>📅 Hace 1 semana</span>
-                    <span>🛍️ Compra + Paseo</span>
-                </div>
-            </div>
-            
-            <!-- Reseña 3 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <img src="assets/img/placeholder.png" alt="Ana López" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
-                    <div>
-                        <h4>Ana López</h4>
-                        <span class="review-pet">🐱 Luna - Siamés</span>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                </div>
-                <p class="review-text">"La agenda de paseos es súper fácil de usar. Elegí el horario que quería y el paseador llegó puntual. Mi gata Luna es muy tímida pero se adaptó rapidísimo. ¡Son unos profesionales!"</p>
-                <div class="review-footer">
-                    <span>📅 Hace 2 semanas</span>
-                    <span>✅ Paseo Premium</span>
-                </div>
-            </div>
-            
-            <!-- Reseña 4 -->
-            <div class="review-card">
-                <div class="review-header">
-                    <img src="assets/img/placeholder.png" alt="Pedro Díaz" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
-                    <div>
-                        <h4>Pedro Díaz</h4>
-                        <span class="review-pet">🐕 Toby - Beagle</span>
-                    </div>
-                    <div class="review-stars">★★★★☆</div>
-                </div>
-                <p class="review-text">"Muy buen servicio. El paseador es amable y Toby lo quiere mucho. Lo único que mejoraría es poder ver más fotos durante el paseo. De resto, excelente. Ya voy por mi quinto paseo."</p>
-                <div class="review-footer">
-                    <span>📅 Hace 3 semanas</span>
-                    <span>✅ Paseo Express</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CTA -->
-        <div class="text-center mt-4">
-            <a href="servicios/paseos.html" class="btn btn-primary btn-lg">🐾 Agendar mi Paseo <i class="fas fa-arrow-right"></i></a>
-            <p style="margin-top:1rem; color:var(--text-muted); font-size:0.9rem;">⭐ Únete a nuestros 500+ clientes felices</p>
-        </div>
-    </div>
-</section>
 
-<style>
-    /* ========== RESEÑAS ========== */
-    .reviews-section {
-        padding: 5rem 0;
-        background: var(--white);
-    }
-    
-    /* Rating general */
-    .reviews-overall {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 3rem;
-        background: var(--bg);
-        border-radius: var(--radius-lg);
-        padding: 2.5rem;
-        margin-bottom: 2.5rem;
-        flex-wrap: wrap;
-    }
-    .overall-score {
-        text-align: center;
-    }
-    .overall-number {
-        font-family: 'Fredoka One', cursive;
-        font-size: 3.5rem;
-        color: var(--primary);
-        display: block;
-        line-height: 1;
-    }
-    .overall-stars {
-        color: #F59E0B;
-        font-size: 1.5rem;
-        letter-spacing: 3px;
-        margin: 0.5rem 0;
-    }
-    .overall-count {
-        font-size: 0.85rem;
-        color: var(--text-muted);
-    }
-    .overall-bars {
-        flex: 1;
-        min-width: 250px;
-        max-width: 400px;
-    }
-    .bar-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 0.4rem;
-        font-size: 0.85rem;
-        color: var(--text-light);
-    }
-    .bar {
-        flex: 1;
-        height: 8px;
-        background: #E5E7EB;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-    .bar-fill {
-        height: 100%;
-        background: #F59E0B;
-        border-radius: 4px;
-    }
-    
-    /* Grid de reseñas */
-    .reviews-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1.5rem;
-    }
-    .review-card {
-        background: var(--white);
-        border: 1px solid rgba(0,0,0,0.04);
-        border-radius: var(--radius-lg);
-        padding: 1.75rem;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-    }
-    .review-card:hover {
-        box-shadow: var(--shadow-lg);
-        transform: translateY(-3px);
-    }
-    .review-header {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-    }
-    .review-avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        object-fit: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-    }
-    .review-header h4 {
-        font-family: 'Fredoka One', cursive;
-        font-size: 1rem;
-        color: var(--text);
-        margin-bottom: 0.15rem;
-    }
-    .review-pet {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-    }
-    .review-stars {
-        margin-left: auto;
-        color: #F59E0B;
-        font-size: 0.9rem;
-    }
-    .review-text {
-        color: var(--text-light);
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-        font-style: italic;
-    }
-    .review-footer {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        border-top: 1px solid rgba(0,0,0,0.04);
-        padding-top: 0.75rem;
-    }
-    
-    @media (max-width: 768px) {
-        .reviews-overall {
-            flex-direction: column;
-            text-align: center;
-            gap: 1.5rem;
-        }
-        .reviews-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
+        <!-- ========== RESEÑAS ========== -->
+        <section class="reviews-section">
+            <div class="container">
+                <div class="section-header"><span class="section-subtitle">Testimonios</span><h2 class="section-title">Clientes Felices</h2></div>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-header"><div class="review-avatar">M</div><div><h4>María Gómez</h4><span class="review-pet">🐕 Max - Golden</span></div><div class="review-stars">★★★★★</div></div>
+                        <p class="review-text">"¡Increíble servicio! Mi perro Max regresa feliz después de cada paseo. El GPS en vivo me da mucha tranquilidad."</p>
+                        <div class="review-footer"><span>📅 Hace 2 días</span><span>✅ Paseo Estándar</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header"><div class="review-avatar">C</div><div><h4>Carlos Ruiz</h4><span class="review-pet">🐕 Rocky - Bulldog</span></div><div class="review-stars">★★★★★</div></div>
+                        <p class="review-text">"Compré el alimento con el 50% de descuento. Llegó en 24 horas. ¡Petfy lo tiene todo!"</p>
+                        <div class="review-footer"><span>📅 Hace 1 semana</span><span>🛍️ Compra + Paseo</span></div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-header"><div class="review-avatar">A</div><div><h4>Ana López</h4><span class="review-pet">🐱 Luna - Siamés</span></div><div class="review-stars">★★★★★</div></div>
+                        <p class="review-text">"La agenda de paseos es súper fácil. El paseador llegó puntual. ¡Son unos profesionales!"</p>
+                        <div class="review-footer"><span>📅 Hace 2 semanas</span><span>✅ Paseo Premium</span></div>
+                    </div>
+                </div>
+                <div class="text-center mt-4"><a href="servicios/paseos.html" class="btn btn-primary">🐾 Agendar mi Paseo <i class="fas fa-arrow-right"></i></a></div>
+            </div>
+        </section>
+
         <!-- ========== BENEFICIOS ========== -->
         <section class="benefits-section">
             <div class="container">
@@ -492,255 +200,33 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
-                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
-                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
-                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="nosotros/">Nosotros</a></li><li><a href="servicios/">Servicios</a></li><li><a href="tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Info</h4><ul><li><a href="legal/terminos.html">Términos</a></li><li><a href="legal/privacidad.html">Privacidad</a></li></ul></div>
+                <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
 
-    <!-- ========== WHATSAPP FLOTANTE ========== -->
-    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+    <!-- ========== COMPONENTES DINÁMICOS (Inyectados por JS) ========== -->
 
-    <!-- ========== MODAL LOGIN ========== -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-container">
-            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
-            <div id="formLogin">
-                <div class="modal-icon">🐾</div>
-                <h2>Iniciar Sesión</h2>
-                <p class="modal-sub">Bienvenido de vuelta a Petfy</p>
-                <form onsubmit="return loginModal(event)">
-                    <div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div>
-                    <div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div>
-                    <button type="submit" class="modal-btn">Iniciar Sesión</button>
-                    <p class="modal-error" id="modalError">Email o contraseña incorrectos</p>
-                </form>
-                <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
-            </div>
-            <div id="formRegistro" style="display:none;">
-                <div class="modal-icon">🐾</div>
-                <h2>Crear Cuenta</h2>
-                <p class="modal-sub">Únete a la familia Petfy</p>
-                <form onsubmit="return registroModal(event)">
-                    <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div>
-                    <div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="tu@email.com" required></div>
-                    <div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div>
-                    <button type="submit" class="modal-btn">Crear Cuenta</button>
-                    <p class="modal-success" id="modalSuccess">✅ ¡Cuenta creada!</p>
-                </form>
-                <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== PROFILE SIDEBAR ========== -->
-    <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
-    <div class="profile-sidebar" id="profileSidebar">
-        <div class="profile-panel-header">
-            <button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button>
-            <div class="profile-avatar-large">🐾</div>
-            <h3 id="sidebarNombre">Usuario</h3>
-            <p id="sidebarEmail">usuario@email.com</p>
-            <span class="profile-badge-vip">⭐ Cliente VIP</span>
-        </div>
-        <div class="profile-kpis">
-            <div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div>
-        </div>
-        <div class="profile-rewards">
-            <div class="profile-points">💰 1,250 Puntos<small>Próximo nivel: 2,000</small></div>
-            <div class="profile-coupons">🎁 2 Cupones</div>
-        </div>
-        <div class="profile-notification"><i class="fas fa-truck"></i> Tu pedido #2024001 fue entregado ✅</div>
-        <div class="profile-menu">
-            <a href="cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
-            <a href="cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
-            <a href="cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
-            <a href="#" class="profile-menu-item"><i class="fas fa-heart"></i> Favoritos</a>
-            <a href="cuenta/perfil.html#tab-direcciones" class="profile-menu-item"><i class="fas fa-map-marker-alt"></i> Direcciones</a>
-            <div class="profile-menu-divider"></div>
-            <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
-        </div>
-    </div>
-
-    <!-- ========== COOKIES BANNER ========== -->
-    <div class="modal-overlay" id="cookiesModal" style="display:flex; align-items:flex-end; background:rgba(0,0,0,0.3);">
-        <div class="cookies-banner">
-            <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
-                <div style="flex:1; min-width:250px;">
-                    <h4 style="font-family:'Fredoka One',cursive; margin-bottom:0.25rem;">🍪 Cookies y Privacidad</h4>
-                    <p style="font-size:0.85rem; color:var(--text-light); margin:0;">
-                        Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestros 
-                        <a href="legal/terminos.html" style="color:var(--primary);">Términos</a> y 
-                        <a href="legal/privacidad.html" style="color:var(--primary);">Política de Privacidad</a>.
-                    </p>
-                </div>
-                <div style="display:flex; gap:0.5rem;">
-                    <button onclick="rechazarCookies()" style="padding:0.6rem 1.5rem; border:2px solid rgba(0,0,0,0.1); border-radius:25px; background:white; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem;">Solo necesarias</button>
-                    <button onclick="aceptarCookies()" style="padding:0.6rem 1.5rem; background:var(--primary); color:white; border:none; border-radius:25px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem;">Aceptar todo</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== MODAL OFERTA BIENVENIDA ========== -->
-    <div class="modal-overlay" id="ofertaModal">
-        <div class="modal-container" style="text-align:center; max-width:480px;">
-            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
-            <div style="font-size:4rem;">🎉</div>
-            <h2>¡Bienvenido a Petfy!</h2>
-            <p style="color:var(--text-light); margin:1rem 0;">Oferta exclusiva para nuevos clientes</p>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0;">
-                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0); padding:1.5rem; border-radius:16px;">
-                    <div style="font-size:2.5rem;">🛍️</div>
-                    <div style="font-size:2rem; font-family:'Fredoka One',cursive; color:var(--primary);">50%</div>
-                    <div style="font-weight:700;">DESCUENTO</div>
-                    <div style="font-size:0.8rem; color:var(--text-light);">Primera compra</div>
-                </div>
-                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5); padding:1.5rem; border-radius:16px;">
-                    <div style="font-size:2.5rem;">🐕</div>
-                    <div style="font-size:2rem; font-family:'Fredoka One',cursive; color:#059669;">1</div>
-                    <div style="font-weight:700;">PASEO GRATIS</div>
-                    <div style="font-size:0.8rem; color:var(--text-light);">Primer paseo</div>
-                </div>
-            </div>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">⚡ Solo necesitas crear tu cuenta para reclamar</p>
-            <button onclick="reclamarOferta()" class="modal-btn" style="font-size:1.1rem;">🎁 Crear Cuenta y Reclamar</button>
-            <button onclick="cerrarOferta()" style="background:none; border:none; color:var(--text-muted); margin-top:0.75rem; cursor:pointer; font-family:'Nunito',sans-serif; font-size:0.85rem;">No gracias</button>
-        </div>
-    </div>
-
-    <!-- ========== MODAL REGISTRO RÁPIDO ========== -->
-    <div class="modal-overlay" id="registroRapidoModal">
-        <div class="modal-container" style="max-width:480px;">
-            <button class="modal-close-btn" onclick="document.getElementById('registroRapidoModal').classList.remove('active')">&times;</button>
-            <div style="font-size:3rem; text-align:center;">🐾</div>
-            <h2 style="text-align:center;">Crear Cuenta</h2>
-            <p style="text-align:center; color:var(--text-light); margin-bottom:1.5rem;">Regístrate y reclama tu <strong>50% OFF + Paseo Gratis</strong></p>
-            <form onsubmit="return registroRapido(event)">
-                <div class="modal-input-group"><input type="text" id="rapidoNombre" placeholder="Nombre" required></div>
-                <div class="modal-input-group"><input type="email" id="rapidoEmail" placeholder="tu@email.com" required></div>
-                <div class="modal-input-group"><input type="tel" id="rapidoTelefono" placeholder="Teléfono (WhatsApp)"></div>
-                <div class="modal-input-group"><input type="password" id="rapidoPassword" placeholder="Contraseña (mín 8)" required></div>
-                <div style="background:#FEF3C7; padding:1rem; border-radius:12px; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem;">
-                    <span style="font-size:1.5rem;">🎁</span>
-                    <div style="font-size:0.85rem; color:#92400E;"><strong>Tus beneficios:</strong><br>✅ 50% OFF primera compra<br>✅ 1 Paseo Express GRATIS</div>
-                </div>
-                <button type="submit" class="modal-btn" style="font-size:1.05rem;">🚀 Crear Cuenta y Reclamar</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ========== SCRIPTS ========== -->
+    <!-- SCRIPTS -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/validators.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/toast.js"></script>
+    <script src="assets/js/productos.js"></script>
+    <script src="assets/js/carousel.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/breadcrumb.js"></script>
     <script src="assets/js/main.js"></script>
+    
     <script>
-        // ========== HEADER STICKY ==========
-        window.addEventListener('scroll',function(){document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>50);});
-
-        // ========== MENÚ MÓVIL ==========
-        document.querySelector('.mobile-menu-btn').onclick=function(){document.querySelector('.nav-links').classList.toggle('active');};
-
-        // ========== SIDEBAR ==========
-        function abrirSidebar(){document.getElementById('profileSidebar').classList.add('active');document.getElementById('profileOverlay').classList.add('active');}
-        function cerrarSidebar(){document.getElementById('profileSidebar').classList.remove('active');document.getElementById('profileOverlay').classList.remove('active');}
-
-        // ========== MODAL LOGIN ==========
-        function abrirModal(){document.getElementById('loginModal').classList.add('active');}
-        function cerrarModal(){document.getElementById('loginModal').classList.remove('active');}
-        function mostrarRegistro(){document.getElementById('formLogin').style.display='none';document.getElementById('formRegistro').style.display='block';}
-        function mostrarLogin(){document.getElementById('formRegistro').style.display='none';document.getElementById('formLogin').style.display='block';}
-        function loginModal(e){
-            e.preventDefault();
-            var email=document.getElementById('modalEmail').value.trim();
-            var password=document.getElementById('modalPassword').value.trim();
-            if(email&&password.length>=4){
-                var u={nombre:email.split('@')[0],apellido:'',email:email,telefono:''};
-                localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');
-                actualizarUI(u);cerrarModal();
-            }else{document.getElementById('modalError').style.display='block';}
-            return false;
-        }
-        function registroModal(e){
-            e.preventDefault();
-            var n=document.getElementById('regModalNombre').value.trim();
-            var em=document.getElementById('regModalEmail').value.trim();
-            var pw=document.getElementById('regModalPassword').value.trim();
-            if(pw.length<8){alert('Mínimo 8 caracteres');return false;}
-            var u={nombre:n,apellido:'',email:em,telefono:''};
-            localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');
-            document.getElementById('modalSuccess').style.display='block';
-            setTimeout(function(){actualizarUI(u);cerrarModal();mostrarLogin();},1500);
-            return false;
-        }
-        function actualizarUI(user){
-            var btn=document.getElementById('btnCuenta');
-            btn.innerHTML='<i class="fas fa-user-check" style="color:#10B981;"></i>';
-            btn.setAttribute('data-logged','true');
-            document.getElementById('sidebarNombre').textContent=user.nombre;
-            document.getElementById('sidebarEmail').textContent=user.email;
-        }
-        function cerrarSesion(){localStorage.clear();window.location.href='index.html';}
-
-        // ========== EVENTO BOTÓN ==========
-        document.getElementById('btnCuenta').onclick=function(e){
-            e.preventDefault();
-            if(localStorage.getItem('petfyLogged')==='true'){abrirSidebar();}else{abrirModal();}
-            return false;
-        };
-
-        // ========== ESC ==========
-        document.addEventListener('keydown',function(e){if(e.key==='Escape'){cerrarSidebar();cerrarModal();}});
-
-        // ========== ESTADO INICIAL ==========
-        if(localStorage.getItem('petfyLogged')==='true'){var user=JSON.parse(localStorage.getItem('petfyUser')||'{}');if(user.nombre)actualizarUI(user);}
-
-        // ========== CARRUSEL ==========
-        var slide=0,total=4,auto;
-        function moverCarrusel(d){slide=(slide+d+total)%total;updateCarrusel();}
-        function irSlide(i){slide=i;updateCarrusel();}
-        function updateCarrusel(){
-            document.getElementById('carouselTrack').style.transform='translateX(-'+(slide*100)+'%)';
-            document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===slide);});
-            clearInterval(auto);auto=setInterval(function(){moverCarrusel(1);},5000);
-        }
-        auto=setInterval(function(){moverCarrusel(1);},5000);
-
-        // ========== COOKIES ==========
-        function aceptarCookies(){
-            localStorage.setItem('cookiesAceptadas','true');
-            document.getElementById('cookiesModal').style.display='none';
-            if(!localStorage.getItem('ofertaVista')&&localStorage.getItem('petfyLogged')!=='true'){
-                setTimeout(function(){document.getElementById('ofertaModal').classList.add('active');},1000);
-            }
-        }
-        function rechazarCookies(){localStorage.setItem('cookiesAceptadas','minimas');document.getElementById('cookiesModal').style.display='none';}
-        if(localStorage.getItem('cookiesAceptadas')){document.getElementById('cookiesModal').style.display='none';}
-
-        // ========== OFERTA ==========
-        function cerrarOferta(){document.getElementById('ofertaModal').classList.remove('active');localStorage.setItem('ofertaVista','true');}
-        function reclamarOferta(){document.getElementById('ofertaModal').classList.remove('active');document.getElementById('registroRapidoModal').classList.add('active');}
-        if(localStorage.getItem('ofertaVista')||localStorage.getItem('petfyLogged')==='true'){document.getElementById('ofertaModal').style.display='none';}
-
-        // ========== REGISTRO RÁPIDO ==========
-        function registroRapido(e){
-            e.preventDefault();
-            var nombre=document.getElementById('rapidoNombre').value.trim();
-            var email=document.getElementById('rapidoEmail').value.trim();
-            var telefono=document.getElementById('rapidoTelefono').value.trim();
-            var password=document.getElementById('rapidoPassword').value.trim();
-            if(password.length<8){alert('Mínimo 8 caracteres');return false;}
-            var usuario={nombre:nombre,apellido:'',email:email,telefono:telefono,beneficios:{descuento50:true,paseoGratis:true,codigoDescuento:'BIENVENIDO50',codigoPaseo:'PASEOGRATIS1'}};
-            localStorage.setItem('petfyUser',JSON.stringify(usuario));localStorage.setItem('petfyLogged','true');localStorage.setItem('ofertaReclamada','true');
-            actualizarUI(usuario);
-            document.getElementById('registroRapidoModal').classList.remove('active');
-            setTimeout(function(){alert('🎉 ¡Felicidades '+nombre+'!\n\n✅ 50% OFF: BIENVENIDO50\n✅ Paseo Gratis: PASEOGRATIS1\n\nSe aplican en tu próxima compra/paseo.');},500);
-            return false;
-        }
+        // Iniciar carrusel
+        document.addEventListener('DOMContentLoaded', function() {
+            Carousel.init('mainCarousel', { autoPlay: true, interval: 5000 });
+        });
     </script>
 </body>
 </html>
