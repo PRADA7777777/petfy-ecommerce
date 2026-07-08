@@ -285,127 +285,110 @@
         </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
-   <script>
+    <script>
     // ========== HEADER STICKY ==========
-    window.addEventListener('scroll', () => {
-        document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50);
+    window.addEventListener('scroll', function() {
+        var header = document.getElementById('mainHeader');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     });
 
     // ========== MENÚ MÓVIL ==========
     document.querySelector('.mobile-menu-btn').onclick = function() {
         document.querySelector('.nav-links').classList.toggle('active');
-        const icon = this.querySelector('i');
-        if (icon.classList.contains('fa-bars')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
     };
 
-    // ========== SIDEBAR ==========
+    // ========== FUNCIONES ==========
     function abrirSidebar() {
         document.getElementById('profileSidebar').classList.add('active');
         document.getElementById('profileOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
     }
+
     function cerrarSidebar() {
         document.getElementById('profileSidebar').classList.remove('active');
         document.getElementById('profileOverlay').classList.remove('active');
-        document.body.style.overflow = '';
     }
 
-    // ========== MODAL LOGIN ==========
     function abrirModal() {
         document.getElementById('loginModal').classList.add('active');
     }
+
     function cerrarModal() {
         document.getElementById('loginModal').classList.remove('active');
     }
+
     function mostrarRegistro() {
         document.getElementById('formLogin').style.display = 'none';
         document.getElementById('formRegistro').style.display = 'block';
-        document.getElementById('modalError').style.display = 'none';
-        document.getElementById('modalSuccess').style.display = 'none';
     }
+
     function mostrarLogin() {
         document.getElementById('formRegistro').style.display = 'none';
         document.getElementById('formLogin').style.display = 'block';
-        document.getElementById('modalError').style.display = 'none';
-        document.getElementById('modalSuccess').style.display = 'none';
     }
+
     function loginModal(e) {
         e.preventDefault();
-        const email = document.getElementById('modalEmail').value.trim();
-        const password = document.getElementById('modalPassword').value.trim();
+        var email = document.getElementById('modalEmail').value.trim();
+        var password = document.getElementById('modalPassword').value.trim();
         if (email && password.length >= 4) {
-            const usuario = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
+            var usuario = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
             localStorage.setItem('petfyUser', JSON.stringify(usuario));
             localStorage.setItem('petfyLogged', 'true');
             actualizarUI(usuario);
             cerrarModal();
-            document.getElementById('modalEmail').value = '';
-            document.getElementById('modalPassword').value = '';
         } else {
             document.getElementById('modalError').style.display = 'block';
         }
         return false;
     }
+
     function registroModal(e) {
         e.preventDefault();
-        const nombre = document.getElementById('regModalNombre').value.trim();
-        const email = document.getElementById('regModalEmail').value.trim();
-        const password = document.getElementById('regModalPassword').value.trim();
+        var nombre = document.getElementById('regModalNombre').value.trim();
+        var email = document.getElementById('regModalEmail').value.trim();
+        var password = document.getElementById('regModalPassword').value.trim();
         if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
-        const usuario = { nombre: nombre, apellido: '', email: email, telefono: '' };
+        var usuario = { nombre: nombre, apellido: '', email: email, telefono: '' };
         localStorage.setItem('petfyUser', JSON.stringify(usuario));
         localStorage.setItem('petfyLogged', 'true');
         document.getElementById('modalSuccess').style.display = 'block';
-        setTimeout(() => {
+        setTimeout(function() {
             actualizarUI(usuario);
             cerrarModal();
             mostrarLogin();
-            document.getElementById('regModalNombre').value = '';
-            document.getElementById('regModalEmail').value = '';
-            document.getElementById('regModalPassword').value = '';
         }, 1500);
         return false;
     }
 
-    // ========== ACTUALIZAR UI DESPUÉS DE LOGIN ==========
     function actualizarUI(user) {
         var btn = document.getElementById('btnCuenta');
         btn.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-        btn.title = 'Mi Perfil';
         btn.setAttribute('data-logged', 'true');
         document.getElementById('sidebarNombre').textContent = user.nombre;
         document.getElementById('sidebarEmail').textContent = user.email;
     }
 
-    // ========== CERRAR SESIÓN ==========
     function cerrarSesion() {
-        localStorage.removeItem('petfyLogged');
-        localStorage.removeItem('petfyUser');
+        localStorage.clear();
         window.location.href = 'index.html';
     }
 
-    // ========== EVENTO DEL ICONO DE USUARIO ==========
-    document.getElementById('btnCuenta').addEventListener('click', function(e) {
+    // ========== EVENTO ÚNICO DEL BOTÓN ==========
+    var btnCuenta = document.getElementById('btnCuenta');
+    btnCuenta.onclick = function(e) {
         e.preventDefault();
-        e.stopPropagation();
-        
         var logged = localStorage.getItem('petfyLogged');
-        
         if (logged === 'true') {
-            // SOLO abre sidebar
             abrirSidebar();
         } else {
-            // SOLO abre modal
             abrirModal();
         }
-    });
+        return false;
+    };
 
     // ========== CERRAR CON ESC ==========
     document.addEventListener('keydown', function(e) {
@@ -415,7 +398,7 @@
         }
     });
 
-    // ========== CARGAR ESTADO INICIAL ==========
+    // ========== ESTADO INICIAL ==========
     if (localStorage.getItem('petfyLogged') === 'true') {
         var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
         if (user.nombre) actualizarUI(user);
