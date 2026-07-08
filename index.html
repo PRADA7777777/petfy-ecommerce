@@ -230,7 +230,251 @@
                 </div>
             </div>
         </section>
+<!-- ========== RESEÑAS DE CLIENTES ========== -->
+<section class="reviews-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-subtitle">Testimonios</span>
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <p class="section-description">La satisfacción de tus mascotas es nuestra mejor recompensa</p>
+        </div>
+        
+        <!-- Rating general -->
+        <div class="reviews-overall">
+            <div class="overall-score">
+                <span class="overall-number">4.9</span>
+                <div class="overall-stars">★★★★★</div>
+                <span class="overall-count">Basado en 256 reseñas</span>
+            </div>
+            <div class="overall-bars">
+                <div class="bar-row"><span>5 ★</span><div class="bar"><div class="bar-fill" style="width:92%"></div></div><span>92%</span></div>
+                <div class="bar-row"><span>4 ★</span><div class="bar"><div class="bar-fill" style="width:6%"></div></div><span>6%</span></div>
+                <div class="bar-row"><span>3 ★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+                <div class="bar-row"><span>2 ★</span><div class="bar"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+                <div class="bar-row"><span>1 ★</span><div class="bar"><div class="bar-fill" style="width:0%"></div></div><span>0%</span></div>
+            </div>
+        </div>
+        
+        <!-- Grid de reseñas -->
+        <div class="reviews-grid">
+            <!-- Reseña 1 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="assets/img/placeholder.png" alt="María Gómez" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
+                    <div>
+                        <h4>María Gómez</h4>
+                        <span class="review-pet">🐕 Max - Golden Retriever</span>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-text">"¡Increíble servicio! Mi perro Max regresa feliz después de cada paseo. El GPS en vivo me da mucha tranquilidad. Las fotos que envían son hermosas. ¡100% recomendado!"</p>
+                <div class="review-footer">
+                    <span>📅 Hace 2 días</span>
+                    <span>✅ Paseo Estándar</span>
+                </div>
+            </div>
+            
+            <!-- Reseña 2 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="assets/img/placeholder.png" alt="Carlos Ruiz" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
+                    <div>
+                        <h4>Carlos Ruiz</h4>
+                        <span class="review-pet">🐕 Rocky - Bulldog</span>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-text">"Compré el alimento Royal Canin con el 50% de descuento de bienvenida. Llegó en 24 horas y mi perro lo ama. Además agendé mi paseo gratis. ¡Petfy lo tiene todo!"</p>
+                <div class="review-footer">
+                    <span>📅 Hace 1 semana</span>
+                    <span>🛍️ Compra + Paseo</span>
+                </div>
+            </div>
+            
+            <!-- Reseña 3 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="assets/img/placeholder.png" alt="Ana López" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
+                    <div>
+                        <h4>Ana López</h4>
+                        <span class="review-pet">🐱 Luna - Siamés</span>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                </div>
+                <p class="review-text">"La agenda de paseos es súper fácil de usar. Elegí el horario que quería y el paseador llegó puntual. Mi gata Luna es muy tímida pero se adaptó rapidísimo. ¡Son unos profesionales!"</p>
+                <div class="review-footer">
+                    <span>📅 Hace 2 semanas</span>
+                    <span>✅ Paseo Premium</span>
+                </div>
+            </div>
+            
+            <!-- Reseña 4 -->
+            <div class="review-card">
+                <div class="review-header">
+                    <img src="assets/img/placeholder.png" alt="Pedro Díaz" class="review-avatar" onerror="this.style.background='var(--primary-light)'; this.style.color='var(--primary)';">
+                    <div>
+                        <h4>Pedro Díaz</h4>
+                        <span class="review-pet">🐕 Toby - Beagle</span>
+                    </div>
+                    <div class="review-stars">★★★★☆</div>
+                </div>
+                <p class="review-text">"Muy buen servicio. El paseador es amable y Toby lo quiere mucho. Lo único que mejoraría es poder ver más fotos durante el paseo. De resto, excelente. Ya voy por mi quinto paseo."</p>
+                <div class="review-footer">
+                    <span>📅 Hace 3 semanas</span>
+                    <span>✅ Paseo Express</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="text-center mt-4">
+            <a href="servicios/paseos.html" class="btn btn-primary btn-lg">🐾 Agendar mi Paseo <i class="fas fa-arrow-right"></i></a>
+            <p style="margin-top:1rem; color:var(--text-muted); font-size:0.9rem;">⭐ Únete a nuestros 500+ clientes felices</p>
+        </div>
+    </div>
+</section>
 
+<style>
+    /* ========== RESEÑAS ========== */
+    .reviews-section {
+        padding: 5rem 0;
+        background: var(--white);
+    }
+    
+    /* Rating general */
+    .reviews-overall {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        background: var(--bg);
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+    }
+    .overall-score {
+        text-align: center;
+    }
+    .overall-number {
+        font-family: 'Fredoka One', cursive;
+        font-size: 3.5rem;
+        color: var(--primary);
+        display: block;
+        line-height: 1;
+    }
+    .overall-stars {
+        color: #F59E0B;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+        margin: 0.5rem 0;
+    }
+    .overall-count {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    .overall-bars {
+        flex: 1;
+        min-width: 250px;
+        max-width: 400px;
+    }
+    .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.4rem;
+        font-size: 0.85rem;
+        color: var(--text-light);
+    }
+    .bar {
+        flex: 1;
+        height: 8px;
+        background: #E5E7EB;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .bar-fill {
+        height: 100%;
+        background: #F59E0B;
+        border-radius: 4px;
+    }
+    
+    /* Grid de reseñas */
+    .reviews-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+    .review-card {
+        background: var(--white);
+        border: 1px solid rgba(0,0,0,0.04);
+        border-radius: var(--radius-lg);
+        padding: 1.75rem;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+    }
+    .review-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-3px);
+    }
+    .review-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    .review-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+    .review-header h4 {
+        font-family: 'Fredoka One', cursive;
+        font-size: 1rem;
+        color: var(--text);
+        margin-bottom: 0.15rem;
+    }
+    .review-pet {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+    .review-stars {
+        margin-left: auto;
+        color: #F59E0B;
+        font-size: 0.9rem;
+    }
+    .review-text {
+        color: var(--text-light);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        font-style: italic;
+    }
+    .review-footer {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        border-top: 1px solid rgba(0,0,0,0.04);
+        padding-top: 0.75rem;
+    }
+    
+    @media (max-width: 768px) {
+        .reviews-overall {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+        }
+        .reviews-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
         <!-- ========== BENEFICIOS ========== -->
         <section class="benefits-section">
             <div class="container">
