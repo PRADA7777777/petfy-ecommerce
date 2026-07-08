@@ -13,21 +13,24 @@
     <style>
         .contacto-page { background: var(--bg); }
         
+        /* Header */
         .contacto-header {
             background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
             padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
-        .doodle { position: absolute; opacity: 0.22; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
+        .doodle { position: absolute; opacity: 0.2; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
         .d1 { top: 10%; left: 5%; } .d2 { top: 20%; right: 8%; animation-delay: 1s; }
         .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; } .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
         @keyframes floatDoodle { 0%,100%{transform:translateY(0)rotate(0);} 50%{transform:translateY(-18px)rotate(5deg);} }
         .contacto-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
-        .contacto-header p { color: var(--text-light); position: relative; z-index: 2; }
+        .contacto-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
         
+        /* Contenido */
         .contacto-content { padding: 3rem 0 5rem; }
         .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: start; }
         
+        /* Info cards */
         .info-card {
             background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
@@ -44,6 +47,7 @@
         .info-text p { color: var(--text-light); font-size: 0.9rem; }
         .info-text a { color: var(--primary); text-decoration: none; font-weight: 700; }
         
+        /* Redes sociales */
         .social-contacto {
             background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
@@ -58,8 +62,9 @@
         }
         .social-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
         .social-btn.fb { background: #1877F2; } .social-btn.ig { background: linear-gradient(135deg,#833AB4,#FD1D1D,#F77737); }
-        .social-btn.wa { background: #25D366; }
+        .social-btn.wa { background: #25D366; } .social-btn.tt { background: #000; }
         
+        /* Formulario */
         .form-wrapper {
             background: rgba(255,255,255,0.85); backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.9); border-radius: var(--radius-lg);
@@ -86,18 +91,38 @@
         }
         .btn-enviar:hover { background: var(--primary-dark); transform: translateY(-2px); }
         
+        /* Horarios */
         .horario-section { padding: 0 0 4rem; }
         .horario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .horario-card {
             background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem;
             text-align: center; border: 1px solid rgba(0,0,0,0.04); box-shadow: var(--shadow-sm);
+            transition: var(--transition);
         }
+        .horario-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
         .horario-dia { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--primary); margin-bottom: 0.3rem; }
         .horario-hora { font-size: 1.3rem; font-weight: 800; color: var(--text); }
         
+        /* Mapa */
         .mapa-section { padding: 0 0 4rem; }
-        .mapa-container { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
+        .mapa-container {
+            background: var(--white); border-radius: var(--radius-lg);
+            overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.04);
+        }
         .mapa-container iframe { display: block; }
+        
+        /* FAQ */
+        .faq-section { padding: 0 0 4rem; }
+        .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem; }
+        .faq-card {
+            background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.04); box-shadow: var(--shadow-sm);
+            cursor: pointer; transition: var(--transition);
+        }
+        .faq-card:hover { box-shadow: var(--shadow-md); }
+        .faq-card h4 { font-family: 'Fredoka One', cursive; color: var(--primary); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .faq-card p { color: var(--text-light); font-size: 0.9rem; display: none; }
+        .faq-card.open p { display: block; margin-top: 0.5rem; }
         
         @media(max-width:768px){.contacto-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.contacto-header h1{font-size:2rem;}}
     </style>
@@ -110,16 +135,16 @@
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <!-- TIENDA COMENTADA -->
+                    <!-- <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li> -->
                     <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
                     <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option></select></div>
                     <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
                     <div class="user-actions">
                         <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
-                        <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
@@ -134,7 +159,7 @@
     <section class="contacto-header">
         <span class="doodle d1">📞</span><span class="doodle d2">💬</span><span class="doodle d3">🐾</span><span class="doodle d4">⭐</span>
         <h1>Contacto</h1>
-        <p>Estamos aquí para ayudarte. Contáctanos por cualquier medio y te responderemos lo antes posible.</p>
+        <p>Estamos aquí para ayudarte. Escríbenos por cualquier medio.</p>
     </section>
 
     <!-- CONTENIDO -->
@@ -142,7 +167,7 @@
         <div class="container">
             <div class="contacto-grid">
                 
-                <!-- INFO -->
+                <!-- INFORMACIÓN -->
                 <div>
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
@@ -164,9 +189,9 @@
                     <div class="social-contacto">
                         <h4>🌐 Síguenos</h4>
                         <div class="social-btns">
-                            <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank" class="social-btn fb"><i class="fab fa-facebook"></i> Facebook</a>
                             <a href="https://www.instagram.com/petfyservice___/" target="_blank" class="social-btn ig"><i class="fab fa-instagram"></i> Instagram</a>
                             <a href="https://wa.me/573204829244" target="_blank" class="social-btn wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                            <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank" class="social-btn fb"><i class="fab fa-facebook"></i> Facebook</a>
                         </div>
                     </div>
                 </div>
@@ -183,10 +208,45 @@
                             <div class="form-group"><label>Email *</label><input type="email" id="email" required placeholder="tu@email.com"></div>
                             <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono" placeholder="+57 300 123 4567"></div>
                         </div>
-                        <div class="form-group"><label>Asunto *</label><select id="asunto" required><option value="">Selecciona</option><option>Consulta general</option><option>Estado de mi pedido</option><option>Información de servicios</option><option>Reclamo</option></select></div>
-                        <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required placeholder="Escribe tu mensaje..."></textarea></div>
+                        <div class="form-group">
+                            <label>Asunto *</label>
+                            <select id="asunto" required>
+                                <option value="">Selecciona un asunto</option>
+                                <option>Quiero contratar un paseo</option>
+                                <option>Información de servicios</option>
+                                <option>Tengo una duda</option>
+                                <option>Sugerencia o reclamo</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea></div>
                         <button type="submit" class="btn-enviar"><i class="fas fa-paper-plane"></i> Enviar Mensaje</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header"><span class="section-subtitle">Preguntas Frecuentes</span><h2 class="section-title">¿Tienes dudas?</h2></div>
+            <div class="faq-grid">
+                <div class="faq-card" onclick="this.classList.toggle('open')">
+                    <h4><i class="fas fa-chevron-down"></i> ¿Cómo funciona el GPS en vivo?</h4>
+                    <p>Al iniciar el paseo, recibes un enlace para ver en tiempo real la ubicación de tu mascota en un mapa. ¡Así sabes exactamente dónde está!</p>
+                </div>
+                <div class="faq-card" onclick="this.classList.toggle('open')">
+                    <h4><i class="fas fa-chevron-down"></i> ¿Puedo cambiar de paseador?</h4>
+                    <p>Sí, siempre puedes solicitar un cambio de paseador si lo necesitas. Nuestro equipo te asignará otro profesional certificado.</p>
+                </div>
+                <div class="faq-card" onclick="this.classList.toggle('open')">
+                    <h4><i class="fas fa-chevron-down"></i> ¿Qué pasa si mi perro es agresivo?</h4>
+                    <p>Antes del primer paseo hacemos una evaluación gratuita para conocer a tu mascota y asignar el paseador más adecuado.</p>
+                </div>
+                <div class="faq-card" onclick="this.classList.toggle('open')">
+                    <h4><i class="fas fa-chevron-down"></i> ¿Cómo se realiza el pago?</h4>
+                    <p>Aceptamos transferencia, efectivo y próximamente pagos en línea. El pago se realiza antes del servicio.</p>
                 </div>
             </div>
         </div>
@@ -195,7 +255,7 @@
     <!-- HORARIOS -->
     <section class="horario-section">
         <div class="container">
-            <div class="section-header"><span class="section-subtitle">Siempre Disponibles</span><h2 class="section-title">Horarios de Atención</h2></div>
+            <div class="section-header"><span class="section-subtitle">Disponibles</span><h2 class="section-title">Horarios de Atención</h2></div>
             <div class="horario-grid">
                 <div class="horario-card"><div class="horario-dia">Lunes a Viernes</div><div class="horario-hora">8:00 - 20:00</div></div>
                 <div class="horario-card"><div class="horario-dia">Sábados</div><div class="horario-hora">9:00 - 18:00</div></div>
@@ -219,7 +279,7 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li></ul></div>
                 <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
                 <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
                 <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
@@ -227,7 +287,6 @@
             <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
-
 
     <!-- WHATSAPP -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
@@ -244,14 +303,10 @@
     <!-- SIDEBAR -->
     <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
     <div class="profile-sidebar" id="profileSidebar">
-        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
-        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
-        <div class="profile-rewards"><div class="profile-points">💰 1,250 Pts</div><div class="profile-coupons">🎁 2 Cupones</div></div>
+        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p></div>
         <div class="profile-menu">
             <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="../cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
-            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
-            <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
+            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos</a>
             <div class="profile-menu-divider"></div>
             <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
         </div>
@@ -259,11 +314,11 @@
 
     <!-- OFERTA -->
     <div class="modal-overlay" id="ofertaModal">
-        <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
+        <div class="modal-container" style="text-align:center;max-width:500px;">
             <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
             <div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
             <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
-            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
+            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;">No gracias</button>
         </div>
     </div>
 
@@ -271,9 +326,10 @@
     <script>
         function enviarFormulario(e) {
             e.preventDefault();
-            var n = document.getElementById('nombre').value;
-            var em = document.getElementById('email').value;
-            if (!n || !em) { alert('Completa los campos requeridos'); return false; }
+            var nombre = document.getElementById('nombre').value;
+            var email = document.getElementById('email').value;
+            var mensaje = document.getElementById('mensaje').value;
+            if (!nombre || !email || !mensaje) { alert('Completa los campos requeridos'); return false; }
             alert('✅ Mensaje enviado con éxito. Te responderemos pronto.');
             e.target.reset();
             return false;
