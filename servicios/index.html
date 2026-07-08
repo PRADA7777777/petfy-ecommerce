@@ -168,140 +168,327 @@
     <section class="servicios-content">
         <div class="container">
             
-            <!-- ========== PANEL PASEOS ========== -->
-            <div class="servicio-panel active" id="panel-paseos">
-                
-                <div class="paseos-info-box">
-                    <h3>🐕 Paseos Profesionales</h3>
-                    <p>Todos los paseos incluyen: GPS en vivo, fotos, paseador certificado y snack premium. Elige el plan que mejor se adapte a ti.</p>
-                </div>
-                
-                <!-- TARJETAS DE PLANES -->
-                <div class="paseos-grid" id="paseosGrid">
-                    <div class="plan-card" id="card-personalizado" onclick="seleccionarPlan('personalizado')">
-                        <div class="plan-icon">⚡</div>
-                        <h3 class="plan-nombre">Paseo Personalizado</h3>
-                        <div class="plan-precio">$10.990<small>/paseo</small></div>
-                        <p class="plan-desc">45 minutos • El día que elijas • Sin suscripción</p>
-                    </div>
-                    <div class="plan-card" id="card-3dias" onclick="seleccionarPlan('3dias')">
-                        <div class="plan-icon">🌟</div>
-                        <h3 class="plan-nombre">Plan 3 Días/Semana</h3>
-                        <div class="plan-precio">$89.990<small>/mes</small></div>
-                        <p class="plan-desc">1 hora • 3 veces por semana • Ahorra 20%</p>
-                    </div>
-                    <div class="plan-card" id="card-full" onclick="seleccionarPlan('full')">
-                        <div class="plan-icon">💎</div>
-                        <h3 class="plan-nombre">Plan Full 7 Días</h3>
-                        <div class="plan-precio">$159.990<small>/mes</small></div>
-                        <p class="plan-desc">1 hora • Todos los días • Paseador VIP • Ahorra 40%</p>
-                    </div>
-                </div>
-                
-                <button class="btn-volver-planes" id="btnVolver" onclick="volverPlanes()">← Ver todos los planes</button>
-                
-                <!-- FORMULARIO (SE MUESTRA AL SELECCIONAR PLAN) -->
-                <div class="formulario-paseo" id="formularioPaseo" style="display:none;">
-                    <h3 id="formTitulo">📋 Completa tus datos</h3>
-                    
-                    <form onsubmit="return contratarPaseo(event)">
-                        
-                        <!-- SECCIÓN 1: DATOS DEL CLIENTE -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-user"></i> Datos del Cliente</h4>
-                            <div class="form-row">
-                                <div class="form-group"><label>Nombre *</label><input type="text" id="clienteNombre" required placeholder="Tu nombre"></div>
-                                <div class="form-group"><label>Apellido *</label><input type="text" id="clienteApellido" required placeholder="Tu apellido"></div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Teléfono 1 *</label><input type="tel" id="clienteTel1" required placeholder="+57 300 123 4567"></div>
-                                <div class="form-group"><label>Teléfono 2 (opcional)</label><input type="tel" id="clienteTel2" placeholder="+57 300 123 4567"></div>
-                            </div>
-                            <div class="form-group"><label>Correo electrónico *</label><input type="email" id="clienteEmail" required placeholder="tu@email.com"></div>
-                        </div>
-                        
-                        <!-- SECCIÓN 2: DIRECCIÓN -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-map-marker-alt"></i> Dirección</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Ciudad *</label>
-                                    <select id="dirCiudad" required onchange="toggleLocalidad()">
-                                        <option value="">Selecciona ciudad</option>
-                                        <option value="bogota">Bogotá</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Localidad *</label>
-                                    <select id="dirLocalidad" required disabled>
-                                        <option value="">Selecciona localidad</option>
-                                        <option value="usaquen">Usaquén</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group"><label>Dirección *</label><input type="text" id="dirDireccion" required placeholder="Calle, carrera, número"></div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Conjunto/Torre</label><input type="text" id="dirTorre" placeholder="Ej: Torre 3"></div>
-                                <div class="form-group"><label>Apartamento</label><input type="text" id="dirApto" placeholder="Ej: 501"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- SECCIÓN 3: DATOS DEL PERRO -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-dog"></i> Datos de tu Perro</h4>
-                            <div class="form-row">
-                                <div class="form-group"><label>Nombre *</label><input type="text" id="perroNombre" required placeholder="Nombre de tu perro"></div>
-                                <div class="form-group"><label>Raza *</label><input type="text" id="perroRaza" required placeholder="Ej: Golden Retriever"></div>
-                            </div>
-                            <div class="form-row-3">
-                                <div class="form-group"><label>Edad *</label><input type="text" id="perroEdad" required placeholder="Ej: 3 años"></div>
-                                <div class="form-group"><label>Peso (kg) *</label><input type="text" id="perroPeso" required placeholder="Ej: 25"></div>
-                                <div class="form-group"><label>Comportamiento *</label><select id="perroComportamiento" required><option value="">Selecciona</option><option>Sociable</option><option>Tímido</option><option>Juguetón</option><option>Dominante</option><option>Ansioso</option></select></div>
-                            </div>
-                            <div class="form-group"><label>Alergias o enfermedades</label><textarea id="perroAlergias" placeholder="¿Tiene alergias, enfermedades o condiciones especiales?"></textarea></div>
-                            <div class="form-group"><label>Indicaciones adicionales</label><textarea id="perroIndicaciones" placeholder="Cualquier información que el paseador deba saber"></textarea></div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Foto del perro</label><div class="file-input"><input type="file" id="perroFoto" accept="image/*" style="width:100%;"><small style="color:var(--text-muted);">JPEG o PNG</small></div></div>
-                                <div class="form-group"><label>Carnet de vacunación</label><div class="file-input"><input type="file" id="perroVacunas" accept="image/*" style="width:100%;"><small style="color:var(--text-muted);">JPEG o PNG</small></div></div>
-                            </div>
-                        </div>
-                        
-                        <!-- SECCIÓN 4: AGENDA -->
-                        <div class="form-section" id="seccionAgenda">
-                            <h4><i class="fas fa-calendar"></i> Agenda tu Paseo</h4>
-                            <div class="form-group">
-                                <label>Fecha de inicio *</label>
-                                <input type="date" id="agendaFecha" required>
-                            </div>
-                            <div id="agendaFrecuencia" style="display:none;">
-                                <div class="form-group">
-                                    <label>Días por semana</label>
-                                    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;">
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="lunes"> Lunes</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="martes"> Martes</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="miercoles"> Miércoles</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="jueves"> Jueves</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="viernes"> Viernes</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="sabado"> Sábado</label>
-                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="domingo"> Domingo</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Hora preferida *</label>
-                                <select id="agendaHora" required>
-                                    <option value="">Selecciona horario</option>
-                                    <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
-                                    <option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn-contratar"><i class="fas fa-paw"></i> Contratar Plan</button>
-                    </form>
-                </div>
+            <!-- ========== WIZARD DE CONTRATACIÓN ========== -->
+<style>
+    .wizard-container { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); }
+    
+    /* Pasos */
+    .wizard-steps { display: flex; background: var(--bg); padding: 1rem 2rem; gap: 0; }
+    .wizard-step {
+        flex: 1; text-align: center; padding: 0.75rem; font-weight: 700; font-size: 0.85rem;
+        color: var(--text-muted); position: relative; cursor: default;
+    }
+    .wizard-step.active { color: var(--primary); }
+    .wizard-step.completed { color: var(--success); }
+    .wizard-step .step-number {
+        width: 30px; height: 30px; border-radius: 50%; background: var(--gray-200);
+        display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem;
+        font-family: 'Fredoka One', cursive; font-size: 0.9rem; color: white;
+    }
+    .wizard-step.active .step-number { background: var(--primary); }
+    .wizard-step.completed .step-number { background: var(--success); }
+    
+    /* Contenido */
+    .wizard-content { padding: 2rem; }
+    .wizard-panel { display: none; animation: fadeIn 0.4s ease; }
+    .wizard-panel.active { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateX(10px);} to{opacity:1;transform:translateX(0);} }
+    
+    .wizard-panel h3 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .wizard-panel h3 i { color: var(--primary); font-size: 1.5rem; }
+    
+    /* Navegación */
+    .wizard-nav { display: flex; justify-content: space-between; padding: 1.5rem 2rem; border-top: 1px solid rgba(0,0,0,0.05); }
+    .btn-wizard {
+        padding: 0.7rem 1.8rem; border-radius: 25px; font-family: 'Nunito', sans-serif;
+        font-weight: 800; cursor: pointer; border: none; transition: var(--transition);
+    }
+    .btn-prev { background: var(--bg); color: var(--text); }
+    .btn-next { background: var(--primary); color: white; }
+    .btn-next:hover { background: var(--primary-dark); }
+    .btn-finish { background: var(--success); color: white; font-size: 1rem; padding: 0.85rem 2rem; }
+    .btn-finish:hover { background: #059669; }
+    
+    /* Resumen */
+    .resumen-card { background: var(--bg); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 0.75rem; }
+    .resumen-card strong { color: var(--primary); }
+    
+    /* Perfiles guardados */
+    .mascota-guardada {
+        display: flex; align-items: center; gap: 1rem; padding: 1rem;
+        border: 2px solid rgba(0,0,0,0.04); border-radius: var(--radius);
+        cursor: pointer; transition: var(--transition); margin-bottom: 0.5rem;
+    }
+    .mascota-guardada:hover { border-color: var(--primary); background: var(--primary-light); }
+    .mascota-guardada.seleccionada { border-color: var(--primary); background: var(--primary-light); }
+    .mascota-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    
+    .login-aviso { text-align: center; padding: 2rem; background: #FFF8F5; border-radius: var(--radius); margin-bottom: 1.5rem; }
+    .login-aviso p { margin-bottom: 1rem; }
+    
+    @media(max-width:768px){.wizard-steps{flex-direction:column;gap:0.5rem;}.wizard-step{text-align:left;display:flex;align-items:center;gap:0.75rem;}.wizard-step .step-number{margin:0;}}
+</style>
+
+<div class="wizard-container" id="contratacionWizard">
+    
+    <!-- PASOS -->
+    <div class="wizard-steps">
+        <div class="wizard-step active" id="step1"><div class="step-number">1</div> Cuenta</div>
+        <div class="wizard-step" id="step2"><div class="step-number">2</div> Mascota</div>
+        <div class="wizard-step" id="step3"><div class="step-number">3</div> Plan</div>
+        <div class="wizard-step" id="step4"><div class="step-number">4</div> Agenda</div>
+    </div>
+    
+    <!-- CONTENIDO -->
+    <div class="wizard-content">
+        
+        <!-- PASO 1: CUENTA -->
+        <div class="wizard-panel active" id="panel1">
+            <h3><i class="fas fa-user-circle"></i> Paso 1: Tu Cuenta</h3>
+            
+            <div id="clienteLogueado" style="display:none;">
+                <div class="resumen-card"><strong>👤 Cliente:</strong> <span id="resumenCliente"></span></div>
+                <div class="resumen-card"><strong>📧 Email:</strong> <span id="resumenEmail"></span></div>
+                <div class="resumen-card"><strong>📱 Teléfono:</strong> <span id="resumenTel"></span></div>
+                <button class="btn btn-outline" onclick="cerrarSesion()" style="margin-top:1rem;">Usar otra cuenta</button>
             </div>
             
+            <div id="clienteNoLogueado">
+                <div class="login-aviso">
+                    <p>👤 Si tienes cuenta, inicia sesión para cargar tus datos automáticamente.</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('loginModal').classList.add('active')"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</button>
+                </div>
+                <p style="text-align:center;color:var(--text-muted);">O continúa sin cuenta</p>
+                <div class="form-row">
+                    <div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" required placeholder="Tu nombre"></div>
+                    <div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" required placeholder="Tu apellido"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" required placeholder="+57 300 123 4567"></div>
+                    <div class="form-group"><label>Email *</label><input type="email" id="wizEmail" required placeholder="tu@email.com"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PASO 2: MASCOTA -->
+        <div class="wizard-panel" id="panel2">
+            <h3><i class="fas fa-dog"></i> Paso 2: Tu Mascota</h3>
+            
+            <!-- Mascotas guardadas -->
+            <div id="mascotasGuardadas" style="display:none;">
+                <p style="color:var(--text-light);margin-bottom:1rem;">Selecciona una mascota guardada o crea una nueva</p>
+                <div id="listaMascotas"></div>
+                <button class="btn btn-outline" onclick="mostrarNuevaMascota()" style="margin-top:1rem;"><i class="fas fa-plus"></i> Nueva Mascota</button>
+            </div>
+            
+            <!-- Formulario nueva mascota -->
+            <div id="formNuevaMascota">
+                <div class="form-row">
+                    <div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" required placeholder="Nombre de tu perro"></div>
+                    <div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" required placeholder="Ej: Golden Retriever"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Edad *</label><input type="text" id="wizPerroEdad" required placeholder="Ej: 3 años"></div>
+                    <div class="form-group"><label>Peso (kg) *</label><input type="text" id="wizPerroPeso" required placeholder="Ej: 25"></div>
+                </div>
+                <div class="form-group"><label>Comportamiento</label><select id="wizPerroComportamiento"><option>Sociable</option><option>Tímido</option><option>Juguetón</option><option>Dominante</option></select></div>
+                <div class="form-group"><label>Alergias o condiciones</label><textarea id="wizPerroAlergias" rows="2" placeholder="¿Alergias, enfermedades?"></textarea></div>
+                <div class="form-group"><label>Indicaciones para el paseador</label><textarea id="wizPerroIndicaciones" rows="2" placeholder="Notas importantes"></textarea></div>
+            </div>
+        </div>
+        
+        <!-- PASO 3: PLAN -->
+        <div class="wizard-panel" id="panel3">
+            <h3><i class="fas fa-tag"></i> Paso 3: Elige tu Plan</h3>
+            <div class="paseos-grid">
+                <div class="plan-card" onclick="seleccionarPlanWizard('personalizado')" id="wiz-personalizado">
+                    <div class="plan-icon">⚡</div><h3 class="plan-nombre">Paseo Personalizado</h3>
+                    <div class="plan-precio">$10.990<small>/paseo</small></div>
+                    <p class="plan-desc">45 min • El día que elijas</p>
+                </div>
+                <div class="plan-card" onclick="seleccionarPlanWizard('3dias')" id="wiz-3dias">
+                    <div class="plan-icon">🌟</div><h3 class="plan-nombre">3 Días/Semana</h3>
+                    <div class="plan-precio">$89.990<small>/mes</small></div>
+                    <p class="plan-desc">1 hora • 3 veces/semana</p>
+                </div>
+                <div class="plan-card" onclick="seleccionarPlanWizard('full')" id="wiz-full">
+                    <div class="plan-icon">💎</div><h3 class="plan-nombre">Full 7 Días</h3>
+                    <div class="plan-precio">$159.990<small>/mes</small></div>
+                    <p class="plan-desc">1 hora • Todos los días</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PASO 4: AGENDA -->
+        <div class="wizard-panel" id="panel4">
+            <h3><i class="fas fa-calendar"></i> Paso 4: Agenda</h3>
+            <div class="form-group"><label>Fecha de inicio *</label><input type="date" id="wizFecha" required></div>
+            <div id="wizDiasSemana" style="display:none;">
+                <label style="font-weight:700;margin-bottom:0.5rem;display:block;">Días de la semana</label>
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                    <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="lunes"> Lun</label>
+                    <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="martes"> Mar</label>
+                    <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="miercoles"> Mié</label>
+                    <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="jueves"> Jue</label>
+                    <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="viernes"> Vie</label>
+                </div>
+            </div>
+            <div class="form-group"><label>Hora preferida *</label><select id="wizHora" required><option value="">Selecciona</option><option>8:00 AM</option><option>10:00 AM</option><option>2:00 PM</option><option>4:00 PM</option></select></div>
+            
+            <!-- Resumen final -->
+            <div class="resumen-card" style="margin-top:1.5rem;background:#FFF8F5;border:2px solid var(--primary);">
+                <h4 style="font-family:'Fredoka One',cursive;color:var(--primary);margin-bottom:0.5rem;">📋 Resumen de tu contratación</h4>
+                <p><strong>Cliente:</strong> <span id="resFinalCliente">-</span></p>
+                <p><strong>Mascota:</strong> <span id="resFinalMascota">-</span></p>
+                <p><strong>Plan:</strong> <span id="resFinalPlan">-</span></p>
+                <p><strong>Inicio:</strong> <span id="resFinalFecha">-</span></p>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- NAVEGACIÓN -->
+    <div class="wizard-nav">
+        <button class="btn-wizard btn-prev" onclick="pasoAnterior()" id="btnPrev" style="visibility:hidden;">← Anterior</button>
+        <button class="btn-wizard btn-next" onclick="pasoSiguiente()" id="btnNext">Siguiente →</button>
+        <button class="btn-wizard btn-finish" onclick="finalizarContratacion()" id="btnFinish" style="display:none;"><i class="fas fa-check"></i> Confirmar y Contratar</button>
+    </div>
+</div>
+
+<script>
+    var pasoActual = 1;
+    var planSeleccionado = null;
+    var mascotaSeleccionada = null;
+    
+    // Inicializar
+    function initWizard() {
+        if (localStorage.getItem('petfyLogged') === 'true') {
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            document.getElementById('clienteLogueado').style.display = 'block';
+            document.getElementById('clienteNoLogueado').style.display = 'none';
+            document.getElementById('resumenCliente').textContent = user.nombre + ' ' + (user.apellido || '');
+            document.getElementById('resumenEmail').textContent = user.email;
+            document.getElementById('resumenTel').textContent = user.telefono || 'No registrado';
+            cargarMascotasGuardadas();
+        }
+        actualizarPasos();
+    }
+    
+    function cargarMascotasGuardadas() {
+        var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+        if (mascotas.length > 0) {
+            document.getElementById('mascotasGuardadas').style.display = 'block';
+            document.getElementById('formNuevaMascota').style.display = 'none';
+            var html = '';
+            mascotas.forEach(function(m, i) {
+                html += '<div class="mascota-guardada" onclick="seleccionarMascotaGuardada(' + i + ', this)"><div class="mascota-avatar">🐕</div><div><strong>' + m.nombre + '</strong><p style="color:var(--text-light);font-size:0.85rem;">' + m.raza + ' • ' + m.edad + ' • ' + m.peso + 'kg</p></div></div>';
+            });
+            document.getElementById('listaMascotas').innerHTML = html;
+        } else {
+            document.getElementById('mascotasGuardadas').style.display = 'none';
+            document.getElementById('formNuevaMascota').style.display = 'block';
+        }
+    }
+    
+    function seleccionarMascotaGuardada(index, el) {
+        document.querySelectorAll('.mascota-guardada').forEach(function(m) { m.classList.remove('seleccionada'); });
+        el.classList.add('seleccionada');
+        var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+        mascotaSeleccionada = mascotas[index];
+    }
+    
+    function mostrarNuevaMascota() {
+        document.getElementById('mascotasGuardadas').style.display = 'none';
+        document.getElementById('formNuevaMascota').style.display = 'block';
+        mascotaSeleccionada = null;
+    }
+    
+    function seleccionarPlanWizard(plan) {
+        planSeleccionado = plan;
+        document.querySelectorAll('#panel3 .plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
+        document.getElementById('wiz-' + plan).classList.add('seleccionado');
+        
+        if (plan === 'personalizado') { document.getElementById('wizDiasSemana').style.display = 'none'; }
+        else { document.getElementById('wizDiasSemana').style.display = 'block'; }
+    }
+    
+    function actualizarPasos() {
+        for (var i = 1; i <= 4; i++) {
+            var step = document.getElementById('step' + i);
+            step.classList.remove('active', 'completed');
+            if (i < pasoActual) step.classList.add('completed');
+            if (i === pasoActual) step.classList.add('active');
+        }
+        
+        document.querySelectorAll('.wizard-panel').forEach(function(p, i) {
+            p.classList.toggle('active', i + 1 === pasoActual);
+        });
+        
+        document.getElementById('btnPrev').style.visibility = pasoActual === 1 ? 'hidden' : 'visible';
+        document.getElementById('btnNext').style.display = pasoActual === 4 ? 'none' : 'inline-block';
+        document.getElementById('btnFinish').style.display = pasoActual === 4 ? 'inline-block' : 'none';
+        
+        if (pasoActual === 4) actualizarResumen();
+    }
+    
+    function actualizarResumen() {
+        var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        document.getElementById('resFinalCliente').textContent = user.nombre || document.getElementById('wizNombre')?.value || '-';
+        document.getElementById('resFinalMascota').textContent = mascotaSeleccionada ? mascotaSeleccionada.nombre : (document.getElementById('wizPerroNombre')?.value || '-');
+        var planes = { personalizado: 'Paseo Personalizado - $10.990', '3dias': '3 Días/Semana - $89.990/mes', full: 'Full 7 Días - $159.990/mes' };
+        document.getElementById('resFinalPlan').textContent = planes[planSeleccionado] || '-';
+        document.getElementById('resFinalFecha').textContent = document.getElementById('wizFecha')?.value || '-';
+    }
+    
+    function pasoAnterior() { if (pasoActual > 1) { pasoActual--; actualizarPasos(); } }
+    function pasoSiguiente() {
+        if (validarPaso()) { pasoActual++; actualizarPasos(); }
+    }
+    
+    function validarPaso() {
+        if (pasoActual === 1) {
+            if (localStorage.getItem('petfyLogged') !== 'true') {
+                if (!document.getElementById('wizNombre').value || !document.getElementById('wizEmail').value) { alert('Completa tus datos'); return false; }
+            }
+        }
+        if (pasoActual === 2) {
+            if (!mascotaSeleccionada && !document.getElementById('wizPerroNombre').value) { alert('Selecciona o crea una mascota'); return false; }
+        }
+        if (pasoActual === 3) {
+            if (!planSeleccionado) { alert('Selecciona un plan'); return false; }
+        }
+        return true;
+    }
+    
+    function finalizarContratacion() {
+        var perroNombre = mascotaSeleccionada ? mascotaSeleccionada.nombre : document.getElementById('wizPerroNombre').value;
+        if (!perroNombre || !document.getElementById('wizFecha').value || !document.getElementById('wizHora').value) { alert('Completa la agenda'); return false; }
+        
+        // Guardar mascota si es nueva
+        if (!mascotaSeleccionada && document.getElementById('wizPerroNombre').value) {
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            mascotas.push({
+                nombre: document.getElementById('wizPerroNombre').value,
+                raza: document.getElementById('wizPerroRaza').value,
+                edad: document.getElementById('wizPerroEdad').value,
+                peso: document.getElementById('wizPerroPeso').value,
+                comportamiento: document.getElementById('wizPerroComportamiento').value,
+                alergias: document.getElementById('wizPerroAlergias').value
+            });
+            localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+        }
+        
+        var planes = { personalizado: 'Paseo Personalizado', '3dias': '3 Días/Semana', full: 'Full 7 Días' };
+        alert('🎉 ¡Contratación exitosa!\n\nPlan: ' + planes[planSeleccionado] + '\nMascota: ' + perroNombre + '\nFecha: ' + document.getElementById('wizFecha').value + '\nHora: ' + document.getElementById('wizHora').value + '\n\nTe contactaremos en las próximas 2 horas.');
+        
+        // Reiniciar
+        pasoActual = 1; planSeleccionado = null; mascotaSeleccionada = null;
+        actualizarPasos();
+        document.querySelectorAll('.plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
+    }
+    
+    initWizard();
+</script>
             <!-- ========== PANEL GUARDERÍA ========== -->
             <div class="servicio-panel" id="panel-guarderia">
                 <div class="inactivo-placeholder">
