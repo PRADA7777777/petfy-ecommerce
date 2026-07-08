@@ -189,23 +189,32 @@
         </div>
     </div>
 
-    <!-- ========== COOKIES ========== -->
-    <div class="modal-overlay" id="cookiesModal" style="display:flex;align-items:flex-end;background:rgba(0,0,0,0.3);">
-        <div class="cookies-banner">
-            <div class="container" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
-                <div style="flex:1;min-width:250px;"><h4 style="font-family:'Fredoka One',cursive;">🍪 Cookies</h4><p style="font-size:0.85rem;color:var(--text-light);margin:0;">Usamos cookies. <a href="legal/terminos.html" style="color:var(--primary);">Términos</a></p></div>
-                <div style="display:flex;gap:0.5rem;"><button onclick="rechazarCookies()" class="btn-cookie-outline">Solo necesarias</button><button onclick="aceptarCookies()" class="btn-cookie-primary">Aceptar</button></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== OFERTA BIENVENIDA ========== -->
+    <!-- ========== OFERTA BIENVENIDA MEJORADA ========== -->
     <div class="modal-overlay" id="ofertaModal">
-        <div class="modal-container" style="text-align:center;max-width:480px;">
+        <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
             <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
-            <div style="font-size:4rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
-            <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
-            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
+            <div style="font-size:5rem;animation:float 2s ease-in-out infinite;">🎉</div>
+            <h2 style="font-size:1.8rem;margin-bottom:0.5rem;">¡Bienvenido a la familia Petfy!</h2>
+            <p style="color:var(--text-light);margin-bottom:1.5rem;">Solo por registrarte hoy, recibe:</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0);padding:1.5rem;border-radius:20px;">
+                    <div style="font-size:2.5rem;">🛍️</div>
+                    <div style="font-size:2.5rem;font-family:'Fredoka One',cursive;color:var(--primary);line-height:1;">50%</div>
+                    <div style="font-weight:800;color:var(--text);">DESCUENTO</div>
+                    <div style="font-size:0.8rem;color:var(--text-light);">En tu primera compra</div>
+                    <div style="background:var(--primary);color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;font-weight:800;margin-top:0.5rem;display:inline-block;">BIENVENIDO50</div>
+                </div>
+                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);padding:1.5rem;border-radius:20px;">
+                    <div style="font-size:2.5rem;">🐕</div>
+                    <div style="font-size:2.5rem;font-family:'Fredoka One',cursive;color:#059669;line-height:1;">1</div>
+                    <div style="font-weight:800;color:var(--text);">PASEO GRATIS</div>
+                    <div style="font-size:0.8rem;color:var(--text-light);">Paseo Express sin costo</div>
+                    <div style="background:#059669;color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;font-weight:800;margin-top:0.5rem;display:inline-block;">PASEOGRATIS1</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">⚡ Válido solo para nuevos registros</p>
+            <button onclick="reclamarOferta()" class="modal-btn" style="font-size:1.1rem;padding:1rem;">🎁 Crear Cuenta y Reclamar</button>
+            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;font-size:0.85rem;">No gracias, solo estoy mirando</button>
         </div>
     </div>
 

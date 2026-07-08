@@ -4,16 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ========== HEADER STICKY ==========
     window.addEventListener('scroll', function() {
-        var header = document.getElementById('mainHeader');
-        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+        var h = document.getElementById('mainHeader');
+        if (h) h.classList.toggle('scrolled', window.scrollY > 50);
     });
     
     // ========== MENÚ MÓVIL ==========
-    var mobileBtn = document.querySelector('.mobile-menu-btn');
-    var navLinks = document.querySelector('.nav-links');
-    if (mobileBtn && navLinks) {
-        mobileBtn.onclick = function() { navLinks.classList.toggle('active'); };
-    }
+    var mb = document.querySelector('.mobile-menu-btn');
+    var nl = document.querySelector('.nav-links');
+    if (mb && nl) { mb.onclick = function() { nl.classList.toggle('active'); }; }
     
     // ========== BREADCRUMB ==========
     generarBreadcrumb();
@@ -33,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ========== BOTÓN CUENTA ==========
-    var btnCuenta = document.getElementById('btnCuenta');
-    if (btnCuenta) {
-        btnCuenta.onclick = function(e) {
+    // ========== BOTÓN CUENTA (LOGIN/SIDEBAR) ==========
+    var btn = document.getElementById('btnCuenta');
+    if (btn) {
+        btn.onclick = function(e) {
             e.preventDefault();
             if (localStorage.getItem('petfyLogged') === 'true') {
                 abrirSidebar();
@@ -47,27 +45,27 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
+    // ========== OFERTA BIENVENIDA ==========
+    if (!localStorage.getItem('ofertaVista') && localStorage.getItem('petfyLogged') !== 'true') {
+        setTimeout(function() {
+            var oferta = document.getElementById('ofertaModal');
+            if (oferta) oferta.classList.add('active');
+        }, 3000);
+    }
+    
     // ========== ESTADO INICIAL ==========
     if (localStorage.getItem('petfyLogged') === 'true') {
-        var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-        if (user.nombre) actualizarUI(user);
-    }
-    if (localStorage.getItem('cookiesAceptadas')) {
-        var c = document.getElementById('cookiesModal');
-        if (c) c.style.display = 'none';
-    }
-    if (localStorage.getItem('ofertaVista') || localStorage.getItem('petfyLogged') === 'true') {
-        var o = document.getElementById('ofertaModal');
-        if (o) o.style.display = 'none';
+        var u = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (u.nombre) actualizarUI(u);
     }
     
     // ========== CARRUSEL ==========
     iniciarCarrusel();
     
     // ========== NEWSLETTER ==========
-    var nl = document.querySelector('.newsletter-form');
-    if (nl) {
-        nl.addEventListener('submit', function(e) {
+    var nlForm = document.querySelector('.newsletter-form');
+    if (nlForm) {
+        nlForm.addEventListener('submit', function(e) {
             e.preventDefault();
             var email = this.querySelector('input[type="email"]').value;
             if (email) { alert('✅ ¡Suscrito con éxito!'); this.reset(); }
@@ -77,7 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Petfy inicializado');
 });
 
-// ========== SIDEBAR ==========
+// ============================================================
+// SIDEBAR
+// ============================================================
 function abrirSidebar() {
     document.getElementById('profileSidebar').classList.add('active');
     document.getElementById('profileOverlay').classList.add('active');
@@ -87,7 +87,9 @@ function cerrarSidebar() {
     document.getElementById('profileOverlay').classList.remove('active');
 }
 
-// ========== MODAL LOGIN ==========
+// ============================================================
+// MODAL LOGIN/REGISTRO
+// ============================================================
 function abrirModal() { document.getElementById('loginModal').classList.add('active'); }
 function cerrarModal() { document.getElementById('loginModal').classList.remove('active'); }
 function mostrarRegistro() {
@@ -106,7 +108,8 @@ function loginModal(e) {
         var user = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
         localStorage.setItem('petfyUser', JSON.stringify(user));
         localStorage.setItem('petfyLogged', 'true');
-        actualizarUI(user); cerrarModal();
+        actualizarUI(user);
+        cerrarModal();
     }
     return false;
 }
@@ -119,11 +122,15 @@ function registroModal(e) {
     var user = { nombre: nombre, apellido: '', email: email, telefono: '' };
     localStorage.setItem('petfyUser', JSON.stringify(user));
     localStorage.setItem('petfyLogged', 'true');
-    actualizarUI(user); cerrarModal(); mostrarLogin();
+    actualizarUI(user);
+    cerrarModal();
+    mostrarLogin();
     return false;
 }
 
-// ========== ACTUALIZAR UI ==========
+// ============================================================
+// ACTUALIZAR UI
+// ============================================================
 function actualizarUI(user) {
     var btn = document.getElementById('btnCuenta');
     if (btn) {
@@ -140,30 +147,23 @@ function cerrarSesion() {
     window.location.href = 'index.html';
 }
 
-// ========== COOKIES ==========
-function aceptarCookies() {
-    localStorage.setItem('cookiesAceptadas', 'true');
-    document.getElementById('cookiesModal').style.display = 'none';
-    if (!localStorage.getItem('ofertaVista') && localStorage.getItem('petfyLogged') !== 'true') {
-        setTimeout(function() { document.getElementById('ofertaModal').classList.add('active'); }, 1000);
-    }
-}
-function rechazarCookies() {
-    localStorage.setItem('cookiesAceptadas', 'minimas');
-    document.getElementById('cookiesModal').style.display = 'none';
-}
+// ============================================================
+// OFERTA
+// ============================================================
 function cerrarOferta() {
     document.getElementById('ofertaModal').classList.remove('active');
     localStorage.setItem('ofertaVista', 'true');
 }
 function reclamarOferta() {
     document.getElementById('ofertaModal').classList.remove('active');
-    abrirModal(); mostrarRegistro();
+    abrirModal();
+    mostrarRegistro();
 }
 
-// ========== CARRITO ==========
+// ============================================================
+// CARRITO
+// ============================================================
 function obtenerCarrito() { return JSON.parse(localStorage.getItem('petfyCart')) || []; }
-function guardarCarrito(c) { localStorage.setItem('petfyCart', JSON.stringify(c)); actualizarContadorCarrito(); }
 function actualizarContadorCarrito() {
     var cart = obtenerCarrito();
     var total = cart.reduce(function(s, i) { return s + (i.quantity || 1); }, 0);
@@ -178,18 +178,20 @@ function agregarAlCarrito(id, name, price, image, qty) {
     var idx = cart.findIndex(function(i) { return i.id === id; });
     if (idx > -1) { cart[idx].quantity += qty; }
     else { cart.push({ id: id, name: name, price: price, image: image, quantity: qty }); }
-    guardarCarrito(cart);
+    localStorage.setItem('petfyCart', JSON.stringify(cart));
+    actualizarContadorCarrito();
     alert('✅ Añadido al carrito');
 }
 
-// ========== CARRUSEL ==========
+// ============================================================
+// CARRUSEL
+// ============================================================
 function iniciarCarrusel() {
     var container = document.getElementById('mainCarousel');
     if (!container) return;
-    var track = container.querySelector('.carousel-track');
-    var slides = track.querySelectorAll('.carousel-slide');
-    var dots = container.querySelectorAll('.dot');
-    var current = 0, total = slides.length, interval;
+    var track = document.getElementById('carouselTrack');
+    var dots = document.querySelectorAll('.carousel-dots .dot');
+    var current = 0, total = 4, interval;
     
     function go(n) {
         current = (n + total) % total;
@@ -201,15 +203,21 @@ function iniciarCarrusel() {
     function start() { stop(); interval = setInterval(next, 5000); }
     function stop() { clearInterval(interval); }
     
-    container.querySelector('.carousel-prev').onclick = function() { prev(); start(); };
-    container.querySelector('.carousel-next').onclick = function() { next(); start(); };
+    var prevBtn = container.querySelector('.carousel-prev');
+    var nextBtn = container.querySelector('.carousel-next');
+    if (prevBtn) prevBtn.onclick = function() { prev(); start(); };
+    if (nextBtn) nextBtn.onclick = function() { next(); start(); };
+    
     dots.forEach(function(d, i) { d.onclick = function() { go(i); start(); }; });
+    
     container.addEventListener('mouseenter', stop);
     container.addEventListener('mouseleave', start);
     start();
 }
 
-// ========== BREADCRUMB ==========
+// ============================================================
+// BREADCRUMB
+// ============================================================
 function generarBreadcrumb() {
     var list = document.getElementById('breadcrumbList');
     if (!list) return;
@@ -218,23 +226,17 @@ function generarBreadcrumb() {
     var depth = path.split('/').filter(function(p) { return p; }).length;
     var base = depth > 1 ? '../'.repeat(depth - 1) : '';
     
-    var pages = {
-        '': { n: 'Inicio', i: 'fa-home' },
-        'index.html': { n: 'Inicio', i: 'fa-home' }
-    };
-    
-    var current = pages[page] || { n: page.replace('.html','').replace(/-/g,' ').replace(/\b\w/g,function(l){return l.toUpperCase();}), i: 'fa-file' };
-    
-    var html = '';
     if (page === 'index.html' || page === '') {
-        html = '<li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas fa-home"></i> Inicio</span></li>';
+        list.innerHTML = '<li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas fa-home"></i> Inicio</span></li>';
     } else {
-        html = '<li class="breadcrumb-item"><a href="' + base + 'index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li><li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li><li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas ' + current.i + '"></i> ' + current.n + '</span></li>';
+        var name = page.replace('.html','').replace(/-/g,' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+        list.innerHTML = '<li class="breadcrumb-item"><a href="' + base + 'index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li><li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li><li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas fa-file"></i> ' + name + '</span></li>';
     }
-    list.innerHTML = html;
 }
 
-// ========== ESC ==========
+// ============================================================
+// ESC PARA CERRAR
+// ============================================================
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         cerrarSidebar();
