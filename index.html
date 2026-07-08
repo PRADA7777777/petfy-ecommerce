@@ -7,7 +7,7 @@
     <meta name="keywords" content="mascotas, perros, gatos, pet shop, paseos, comida mascotas, accesorios mascotas">
     
     <meta property="og:title" content="PETFY - Un Mundo Peludo">
-    <meta property="og:description" content="Tienda y servicios para el bienestar de tu mascota">
+    <meta property="og:description" content="Tienda online y servicios para el bienestar de tu mascota">
     <meta property="og:image" content="assets/img/og-image.png">
     <meta property="og:url" content="https://petfy.com">
     
@@ -16,6 +16,100 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="assets/css/petfy.css">
+    
+    <style>
+        /* ========== PROFILE SIDEBAR ========== */
+        .profile-sidebar {
+            position: fixed; top: 0; right: -420px; width: 400px; height: 100vh;
+            background: var(--white); z-index: 10000;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.15); overflow-y: auto; padding: 0;
+        }
+        .profile-sidebar.active { right: 0; }
+        .profile-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4); z-index: 9999; backdrop-filter: blur(3px);
+        }
+        .profile-overlay.active { display: block; }
+        .profile-panel-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #C94E2E 100%);
+            padding: 2.5rem 2rem 2rem; color: var(--white); position: relative;
+        }
+        .profile-panel-close {
+            position: absolute; top: 1rem; right: 1.5rem;
+            background: rgba(255,255,255,0.2); border: none; color: white;
+            width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .profile-panel-close:hover { background: rgba(255,255,255,0.4); }
+        .profile-avatar-large {
+            width: 75px; height: 75px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); display: flex; align-items: center;
+            justify-content: center; font-size: 2rem; margin-bottom: 0.75rem;
+            border: 3px solid rgba(255,255,255,0.4);
+        }
+        .profile-panel-header h3 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; margin-bottom: 0.25rem; }
+        .profile-panel-header p { font-size: 0.85rem; opacity: 0.85; }
+        .profile-badge-vip {
+            display: inline-block; background: #F59E0B; color: #1F1B24;
+            padding: 0.2rem 0.75rem; border-radius: 15px; font-size: 0.7rem; font-weight: 800; margin-top: 0.5rem;
+        }
+        .profile-kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; padding: 1.5rem 2rem; background: #FFF8F5; }
+        .profile-kpi { text-align: center; padding: 0.75rem 0.5rem; background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .profile-kpi-number { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--primary); display: block; }
+        .profile-kpi-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .profile-rewards {
+            padding: 1.25rem 2rem; background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .profile-points { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #D97706; }
+        .profile-points small { display: block; font-family: 'Nunito', sans-serif; font-size: 0.7rem; color: #92400E; font-weight: 400; }
+        .profile-coupons { background: #F59E0B; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; }
+        .profile-menu { padding: 0.75rem 1.5rem; }
+        .profile-menu-item {
+            display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem;
+            border-radius: 12px; text-decoration: none; color: var(--text);
+            font-weight: 600; font-size: 0.9rem; transition: all 0.2s;
+            cursor: pointer; border: none; background: none; width: 100%; font-family: 'Nunito', sans-serif;
+        }
+        .profile-menu-item:hover { background: var(--primary-light); color: var(--primary); }
+        .profile-menu-item i { width: 22px; text-align: center; font-size: 1.1rem; color: var(--primary); }
+        .profile-menu-item .badge-count {
+            margin-left: auto; background: var(--primary); color: white;
+            padding: 0.15rem 0.5rem; border-radius: 10px; font-size: 0.7rem; font-weight: 800;
+        }
+        .profile-menu-divider { height: 1px; background: rgba(0,0,0,0.06); margin: 0.5rem 0; }
+        .profile-menu-item.logout { color: var(--danger); }
+        .profile-menu-item.logout i { color: var(--danger); }
+        .profile-menu-item.logout:hover { background: #FEE2E2; }
+        .profile-notification {
+            padding: 0.75rem 2rem; background: #EFF6FF; border-left: 3px solid #3B82F6;
+            margin: 0.5rem 1.5rem; border-radius: 8px; font-size: 0.8rem; color: #1E40AF;
+        }
+        .profile-notification i { margin-right: 0.5rem; }
+
+        /* ========== MODAL LOGIN ========== */
+        .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:10001; align-items:center; justify-content:center; backdrop-filter:blur(5px); }
+        .modal-overlay.active { display:flex; }
+        .modal-container { background:var(--white); border-radius:30px; padding:2.5rem; max-width:420px; width:90%; position:relative; box-shadow:0 25px 50px rgba(0,0,0,0.2); animation:modalIn 0.3s ease; }
+        @keyframes modalIn { from{transform:translateY(30px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+        .modal-close-btn { position:absolute; top:15px; right:20px; background:none; border:none; font-size:1.5rem; color:var(--text-muted); cursor:pointer; }
+        .modal-close-btn:hover { color:var(--danger); }
+        .modal-icon { font-size:3rem; text-align:center; margin-bottom:0.5rem; }
+        .modal-container h2 { font-family:'Fredoka One',cursive; text-align:center; color:var(--text); margin-bottom:0.25rem; font-size:1.5rem; }
+        .modal-sub { text-align:center; color:var(--text-light); margin-bottom:1.5rem; font-size:0.9rem; }
+        .modal-input-group { margin-bottom:1rem; }
+        .modal-input-group input { width:100%; padding:0.85rem 1rem; border:2px solid rgba(0,0,0,0.08); border-radius:15px; font-family:'Nunito',sans-serif; font-size:0.95rem; }
+        .modal-input-group input:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
+        .modal-btn { width:100%; padding:0.85rem; background:var(--primary); color:var(--white); border:none; border-radius:50px; font-family:'Nunito',sans-serif; font-weight:800; font-size:1rem; cursor:pointer; }
+        .modal-btn:hover { background:var(--primary-dark); }
+        .modal-error { color:var(--danger); text-align:center; margin-top:0.75rem; font-size:0.85rem; display:none; }
+        .modal-success { color:var(--success); text-align:center; margin-top:0.75rem; font-size:0.85rem; display:none; }
+        .modal-switch { text-align:center; margin-top:1.25rem; font-size:0.9rem; color:var(--text-light); }
+        .modal-switch a { color:var(--primary); text-decoration:none; font-weight:700; cursor:pointer; }
+        
+        @media (max-width: 480px) { .profile-sidebar { width: 100%; right: -100%; } }
+    </style>
 </head>
 <body>
     
@@ -23,9 +117,7 @@
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
-                    <a href="index.html"><img src="assets/img/petfy.png" alt="Petfy"></a>
-                </div>
+                <div class="logo"><a href="index.html"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
                     <li class="nav-item dropdown-trigger"><a href="tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
                     <li class="nav-item"><a href="servicios/" class="nav-link">Servicios</a></li>
@@ -36,10 +128,10 @@
                     <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
                     <div class="user-actions">
                         <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
-                        <a href="tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                        <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
@@ -58,7 +150,7 @@
                         <p class="hero-description">Tienda online y servicios profesionales para el cuidado de tu mascota.</p>
                         <div class="hero-buttons">
                             <a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a>
-                            <a href="#categorias" class="btn btn-outline">Ver Categorías</a>
+                            <a href="servicios/" class="btn btn-outline">Ver Servicios</a>
                         </div>
                         <div class="hero-stats">
                             <div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div>
@@ -67,10 +159,7 @@
                         </div>
                     </div>
                     <div class="hero-image">
-                        <div class="image-wrapper">
-                            <img src="assets/img/Group 1.png" alt="Mascotas felices" class="floating-image">
-                            <div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div>
-                        </div>
+                        <div class="image-wrapper"><img src="assets/img/Group 1.png" alt="Mascotas felices" class="floating-image"><div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div></div>
                     </div>
                 </div>
             </div>
@@ -107,7 +196,7 @@
                     <div class="benefit-card"><i class="fas fa-truck"></i><h3>Envío Gratis</h3><p>+$30.000</p></div>
                     <div class="benefit-card"><i class="fas fa-shield-alt"></i><h3>Seguro</h3><p>SSL</p></div>
                     <div class="benefit-card"><i class="fas fa-undo"></i><h3>Devolución</h3><p>30 días</p></div>
-                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte</h3><p>24/7</p></div>
+                    <div class="benefit-card"><i class="fas fa-headset"></i><h3>Soporte 24/7</h3><p>WhatsApp</p></div>
                 </div>
             </div>
         </section>
@@ -120,18 +209,19 @@
                 <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="nosotros/">Nosotros</a></li><li><a href="servicios/">Servicios</a></li><li><a href="tienda/">Tienda</a></li></ul></div>
                 <div class="footer-col"><h4>Info</h4><ul><li><a href="legal/terminos.html">Términos</a></li><li><a href="legal/privacidad.html">Privacidad</a></li></ul></div>
                 <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
 
     <!-- WhatsApp -->
-    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Necesito%20informaci%C3%B3n" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <!-- ========== MODAL DE LOGIN / REGISTRO ========== -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
-            <button class="modal-close" onclick="document.getElementById('loginModal').classList.remove('active')">&times;</button>
+            <button class="modal-close-btn" onclick="document.getElementById('loginModal').classList.remove('active')">&times;</button>
             <div id="formLogin">
                 <div class="modal-icon">🐾</div>
                 <h2>Iniciar Sesión</h2>
@@ -160,34 +250,120 @@
         </div>
     </div>
 
-    <style>
-        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
-        .modal-overlay.active{display:flex;}
-        .modal-container{background:var(--white);border-radius:30px;padding:2.5rem;max-width:420px;width:90%;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
-        @keyframes modalIn{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-        .modal-close{position:absolute;top:15px;right:20px;background:none;border:none;font-size:1.5rem;color:var(--text-muted);cursor:pointer;}
-        .modal-close:hover{color:var(--danger);}
-        .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.5rem;}
-        .modal-container h2{font-family:'Fredoka One',cursive;text-align:center;color:var(--text);margin-bottom:0.25rem;font-size:1.5rem;}
-        .modal-sub{text-align:center;color:var(--text-light);margin-bottom:1.5rem;font-size:0.9rem;}
-        .modal-input-group{margin-bottom:1rem;}
-        .modal-input-group input{width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;}
-        .modal-input-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
-        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;}
-        .modal-btn:hover{background:var(--primary-dark);}
-        .modal-error{color:var(--danger);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-success{color:var(--success);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
-        .modal-switch{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-light);}
-        .modal-switch a{color:var(--primary);text-decoration:none;font-weight:700;cursor:pointer;}
-    </style>
+    <!-- ========== PROFILE SIDEBAR ========== -->
+    <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
+    <div class="profile-sidebar" id="profileSidebar">
+        <div class="profile-panel-header">
+            <button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button>
+            <div class="profile-avatar-large">🐾</div>
+            <h3 id="sidebarNombre">Juan Pérez</h3>
+            <p id="sidebarEmail">juan@email.com</p>
+            <span class="profile-badge-vip">⭐ Cliente VIP</span>
+        </div>
+        <div class="profile-kpis">
+            <div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div>
+            <div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div>
+            <div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div>
+        </div>
+        <div class="profile-rewards">
+            <div class="profile-points">💰 1,250 Puntos<small>Próximo nivel: 2,000</small></div>
+            <div class="profile-coupons">🎁 2 Cupones</div>
+        </div>
+        <div class="profile-notification"><i class="fas fa-truck"></i> Tu pedido #2024001 fue entregado ✅</div>
+        <div class="profile-menu">
+            <a href="cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
+            <a href="cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
+            <a href="cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
+            <a href="cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
+            <a href="#" class="profile-menu-item"><i class="fas fa-heart"></i> Favoritos</a>
+            <a href="cuenta/perfil.html#tab-direcciones" class="profile-menu-item"><i class="fas fa-map-marker-alt"></i> Direcciones</a>
+            <div class="profile-menu-divider"></div>
+            <a href="#" class="profile-menu-item"><i class="fas fa-cog"></i> Configuración</a>
+            <a href="#" class="profile-menu-item"><i class="fas fa-question-circle"></i> Ayuda</a>
+            <div class="profile-menu-divider"></div>
+            <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </div>
 
     <script src="assets/js/main.js"></script>
     <script>
-        window.addEventListener('scroll',()=>document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>50));
-        document.querySelector('.mobile-menu-btn').onclick=function(){
+        // ========== HEADER STICKY ==========
+        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
+        
+        // ========== MENÚ MÓVIL ==========
+        document.querySelector('.mobile-menu-btn').onclick = function() {
             document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars');this.querySelector('i').classList.toggle('fa-times');
+            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
         };
+
+        // ========== SIDEBAR ==========
+        function abrirSidebar() {
+            document.getElementById('profileSidebar').classList.add('active');
+            document.getElementById('profileOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function cerrarSidebar() {
+            document.getElementById('profileSidebar').classList.remove('active');
+            document.getElementById('profileOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ========== LOGIN/REGISTRO ==========
+        function mostrarRegistro() {
+            document.getElementById('formLogin').style.display = 'none';
+            document.getElementById('formRegistro').style.display = 'block';
+        }
+        function mostrarLogin() {
+            document.getElementById('formRegistro').style.display = 'none';
+            document.getElementById('formLogin').style.display = 'block';
+        }
+        function loginModal(e) {
+            e.preventDefault();
+            const email = document.getElementById('modalEmail').value.trim();
+            const password = document.getElementById('modalPassword').value.trim();
+            if (email && password.length >= 4) {
+                const usuario = { nombre: email.split('@')[0], apellido: '', email, telefono: '' };
+                localStorage.setItem('petfyUser', JSON.stringify(usuario));
+                localStorage.setItem('petfyLogged', 'true');
+                actualizarUI(usuario);
+                document.getElementById('loginModal').classList.remove('active');
+            } else { document.getElementById('modalError').style.display = 'block'; }
+            return false;
+        }
+        function registroModal(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('regModalNombre').value.trim();
+            const email = document.getElementById('regModalEmail').value.trim();
+            const password = document.getElementById('regModalPassword').value.trim();
+            if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
+            const usuario = { nombre, apellido: '', email, telefono: '' };
+            localStorage.setItem('petfyUser', JSON.stringify(usuario));
+            localStorage.setItem('petfyLogged', 'true');
+            document.getElementById('modalSuccess').style.display = 'block';
+            setTimeout(() => { actualizarUI(usuario); document.getElementById('loginModal').classList.remove('active'); mostrarLogin(); }, 1500);
+            return false;
+        }
+        function actualizarUI(user) {
+            document.getElementById('btnCuenta').innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
+            document.getElementById('sidebarNombre').textContent = user.nombre;
+            document.getElementById('sidebarEmail').textContent = user.email;
+        }
+        function cerrarSesion() {
+            localStorage.removeItem('petfyLogged'); localStorage.removeItem('petfyUser');
+            window.location.href = 'index.html';
+        }
+
+        // ========== INICIAR ==========
+        document.getElementById('btnCuenta').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (localStorage.getItem('petfyLogged') === 'true') { abrirSidebar(); }
+            else { document.getElementById('loginModal').classList.add('active'); }
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrarSidebar(); document.getElementById('loginModal').classList.remove('active'); } });
+        if (localStorage.getItem('petfyLogged') === 'true') {
+            const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            if (user.nombre) actualizarUI(user);
+        }
     </script>
 </body>
 </html>

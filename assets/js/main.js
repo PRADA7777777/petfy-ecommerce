@@ -571,3 +571,51 @@ function cerrarSesion() {
     localStorage.removeItem('petfyUser');
     window.location.href = '../index.html';
 }
+// ========== PETFY PROFILE SIDEBAR ==========
+
+// Abrir sidebar
+function abrirSidebar() {
+    document.getElementById('profileSidebar').classList.add('active');
+    document.getElementById('profileOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Cerrar sidebar
+function cerrarSidebar() {
+    document.getElementById('profileSidebar').classList.remove('active');
+    document.getElementById('profileOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Abrir sidebar desde icono
+document.addEventListener('DOMContentLoaded', function() {
+    const btnCuenta = document.querySelector('#btnCuenta');
+    if (btnCuenta) {
+        btnCuenta.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (localStorage.getItem('petfyLogged') === 'true') {
+                abrirSidebar();
+            } else {
+                // Abrir modal de login
+                const modal = document.getElementById('loginModal');
+                if (modal) modal.classList.add('active');
+            }
+        });
+    }
+    
+    // Cerrar con ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') cerrarSidebar();
+    });
+    
+    // Si está logueado, cargar datos
+    if (localStorage.getItem('petfyLogged') === 'true') {
+        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (user.nombre) {
+            document.getElementById('btnCuenta').innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
+            document.getElementById('btnCuenta').title = 'Mi Perfil';
+            document.getElementById('sidebarNombre').textContent = user.nombre + ' ' + (user.apellido || '');
+            document.getElementById('sidebarEmail').textContent = user.email;
+        }
+    }
+});

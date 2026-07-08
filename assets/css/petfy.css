@@ -551,3 +551,247 @@ body {
     .floating-badge { right: 0; bottom: 0; position: relative; margin-top: 1rem; }
     .whatsapp-float { width: 50px; height: 50px; font-size: 24px; bottom: 20px; right: 20px; }
 }
+/* ========== PETFY PROFILE PANEL ========== */
+.profile-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 400px;
+    height: 100vh;
+    background: var(--white);
+    z-index: 10000;
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+    overflow-y: auto;
+    padding: 0;
+}
+
+.profile-sidebar.active {
+    right: 0;
+}
+
+.profile-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+}
+
+.profile-overlay.active {
+    display: block;
+}
+
+/* Header del panel */
+.profile-panel-header {
+    background: linear-gradient(135deg, var(--primary) 0%, #C94E2E 100%);
+    padding: 2.5rem 2rem 2rem;
+    color: var(--white);
+    position: relative;
+}
+
+.profile-panel-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.profile-panel-close:hover {
+    background: rgba(255,255,255,0.4);
+}
+
+.profile-avatar-large {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-panel-header h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+}
+
+.profile-panel-header p {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+.profile-badge-vip {
+    display: inline-block;
+    background: #F59E0B;
+    color: #1F1B24;
+    padding: 0.2rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    margin-top: 0.5rem;
+}
+
+/* Mini KPIs */
+.profile-kpis {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 1.5rem 2rem;
+    background: #FFF8F5;
+}
+
+.profile-kpi {
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.profile-kpi-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--primary);
+    display: block;
+}
+
+.profile-kpi-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Puntos y recompensas */
+.profile-rewards {
+    padding: 1.25rem 2rem;
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-points {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: #D97706;
+}
+
+.profile-points small {
+    display: block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.7rem;
+    color: #92400E;
+    font-weight: 400;
+}
+
+.profile-coupons {
+    background: #F59E0B;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+/* Menú del panel */
+.profile-menu {
+    padding: 0.75rem 1.5rem;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: 'Nunito', sans-serif;
+}
+
+.profile-menu-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.profile-menu-item i {
+    width: 22px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.profile-menu-item .badge-count {
+    margin-left: auto;
+    background: var(--primary);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.profile-menu-divider {
+    height: 1px;
+    background: rgba(0,0,0,0.06);
+    margin: 0.5rem 0;
+}
+
+.profile-menu-item.logout {
+    color: var(--danger);
+}
+
+.profile-menu-item.logout i {
+    color: var(--danger);
+}
+
+.profile-menu-item.logout:hover {
+    background: #FEE2E2;
+}
+
+/* Notificaciones */
+.profile-notification {
+    padding: 0.75rem 2rem;
+    background: #EFF6FF;
+    border-left: 3px solid #3B82F6;
+    margin: 0.5rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: #1E40AF;
+}
+
+.profile-notification i {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    .profile-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+}
