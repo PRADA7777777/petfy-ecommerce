@@ -4,12 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Servicios Petfy - Paseos profesionales con GPS para tu mascota">
+    <meta name="description" content="Servicios Petfy - Paseos profesionales con GPS, guardería, baños y más">
     <title>Servicios - Petfy | Paseos y Cuidado para Mascotas</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
     <style>
+        :root {
+            --primary: #E0633F;
+            --primary-dark: #C94E2E;
+            --primary-light: #FFF0E8;
+            --secondary: #064F56;
+            --accent: #EA9200;
+            --bg: #F4EBE2;
+            --text: #1F1B24;
+            --text-light: #4B5563;
+            --text-muted: #9CA3AF;
+            --white: #FFFFFF;
+            --success: #10B981;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow: 0 4px 16px rgba(0,0,0,0.06);
+            --shadow-lg: 0 15px 40px rgba(0,0,0,0.1);
+        }
         .servicios-page{background:var(--bg)}
         .servicios-header{background:linear-gradient(160deg,#FDE8DB,#FEF3EB,#FFF8F5);padding:3rem 0 4rem;text-align:center;position:relative;overflow:hidden;border-radius:0 0 40% 40%/0 0 8% 8%}
         .doodle{position:absolute;opacity:.2;font-size:2.5rem;animation:floatDoodle 5s ease-in-out infinite;pointer-events:none;z-index:1}
@@ -19,73 +35,85 @@
         .servicios-header p{color:var(--text-light);position:relative;z-index:2}
         .servicios-nav{background:var(--white);border-bottom:1px solid rgba(0,0,0,.04);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);margin-top:-2rem;border-radius:20px 20px 0 0;padding:.75rem 0}
         .servicios-nav .container{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
-        .servicio-nav-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:25px;border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;background:var(--bg);color:var(--text);transition:var(--transition)}
+        .servicio-nav-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:25px;border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;background:var(--bg);color:var(--text);transition:all .3s}
         .servicio-nav-btn:hover{background:rgba(224,99,63,.08);color:var(--primary)}.servicio-nav-btn.active{background:var(--primary);color:var(--white)}
         .servicio-nav-btn.inactivo{opacity:.55;background:#F5F0ED;color:#A09890}
-        .servicios-content{padding:2rem 0 6rem}.servicio-panel{display:none}.servicio-panel.active{display:block}
-        .inactivo-placeholder{text-align:center;padding:4rem 2rem;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}.inactivo-placeholder .icon{font-size:5rem;margin-bottom:1rem;opacity:.4}
-        
-        .planes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
-        .plan-card{background:white;border-radius:30px;overflow:hidden;border:2px solid transparent;transition:all .4s;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.04)}
-        .plan-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.08)}.plan-card.seleccionado{border-color:var(--primary)}
-        .plan-card-header{padding:2rem 1.5rem 1rem;text-align:center}.plan-emoji{font-size:3.5rem;margin-bottom:.5rem}
-        .plan-card-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--text)}.plan-tag{display:inline-block;padding:.2rem .8rem;border-radius:15px;font-size:.7rem;font-weight:800;margin-top:.5rem}
+        .servicios-content{padding:2rem 0 8rem}.servicio-panel{display:none}.servicio-panel.active{display:block}
+        .inactivo-placeholder{text-align:center;padding:4rem 2rem;background:var(--white);border-radius:30px;box-shadow:var(--shadow)}.inactivo-placeholder .icon{font-size:5rem;margin-bottom:1rem;opacity:.4}
+
+        /* CARRUSEL 3+1 */
+        .carousel-wrapper{position:relative;margin-bottom:2rem}
+        .carousel-track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:1rem .5rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+        .carousel-track::-webkit-scrollbar{display:none}
+        .plan-card{flex:0 0 calc(33.33% - 1rem);min-width:280px;scroll-snap-align:start;background:white;border-radius:30px;padding:2rem 1.5rem;text-align:center;border:2px solid transparent;transition:all .4s;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.04);position:relative}
+        .plan-card:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.08)}
+        .plan-card.seleccionado{border-color:var(--primary);transform:scale(1.03);box-shadow:0 0 0 4px rgba(224,99,63,.15);z-index:10}
+        .plan-card.oculta{display:none}
+        .plan-emoji{font-size:3.5rem;margin-bottom:.5rem}
+        .plan-card h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--text);margin-bottom:.25rem}
+        .plan-tag{display:inline-block;padding:.2rem .8rem;border-radius:15px;font-size:.7rem;font-weight:800;margin-bottom:.5rem}
         .tag-popular{background:#FEF3C7;color:#D97706}.tag-ahorro{background:#ECFDF5;color:#059669}.tag-premium{background:#EFF6FF;color:#3B82F6}
-        .plan-precio{text-align:center;margin:.5rem 0 1rem}.plan-precio-valor{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--primary)}.plan-precio-periodo{font-size:.85rem;color:var(--text-muted)}
-        .plan-features{list-style:none;margin:1rem 0;padding:0 1.5rem}.plan-features li{padding:.4rem 0;display:flex;align-items:flex-start;gap:.5rem;font-size:.85rem;color:var(--text-light)}.plan-features li i{color:var(--success);font-size:.8rem;margin-top:3px}
-        .plan-btn-agendar{display:block;width:calc(100% - 3rem);margin:1rem 1.5rem 1.5rem;padding:.85rem;border-radius:30px;background:var(--primary);color:white;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;text-align:center;transition:all .3s}
-        .plan-btn-agendar:hover{background:var(--primary-dark)}
-        
-        .acordeon-agendar{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(0,1,0,1);background:#FAFAF8;border-radius:0 0 30px 30px}
-        .acordeon-agendar.abierto{max-height:2000px;transition:max-height .8s ease-in-out;padding:1.5rem;border-top:1px solid #F0EBE5}
-        .acordeon-seccion{margin-bottom:1.5rem}.acordeon-seccion h4{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
-        .acordeon-seccion h4 span{width:30px;height:30px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--primary)}
-        
+        .plan-precio{font-family:'Fredoka One',cursive;font-size:2rem;color:var(--primary);margin:.5rem 0}
+        .plan-precio small{font-size:.85rem;color:var(--text-muted);display:block}
+        .plan-features{list-style:none;text-align:left;margin:1rem 0;padding:0}
+        .plan-features li{padding:.3rem 0;display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--text-light)}
+        .plan-features li i{color:var(--success);font-size:.75rem}
+        .plan-btn-elegir{display:block;width:100%;padding:.85rem;border-radius:30px;background:var(--primary);color:white;border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;margin-top:1rem;transition:all .3s}
+        .plan-btn-elegir:hover{background:var(--primary-dark)}
+        .carousel-nav{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+        .carousel-dot{width:10px;height:10px;border-radius:50%;background:#D0C8C0;cursor:pointer;transition:all .3s}.carousel-dot.active{background:var(--primary);width:25px;border-radius:10px}
+
+        /* ACORDEÓN */
+        .acordeon-container{display:none;background:white;border-radius:30px;padding:2rem;box-shadow:var(--shadow-lg);margin-bottom:2rem;animation:fadeSlide .4s ease}
+        .acordeon-container.active{display:block}
+        @keyframes fadeSlide{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .acordeon-seccion{margin-bottom:1.5rem}.acordeon-seccion h4{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--text);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+        .acordeon-seccion h4 span{width:32px;height:32px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--primary)}
+        .form-mini{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}.form-mini input{padding:.85rem 1rem;border:2px solid #F0EBE5;border-radius:14px;font-family:'Nunito',sans-serif;font-size:.9rem;background:white}.form-mini input:focus{outline:none;border-color:var(--primary)}
         .badge-logeado{display:inline-flex;align-items:center;gap:.4rem;background:#ECFDF5;color:#059669;padding:.3rem .8rem;border-radius:20px;font-size:.8rem;font-weight:700}
-        .form-mini{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}.form-mini input{padding:.8rem 1rem;border:2px solid #F0EBE5;border-radius:14px;font-family:'Nunito',sans-serif;font-size:.9rem;background:white}.form-mini input:focus{outline:none;border-color:var(--primary)}
-        
         .mascotas-carousel{display:flex;gap:.75rem;overflow-x:auto;padding:.5rem 0;scrollbar-width:none}.mascotas-carousel::-webkit-scrollbar{display:none}
-        .mascota-circle{flex-shrink:0;width:65px;height:65px;border-radius:50%;border:3px solid #F0EBE5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;background:white;font-size:.8rem;font-weight:700;color:var(--text);flex-direction:column;gap:.2rem}
+        .mascota-circle{flex-shrink:0;width:65px;height:65px;border-radius:50%;border:3px solid #F0EBE5;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;background:white;font-size:.7rem;font-weight:700;color:var(--text);flex-direction:column;gap:.1rem}
         .mascota-circle.seleccionada{border-color:var(--primary);box-shadow:0 0 0 3px rgba(224,99,63,.2)}.mascota-circle .mascota-icono{font-size:1.5rem}.mascota-circle.add-new{border-style:dashed;color:var(--primary);font-size:1.8rem}
-        
         .input-datetime{width:100%;padding:.9rem 1rem;border:2px solid #F0EBE5;border-radius:14px;font-family:'Nunito',sans-serif;font-size:.9rem;background:white;min-height:48px}.input-datetime:focus{outline:none;border-color:var(--primary)}
         .direccion-group{display:flex;gap:.5rem}.direccion-group input{flex:1}.direccion-group button{width:48px;height:48px;border-radius:14px;background:var(--primary-light);color:var(--primary);border:none;font-size:1.2rem;cursor:pointer;transition:all .3s}.direccion-group button:hover{background:var(--primary);color:white}
-        
-        .sticky-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:calc(100% - 40px);max-width:600px;background:white;border-radius:30px;padding:1rem 1.5rem;box-shadow:0 10px 40px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:space-between;z-index:999;gap:1rem}
-        .sticky-bar-info{flex:1}.sticky-bar-plan{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--text)}.sticky-bar-precio{font-size:1.4rem;font-weight:800;color:var(--primary)}
+        .btn-cerrar-acordeon{display:inline-block;margin-top:1rem;color:var(--text-muted);cursor:pointer;font-size:.85rem;font-weight:700}
+
+        /* STICKY BAR */
+        .sticky-bar{position:fixed;bottom:0;left:0;width:100%;background:white;padding:1rem 1.5rem;box-shadow:0 -4px 20px rgba(0,0,0,.05);border-radius:30px 30px 0 0;display:none;align-items:center;justify-content:space-between;z-index:999;gap:1rem}
+        .sticky-bar.active{display:flex}.sticky-bar-info{flex:1}.sticky-bar-plan{font-family:'Fredoka One',cursive;font-size:.9rem;color:var(--text)}.sticky-bar-precio{font-size:1.4rem;font-weight:800;color:var(--primary)}
         .sticky-bar-btn{padding:.85rem 1.8rem;background:var(--primary);color:white;border:none;border-radius:30px;font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;white-space:nowrap;transition:all .3s}.sticky-bar-btn:hover{background:var(--primary-dark)}
-        
+
         @media(max-width:768px){
-            .form-mini{grid-template-columns:1fr}.planes-grid{grid-template-columns:1fr}.sticky-bar{padding:.8rem 1rem;border-radius:25px}.sticky-bar-btn{padding:.7rem 1.2rem;font-size:.85rem}
+            .plan-card{flex:0 0 85%;min-width:260px}.form-mini{grid-template-columns:1fr}.sticky-bar{padding:.8rem 1rem;gap:.5rem}.sticky-bar-btn{padding:.7rem 1.2rem;font-size:.85rem}
         }
     </style>
 </head>
 <body>
-    
     <header class="header" id="mainHeader"><div class="container"><nav class="navbar"><div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div><ul class="nav-links"><li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li><li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li></ul><div class="nav-actions"><div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option></select></div><div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div><div class="user-actions"><a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a></div></div><button class="mobile-menu-btn"><i class="fas fa-bars"></i></button></nav></div></header>
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
-    <section class="servicios-header"><span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span><h1>Nuestros Servicios</h1><p>Elige el plan perfecto para tu mascota</p></section>
+    <section class="servicios-header"><span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span><h1>Nuestros Servicios</h1><p>Desliza para descubrir el plan perfecto</p></section>
     <div class="servicios-nav"><div class="container"><button class="servicio-nav-btn active" onclick="mostrarServicio('paseos',this)"><i class="fas fa-dog"></i> Paseos</button><button class="servicio-nav-btn inactivo" onclick="mostrarServicio('guarderia',this)"><i class="fas fa-home"></i> Guardería</button><button class="servicio-nav-btn inactivo" onclick="mostrarServicio('banos',this)"><i class="fas fa-shower"></i> Baños</button><button class="servicio-nav-btn inactivo" onclick="mostrarServicio('veterinaria',this)"><i class="fas fa-stethoscope"></i> Veterinaria</button><button class="servicio-nav-btn inactivo" onclick="mostrarServicio('entrenamiento',this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button></div></div>
     
     <section class="servicios-content"><div class="container">
         <div class="servicio-panel active" id="panel-paseos">
-            <div class="planes-grid" id="planesGrid">
-                <div class="plan-card" id="card-unico"><div class="plan-card-header"><div class="plan-emoji">⚡</div><h3>Paseo Único</h3><span class="plan-tag tag-ahorro">Sin suscripción</span></div><div class="plan-precio"><span class="plan-precio-valor">$10.990</span><br><span class="plan-precio-periodo">por paseo</span></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 45 minutos</li><li><i class="fas fa-check-circle"></i> GPS en vivo</li><li><i class="fas fa-check-circle"></i> Fotos del paseo</li></ul><button class="plan-btn-agendar" onclick="seleccionarPlan('unico',this)">Agendar este Plan ⚡</button><div class="acordeon-agendar" id="acordeon-unico"></div></div>
-                <div class="plan-card" id="card-3dias"><div class="plan-card-header"><div class="plan-emoji">🌟</div><h3>3 Días/Semana</h3><span class="plan-tag tag-popular">Más Popular</span></div><div class="plan-precio"><span class="plan-precio-valor">$89.990</span><br><span class="plan-precio-periodo">/mes • Ahorras 20%</span></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1 hora por sesión</li><li><i class="fas fa-check-circle"></i> Lun, Mié, Vie</li><li><i class="fas fa-check-circle"></i> Paseador fijo</li></ul><button class="plan-btn-agendar" onclick="seleccionarPlan('3dias',this)">Agendar este Plan 🌟</button><div class="acordeon-agendar" id="acordeon-3dias"></div></div>
-                <div class="plan-card" id="card-5dias"><div class="plan-card-header"><div class="plan-emoji">🔥</div><h3>5 Días/Semana</h3><span class="plan-tag tag-premium">Recomendado</span></div><div class="plan-precio"><span class="plan-precio-valor">$129.990</span><br><span class="plan-precio-periodo">/mes • Ahorras 30%</span></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1 hora por sesión</li><li><i class="fas fa-check-circle"></i> Lun a Vie</li><li><i class="fas fa-check-circle"></i> Fotos + video</li></ul><button class="plan-btn-agendar" onclick="seleccionarPlan('5dias',this)">Agendar este Plan 🔥</button><div class="acordeon-agendar" id="acordeon-5dias"></div></div>
-                <div class="plan-card" id="card-full"><div class="plan-card-header"><div class="plan-emoji">💎</div><h3>Full 7 Días</h3><span class="plan-tag tag-premium">VIP</span></div><div class="plan-precio"><span class="plan-precio-valor">$159.990</span><br><span class="plan-precio-periodo">/mes • Ahorras 40%</span></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1 hora por sesión</li><li><i class="fas fa-check-circle"></i> Todos los días</li><li><i class="fas fa-check-circle"></i> Paseador VIP</li><li><i class="fas fa-check-circle"></i> Parque + socialización</li></ul><button class="plan-btn-agendar" onclick="seleccionarPlan('full',this)">Agendar este Plan 💎</button><div class="acordeon-agendar" id="acordeon-full"></div></div>
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="plan-card" id="card-unico"><div class="plan-emoji">⚡</div><h3>Paseo Único</h3><span class="plan-tag tag-ahorro">Sin suscripción</span><div class="plan-precio">$10.990<small>por paseo</small></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 45 min</li><li><i class="fas fa-check-circle"></i> GPS en vivo</li><li><i class="fas fa-check-circle"></i> 5 fotos</li></ul><button class="plan-btn-elegir" onclick="elegirPlan('unico',this)">Elegir este Plan →</button></div>
+                    <div class="plan-card" id="card-3dias"><div class="plan-emoji">🌟</div><h3>3 Días/Semana</h3><span class="plan-tag tag-popular">Más Popular</span><div class="plan-precio">$89.990<small>/mes</small></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1h por sesión</li><li><i class="fas fa-check-circle"></i> Lun, Mié, Vie</li><li><i class="fas fa-check-circle"></i> Paseador fijo</li></ul><button class="plan-btn-elegir" onclick="elegirPlan('3dias',this)">Elegir este Plan →</button></div>
+                    <div class="plan-card" id="card-5dias"><div class="plan-emoji">🔥</div><h3>5 Días/Semana</h3><span class="plan-tag tag-premium">Recomendado</span><div class="plan-precio">$129.990<small>/mes</small></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1h por sesión</li><li><i class="fas fa-check-circle"></i> Lun a Vie</li><li><i class="fas fa-check-circle"></i> Fotos + video</li></ul><button class="plan-btn-elegir" onclick="elegirPlan('5dias',this)">Elegir este Plan →</button></div>
+                    <div class="plan-card" id="card-full"><div class="plan-emoji">💎</div><h3>Full 7 Días</h3><span class="plan-tag tag-premium">VIP</span><div class="plan-precio">$159.990<small>/mes</small></div><ul class="plan-features"><li><i class="fas fa-check-circle"></i> 1h por sesión</li><li><i class="fas fa-check-circle"></i> Todos los días</li><li><i class="fas fa-check-circle"></i> Paseador VIP</li><li><i class="fas fa-check-circle"></i> Parque + socialización</li></ul><button class="plan-btn-elegir" onclick="elegirPlan('full',this)">Elegir este Plan →</button></div>
+                </div>
+                <div class="carousel-nav"><span class="carousel-dot active" onclick="scrollCarousel(0)"></span><span class="carousel-dot" onclick="scrollCarousel(1)"></span><span class="carousel-dot" onclick="scrollCarousel(2)"></span><span class="carousel-dot" onclick="scrollCarousel(3)"></span></div>
             </div>
+            <div class="acordeon-container" id="acordeonAgendar"></div>
         </div>
-        <div class="servicio-panel" id="panel-guarderia"><div class="inactivo-placeholder"><div class="icon">🏠</div><h3>Guardería - Próximamente</h3><p>Espacio seguro con cámaras 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-banos"><div class="inactivo-placeholder"><div class="icon">🛁</div><h3>Baños - Próximamente</h3><p>Productos hipoalergénicos.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-veterinaria"><div class="inactivo-placeholder"><div class="icon">🩺</div><h3>Veterinaria - Próximamente</h3><p>Consultas y urgencias 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-entrenamiento"><div class="inactivo-placeholder"><div class="icon">🎓</div><h3>Entrenamiento - Próximamente</h3><p>Refuerzo positivo.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-guarderia"><div class="inactivo-placeholder"><div class="icon">🏠</div><h3>Guardería - Próximamente</h3><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-banos"><div class="inactivo-placeholder"><div class="icon">🛁</div><h3>Baños - Próximamente</h3><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-veterinaria"><div class="inactivo-placeholder"><div class="icon">🩺</div><h3>Veterinaria - Próximamente</h3><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-entrenamiento"><div class="inactivo-placeholder"><div class="icon">🎓</div><h3>Entrenamiento - Próximamente</h3><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
     </div></section>
-    
-    <div class="sticky-bar" id="stickyBar" style="display:none">
-        <div class="sticky-bar-info"><div class="sticky-bar-plan" id="stickyPlan">Selecciona un plan</div><div class="sticky-bar-precio" id="stickyPrecio"></div></div>
-        <button class="sticky-bar-btn" onclick="iniciarPago()"><i class="fas fa-lock"></i> Pagar y Agendar</button>
-    </div>
+
+    <div class="sticky-bar" id="stickyBar"><div class="sticky-bar-info"><div class="sticky-bar-plan" id="stickyPlan">Selecciona un plan</div><div class="sticky-bar-precio" id="stickyPrecio"></div></div><button class="sticky-bar-btn" onclick="iniciarPago()"><i class="fas fa-lock"></i> Pagar y Agendar</button></div>
 
     <footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="index.html">Servicios</a></li></ul></div><div class="footer-col"><h4>Info</h4><ul><li><a href="../legal/terminos.html">Términos</a></li><li><a href="../legal/privacidad.html">Privacidad</a></li></ul></div><div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li></ul></div></div><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
@@ -95,34 +123,36 @@
 
     <script src="../assets/js/main.js"></script>
     <script>
-        var planActual=null,mascotaSel=null;
+        var planSeleccionado=null,mascotaSel=null;
         var planes={unico:{n:'Paseo Único',p:10990},'3dias':{n:'3 Días/Semana',p:89990},'5dias':{n:'5 Días/Semana',p:129990},full:{n:'Full 7 Días',p:159990}};
         
-        function seleccionarPlan(plan,btn){
-            planActual=plan;document.querySelectorAll('.plan-card').forEach(function(c){c.classList.remove('seleccionado')});btn.closest('.plan-card').classList.add('seleccionado');
-            document.querySelectorAll('.acordeon-agendar').forEach(function(a){a.classList.remove('abierto');a.innerHTML=''});
-            var acordeon=document.getElementById('acordeon-'+plan);acordeon.classList.add('abierto');
-            acordeon.innerHTML=generarAcordeon(plan);document.getElementById('stickyBar').style.display='flex';actualizarSticky();
-            setTimeout(function(){acordeon.scrollIntoView({behavior:'smooth',block:'center'})},100);
+        function elegirPlan(plan,btn){
+            planSeleccionado=plan;document.querySelectorAll('.plan-card').forEach(function(c){c.classList.remove('seleccionada');if(c.id!=='card-'+plan)c.classList.add('oculta')});btn.closest('.plan-card').classList.add('seleccionada');
+            var acordeon=document.getElementById('acordeonAgendar');acordeon.classList.add('active');acordeon.innerHTML=generarAcordeon(plan);document.getElementById('stickyBar').classList.add('active');actualizarSticky();acordeon.scrollIntoView({behavior:'smooth'});
         }
+        function cerrarAcordeon(){document.querySelectorAll('.plan-card').forEach(function(c){c.classList.remove('seleccionada','oculta')});document.getElementById('acordeonAgendar').classList.remove('active');document.getElementById('stickyBar').classList.remove('active');planSeleccionado=null}
         
         function generarAcordeon(plan){
             var logueado=localStorage.getItem('petfyLogged')==='true';var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');
             var quien=logueado?'<div class="badge-logeado"><i class="fas fa-check-circle"></i> '+u.nombre+' (datos cargados)</div>':'<div class="form-mini"><input type="text" id="wizNombre" placeholder="Nombre *" required><input type="tel" id="wizTelefono" placeholder="Teléfono *" required></div>';
-            var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');var h='';mascotas.forEach(function(m,i){h+='<div class="mascota-circle" onclick="selMascota('+i+',this)" id="mcirc-'+i+'"><span class="mascota-icono">🐕</span><span>'+m.nombre+'</span></div>'});
+            var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');var h='';mascotas.forEach(function(m,i){h+='<div class="mascota-circle" onclick="selMascota('+i+',this)"><span class="mascota-icono">🐕</span><span>'+m.nombre+'</span></div>'});
             h+='<div class="mascota-circle add-new" onclick="nuevaMascota()">➕</div>';
-            return '<div class="acordeon-seccion"><h4><span>👤</span> ¿Quién solicita?</h4>'+quien+'</div><div class="acordeon-seccion"><h4><span>🐕</span> Mascota</h4><div class="mascotas-carousel" id="mascotasCarousel">'+h+'</div></div><div class="acordeon-seccion"><h4><span>📅</span> ¿Cuándo y dónde?</h4><input type="datetime-local" class="input-datetime" id="wizFechaHora" onchange="actualizarSticky()"><div class="direccion-group" style="margin-top:.5rem"><input type="text" class="input-datetime" id="wizDireccion" placeholder="Dirección del servicio"><button onclick="getLocation()" title="Usar mi ubicación"><i class="fas fa-map-marker-alt"></i></button></div></div>';
+            return '<div class="acordeon-seccion"><h4><span>👤</span> ¿Quién solicita?</h4>'+quien+'</div><div class="acordeon-seccion"><h4><span>🐕</span> Mascota</h4><div class="mascotas-carousel">'+h+'</div></div><div class="acordeon-seccion"><h4><span>📅</span> ¿Cuándo y dónde?</h4><input type="datetime-local" class="input-datetime" id="wizFechaHora" onchange="actualizarSticky()"><div class="direccion-group" style="margin-top:.5rem"><input type="text" class="input-datetime" id="wizDireccion" placeholder="Dirección del servicio"><button onclick="getLocation()" title="Usar mi ubicación"><i class="fas fa-map-marker-alt"></i></button></div></div><span class="btn-cerrar-acordeon" onclick="cerrarAcordeon()">← Ver todos los planes</span>';
         }
         
         function selMascota(i,el){mascotaSel=i;document.querySelectorAll('.mascota-circle').forEach(function(c){c.classList.remove('seleccionada')});el.classList.add('seleccionada');actualizarSticky()}
-        function nuevaMascota(){var n=prompt('Nombre de tu perro:');if(!n)return;var r=prompt('Raza:');var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');mascotas.push({nombre:n,raza:r||'Mestizo',edad:'',peso:''});localStorage.setItem('petfyMascotas',JSON.stringify(mascotas));seleccionarPlan(planActual,document.querySelector('#card-'+planActual+' .plan-btn-agendar'))}
-        function getLocation(){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(function(p){document.getElementById('wizDireccion').value='Lat: '+p.coords.latitude.toFixed(4)+', Lng: '+p.coords.longitude.toFixed(4)},function(){alert('No se pudo obtener ubicación')})}else{alert('Geolocalización no soportada')}}
+        function nuevaMascota(){var n=prompt('Nombre de tu perro:');if(!n)return;var r=prompt('Raza:');var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');mascotas.push({nombre:n,raza:r||'Mestizo',edad:'',peso:''});localStorage.setItem('petfyMascotas',JSON.stringify(mascotas));elegirPlan(planSeleccionado,document.querySelector('#card-'+planSeleccionado+' .plan-btn-elegir'))}
+        function getLocation(){if(navigator.geolocation){navigator.geolocation.getCurrentPosition(function(p){document.getElementById('wizDireccion').value='Lat: '+p.coords.latitude.toFixed(4)+', Lng: '+p.coords.longitude.toFixed(4)},function(){alert('No se pudo obtener ubicación')})}}
         
-        function actualizarSticky(){var p=planes[planActual];if(!p)return;document.getElementById('stickyPlan').textContent=p.n;document.getElementById('stickyPrecio').textContent='$'+p.p.toLocaleString()}
+        function actualizarSticky(){var p=planes[planSeleccionado];if(!p)return;document.getElementById('stickyPlan').textContent=p.n;document.getElementById('stickyPrecio').textContent='$'+p.p.toLocaleString()}
         
-        function iniciarPago(){if(!planActual){alert('Selecciona un plan');return}var p=planes[planActual];var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');var nombre=u.nombre||document.getElementById('wizNombre')?.value;if(!nombre){alert('Completa tus datos');return}var email=u.email||'cliente@petfy.com';var ref='PETFY-'+Date.now();var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');var perro=mascotaSel!==null&&mascotas[mascotaSel]?mascotas[mascotaSel].nombre:'Mascota';var checkout=new WidgetCheckout({currency:'COP',amountInCents:p.p*100,reference:ref,publicKey:'pub_test_xxxxxxxxxxxxx',redirectUrl:window.location.origin+'/servicios/confirmacion.html',customerData:{fullName:nombre,email:email},products:[{name:p.n+' - '+perro,price:p.p*100,quantity:1}]});checkout.open(function(r){if(r.transaction.status==='APPROVED'){alert('✅ Pago exitoso!');location.reload()}else{alert('❌ Pago no aprobado')}})}
+        function iniciarPago(){if(!planSeleccionado){alert('Selecciona un plan');return}var p=planes[planSeleccionado];var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');var nombre=u.nombre||document.getElementById('wizNombre')?.value;if(!nombre){alert('Completa tus datos');return}var email=u.email||'cliente@petfy.com';var ref='PETFY-'+Date.now();var mascotas=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');var perro=mascotaSel!==null&&mascotas[mascotaSel]?mascotas[mascotaSel].nombre:'Mascota';var checkout=new WidgetCheckout({currency:'COP',amountInCents:p.p*100,reference:ref,publicKey:'pub_test_xxxxxxxxxxxxx',redirectUrl:window.location.origin+'/servicios/confirmacion.html',customerData:{fullName:nombre,email:email},products:[{name:p.n+' - '+perro,price:p.p*100,quantity:1}]});checkout.open(function(r){if(r.transaction.status==='APPROVED'){alert('✅ Pago exitoso!');location.reload()}else{alert('❌ Pago no aprobado')}})}
         
+        function scrollCarousel(i){var track=document.getElementById('carouselTrack');var cards=track.querySelectorAll('.plan-card');if(cards[i])cards[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});document.querySelectorAll('.carousel-dot').forEach(function(d,idx){d.classList.toggle('active',idx===i)})}
         function mostrarServicio(s,b){document.querySelectorAll('.servicio-nav-btn').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.servicio-panel').forEach(function(x){x.classList.remove('active')});document.getElementById('panel-'+s).classList.add('active')}
+        
+        document.getElementById('carouselTrack').addEventListener('scroll',function(){var track=this;var cards=track.querySelectorAll('.plan-card');var scrollLeft=track.scrollLeft;var cardWidth=cards[0].offsetWidth+16;var idx=Math.round(scrollLeft/cardWidth);document.querySelectorAll('.carousel-dot').forEach(function(d,i){d.classList.toggle('active',i===idx)})});
     </script>
 </body>
 </html>
+```
