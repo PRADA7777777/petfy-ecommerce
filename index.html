@@ -139,31 +139,105 @@
     <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- ========== MAIN ========== -->
-    <main>
-        <section id="home" class="hero-section">
-            <div class="container">
-                <div class="hero">
-                    <div class="hero-content">
-                        <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
-                        <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
-                        <p class="hero-description">Tienda online y servicios profesionales para el cuidado de tu mascota.</p>
-                        <div class="hero-buttons">
-                            <a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a>
-                            <a href="servicios/" class="btn btn-outline">Ver Servicios</a>
-                        </div>
-                        <div class="hero-stats">
-                            <div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div>
-                            <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div>
-                            <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
+    <<!-- ========== MAIN ========== -->
+<main>
+    
+    <!-- ========== CARRUSEL DE BANNERS ========== -->
+    <section class="banner-carousel">
+        <div class="container">
+            <div class="carousel-container">
+                <button class="carousel-btn carousel-prev" onclick="moverCarrusel(-1)">‹</button>
+                <button class="carousel-btn carousel-next" onclick="moverCarrusel(1)">›</button>
+                
+                <div class="carousel-track" id="carouselTrack">
+                    
+                    <!-- Slide 1: Agenda tu paseo -->
+                    <div class="carousel-slide">
+                        <img src="assets/img/banners/banner-paseos.jpg" alt="Agenda tu paseo" onerror="this.style.background='linear-gradient(135deg, #E0633F, #F08060)'; this.style.minHeight='300px';">
+                        <div class="carousel-content">
+                            <span class="carousel-badge">🐾 Paseos</span>
+                            <h2>📅 Agenda tu Paseo</h2>
+                            <p>Elige el día, la hora y el plan perfecto para tu peludo.</p>
+                            <a href="servicios/paseos.html" class="btn btn-primary">Agendar Ahora <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="hero-image">
-                        <div class="image-wrapper"><img src="assets/img/Group 1.png" alt="Mascotas felices" class="floating-image"><div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div></div>
+
+                    <!-- Slide 2: Paseo de prueba GRATIS -->
+                    <div class="carousel-slide">
+                        <img src="assets/img/banners/banner-gratis.jpg" alt="Paseo gratis" onerror="this.style.background='linear-gradient(135deg, #10B981, #34D399)'; this.style.minHeight='300px';">
+                        <div class="carousel-content">
+                            <span class="carousel-badge" style="background:#D1FAE5;color:#059669;">🎁 GRATIS</span>
+                            <h2>🐕 Primer Paseo de Prueba</h2>
+                            <p>Conoce a tu paseador, prueba el GPS en vivo y recibe fotos sin costo.</p>
+                            <a href="servicios/paseos.html" class="btn btn-primary" style="background:#059669;">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a>
+                        </div>
                     </div>
+
+                    <!-- Slide 3: Qué incluye -->
+                    <div class="carousel-slide">
+                        <img src="assets/img/banners/banner-incluye.jpg" alt="Qué incluye" onerror="this.style.background='linear-gradient(135deg, #3B82F6, #60A5FA)'; this.style.minHeight='300px';">
+                        <div class="carousel-content">
+                            <span class="carousel-badge" style="background:#DBEAFE;color:#2563EB;">✅ Incluye</span>
+                            <h2>📍 GPS en Vivo + Fotos</h2>
+                            <p>Paseador certificado, seguimiento en tiempo real y reporte con fotos.</p>
+                            <a href="servicios/paseos.html" class="btn btn-primary" style="background:#2563EB;">Ver Planes <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4: WhatsApp -->
+                    <div class="carousel-slide">
+                        <img src="assets/img/banners/banner-whatsapp.jpg" alt="WhatsApp" onerror="this.style.background='linear-gradient(135deg, #25D366, #4ADE80)'; this.style.minHeight='300px';">
+                        <div class="carousel-content">
+                            <span class="carousel-badge" style="background:#D1FAE5;color:#059669;">💬 WhatsApp</span>
+                            <h2>📱 ¿Tienes dudas?</h2>
+                            <p>Contáctanos por WhatsApp y te asesoramos en tiempo real.</p>
+                            <a href="https://wa.me/573204829244" target="_blank" class="btn btn-primary" style="background:#25D366;">Chatear Ahora <i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="carousel-dots" id="carouselDots">
+                    <span class="dot active" onclick="irSlide(0)"></span>
+                    <span class="dot" onclick="irSlide(1)"></span>
+                    <span class="dot" onclick="irSlide(2)"></span>
+                    <span class="dot" onclick="irSlide(3)"></span>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
+                    <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
+                    <p class="hero-description">Tienda online y servicios profesionales para el cuidado de tu mascota.</p>
+                    <div class="hero-buttons">
+                        <a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a>
+                        <a href="servicios/" class="btn btn-outline">Ver Servicios</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div>
+                        <div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div>
+                        <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-wrapper"><img src="assets/img/Group 1.png" alt="Mascotas felices" class="floating-image"><div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SERVICIOS DESTACADOS ========== -->
+    <section id="servicios-destacados" class="services-home-section">
+        <!-- ... el resto del código ... -->
+    </section>
+
+</main>
 
         <section id="servicios-destacados" class="services-home-section">
             <div class="container">
