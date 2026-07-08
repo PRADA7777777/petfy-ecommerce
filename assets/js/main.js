@@ -1,85 +1,107 @@
-// ========== PETFY - MAIN SCRIPTS (VERSIÓN FINAL) ==========
+// ========== PETFY - MAIN SCRIPTS ==========
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // ========== INICIALIZAR MÓDULOS ==========
     generarBreadcrumb();
     actualizarContadorCarrito();
+    inicializarUI();
+    
+    // ========== HEADER STICKY ==========
+    window.addEventListener('scroll', function() {
+        var header = document.getElementById('mainHeader');
+        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
+    });
     
     // ========== MENÚ MÓVIL ==========
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
+    var mobileBtn = document.querySelector('.mobile-menu-btn');
+    var navLinks = document.querySelector('.nav-links');
     
-    if (mobileMenuBtn && navLinks) {
-        mobileMenuBtn.addEventListener('click', function() {
+    if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', function() {
             navLinks.classList.toggle('active');
-            const icon = this.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+            var icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
             }
         });
         
-        navLinks.querySelectorAll('.nav-link').forEach(link => {
+        // Cerrar al hacer clic en un enlace
+        navLinks.querySelectorAll('.nav-link').forEach(function(link) {
             link.addEventListener('click', function() {
                 navLinks.classList.remove('active');
-                const icon = mobileMenuBtn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                var icon = mobileBtn.querySelector('i');
+                if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
             });
         });
         
+        // Cerrar al hacer clic fuera
         document.addEventListener('click', function(e) {
             if (navLinks.classList.contains('active')) {
                 if (!e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
                     navLinks.classList.remove('active');
-                    const icon = mobileMenuBtn.querySelector('i');
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
+                    var icon = mobileBtn.querySelector('i');
+                    if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
                 }
             }
         });
     }
     
+    // ========== BOTÓN DE CUENTA (LOGIN/SIDEBAR) ==========
+    var btnCuenta = document.querySelector('#btnCuenta');
+    if (btnCuenta) {
+        btnCuenta.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (localStorage.getItem('petfyLogged') === 'true') {
+                abrirSidebar();
+            } else {
+                abrirModal();
+            }
+        });
+    }
+    
+    // ========== CERRAR CON ESC ==========
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarSidebar();
+            cerrarModal();
+        }
+    });
+    
     // ========== CARRITO ==========
-    document.querySelectorAll('.btn-add-cart').forEach(button => {
+    document.querySelectorAll('.btn-add-cart').forEach(function(button) {
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            const card = this.closest('.product-card');
+            var card = this.closest('.product-card');
             if (!card) return;
             
-            const productId = card.dataset.productId || Date.now().toString();
-            const productName = card.querySelector('.product-title')?.textContent?.trim() || 'Producto';
-            const productPrice = card.querySelector('.current-price')?.textContent?.trim() || '$0';
-            const productImage = card.querySelector('.product-image img')?.src || '';
+            var id = card.dataset.productId || Date.now().toString();
+            var name = card.querySelector('.product-title')?.textContent?.trim() || 'Producto';
+            var price = card.querySelector('.current-price')?.textContent?.trim() || '$0';
+            var image = card.querySelector('.product-image img')?.src || '';
             
-            agregarAlCarrito(productId, productName, productPrice, productImage, 1);
+            agregarAlCarrito(id, name, price, image, 1);
         });
     });
     
     // ========== SCROLL SUAVE ==========
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+            var href = this.getAttribute('href');
             if (href === '#') return;
-            
             e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            var target = document.querySelector(href);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
     
     // ========== NEWSLETTER ==========
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
+    var newsletter = document.querySelector('.newsletter-form');
+    if (newsletter) {
+        newsletter.addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
+            var email = this.querySelector('input[type="email"]').value;
             if (email) {
                 mostrarFeedback('✅ ¡Suscrito con éxito!');
                 this.reset();
@@ -90,29 +112,33 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Petfy inicializado correctamente');
 });
 
-// ========== BREADCRUMB DINÁMICO ==========
+// ========== INICIALIZAR UI ==========
+function inicializarUI() {
+    if (localStorage.getItem('petfyLogged') === 'true') {
+        var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (user.nombre) actualizarUI(user);
+    }
+}
+
+// ============================================================
+// BREADCRUMB DINÁMICO
+// ============================================================
 function generarBreadcrumb() {
-    const breadcrumbList = document.getElementById('breadcrumbList');
+    var breadcrumbList = document.getElementById('breadcrumbList');
     if (!breadcrumbList) return;
     
-    const path = window.location.pathname;
-    const pageName = path.split('/').pop() || 'index.html';
+    var path = window.location.pathname;
+    var pageName = path.split('/').pop() || 'index.html';
+    var depth = path.split('/').filter(function(p) { return p; }).length;
+    var basePath = depth > 1 ? '../'.repeat(depth - 1) : '';
     
-    // Detectar profundidad para rutas relativas
-    const depth = path.split('/').filter(p => p).length;
-    const basePath = depth > 1 ? '../'.repeat(depth - 1) : '';
-    
-    // Mapeo de páginas
-    const paginas = {
+    var paginas = {
         '': { nombre: 'Inicio', icono: 'fa-home', categoria: 'inicio' },
         'index.html': { nombre: 'Inicio', icono: 'fa-home', categoria: 'inicio' },
         'tienda.html': { nombre: 'Tienda', icono: 'fa-store', categoria: 'tienda' },
         'producto.html': { nombre: 'Producto', icono: 'fa-box', categoria: 'tienda' },
-        'carrito.html': { nombre: 'Carrito de Compras', icono: 'fa-shopping-cart', categoria: 'tienda' },
-        'checkout.html': { nombre: 'Finalizar Compra', icono: 'fa-credit-card', categoria: 'tienda' },
-        'confirmacion.html': { nombre: 'Confirmación', icono: 'fa-check-circle', categoria: 'tienda' },
-        'wishlist.html': { nombre: 'Lista de Deseos', icono: 'fa-heart', categoria: 'tienda' },
-        'comparar.html': { nombre: 'Comparar', icono: 'fa-balance-scale', categoria: 'tienda' },
+        'carrito.html': { nombre: 'Carrito', icono: 'fa-shopping-cart', categoria: 'tienda' },
+        'checkout.html': { nombre: 'Checkout', icono: 'fa-credit-card', categoria: 'tienda' },
         'servicios.html': { nombre: 'Servicios', icono: 'fa-hand-holding-heart', categoria: 'servicios' },
         'paseos.html': { nombre: 'Paseos', icono: 'fa-dog', categoria: 'servicios' },
         'guarderia.html': { nombre: 'Guardería', icono: 'fa-home', categoria: 'servicios' },
@@ -120,127 +146,154 @@ function generarBreadcrumb() {
         'veterinaria.html': { nombre: 'Veterinaria', icono: 'fa-stethoscope', categoria: 'servicios' },
         'entrenamiento.html': { nombre: 'Entrenamiento', icono: 'fa-graduation-cap', categoria: 'servicios' },
         'contacto.html': { nombre: 'Contacto', icono: 'fa-envelope', categoria: 'principal' },
-        'gracias.html': { nombre: 'Gracias', icono: 'fa-heart', categoria: 'contacto' },
         'nosotros.html': { nombre: 'Nosotros', icono: 'fa-users', categoria: 'principal' },
-        'equipo.html': { nombre: 'Equipo', icono: 'fa-user-tie', categoria: 'nosotros' },
-        'trabaja.html': { nombre: 'Trabaja con Nosotros', icono: 'fa-briefcase', categoria: 'nosotros' },
-        'login.html': { nombre: 'Iniciar Sesión', icono: 'fa-sign-in-alt', categoria: 'cuenta' },
-        'registro.html': { nombre: 'Crear Cuenta', icono: 'fa-user-plus', categoria: 'cuenta' },
         'perfil.html': { nombre: 'Mi Perfil', icono: 'fa-user-circle', categoria: 'cuenta' },
-        'pedidos.html': { nombre: 'Mis Pedidos', icono: 'fa-receipt', categoria: 'cuenta' },
-        'direcciones.html': { nombre: 'Mis Direcciones', icono: 'fa-map-marked-alt', categoria: 'cuenta' },
-        'terminos.html': { nombre: 'Términos y Condiciones', icono: 'fa-file-contract', categoria: 'legal' },
-        'privacidad.html': { nombre: 'Privacidad', icono: 'fa-shield-alt', categoria: 'legal' },
-        'cookies.html': { nombre: 'Cookies', icono: 'fa-cookie-bite', categoria: 'legal' },
-        'devoluciones.html': { nombre: 'Devoluciones', icono: 'fa-undo', categoria: 'legal' },
-        'envios.html': { nombre: 'Envíos', icono: 'fa-truck', categoria: 'legal' }
+        'terminos.html': { nombre: 'Términos', icono: 'fa-file-contract', categoria: 'legal' },
+        'privacidad.html': { nombre: 'Privacidad', icono: 'fa-shield-alt', categoria: 'legal' }
     };
     
-    const paginaActual = paginas[pageName] || {
+    var paginaActual = paginas[pageName] || {
         nombre: formatearNombrePagina(pageName),
         icono: 'fa-file',
         categoria: 'otra'
     };
     
-    let html = '';
+    var html = '';
+    var inicio = '<li class="breadcrumb-item"><a href="' + basePath + 'index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>';
+    var sep = '<li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>';
+    var actual = '<li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ' + paginaActual.icono + '"></i> ' + paginaActual.nombre + '</span></li>';
     
-    // INICIO
     if (paginaActual.categoria === 'inicio') {
-        html = `
-            <li class="breadcrumb-item active" aria-current="page">
-                <span class="breadcrumb-current"><i class="fas fa-home"></i> Inicio</span>
-            </li>
-        `;
-    }
-    // TIENDA
-    else if (paginaActual.categoria === 'tienda') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item"><a href="${basePath}tienda/" class="breadcrumb-link"><i class="fas fa-store"></i> Tienda</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // SERVICIOS
-    else if (paginaActual.categoria === 'servicios') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item"><a href="${basePath}servicios/" class="breadcrumb-link"><i class="fas fa-hand-holding-heart"></i> Servicios</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // NOSOTROS
-    else if (paginaActual.categoria === 'nosotros') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item"><a href="${basePath}nosotros/" class="breadcrumb-link"><i class="fas fa-users"></i> Nosotros</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // CONTACTO
-    else if (paginaActual.categoria === 'contacto') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // CUENTA
-    else if (paginaActual.categoria === 'cuenta') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item"><a href="${basePath}cuenta/perfil.html" class="breadcrumb-link"><i class="fas fa-user"></i> Mi Cuenta</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // LEGAL
-    else if (paginaActual.categoria === 'legal') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // PRINCIPAL (servicios, contacto, nosotros como índice)
-    else if (paginaActual.categoria === 'principal') {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas ${paginaActual.icono}"></i> ${paginaActual.nombre}</span></li>
-        `;
-    }
-    // GENÉRICO
-    else {
-        html = `
-            <li class="breadcrumb-item"><a href="${basePath}index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li>
-            <li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li>
-            <li class="breadcrumb-item active" aria-current="page"><span class="breadcrumb-current"><i class="fas fa-file"></i> ${paginaActual.nombre}</span></li>
-        `;
+        html = actual;
+    } else if (paginaActual.categoria === 'tienda') {
+        html = inicio + sep + '<li class="breadcrumb-item"><a href="' + basePath + 'tienda/" class="breadcrumb-link"><i class="fas fa-store"></i> Tienda</a></li>' + sep + actual;
+    } else if (paginaActual.categoria === 'servicios') {
+        if (pageName === 'servicios.html') html = inicio + sep + actual;
+        else html = inicio + sep + '<li class="breadcrumb-item"><a href="' + basePath + 'servicios/" class="breadcrumb-link"><i class="fas fa-hand-holding-heart"></i> Servicios</a></li>' + sep + actual;
+    } else if (paginaActual.categoria === 'cuenta') {
+        html = inicio + sep + '<li class="breadcrumb-item"><a href="' + basePath + 'cuenta/perfil.html" class="breadcrumb-link"><i class="fas fa-user"></i> Mi Cuenta</a></li>' + sep + actual;
+    } else {
+        html = inicio + sep + actual;
     }
     
     breadcrumbList.innerHTML = html;
 }
 
-// ========== FORMATEAR NOMBRE DE PÁGINA ==========
-function formatearNombrePagina(nombreArchivo) {
-    if (!nombreArchivo || nombreArchivo === '') return 'Página';
-    
-    return nombreArchivo
-        .replace('.html', '')
-        .replace(/-/g, ' ')
-        .replace(/_/g, ' ')
-        .replace(/\b\w/g, l => l.toUpperCase())
-        .trim();
+function formatearNombrePagina(nombre) {
+    if (!nombre) return 'Página';
+    return nombre.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); }).trim();
 }
 
-// ========== CARRITO DE COMPRAS ==========
+// ============================================================
+// SIDEBAR PROFILE
+// ============================================================
+function abrirSidebar() {
+    var sidebar = document.getElementById('profileSidebar');
+    var overlay = document.getElementById('profileOverlay');
+    if (sidebar) sidebar.classList.add('active');
+    if (overlay) overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarSidebar() {
+    var sidebar = document.getElementById('profileSidebar');
+    var overlay = document.getElementById('profileOverlay');
+    if (sidebar) sidebar.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// ============================================================
+// MODAL LOGIN/REGISTRO
+// ============================================================
+function abrirModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) modal.classList.add('active');
+}
+
+function cerrarModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function mostrarRegistro() {
+    document.getElementById('formLogin').style.display = 'none';
+    document.getElementById('formRegistro').style.display = 'block';
+    document.getElementById('modalError').style.display = 'none';
+    document.getElementById('modalSuccess').style.display = 'none';
+}
+
+function mostrarLogin() {
+    document.getElementById('formRegistro').style.display = 'none';
+    document.getElementById('formLogin').style.display = 'block';
+    document.getElementById('modalError').style.display = 'none';
+    document.getElementById('modalSuccess').style.display = 'none';
+}
+
+function loginModal(e) {
+    e.preventDefault();
+    var email = document.getElementById('modalEmail').value.trim();
+    var password = document.getElementById('modalPassword').value.trim();
+    
+    if (email && password.length >= 4) {
+        var user = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
+        localStorage.setItem('petfyUser', JSON.stringify(user));
+        localStorage.setItem('petfyLogged', 'true');
+        actualizarUI(user);
+        cerrarModal();
+    } else {
+        document.getElementById('modalError').style.display = 'block';
+    }
+    return false;
+}
+
+function registroModal(e) {
+    e.preventDefault();
+    var nombre = document.getElementById('regModalNombre').value.trim();
+    var email = document.getElementById('regModalEmail').value.trim();
+    var password = document.getElementById('regModalPassword').value.trim();
+    
+    if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
+    
+    var user = { nombre: nombre, apellido: '', email: email, telefono: '' };
+    localStorage.setItem('petfyUser', JSON.stringify(user));
+    localStorage.setItem('petfyLogged', 'true');
+    
+    document.getElementById('modalSuccess').style.display = 'block';
+    setTimeout(function() {
+        actualizarUI(user);
+        cerrarModal();
+        mostrarLogin();
+    }, 1500);
+    return false;
+}
+
+// ============================================================
+// ACTUALIZAR UI DESPUÉS DE LOGIN
+// ============================================================
+function actualizarUI(user) {
+    var btn = document.getElementById('btnCuenta');
+    if (btn) {
+        btn.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
+        btn.title = 'Mi Perfil';
+        btn.setAttribute('data-logged', 'true');
+        btn.removeAttribute('id');
+    }
+    var nombre = document.getElementById('sidebarNombre');
+    var email = document.getElementById('sidebarEmail');
+    if (nombre) nombre.textContent = user.nombre;
+    if (email) email.textContent = user.email;
+}
+
+function cerrarSesion() {
+    localStorage.removeItem('petfyLogged');
+    localStorage.removeItem('petfyUser');
+    window.location.href = 'index.html';
+}
+
+// ============================================================
+// CARRITO DE COMPRAS
+// ============================================================
 function obtenerCarrito() {
     return JSON.parse(localStorage.getItem('petfyCart')) || [];
 }
@@ -251,371 +304,46 @@ function guardarCarrito(cart) {
 }
 
 function actualizarContadorCarrito() {
-    const cart = obtenerCarrito();
-    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-    
-    document.querySelectorAll('.cart-count').forEach(contador => {
-        contador.textContent = totalItems;
-        contador.style.display = totalItems > 0 ? 'flex' : 'none';
+    var cart = obtenerCarrito();
+    var total = cart.reduce(function(sum, item) { return sum + (item.quantity || 1); }, 0);
+    document.querySelectorAll('.cart-count').forEach(function(c) {
+        c.textContent = total;
+        c.style.display = total > 0 ? 'flex' : 'none';
     });
 }
 
-function agregarAlCarrito(id, name, price, image, quantity = 1) {
-    let cart = obtenerCarrito();
+function agregarAlCarrito(id, name, price, image, quantity) {
+    quantity = quantity || 1;
+    var cart = obtenerCarrito();
+    var idx = cart.findIndex(function(item) { return item.id === id; });
     
-    const existingIndex = cart.findIndex(item => item.id === id);
-    
-    if (existingIndex > -1) {
-        cart[existingIndex].quantity += quantity;
-    } else {
-        cart.push({ id, name, price, image, quantity });
-    }
+    if (idx > -1) { cart[idx].quantity += quantity; }
+    else { cart.push({ id: id, name: name, price: price, image: image, quantity: quantity }); }
     
     guardarCarrito(cart);
     mostrarFeedback('✅ Producto añadido al carrito');
 }
 
-function eliminarDelCarrito(id) {
-    let cart = obtenerCarrito();
-    cart = cart.filter(item => item.id !== id);
-    guardarCarrito(cart);
-    mostrarFeedback('🗑️ Producto eliminado');
-}
-
-function vaciarCarrito() {
-    guardarCarrito([]);
-    mostrarFeedback('🛒 Carrito vaciado');
-}
-
-// ========== FEEDBACK TOAST ==========
+// ============================================================
+// FEEDBACK TOAST
+// ============================================================
 function mostrarFeedback(mensaje) {
-    const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background: #10B981;
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 9999;
-        animation: slideIn 0.3s ease;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        font-family: 'Inter', sans-serif;
-    `;
+    var toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#10B981;color:white;padding:1rem 1.5rem;border-radius:10px;font-weight:600;font-size:0.9rem;z-index:9999;animation:slideIn 0.3s ease;box-shadow:0 10px 25px rgba(0,0,0,0.2);font-family:\'Nunito\',sans-serif;';
     toast.textContent = mensaje;
     document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease forwards';
-        setTimeout(() => toast.remove(), 300);
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(function() { toast.remove(); }, 300);
     }, 2500);
 }
 
-// ========== ANIMACIONES ==========
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100px); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
+// ============================================================
+// PLACEHOLDERS FUTUROS
+// ============================================================
+function processPayment(paymentData) { console.log('💳 Procesando pago:', paymentData); }
+function searchProducts(query) { console.log('🔍 Buscando:', query); }
+function loadProducts(category, page) { console.log('📦 Cargando productos:', { category: category, page: page }); }
 
-// ========== PLACEHOLDERS FUTUROS ==========
-function processPayment(paymentData) {
-    console.log('💳 Procesando pago:', paymentData);
-}
-
-function searchProducts(query) {
-    console.log('🔍 Buscando:', query);
-}
-
-function loadProducts(category = null, page = 1) {
-    console.log('📦 Cargando productos:', { category, page });
-}
-
-console.log('✅ main.js cargado correctamente');
-// ========== MODAL DE LOGIN ==========
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Abrir modal al hacer clic en el icono de usuario
-    const btnCuenta = document.querySelector('.icon-link[title="Mi cuenta"], #btnCuenta');
-    if (btnCuenta) {
-        btnCuenta.addEventListener('click', function(e) {
-            e.preventDefault(); // Evita que # aparezca en la URL
-            const modal = document.getElementById('loginModal');
-            if (modal) {
-                modal.classList.add('active');
-            }
-        });
-    }
-
-    // Cerrar modal con botón X
-    const closeBtn = document.querySelector('.modal-close');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', function() {
-            document.getElementById('loginModal').classList.remove('active');
-        });
-    }
-
-    // Cerrar modal al hacer clic fuera
-    const modal = document.getElementById('loginModal');
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-            }
-        });
-    }
-
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const modal = document.getElementById('loginModal');
-            if (modal && modal.classList.contains('active')) {
-                modal.classList.remove('active');
-            }
-        }
-    });
-
-    // Si ya está logueado, actualizar navbar
-    if (localStorage.getItem('petfyLogged') === 'true') {
-        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-        if (user.nombre) {
-            actualizarNavbarUsuario(user.nombre);
-        }
-    }
-});
-
-// Cambiar a registro
-function mostrarRegistro() {
-    document.getElementById('formLogin').style.display = 'none';
-    document.getElementById('formRegistro').style.display = 'block';
-    document.getElementById('modalError').style.display = 'none';
-    document.getElementById('modalSuccess').style.display = 'none';
-}
-
-// Cambiar a login
-function mostrarLogin() {
-    document.getElementById('formRegistro').style.display = 'none';
-    document.getElementById('formLogin').style.display = 'block';
-    document.getElementById('modalError').style.display = 'none';
-    document.getElementById('modalSuccess').style.display = 'none';
-}
-
-// Login desde modal
-function loginModal(e) {
-    e.preventDefault();
-    const email = document.getElementById('modalEmail').value.trim();
-    const password = document.getElementById('modalPassword').value.trim();
-
-    if (email && password.length >= 4) {
-        const usuario = {
-            nombre: email.split('@')[0],
-            apellido: '',
-            email: email,
-            telefono: ''
-        };
-        localStorage.setItem('petfyUser', JSON.stringify(usuario));
-        localStorage.setItem('petfyLogged', 'true');
-        actualizarNavbarUsuario(usuario.nombre);
-        document.getElementById('loginModal').classList.remove('active');
-        document.getElementById('modalError').style.display = 'none';
-    } else {
-        document.getElementById('modalError').style.display = 'block';
-    }
-    return false;
-}
-
-// Registro desde modal
-function registroModal(e) {
-    e.preventDefault();
-    const nombre = document.getElementById('regModalNombre').value.trim();
-    const email = document.getElementById('regModalEmail').value.trim();
-    const password = document.getElementById('regModalPassword').value.trim();
-
-    if (password.length < 8) {
-        alert('La contraseña debe tener al menos 8 caracteres');
-        return false;
-    }
-
-    const usuario = {
-        nombre: nombre,
-        apellido: '',
-        email: email,
-        telefono: ''
-    };
-    localStorage.setItem('petfyUser', JSON.stringify(usuario));
-    localStorage.setItem('petfyLogged', 'true');
-
-    document.getElementById('modalSuccess').style.display = 'block';
-    setTimeout(() => {
-        actualizarNavbarUsuario(nombre);
-        document.getElementById('loginModal').classList.remove('active');
-        mostrarLogin();
-    }, 1500);
-    return false;
-}
-
-// Actualizar navbar después de login
-function actualizarNavbarUsuario(nombre) {
-    const userLinks = document.querySelectorAll('.icon-link[title="Mi cuenta"], #btnCuenta');
-    userLinks.forEach(link => {
-        link.href = '#';
-        link.title = 'Mi Perfil (' + nombre + ')';
-        link.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-    });
-}
-
-// Cerrar sesión (se llama desde perfil)
-function cerrarSesion() {
-    localStorage.removeItem('petfyLogged');
-    localStorage.removeItem('petfyUser');
-    window.location.href = '../index.html';
-}
-// ========== SISTEMA DE LOGIN/REGISTRO MODAL ==========
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Abrir modal desde icono de usuario (NO logueado)
-    const btnCuenta = document.querySelector('#btnCuenta');
-    if (btnCuenta) {
-        btnCuenta.addEventListener('click', function(e) {
-            e.preventDefault();
-            const modal = document.getElementById('loginModal');
-            if (modal) modal.classList.add('active');
-        });
-    }
-
-    // Cerrar modal con ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            const modal = document.getElementById('loginModal');
-            if (modal && modal.classList.contains('active')) modal.classList.remove('active');
-        }
-    });
-
-    // Si ya está logueado, actualizar navbar
-    if (localStorage.getItem('petfyLogged') === 'true') {
-        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-        if (user.nombre) actualizarNavbarUsuario(user.nombre);
-    }
-});
-
-function mostrarRegistro() {
-    document.getElementById('formLogin').style.display = 'none';
-    document.getElementById('formRegistro').style.display = 'block';
-    document.getElementById('modalError').style.display = 'none';
-    document.getElementById('modalSuccess').style.display = 'none';
-}
-
-function mostrarLogin() {
-    document.getElementById('formRegistro').style.display = 'none';
-    document.getElementById('formLogin').style.display = 'block';
-    document.getElementById('modalError').style.display = 'none';
-    document.getElementById('modalSuccess').style.display = 'none';
-}
-
-function loginModal(e) {
-    e.preventDefault();
-    const email = document.getElementById('modalEmail').value.trim();
-    const password = document.getElementById('modalPassword').value.trim();
-    if (email && password.length >= 4) {
-        const usuario = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
-        localStorage.setItem('petfyUser', JSON.stringify(usuario));
-        localStorage.setItem('petfyLogged', 'true');
-        actualizarNavbarUsuario(usuario.nombre);
-        document.getElementById('loginModal').classList.remove('active');
-    } else {
-        document.getElementById('modalError').style.display = 'block';
-    }
-    return false;
-}
-
-function registroModal(e) {
-    e.preventDefault();
-    const nombre = document.getElementById('regModalNombre').value.trim();
-    const email = document.getElementById('regModalEmail').value.trim();
-    const password = document.getElementById('regModalPassword').value.trim();
-    if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
-    const usuario = { nombre, apellido: '', email, telefono: '' };
-    localStorage.setItem('petfyUser', JSON.stringify(usuario));
-    localStorage.setItem('petfyLogged', 'true');
-    document.getElementById('modalSuccess').style.display = 'block';
-    setTimeout(() => {
-        actualizarNavbarUsuario(nombre);
-        document.getElementById('loginModal').classList.remove('active');
-        mostrarLogin();
-    }, 1500);
-    return false;
-}
-
-function actualizarNavbarUsuario(nombre) {
-    const links = document.querySelectorAll('#btnCuenta');
-    links.forEach(link => {
-        link.href = 'cuenta/perfil.html';
-        link.title = 'Mi Perfil (' + nombre + ')';
-        link.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-        link.removeAttribute('id');
-    });
-}
-
-function cerrarSesion() {
-    localStorage.removeItem('petfyLogged');
-    localStorage.removeItem('petfyUser');
-    window.location.href = '../index.html';
-}
-// ========== PETFY PROFILE SIDEBAR ==========
-
-// Abrir sidebar
-function abrirSidebar() {
-    document.getElementById('profileSidebar').classList.add('active');
-    document.getElementById('profileOverlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-// Cerrar sidebar
-function cerrarSidebar() {
-    document.getElementById('profileSidebar').classList.remove('active');
-    document.getElementById('profileOverlay').classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-// Abrir sidebar desde icono
-document.addEventListener('DOMContentLoaded', function() {
-    const btnCuenta = document.querySelector('#btnCuenta');
-    if (btnCuenta) {
-        btnCuenta.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (localStorage.getItem('petfyLogged') === 'true') {
-                abrirSidebar();
-            } else {
-                // Abrir modal de login
-                const modal = document.getElementById('loginModal');
-                if (modal) modal.classList.add('active');
-            }
-        });
-    }
-    
-    // Cerrar con ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') cerrarSidebar();
-    });
-    
-    // Si está logueado, cargar datos
-    if (localStorage.getItem('petfyLogged') === 'true') {
-        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-        if (user.nombre) {
-            document.getElementById('btnCuenta').innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-            document.getElementById('btnCuenta').title = 'Mi Perfil';
-            document.getElementById('sidebarNombre').textContent = user.nombre + ' ' + (user.apellido || '');
-            document.getElementById('sidebarEmail').textContent = user.email;
-        }
-    }
-});
+console.log('✅ main.js cargado');
