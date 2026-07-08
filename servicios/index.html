@@ -13,10 +13,10 @@
     <style>
         .servicios-page { background: var(--bg); }
         
-        /* Banner general */
+        /* Banner */
         .servicios-header {
             background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
-            padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
+            padding: 3rem 0 4rem; text-align: center; position: relative; overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
         .doodle { position: absolute; opacity: 0.2; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
@@ -24,93 +24,100 @@
         .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; } .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
         @keyframes floatDoodle { 0%,100%{transform:translateY(0)rotate(0);} 50%{transform:translateY(-18px)rotate(5deg);} }
         .servicios-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
-        .servicios-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
+        .servicios-header p { color: var(--text-light); position: relative; z-index: 2; }
         
-        /* Barra de servicios */
+        /* Navegación de servicios */
         .servicios-nav {
             background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
             position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);
-            margin-top: -2rem; border-radius: 20px 20px 0 0; padding-top: 0.5rem;
+            margin-top: -2rem; border-radius: 20px 20px 0 0; padding: 0.75rem 0;
         }
-        .servicios-nav .container { display: flex; align-items: center; justify-content: center; padding: 0.6rem 0; gap: 0.5rem; flex-wrap: wrap; }
+        .servicios-nav .container { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; }
         .servicio-nav-btn {
-            display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem;
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1.1rem;
             border-radius: 25px; border: 2px solid transparent; cursor: pointer;
             font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem;
             background: var(--bg); color: var(--text); transition: var(--transition);
         }
         .servicio-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
         .servicio-nav-btn.active { background: var(--primary); color: var(--white); }
-        .servicio-nav-btn.inactivo { opacity: 0.5; background: #F5F0ED; color: #B0A89F; }
-        .servicio-nav-btn.inactivo:hover { opacity: 0.7; }
+        .servicio-nav-btn.inactivo { opacity: 0.55; background: #F5F0ED; color: #A09890; cursor: pointer; }
+        .servicio-nav-btn.inactivo:hover { opacity: 0.8; }
         
-        /* Contenido dinámico */
+        /* Panel de servicios */
         .servicios-content { padding: 2rem 0 4rem; }
         .servicio-panel { display: none; animation: fadeIn 0.4s ease; }
         .servicio-panel.active { display: block; }
         @keyframes fadeIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
         
-        /* Panel de paseos */
-        .paseos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
-        .paseo-plan-card {
+        /* ========== PASEOS ========== */
+        .paseos-info-box {
+            background: var(--white); border-radius: var(--radius-lg); padding: 2rem;
+            box-shadow: var(--shadow-sm); margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        .paseos-info-box h3 { font-family: 'Fredoka One', cursive; color: var(--primary); margin-bottom: 0.5rem; }
+        .paseos-info-box p { color: var(--text-light); }
+        
+        .paseos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .plan-card {
             background: var(--white); border: 2px solid rgba(0,0,0,0.04); border-radius: var(--radius-lg);
             padding: 2rem; text-align: center; cursor: pointer; transition: var(--transition);
             box-shadow: var(--shadow-sm);
         }
-        .paseo-plan-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
-        .paseo-plan-card.seleccionado { border-color: var(--primary); background: #FFF8F5; }
-        .plan-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .plan-card.seleccionado { border-color: var(--primary); background: #FFF8F5; display: block !important; }
+        .plan-card.oculto { display: none; }
+        .plan-icon { font-size: 3rem; margin-bottom: 0.5rem; }
         .plan-nombre { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); }
-        .plan-precio { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--primary); margin: 0.75rem 0; }
-        .plan-desc { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
-        .plan-select-btn {
-            padding: 0.7rem 1.5rem; background: var(--primary); color: white;
-            border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
-            font-weight: 800; cursor: pointer; font-size: 0.9rem; transition: var(--transition);
+        .plan-precio { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--primary); margin: 0.5rem 0; }
+        .plan-desc { color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.75rem; }
+        .btn-volver-planes {
+            display: none; margin: 1rem 0 2rem; padding: 0.6rem 1.5rem;
+            background: var(--bg); border: 2px solid rgba(0,0,0,0.1); border-radius: 25px;
+            cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700;
         }
-        .plan-select-btn:hover { background: var(--primary-dark); }
-        
-        /* Detalle del plan seleccionado */
-        .plan-detalle {
-            display: none; background: var(--white); border-radius: var(--radius-lg);
-            padding: 2.5rem; margin-top: 2rem; box-shadow: var(--shadow-lg);
-            border: 2px solid var(--primary);
-        }
-        .plan-detalle.active { display: block; animation: fadeIn 0.5s ease; }
-        .plan-detalle h3 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; }
-        .plan-detalle .info-row { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
-        .plan-detalle .info-item { flex: 1; min-width: 150px; }
-        .plan-detalle .info-item strong { display: block; color: var(--text); margin-bottom: 0.25rem; }
-        .plan-detalle .info-item span { color: var(--text-light); font-size: 0.9rem; }
         
         /* Formulario */
-        .formulario-paseo { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.06); }
-        .formulario-paseo h4 { font-family: 'Fredoka One', cursive; margin-bottom: 1.5rem; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06);
-            border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+        .formulario-paseo {
+            background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem;
+            box-shadow: var(--shadow-lg); border: 2px solid var(--primary);
         }
-        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+        .formulario-paseo h3 { font-family: 'Fredoka One', cursive; color: var(--primary); margin-bottom: 1.5rem; text-align: center; }
+        .form-section { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .form-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .form-section h4 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .form-section h4 i { color: var(--primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; font-size: 0.85rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+            background: var(--white);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-group .file-input { padding: 0.5rem; border: 2px dashed rgba(0,0,0,0.1); border-radius: var(--radius); text-align: center; cursor: pointer; }
         .btn-contratar {
             width: 100%; padding: 1rem; background: var(--primary); color: white;
             border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
             font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: var(--transition);
+            margin-top: 1rem;
         }
         .btn-contratar:hover { background: var(--primary-dark); transform: translateY(-2px); }
         
-        /* Placeholder inactivo */
+        /* Inactivo */
         .inactivo-placeholder {
-            text-align: center; padding: 5rem 2rem; background: var(--white);
+            text-align: center; padding: 4rem 2rem; background: var(--white);
             border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
         }
-        .inactivo-placeholder .icon { font-size: 5rem; margin-bottom: 1rem; opacity: 0.5; }
+        .inactivo-placeholder .icon { font-size: 5rem; margin-bottom: 1rem; opacity: 0.4; }
         .inactivo-placeholder h3 { font-family: 'Fredoka One', cursive; color: var(--text); }
-        .inactivo-placeholder p { color: var(--text-muted); }
+        .inactivo-placeholder p { color: var(--text-muted); max-width: 400px; margin: 0.5rem auto; }
         
-        @media(max-width:768px){.form-row{grid-template-columns:1fr;}.servicios-header h1{font-size:2rem;}}
+        @media(max-width:768px){.form-row,.form-row-3{grid-template-columns:1fr;}.servicios-header h1{font-size:2rem;}}
     </style>
 </head>
 <body>
@@ -121,13 +128,11 @@
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <!-- TIENDA COMENTADA -->
-                    <!-- <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li> -->
                     <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
                     <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option></select></div>
                     <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
                     <div class="user-actions">
                         <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
@@ -145,10 +150,10 @@
     <section class="servicios-header">
         <span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span>
         <h1>Nuestros Servicios</h1>
-        <p>Elige el servicio que necesitas. Paseos disponibles ahora. ¡Más servicios próximamente!</p>
+        <p>Elige el servicio que necesitas para tu mascota</p>
     </section>
 
-    <!-- BARRA DE SERVICIOS -->
+    <!-- NAVEGACIÓN DE SERVICIOS -->
     <div class="servicios-nav">
         <div class="container">
             <button class="servicio-nav-btn active" onclick="mostrarServicio('paseos', this)"><i class="fas fa-dog"></i> Paseos</button>
@@ -159,110 +164,181 @@
         </div>
     </div>
 
-    <!-- CONTENIDO DINÁMICO -->
+    <!-- CONTENIDO -->
     <section class="servicios-content">
         <div class="container">
             
-            <!-- ========== PANEL PASEOS (ACTIVO) ========== -->
+            <!-- ========== PANEL PASEOS ========== -->
             <div class="servicio-panel active" id="panel-paseos">
-                <div class="section-header"><span class="section-subtitle">Servicio Disponible</span><h2 class="section-title">Planes de Paseo</h2><p class="section-description">Selecciona un plan para ver más información y contratar</p></div>
+                
+                <div class="paseos-info-box">
+                    <h3>🐕 Paseos Profesionales</h3>
+                    <p>Todos los paseos incluyen: GPS en vivo, fotos, paseador certificado y snack premium. Elige el plan que mejor se adapte a ti.</p>
+                </div>
                 
                 <!-- TARJETAS DE PLANES -->
                 <div class="paseos-grid" id="paseosGrid">
-                    
-                    <!-- Plan 1: Personalizado -->
-                    <div class="paseo-plan-card" onclick="seleccionarPlan('personalizado')" id="card-personalizado">
+                    <div class="plan-card" id="card-personalizado" onclick="seleccionarPlan('personalizado')">
                         <div class="plan-icon">⚡</div>
                         <h3 class="plan-nombre">Paseo Personalizado</h3>
                         <div class="plan-precio">$10.990<small>/paseo</small></div>
-                        <p class="plan-desc">45 minutos • GPS en vivo • Fotos • Snack</p>
-                        <button class="plan-select-btn">Seleccionar Plan</button>
+                        <p class="plan-desc">45 minutos • El día que elijas • Sin suscripción</p>
                     </div>
-                    
-                    <!-- Plan 2: Suscripción 3 veces -->
-                    <div class="paseo-plan-card" onclick="seleccionarPlan('suscripcion3')" id="card-suscripcion3">
+                    <div class="plan-card" id="card-3dias" onclick="seleccionarPlan('3dias')">
                         <div class="plan-icon">🌟</div>
-                        <h3 class="plan-nombre">Suscripción 3 Días</h3>
+                        <h3 class="plan-nombre">Plan 3 Días/Semana</h3>
                         <div class="plan-precio">$89.990<small>/mes</small></div>
-                        <p class="plan-desc">1 hora • 3 veces por semana • Lunes, Miércoles y Viernes</p>
-                        <button class="plan-select-btn">Seleccionar Plan</button>
+                        <p class="plan-desc">1 hora • 3 veces por semana • Ahorra 20%</p>
                     </div>
-                    
-                    <!-- Plan 3: Suscripción 7 días -->
-                    <div class="paseo-plan-card" onclick="seleccionarPlan('suscripcion7')" id="card-suscripcion7">
+                    <div class="plan-card" id="card-full" onclick="seleccionarPlan('full')">
                         <div class="plan-icon">💎</div>
-                        <h3 class="plan-nombre">Suscripción Full</h3>
+                        <h3 class="plan-nombre">Plan Full 7 Días</h3>
                         <div class="plan-precio">$159.990<small>/mes</small></div>
-                        <p class="plan-desc">1 hora • 7 días de la semana • Paseador VIP</p>
-                        <button class="plan-select-btn">Seleccionar Plan</button>
+                        <p class="plan-desc">1 hora • Todos los días • Paseador VIP • Ahorra 40%</p>
                     </div>
-                    
                 </div>
                 
-                <!-- DETALLE DEL PLAN SELECCIONADO -->
-                <div class="plan-detalle" id="planDetalle">
-                    <h3 id="detalleTitulo"></h3>
-                    <div class="info-row" id="detalleInfo"></div>
+                <button class="btn-volver-planes" id="btnVolver" onclick="volverPlanes()">← Ver todos los planes</button>
+                
+                <!-- FORMULARIO (SE MUESTRA AL SELECCIONAR PLAN) -->
+                <div class="formulario-paseo" id="formularioPaseo" style="display:none;">
+                    <h3 id="formTitulo">📋 Completa tus datos</h3>
                     
-                    <!-- FORMULARIO DE INSCRIPCIÓN -->
-                    <div class="formulario-paseo">
-                        <h4>📋 Completa tus datos para contratar</h4>
-                        <form onsubmit="return contratarPaseo(event)">
+                    <form onsubmit="return contratarPaseo(event)">
+                        
+                        <!-- SECCIÓN 1: DATOS DEL CLIENTE -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-user"></i> Datos del Cliente</h4>
                             <div class="form-row">
-                                <div class="form-group"><label>Nombre *</label><input type="text" id="formNombre" required placeholder="Tu nombre"></div>
-                                <div class="form-group"><label>Email *</label><input type="email" id="formEmail" required placeholder="tu@email.com"></div>
+                                <div class="form-group"><label>Nombre *</label><input type="text" id="clienteNombre" required placeholder="Tu nombre"></div>
+                                <div class="form-group"><label>Apellido *</label><input type="text" id="clienteApellido" required placeholder="Tu apellido"></div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group"><label>Teléfono *</label><input type="tel" id="formTelefono" required placeholder="+57 300 123 4567"></div>
-                                <div class="form-group"><label>Nombre de tu mascota *</label><input type="text" id="formMascota" required placeholder="Nombre"></div>
+                                <div class="form-group"><label>Teléfono 1 *</label><input type="tel" id="clienteTel1" required placeholder="+57 300 123 4567"></div>
+                                <div class="form-group"><label>Teléfono 2 (opcional)</label><input type="tel" id="clienteTel2" placeholder="+57 300 123 4567"></div>
                             </div>
+                            <div class="form-group"><label>Correo electrónico *</label><input type="email" id="clienteEmail" required placeholder="tu@email.com"></div>
+                        </div>
+                        
+                        <!-- SECCIÓN 2: DIRECCIÓN -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-map-marker-alt"></i> Dirección</h4>
                             <div class="form-row">
-                                <div class="form-group"><label>Dirección *</label><input type="text" id="formDireccion" required placeholder="Calle, barrio, ciudad"></div>
-                                <div class="form-group"><label>Horario preferido</label><select id="formHorario"><option>Mañana (8-12)</option><option>Tarde (12-5)</option><option>Noche (5-8)</option></select></div>
+                                <div class="form-group">
+                                    <label>Ciudad *</label>
+                                    <select id="dirCiudad" required onchange="toggleLocalidad()">
+                                        <option value="">Selecciona ciudad</option>
+                                        <option value="bogota">Bogotá</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Localidad *</label>
+                                    <select id="dirLocalidad" required disabled>
+                                        <option value="">Selecciona localidad</option>
+                                        <option value="usaquen">Usaquén</option>
+                                    </select>
+                                </div>
                             </div>
-                            <button type="submit" class="btn-contratar"><i class="fas fa-paw"></i> Contratar Plan</button>
-                        </form>
-                    </div>
+                            <div class="form-group"><label>Dirección *</label><input type="text" id="dirDireccion" required placeholder="Calle, carrera, número"></div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Conjunto/Torre</label><input type="text" id="dirTorre" placeholder="Ej: Torre 3"></div>
+                                <div class="form-group"><label>Apartamento</label><input type="text" id="dirApto" placeholder="Ej: 501"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- SECCIÓN 3: DATOS DEL PERRO -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-dog"></i> Datos de tu Perro</h4>
+                            <div class="form-row">
+                                <div class="form-group"><label>Nombre *</label><input type="text" id="perroNombre" required placeholder="Nombre de tu perro"></div>
+                                <div class="form-group"><label>Raza *</label><input type="text" id="perroRaza" required placeholder="Ej: Golden Retriever"></div>
+                            </div>
+                            <div class="form-row-3">
+                                <div class="form-group"><label>Edad *</label><input type="text" id="perroEdad" required placeholder="Ej: 3 años"></div>
+                                <div class="form-group"><label>Peso (kg) *</label><input type="text" id="perroPeso" required placeholder="Ej: 25"></div>
+                                <div class="form-group"><label>Comportamiento *</label><select id="perroComportamiento" required><option value="">Selecciona</option><option>Sociable</option><option>Tímido</option><option>Juguetón</option><option>Dominante</option><option>Ansioso</option></select></div>
+                            </div>
+                            <div class="form-group"><label>Alergias o enfermedades</label><textarea id="perroAlergias" placeholder="¿Tiene alergias, enfermedades o condiciones especiales?"></textarea></div>
+                            <div class="form-group"><label>Indicaciones adicionales</label><textarea id="perroIndicaciones" placeholder="Cualquier información que el paseador deba saber"></textarea></div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Foto del perro</label><div class="file-input"><input type="file" id="perroFoto" accept="image/*" style="width:100%;"><small style="color:var(--text-muted);">JPEG o PNG</small></div></div>
+                                <div class="form-group"><label>Carnet de vacunación</label><div class="file-input"><input type="file" id="perroVacunas" accept="image/*" style="width:100%;"><small style="color:var(--text-muted);">JPEG o PNG</small></div></div>
+                            </div>
+                        </div>
+                        
+                        <!-- SECCIÓN 4: AGENDA -->
+                        <div class="form-section" id="seccionAgenda">
+                            <h4><i class="fas fa-calendar"></i> Agenda tu Paseo</h4>
+                            <div class="form-group">
+                                <label>Fecha de inicio *</label>
+                                <input type="date" id="agendaFecha" required>
+                            </div>
+                            <div id="agendaFrecuencia" style="display:none;">
+                                <div class="form-group">
+                                    <label>Días por semana</label>
+                                    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.5rem;">
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="lunes"> Lunes</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="martes"> Martes</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="miercoles"> Miércoles</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="jueves"> Jueves</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="viernes"> Viernes</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="sabado"> Sábado</label>
+                                        <label style="display:flex;align-items:center;gap:0.3rem;"><input type="checkbox" value="domingo"> Domingo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Hora preferida *</label>
+                                <select id="agendaHora" required>
+                                    <option value="">Selecciona horario</option>
+                                    <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+                                    <option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-contratar"><i class="fas fa-paw"></i> Contratar Plan</button>
+                    </form>
                 </div>
             </div>
             
-            <!-- ========== PANEL GUARDERÍA (INACTIVO) ========== -->
+            <!-- ========== PANEL GUARDERÍA ========== -->
             <div class="servicio-panel" id="panel-guarderia">
                 <div class="inactivo-placeholder">
                     <div class="icon">🏠</div>
-                    <h3>Guardería</h3>
-                    <p>Próximamente disponible. Espacio seguro con cámaras 24/7 y personal veterinario.</p>
-                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                    <h3>Guardería - Próximamente</h3>
+                    <p>Un espacio seguro y divertido para tu mascota mientras trabajas o viajas. Cámaras 24/7, personal veterinario y áreas de juego.</p>
+                    <a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline" style="margin-top:1.5rem;"><i class="fab fa-whatsapp"></i> Avísame cuando esté disponible</a>
                 </div>
             </div>
             
-            <!-- ========== PANEL BAÑOS (INACTIVO) ========== -->
+            <!-- ========== PANEL BAÑOS ========== -->
             <div class="servicio-panel" id="panel-banos">
                 <div class="inactivo-placeholder">
                     <div class="icon">🛁</div>
-                    <h3>Baños & Peluquería</h3>
-                    <p>Próximamente disponible. Productos hipoalergénicos y corte profesional.</p>
-                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                    <h3>Baños & Peluquería - Próximamente</h3>
+                    <p>Servicio completo de baño, corte de pelo y uñas con productos hipoalergénicos profesionales.</p>
+                    <a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline" style="margin-top:1.5rem;"><i class="fab fa-whatsapp"></i> Avísame cuando esté disponible</a>
                 </div>
             </div>
             
-            <!-- ========== PANEL VETERINARIA (INACTIVO) ========== -->
+            <!-- ========== PANEL VETERINARIA ========== -->
             <div class="servicio-panel" id="panel-veterinaria">
                 <div class="inactivo-placeholder">
                     <div class="icon">🩺</div>
-                    <h3>Veterinaria</h3>
-                    <p>Próximamente disponible. Consultas, vacunas y urgencias 24/7.</p>
-                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                    <h3>Veterinaria - Próximamente</h3>
+                    <p>Atención integral: consultas, vacunación, desparasitación y urgencias 24/7 con equipos de última generación.</p>
+                    <a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline" style="margin-top:1.5rem;"><i class="fab fa-whatsapp"></i> Avísame cuando esté disponible</a>
                 </div>
             </div>
             
-            <!-- ========== PANEL ENTRENAMIENTO (INACTIVO) ========== -->
+            <!-- ========== PANEL ENTRENAMIENTO ========== -->
             <div class="servicio-panel" id="panel-entrenamiento">
                 <div class="inactivo-placeholder">
                     <div class="icon">🎓</div>
-                    <h3>Entrenamiento</h3>
-                    <p>Próximamente disponible. Obediencia básica y avanzada con refuerzo positivo.</p>
-                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                    <h3>Entrenamiento - Próximamente</h3>
+                    <p>Obediencia básica y avanzada con técnicas de refuerzo positivo. Sesiones individuales o grupales.</p>
+                    <a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline" style="margin-top:1.5rem;"><i class="fab fa-whatsapp"></i> Avísame cuando esté disponible</a>
                 </div>
             </div>
             
@@ -281,10 +357,9 @@
         </div>
     </footer>
 
-    <!-- WHATSAPP -->
+    <!-- WHATSAPP + MODAL + SIDEBAR + OFERTA (igual que antes) -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- MODAL LOGIN -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
             <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
@@ -293,109 +368,89 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
     <div class="profile-sidebar" id="profileSidebar">
-        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
+        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p></div>
         <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
         <div class="profile-menu">
             <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
+            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos</a>
             <div class="profile-menu-divider"></div>
             <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
         </div>
     </div>
 
-    <!-- OFERTA -->
     <div class="modal-overlay" id="ofertaModal">
         <div class="modal-container" style="text-align:center;max-width:500px;">
             <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
             <div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
             <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
-            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
+            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;">No gracias</button>
         </div>
     </div>
 
     <script src="../assets/js/main.js"></script>
     <script>
-        var planSeleccionado = null;
+        var planActual = null;
 
-        // Cambiar entre servicios
         function mostrarServicio(servicio, btn) {
             document.querySelectorAll('.servicio-nav-btn').forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
             document.querySelectorAll('.servicio-panel').forEach(function(p) { p.classList.remove('active'); });
             document.getElementById('panel-' + servicio).classList.add('active');
-            
-            // Resetear plan seleccionado
-            planSeleccionado = null;
-            document.getElementById('planDetalle').classList.remove('active');
-            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
+            resetearPlanes();
         }
 
-        // Seleccionar plan de paseo
         function seleccionarPlan(plan) {
-            planSeleccionado = plan;
-            
-            // Marcar tarjeta seleccionada
-            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
-            document.getElementById('card-' + plan).classList.add('seleccionado');
-            
-            // Ocultar las otras tarjetas
-            document.querySelectorAll('.paseo-plan-card').forEach(function(c) {
-                if (c.id !== 'card-' + plan) { c.style.display = 'none'; }
+            planActual = plan;
+            document.querySelectorAll('.plan-card').forEach(function(c) {
+                if (c.id === 'card-' + plan) { c.classList.add('seleccionado'); }
+                else { c.classList.add('oculto'); }
             });
+            document.getElementById('btnVolver').style.display = 'inline-block';
+            document.getElementById('formularioPaseo').style.display = 'block';
             
-            // Mostrar detalle
-            var detalle = document.getElementById('planDetalle');
-            detalle.classList.add('active');
-            
-            // Llenar información según plan
-            var titulo = document.getElementById('detalleTitulo');
-            var info = document.getElementById('detalleInfo');
+            var titulos = { personalizado: '⚡ Paseo Personalizado - $10.990/paseo', '3dias': '🌟 Plan 3 Días/Semana - $89.990/mes', full: '💎 Plan Full 7 Días - $159.990/mes' };
+            document.getElementById('formTitulo').textContent = '📋 ' + titulos[plan];
             
             if (plan === 'personalizado') {
-                titulo.textContent = '⚡ Paseo Personalizado - $10.990/paseo';
-                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>45 minutos</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>5 por paseo</span></div><div class="info-item"><strong>🎁 Incluye</strong><span>Snack premium</span></div><div class="info-item"><strong>👤 Paseador</strong><span>Certificado</span></div>';
-            } else if (plan === 'suscripcion3') {
-                titulo.textContent = '🌟 Suscripción 3 Días - $89.990/mes';
-                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>1 hora por sesión</span></div><div class="info-item"><strong>📅 Días</strong><span>Lunes, Miércoles, Viernes</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>10 por paseo</span></div><div class="info-item"><strong>👤 Paseador</strong><span>Fijo asignado</span></div><div class="info-item"><strong>💰 Ahorro</strong><span>20% vs personalizado</span></div>';
-            } else if (plan === 'suscripcion7') {
-                titulo.textContent = '💎 Suscripción Full - $159.990/mes';
-                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>1 hora por sesión</span></div><div class="info-item"><strong>📅 Días</strong><span>7 días de la semana</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>15 por paseo + video</span></div><div class="info-item"><strong>👤 Paseador</strong><span>VIP exclusivo</span></div><div class="info-item"><strong>💰 Ahorro</strong><span>40% vs personalizado</span></div><div class="info-item"><strong>🛡️ Seguro</strong><span>Incluido</span></div>';
+                document.getElementById('agendaFrecuencia').style.display = 'none';
+            } else {
+                document.getElementById('agendaFrecuencia').style.display = 'block';
             }
             
-            // Scroll al detalle
-            detalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('formularioPaseo').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Contratar paseo
+        function volverPlanes() {
+            resetearPlanes();
+        }
+
+        function resetearPlanes() {
+            planActual = null;
+            document.querySelectorAll('.plan-card').forEach(function(c) { c.classList.remove('seleccionado', 'oculto'); });
+            document.getElementById('btnVolver').style.display = 'none';
+            document.getElementById('formularioPaseo').style.display = 'none';
+        }
+
+        function toggleLocalidad() {
+            var ciudad = document.getElementById('dirCiudad').value;
+            var localidad = document.getElementById('dirLocalidad');
+            if (ciudad === 'bogota') { localidad.disabled = false; }
+            else { localidad.disabled = true; localidad.value = ''; }
+        }
+
         function contratarPaseo(e) {
             e.preventDefault();
-            var nombre = document.getElementById('formNombre').value;
-            var email = document.getElementById('formEmail').value;
-            var telefono = document.getElementById('formTelefono').value;
-            var mascota = document.getElementById('formMascota').value;
+            var nombre = document.getElementById('clienteNombre').value;
+            var email = document.getElementById('clienteEmail').value;
+            var perro = document.getElementById('perroNombre').value;
+            if (!nombre || !email || !perro) { alert('Completa todos los campos requeridos'); return false; }
             
-            if (!nombre || !email || !telefono || !mascota) {
-                alert('Completa todos los campos requeridos');
-                return false;
-            }
-            
-            var planesNombres = {
-                'personalizado': 'Paseo Personalizado',
-                'suscripcion3': 'Suscripción 3 Días',
-                'suscripcion7': 'Suscripción Full'
-            };
-            
-            alert('✅ ¡Plan contratado con éxito!\n\nPlan: ' + planesNombres[planSeleccionado] + '\nMascota: ' + mascota + '\n\nTe contactaremos en las próximas 2 horas al ' + telefono + ' para coordinar el inicio.');
+            var planesNombres = { personalizado: 'Paseo Personalizado', '3dias': 'Plan 3 Días/Semana', full: 'Plan Full 7 Días' };
+            alert('✅ ¡' + planesNombres[planActual] + ' contratado con éxito!\n\nMascota: ' + perro + '\nTe contactaremos en las próximas 2 horas.');
             e.target.reset();
-            
-            // Volver a mostrar todas las tarjetas
-            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.style.display = ''; c.classList.remove('seleccionado'); });
-            document.getElementById('planDetalle').classList.remove('active');
-            planSeleccionado = null;
-            
+            resetearPlanes();
             return false;
         }
     </script>
