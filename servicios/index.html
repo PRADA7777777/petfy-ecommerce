@@ -9,120 +9,88 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
     
     <style>
-        .servicios-page { background: var(--bg); }
-        
-        .servicios-header {
-            background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
-            padding: 3rem 0 4rem; text-align: center; position: relative; overflow: hidden;
-            border-radius: 0 0 40% 40% / 0 0 8% 8%;
-        }
-        .doodle { position: absolute; opacity: 0.2; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
-        .d1{top:10%;left:5%}.d2{top:20%;right:8%;animation-delay:1s}.d3{bottom:20%;left:10%;animation-delay:0.5s}.d4{bottom:15%;right:12%;animation-delay:2s}
+        .servicios-page{background:var(--bg)}
+        .servicios-header{background:linear-gradient(160deg,#FDE8DB,#FEF3EB,#FFF8F5);padding:3rem 0 4rem;text-align:center;position:relative;overflow:hidden;border-radius:0 0 40% 40%/0 0 8% 8%}
+        .doodle{position:absolute;opacity:.2;font-size:2.5rem;animation:floatDoodle 5s ease-in-out infinite;pointer-events:none;z-index:1}
+        .d1{top:10%;left:5%}.d2{top:20%;right:8%;animation-delay:1s}.d3{bottom:20%;left:10%;animation-delay:.5s}.d4{bottom:15%;right:12%;animation-delay:2s}
         @keyframes floatDoodle{0%,100%{transform:translateY(0)rotate(0)}50%{transform:translateY(-18px)rotate(5deg)}}
         .servicios-header h1{font-family:'Fredoka One',cursive;font-size:2.5rem;color:var(--text);position:relative;z-index:2}
         .servicios-header p{color:var(--text-light);position:relative;z-index:2}
         
-        .servicios-nav{background:var(--white);border-bottom:1px solid rgba(0,0,0,0.04);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);margin-top:-2rem;border-radius:20px 20px 0 0;padding:0.75rem 0}
-        .servicios-nav .container{display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap}
-        .servicio-nav-btn{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 1.1rem;border-radius:25px;border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;background:var(--bg);color:var(--text);transition:var(--transition)}
-        .servicio-nav-btn:hover{background:rgba(224,99,63,0.08);color:var(--primary)}
-        .servicio-nav-btn.active{background:var(--primary);color:var(--white)}
-        .servicio-nav-btn.inactivo{opacity:0.55;background:#F5F0ED;color:#A09890;cursor:pointer}
+        .servicios-nav{background:var(--white);border-bottom:1px solid rgba(0,0,0,.04);position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);margin-top:-2rem;border-radius:20px 20px 0 0;padding:.75rem 0}
+        .servicios-nav .container{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+        .servicio-nav-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.1rem;border-radius:25px;border:2px solid transparent;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;background:var(--bg);color:var(--text);transition:var(--transition)}
+        .servicio-nav-btn:hover{background:rgba(224,99,63,.08);color:var(--primary)}.servicio-nav-btn.active{background:var(--primary);color:var(--white)}
+        .servicio-nav-btn.inactivo{opacity:.55;background:#F5F0ED;color:#A09890}
         
-        .servicios-content{padding:2rem 0 4rem}
-        .servicio-panel{display:none;animation:fadeIn 0.4s ease}
-        .servicio-panel.active{display:block}
+        .servicios-content{padding:2rem 0 4rem}.servicio-panel{display:none;animation:fadeIn .4s ease}.servicio-panel.active{display:block}
         @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         
-        .paseos-hero-info {
-            background: linear-gradient(135deg, #FFF8F5, #FFEDE4, #FFF5F0);
-            border-radius: var(--radius-lg); padding: 2.5rem; margin-bottom: 2rem;
-            border: 1px solid rgba(224,99,63,0.15); display: grid; grid-template-columns: 1fr 1fr;
-            gap: 2rem; align-items: center;
-        }
-        .paseos-hero-info h2{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--text);margin-bottom:0.5rem}
-        .paseos-hero-info p{color:var(--text-light);line-height:1.6}
-        .paseos-beneficios{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1rem}
-        .paseos-beneficio{display:flex;align-items:center;gap:0.4rem;background:white;padding:0.5rem 1rem;border-radius:20px;font-size:0.8rem;font-weight:700;color:var(--primary);box-shadow:var(--shadow-sm)}
+        .paseos-hero-info{background:linear-gradient(135deg,#FFF8F5,#FFEDE4,#FFF5F0);border-radius:var(--radius-lg);padding:2.5rem;margin-bottom:2rem;border:1px solid rgba(224,99,63,.15);display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+        .paseos-hero-info h2{font-family:'Fredoka One',cursive;font-size:1.8rem;color:var(--text)}.paseos-hero-info p{color:var(--text-light)}
+        .paseos-beneficios{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1rem}
+        .paseos-beneficio{display:flex;align-items:center;gap:.4rem;background:white;padding:.5rem 1rem;border-radius:20px;font-size:.8rem;font-weight:700;color:var(--primary);box-shadow:var(--shadow-sm)}
         
         .planes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:2rem}
-        .plan-card{
-            background:white;border-radius:var(--radius-lg);overflow:hidden;
-            border:2px solid transparent;transition:all 0.4s;cursor:pointer;
-            box-shadow:var(--shadow-sm);position:relative;
-        }
-        .plan-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
-        .plan-card.seleccionado{border-color:var(--primary);box-shadow:0 0 0 4px rgba(224,99,63,0.15)}
-        .plan-card-header{padding:2rem 1.5rem 1rem;text-align:center}
-        .plan-card-header .plan-emoji{font-size:3.5rem;margin-bottom:0.5rem}
-        .plan-card-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--text)}
-        .plan-card-header .plan-tag{display:inline-block;padding:0.2rem 0.8rem;border-radius:15px;font-size:0.7rem;font-weight:800;margin-top:0.5rem}
+        .plan-card{background:white;border-radius:var(--radius-lg);overflow:hidden;border:2px solid transparent;transition:all .4s;cursor:pointer;box-shadow:var(--shadow-sm)}
+        .plan-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}.plan-card.seleccionado{border-color:var(--primary);box-shadow:0 0 0 4px rgba(224,99,63,.15)}
+        .plan-card-header{padding:2rem 1.5rem 1rem;text-align:center}.plan-card-header .plan-emoji{font-size:3.5rem;margin-bottom:.5rem}
+        .plan-card-header h3{font-family:'Fredoka One',cursive;font-size:1.3rem;color:var(--text)}.plan-tag{display:inline-block;padding:.2rem .8rem;border-radius:15px;font-size:.7rem;font-weight:800;margin-top:.5rem}
         .tag-popular{background:#FEF3C7;color:#D97706}.tag-ahorro{background:#ECFDF5;color:#059669}.tag-premium{background:#EFF6FF;color:#3B82F6}
-        .plan-card-body{padding:0 1.5rem 1.5rem}
-        .plan-precio{text-align:center;margin:0.5rem 0 1rem}
-        .plan-precio-valor{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--primary)}
-        .plan-precio-periodo{font-size:0.85rem;color:var(--text-muted)}
-        .plan-features{list-style:none;margin:1rem 0}
-        .plan-features li{padding:0.5rem 0;display:flex;align-items:flex-start;gap:0.6rem;font-size:0.85rem;color:var(--text-light);border-bottom:1px solid rgba(0,0,0,0.03)}
-        .plan-features li i{color:var(--success);margin-top:3px;font-size:0.8rem}
-        .plan-features li strong{color:var(--text)}
+        .plan-card-body{padding:0 1.5rem 1.5rem}.plan-precio{text-align:center;margin:.5rem 0 1rem}
+        .plan-precio-valor{font-family:'Fredoka One',cursive;font-size:2.2rem;color:var(--primary)}.plan-precio-periodo{font-size:.85rem;color:var(--text-muted)}
+        .plan-features{list-style:none;margin:1rem 0}.plan-features li{padding:.5rem 0;display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;color:var(--text-light);border-bottom:1px solid rgba(0,0,0,.03)}
+        .plan-features li i{color:var(--success);margin-top:3px;font-size:.8rem}.plan-features li strong{color:var(--text)}
         .plan-card-footer{padding:1rem 1.5rem;background:var(--bg);text-align:center}
-        .plan-btn-select{width:100%;padding:0.75rem;border-radius:25px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none;transition:var(--transition);background:var(--primary);color:white;font-size:0.9rem}
-        .plan-btn-select:hover{background:var(--primary-dark)}
+        .plan-btn-select{width:100%;padding:.75rem;border-radius:25px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none;transition:var(--transition);background:var(--primary);color:white;font-size:.9rem}
         
-        .wizard-container{background:var(--white);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);margin-top:2rem;display:none}
+        /* WIZARD PREMIUM */
+        .wizard-container{background:white;border-radius:28px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.08);margin-top:2rem;display:none;border:1px solid rgba(0,0,0,.04)}
         .wizard-container.active{display:block}
-        .wizard-steps{display:flex;background:linear-gradient(135deg,#FFF8F5,#FFEDE4);padding:1rem 2rem}
-        .wizard-step{flex:1;text-align:center;padding:0.75rem;font-weight:700;font-size:0.85rem;color:var(--text-muted)}
-        .wizard-step.active{color:var(--primary)}.wizard-step.completed{color:var(--success)}
-        .wizard-step .step-num{width:32px;height:32px;border-radius:50%;background:#E0D5CC;display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;font-family:'Fredoka One',cursive;font-size:0.9rem;color:white}
-        .wizard-step.active .step-num{background:var(--primary)}.wizard-step.completed .step-num{background:var(--success)}
-        .wizard-content{padding:2rem}
-        .wizard-panel{display:none;animation:fadeIn 0.4s ease}.wizard-panel.active{display:block}
-        .wizard-panel h3{font-family:'Fredoka One',cursive;color:var(--text);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.5rem}
-        .wizard-nav{display:flex;justify-content:space-between;padding:1.5rem 2rem;border-top:1px solid rgba(0,0,0,0.05)}
-        .btn-wiz{padding:0.7rem 1.8rem;border-radius:25px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none}
-        .btn-wiz-prev{background:var(--bg);color:var(--text)}.btn-wiz-next{background:var(--primary);color:white}
-        .btn-wiz-finish{background:var(--primary);color:white;font-size:1rem;padding:0.85rem 2rem;width:100%;margin-top:1.5rem;border-radius:25px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none}
+        .wizard-steps{display:flex;background:white;padding:1.5rem 2rem;border-bottom:1px solid #F0EBE5}
+        .wizard-step{flex:1;text-align:center;font-weight:700;font-size:.8rem;color:#C4B8AD;position:relative;padding-top:40px}
+        .wizard-step::before{content:'';position:absolute;top:18px;left:0;right:0;height:3px;background:#F0EBE5;z-index:0}
+        .wizard-step:first-child::before{left:50%}.wizard-step:last-child::before{right:50%}
+        .wizard-step .step-num{width:38px;height:38px;border-radius:50%;background:#F0EBE5;display:flex;align-items:center;justify-content:center;margin:0 auto .5rem;font-family:'Fredoka One',cursive;font-size:.95rem;color:#C4B8AD;position:relative;z-index:1;transition:all .4s}
+        .wizard-step.active{color:var(--primary)}.wizard-step.active .step-num{background:var(--primary);color:white;box-shadow:0 4px 15px rgba(224,99,63,.3)}
+        .wizard-step.completed{color:var(--success)}.wizard-step.completed .step-num{background:var(--success);color:white}.wizard-step.completed::before{background:var(--success)}
+        .wizard-content{padding:2.5rem}.wizard-panel{display:none;animation:fadeSlide .4s ease}.wizard-panel.active{display:block}
+        @keyframes fadeSlide{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+        .wizard-panel h3{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--text);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem}
+        .wizard-panel h3 span{width:42px;height:42px;background:var(--primary-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
         
-        .horas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.5rem}
-        .hora-btn{padding:0.7rem;border:2px solid rgba(0,0,0,0.06);border-radius:12px;text-align:center;cursor:pointer;font-weight:700;font-size:0.85rem;transition:all 0.3s;background:white}
-        .hora-btn:hover{border-color:var(--primary);background:var(--primary-light)}
-        .hora-btn.seleccionada{background:var(--primary);color:white;border-color:var(--primary)}
+        .form-group{margin-bottom:1.5rem}.form-group label{display:block;font-weight:700;color:var(--text);margin-bottom:.5rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.5px;opacity:.7}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:1rem 1.25rem;border:2px solid #F0EBE5;border-radius:16px;font-family:'Nunito',sans-serif;font-size:1rem;transition:all .3s;background:#FAFAF8;color:var(--text)}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);background:white;box-shadow:0 0 0 4px rgba(224,99,63,.06)}
+        .form-group input::placeholder{color:#D0C8C0}.form-group select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;background-size:18px;padding-right:3rem}
+        .form-group textarea{resize:vertical;min-height:80px}
         
-        .detalle-servicio{background:linear-gradient(135deg,#FFF8F5,#FFEDE4);border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem;border:1px solid rgba(224,99,63,0.15)}
-        .detalle-servicio h4{font-family:'Fredoka One',cursive;color:var(--primary);margin-bottom:1rem;font-size:1.2rem}
-        .detalle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
-        .detalle-item{display:flex;align-items:flex-start;gap:0.75rem;background:white;padding:1rem;border-radius:var(--radius)}
-        .detalle-item span{font-size:1.5rem}.detalle-item strong{display:block}.detalle-item p{font-size:0.85rem;color:var(--text-light);margin:0}
+        .login-aviso{text-align:center;padding:2rem;background:#FFF8F5;border-radius:20px;margin-bottom:2rem;border:2px dashed rgba(224,99,63,.2)}.login-aviso a{color:var(--primary);font-weight:800;text-decoration:underline;cursor:pointer}
         
-        .beneficios-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
-        .beneficio-item{text-align:center;padding:1.5rem;background:white;border-radius:var(--radius)}
-        .beneficio-item .b-icon{font-size:2rem;margin-bottom:0.5rem}
-        .beneficio-item strong{display:block;margin-bottom:0.25rem}
-        .beneficio-item p{font-size:0.8rem;color:var(--text-light);margin:0}
+        .mascota-guardada{display:flex;align-items:center;gap:1rem;padding:1.25rem;border:2px solid #F0EBE5;border-radius:18px;cursor:pointer;transition:all .3s;margin-bottom:.75rem;background:white}
+        .mascota-guardada:hover{border-color:var(--primary);background:#FFF8F5;transform:translateX(4px)}.mascota-guardada.seleccionada{border-color:var(--primary);background:#FFF8F5;box-shadow:0 0 0 4px rgba(224,99,63,.08)}
+        .mascota-avatar{width:50px;height:50px;border-radius:14px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
         
-        .resumen-box{background:#FFF8F5;border:2px solid var(--primary);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1.5rem}
-        .resumen-box h4{font-family:'Fredoka One',cursive;color:var(--primary)}
-        .resumen-item{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid rgba(0,0,0,0.04)}
-        .resumen-item:last-child{border:none}
+        .horas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}.hora-btn{padding:1rem;border:2px solid #F0EBE5;border-radius:16px;text-align:center;cursor:pointer;font-weight:700;font-size:.9rem;transition:all .3s;background:white}.hora-btn:hover{border-color:var(--primary);background:#FFF8F5}.hora-btn.seleccionada{background:var(--primary);color:white;border-color:var(--primary)}
+        .dia-checkbox{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;background:white;border:2px solid #F0EBE5;border-radius:12px;cursor:pointer;font-weight:600;font-size:.9rem}.dia-checkbox:hover{border-color:var(--primary)}.dia-checkbox input{accent-color:var(--primary);width:18px;height:18px}
         
-        .inactivo-placeholder{text-align:center;padding:4rem 2rem;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
-        .inactivo-placeholder .icon{font-size:5rem;margin-bottom:1rem;opacity:0.4}
+        .wizard-nav{display:flex;justify-content:space-between;padding:1.5rem 2.5rem;border-top:1px solid #F0EBE5;background:#FAFAF8}
+        .btn-wiz{padding:.85rem 2rem;border-radius:30px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none;font-size:.95rem;transition:all .3s;letter-spacing:.3px}
+        .btn-wiz-prev{background:white;color:var(--text);border:2px solid #F0EBE5}.btn-wiz-next{background:var(--primary);color:white}.btn-wiz-next:hover{background:var(--primary-dark)}
+        .btn-wiz-finish{background:var(--primary);color:white;font-size:1.1rem;padding:1rem 2rem;width:100%;margin-top:1.5rem;border-radius:30px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;border:none;transition:all .3s}.btn-wiz-finish:hover{background:var(--primary-dark)}
         
-        .fc{font-family:'Nunito',sans-serif}.fc-toolbar-title{font-family:'Fredoka One',cursive;font-size:1rem!important}
-        .fc-button{background:var(--primary)!important;border:none!important;border-radius:20px!important;font-weight:700!important}
-        .fc-day-today{background:var(--primary-light)!important}
+        .resumen-box{background:#FFF8F5;border:2px solid var(--primary);border-radius:20px;padding:1.5rem}.resumen-box h4{font-family:'Fredoka One',cursive;color:var(--primary);margin-bottom:1rem}
+        .resumen-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid rgba(224,99,63,.1)}.resumen-item:last-child{border-bottom:none}
         
-        @media(max-width:768px){
-            .paseos-hero-info{grid-template-columns:1fr}.wizard-steps{flex-direction:column;gap:0.5rem}
-            .wizard-step{text-align:left;display:flex;align-items:center;gap:0.75rem}.wizard-step .step-num{margin:0}
-            .horas-grid{grid-template-columns:repeat(2,1fr)}.servicios-header h1{font-size:2rem}
-        }
+        #calendarioPaseo{background:white;border-radius:18px;padding:.5rem;box-shadow:0 4px 20px rgba(0,0,0,.04);border:2px solid #F0EBE5}
+        .fc{font-family:'Nunito',sans-serif}.fc-toolbar-title{font-family:'Fredoka One',cursive!important;font-size:1rem!important}.fc-button{background:var(--primary)!important;border:none!important;border-radius:20px!important;font-weight:700!important}.fc-day-today{background:var(--primary-light)!important}
+        
+        .inactivo-placeholder{text-align:center;padding:4rem 2rem;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}.inactivo-placeholder .icon{font-size:5rem;margin-bottom:1rem;opacity:.4}
+        
+        @media(max-width:768px){.paseos-hero-info{grid-template-columns:1fr}.wizard-steps{flex-direction:column;gap:.5rem;padding:1rem}.wizard-step{text-align:left;display:flex;align-items:center;gap:.75rem;padding-top:0}.wizard-step::before{display:none}.wizard-content{padding:1.5rem}.horas-grid{grid-template-columns:repeat(2,1fr)}.servicios-header h1{font-size:2rem}}
     </style>
 </head>
 <body>
@@ -132,11 +100,7 @@
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links"><li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li><li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li></ul>
-                <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option></select></div>
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
-                    <div class="user-actions"><a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a></div>
-                </div>
+                <div class="nav-actions"><div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option></select></div><div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div><div class="user-actions"><a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a></div></div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
@@ -144,10 +108,7 @@
 
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <section class="servicios-header">
-        <span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span>
-        <h1>Nuestros Servicios</h1><p>Elige el servicio que necesitas para tu mascota</p>
-    </section>
+    <section class="servicios-header"><span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span><h1>Nuestros Servicios</h1><p>Elige el servicio que necesitas para tu mascota</p></section>
 
     <div class="servicios-nav"><div class="container">
         <button class="servicio-nav-btn active" onclick="mostrarServicio('paseos',this)"><i class="fas fa-dog"></i> Paseos</button>
@@ -160,14 +121,9 @@
     <section class="servicios-content"><div class="container">
         
         <div class="servicio-panel active" id="panel-paseos">
+            <div class="paseos-hero-info"><div><h2>🐕 Paseos Profesionales</h2><p>Tu mascota merece lo mejor. Todos los paseos incluyen <strong>GPS en vivo</strong>, <strong>fotos</strong>, <strong>paseador certificado</strong>, snack premium y seguro de responsabilidad.</p><div class="paseos-beneficios"><span class="paseos-beneficio"><i class="fas fa-map-marker-alt"></i> GPS</span><span class="paseos-beneficio"><i class="fas fa-camera"></i> Fotos</span><span class="paseos-beneficio"><i class="fas fa-user-check"></i> Certificado</span><span class="paseos-beneficio"><i class="fas fa-shield-alt"></i> Seguro</span></div></div><div style="background:rgba(255,255,255,.5);padding:1.5rem;border-radius:var(--radius);text-align:center"><div style="font-size:3rem">⭐</div><div style="font-size:2rem;font-family:'Fredoka One',cursive;color:var(--primary)">4.9/5</div><p style="color:var(--text-light)">+500 paseos</p></div></div>
             
-            <div class="paseos-hero-info">
-                <div><h2>🐕 Paseos Profesionales</h2><p>Tu mascota merece lo mejor. Todos los paseos incluyen <strong>GPS en vivo</strong>, <strong>fotos</strong>, <strong>paseador certificado</strong>, snack premium y seguro de responsabilidad.</p>
-                    <div class="paseos-beneficios"><span class="paseos-beneficio"><i class="fas fa-map-marker-alt"></i> GPS</span><span class="paseos-beneficio"><i class="fas fa-camera"></i> Fotos</span><span class="paseos-beneficio"><i class="fas fa-user-check"></i> Certificado</span><span class="paseos-beneficio"><i class="fas fa-shield-alt"></i> Seguro</span></div></div>
-                <div style="background:rgba(255,255,255,0.5);padding:1.5rem;border-radius:var(--radius);text-align:center;"><div style="font-size:3rem;">⭐</div><div style="font-size:2rem;font-family:'Fredoka One',cursive;color:var(--primary);">4.9/5</div><p style="color:var(--text-light);">+500 paseos</p></div>
-            </div>
-            
-            <div class="section-header" style="margin-bottom:1.5rem;"><h2 class="section-title">Elige tu Plan</h2></div>
+            <div class="section-header" style="margin-bottom:1.5rem"><h2 class="section-title">Elige tu Plan</h2></div>
             <div class="planes-grid" id="planesGrid">
                 <div class="plan-card" onclick="seleccionarPlan('unico')" id="card-unico"><div class="plan-card-header"><div class="plan-emoji">⚡</div><h3>Paseo Único</h3><span class="plan-tag tag-ahorro">Sin suscripción</span></div><div class="plan-card-body"><div class="plan-precio"><span class="plan-precio-valor">$10.990</span><br><span class="plan-precio-periodo">por paseo</span></div><ul class="plan-features"><li><i class="fas fa-clock"></i> <strong>45 min</strong></li><li><i class="fas fa-calendar"></i> El día que quieras</li><li><i class="fas fa-map-marker-alt"></i> GPS en vivo</li><li><i class="fas fa-camera"></i> 5 fotos</li></ul></div><div class="plan-card-footer"><button class="plan-btn-select">Seleccionar ⚡</button></div></div>
                 <div class="plan-card" onclick="seleccionarPlan('3dias')" id="card-3dias"><div class="plan-card-header"><div class="plan-emoji">🌟</div><h3>3 Días/Semana</h3><span class="plan-tag tag-popular">Más Popular</span></div><div class="plan-card-body"><div class="plan-precio"><span class="plan-precio-valor">$89.990</span><br><span class="plan-precio-periodo">/mes • Ahorras 20%</span></div><ul class="plan-features"><li><i class="fas fa-clock"></i> <strong>1 hora</strong></li><li><i class="fas fa-calendar-week"></i> Lun, Mié, Vie</li><li><i class="fas fa-user-check"></i> Paseador fijo</li><li><i class="fas fa-shield-alt"></i> Seguro</li></ul></div><div class="plan-card-footer"><button class="plan-btn-select">Seleccionar 🌟</button></div></div>
@@ -179,51 +135,23 @@
             <div class="wizard-container" id="wizardContainer">
                 <div class="wizard-steps"><div class="wizard-step active" id="step2"><div class="step-num">1</div>Datos</div><div class="wizard-step" id="step3"><div class="step-num">2</div>Mascota</div><div class="wizard-step" id="step4"><div class="step-num">3</div>Agenda</div><div class="wizard-step" id="step5"><div class="step-num">4</div>Pago</div></div>
                 <div class="wizard-content">
-                    <div class="wizard-panel active" id="wizPanel2"><h3><i class="fas fa-user-circle"></i> Tus Datos</h3><div id="clienteLogueado" style="display:none;"><div class="resumen-box"><p>👤 <strong id="resumenCliente"></strong></p><p>📧 <span id="resumenEmail"></span></p><p>📱 <span id="resumenTel"></span></p></div></div><div id="clienteNoLogueado"><div style="text-align:center;margin-bottom:1.5rem;"><a href="#" onclick="document.getElementById('loginModal').classList.add('active')" style="color:var(--primary);font-weight:700;">Inicia sesión</a></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" required></div><div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" required></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" required></div><div class="form-group"><label>Email *</label><input type="email" id="wizEmail" required></div></div></div></div>
-                    <div class="wizard-panel" id="wizPanel3"><h3><i class="fas fa-dog"></i> Tu Mascota</h3><div id="mascotasGuardadas" style="display:none;"><div id="listaMascotas"></div><button class="btn btn-outline" onclick="mostrarNuevaMascota()" style="margin-top:1rem;"><i class="fas fa-plus"></i> Nueva Mascota</button></div><div id="formNuevaMascota"><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" required></div><div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" required></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div class="form-group"><label>Edad *</label><input type="text" id="wizPerroEdad" required></div><div class="form-group"><label>Peso (kg) *</label><input type="text" id="wizPerroPeso" required></div></div><div class="form-group"><label>Comportamiento</label><select id="wizPerroComportamiento"><option>Sociable</option><option>Tímido</option><option>Juguetón</option></select></div><div class="form-group"><label>Notas</label><textarea id="wizPerroNotas" rows="2"></textarea></div></div></div>
-                    <div class="wizard-panel" id="wizPanel4"><h3><i class="fas fa-calendar-check"></i> Agenda</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;"><div><label style="font-weight:700;display:block;margin-bottom:0.5rem;">📅 Fecha</label><div id="calendarioPaseo" style="box-shadow:var(--shadow-sm);border-radius:var(--radius);overflow:hidden;"></div><p style="text-align:center;margin-top:0.5rem;color:var(--success);font-weight:700;" id="fechaSeleccionada"></p></div><div><input type="hidden" id="wizFecha"><label style="font-weight:700;display:block;margin-bottom:0.5rem;">⏰ Hora</label><div class="horas-grid" id="horasGrid"><div class="hora-btn" onclick="seleccionarHora('8:00 AM',this)">🌅 8:00 AM</div><div class="hora-btn" onclick="seleccionarHora('10:00 AM',this)">☀️ 10:00 AM</div><div class="hora-btn" onclick="seleccionarHora('2:00 PM',this)">🌤️ 2:00 PM</div><div class="hora-btn" onclick="seleccionarHora('4:00 PM',this)">🌙 4:00 PM</div></div><input type="hidden" id="wizHora"><div id="wizDiasSemana" style="display:none;margin-top:1.5rem;"><label style="font-weight:700;display:block;margin-bottom:0.5rem;">📆 Días</label><div style="display:flex;flex-wrap:wrap;gap:0.5rem;" id="checkDias"></div></div><div class="resumen-box" style="margin-top:1.5rem;"><h4>📋 Resumen</h4><div class="resumen-item"><span>Plan:</span><strong id="resPlan" style="color:var(--success);">-</strong></div><div class="resumen-item"><span>Total:</span><strong id="resTotal" style="color:var(--primary);">-</strong></div><div class="resumen-item"><span>Fecha:</span><strong id="resFecha">-</strong></div><div class="resumen-item"><span>Hora:</span><strong id="resHora">-</strong></div></div></div></div></div>
-                    <div class="wizard-panel" id="wizPanel5">
-                        <h3><i class="fas fa-check-circle"></i> Confirmar y Pagar</h3>
-                        
-                        <!-- DETALLE COMPLETO DEL SERVICIO -->
-                        <div class="detalle-servicio">
-                            <h4>🐾 Todo lo que incluye tu paseo</h4>
-                            <div class="detalle-grid">
-                                <div class="detalle-item"><span>📍</span><div><strong>GPS en Vivo</strong><p>Sigue a tu mascota en tiempo real desde tu celular durante todo el paseo.</p></div></div>
-                                <div class="detalle-item"><span>📸</span><div><strong>Reporte con Fotos</strong><p>Recibe fotos de tu mascota disfrutando durante el paseo.</p></div></div>
-                                <div class="detalle-item"><span>👤</span><div><strong>Paseador Certificado</strong><p>Profesionales con verificación de antecedentes y capacitación.</p></div></div>
-                                <div class="detalle-item"><span>🍪</span><div><strong>Snack Premium</strong><p>Premio saludable para tu mascota al finalizar cada paseo.</p></div></div>
-                                <div class="detalle-item"><span>🛡️</span><div><strong>Seguro de Responsabilidad</strong><p>Tu mascota está cubierta durante todo el servicio.</p></div></div>
-                                <div class="detalle-item"><span>💧</span><div><strong>Hidratación</strong><p>Agua fresca durante y después del paseo.</p></div></div>
-                            </div>
-                            <div id="incluyePlan" style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;"></div>
-                        </div>
-                        
-                        <!-- BENEFICIOS -->
-                        <div style="background:white;border-radius:var(--radius-lg);padding:2rem;margin-bottom:1.5rem;border:1px solid rgba(0,0,0,0.06);">
-                            <h4 style="font-family:'Fredoka One',cursive;color:var(--text);margin-bottom:1rem;">✨ Beneficios de Elegir Petfy</h4>
-                            <div class="beneficios-grid">
-                                <div class="beneficio-item"><div class="b-icon">🔄</div><strong>Cambio de Paseador</strong><p>Sin costo si no estás satisfecho</p></div>
-                                <div class="beneficio-item"><div class="b-icon">⏰</div><strong>Puntualidad Garantizada</strong><p>Si llegamos tarde, el paseo es gratis</p></div>
-                                <div class="beneficio-item"><div class="b-icon">📱</div><strong>Soporte 24/7</strong><p>WhatsApp disponible todo el día</p></div>
-                                <div class="beneficio-item"><div class="b-icon">⭐</div><strong>+500 Paseos</strong><p>Experiencia comprobada</p></div>
-                            </div>
-                        </div>
-                        
-                        <!-- RESUMEN -->
-                        <div class="resumen-box" id="resumenFinalBox"><h4>📋 Resumen de tu Contratación</h4><div id="resumenFinal"></div></div>
+                    <div class="wizard-panel active" id="wizPanel2"><h3><span>👤</span> Tus Datos</h3><div id="clienteLogueado" style="display:none"><div class="resumen-box"><p>👤 <strong id="resumenCliente"></strong></p><p>📧 <span id="resumenEmail"></span></p><p>📱 <span id="resumenTel"></span></p></div></div><div id="clienteNoLogueado"><div class="login-aviso"><p>¿Ya tienes cuenta? <a href="#" onclick="document.getElementById('loginModal').classList.add('active')">Inicia sesión</a> para cargar tus datos.</p></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" required></div><div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" required></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" required></div><div class="form-group"><label>Email *</label><input type="email" id="wizEmail" required></div></div></div></div>
+                    <div class="wizard-panel" id="wizPanel3"><h3><span>🐕</span> Tu Mascota</h3><div id="mascotasGuardadas" style="display:none"><div id="listaMascotas"></div><button class="btn btn-outline" onclick="mostrarNuevaMascota()" style="margin-top:1rem"><i class="fas fa-plus"></i> Nueva Mascota</button></div><div id="formNuevaMascota"><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" required></div><div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" required></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form-group"><label>Edad *</label><input type="text" id="wizPerroEdad" required></div><div class="form-group"><label>Peso (kg) *</label><input type="text" id="wizPerroPeso" required></div></div><div class="form-group"><label>Comportamiento</label><select id="wizPerroComportamiento"><option>Sociable</option><option>Tímido</option><option>Juguetón</option></select></div><div class="form-group"><label>Notas</label><textarea id="wizPerroNotas" rows="2"></textarea></div></div></div>
+                    <div class="wizard-panel" id="wizPanel4"><h3><span>📅</span> Agenda</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem"><div><label style="font-weight:700;display:block;margin-bottom:.5rem">📅 Fecha</label><div id="calendarioPaseo"></div><p style="text-align:center;margin-top:.5rem;color:var(--success);font-weight:700" id="fechaSeleccionada"></p></div><div><input type="hidden" id="wizFecha"><label style="font-weight:700;display:block;margin-bottom:.5rem">⏰ Hora</label><div class="horas-grid" id="horasGrid"><div class="hora-btn" onclick="seleccionarHora('8:00 AM',this)">🌅 8:00 AM</div><div class="hora-btn" onclick="seleccionarHora('10:00 AM',this)">☀️ 10:00 AM</div><div class="hora-btn" onclick="seleccionarHora('2:00 PM',this)">🌤️ 2:00 PM</div><div class="hora-btn" onclick="seleccionarHora('4:00 PM',this)">🌙 4:00 PM</div></div><input type="hidden" id="wizHora"><div id="wizDiasSemana" style="display:none;margin-top:1.5rem"><label style="font-weight:700;display:block;margin-bottom:.5rem">📆 Días</label><div style="display:flex;flex-wrap:wrap;gap:.5rem" id="checkDias"></div></div></div></div></div>
+                    <div class="wizard-panel" id="wizPanel5"><h3><span>💳</span> Confirmar y Pagar</h3>
+                        <div class="resumen-box" id="resumenFinalBox"><h4>📋 Resumen</h4><div id="resumenFinal"></div></div>
                         <button class="btn-wiz-finish" onclick="iniciarPago()"><i class="fas fa-lock"></i> Pagar Ahora</button>
-                        <p style="text-align:center;color:var(--text-muted);font-size:0.8rem;margin-top:0.5rem;">🔒 Pago seguro con Wompi • Tarjetas, PSE, Nequi</p>
+                        <p style="text-align:center;color:var(--text-muted);font-size:.8rem;margin-top:.75rem">🔒 Pago seguro con Wompi • Tarjetas, PSE, Nequi</p>
                     </div>
                 </div>
-                <div class="wizard-nav"><button class="btn-wiz btn-wiz-prev" onclick="pasoAnterior()" id="btnPrev" style="visibility:hidden;">← Anterior</button><button class="btn-wiz btn-wiz-next" onclick="pasoSiguiente()" id="btnNext">Siguiente →</button></div>
+                <div class="wizard-nav"><button class="btn-wiz btn-wiz-prev" onclick="pasoAnterior()" id="btnPrev" style="visibility:hidden">← Anterior</button><button class="btn-wiz btn-wiz-next" onclick="pasoSiguiente()" id="btnNext">Siguiente →</button></div>
             </div>
         </div>
         
-        <div class="servicio-panel" id="panel-guarderia"><div class="inactivo-placeholder"><div class="icon">🏠</div><h3>Guardería - Próximamente</h3><p>Espacio seguro con cámaras 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem;">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-banos"><div class="inactivo-placeholder"><div class="icon">🛁</div><h3>Baños - Próximamente</h3><p>Productos hipoalergénicos.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem;">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-veterinaria"><div class="inactivo-placeholder"><div class="icon">🩺</div><h3>Veterinaria - Próximamente</h3><p>Consultas y urgencias 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem;">Avísame</a></div></div>
-        <div class="servicio-panel" id="panel-entrenamiento"><div class="inactivo-placeholder"><div class="icon">🎓</div><h3>Entrenamiento - Próximamente</h3><p>Refuerzo positivo.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem;">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-guarderia"><div class="inactivo-placeholder"><div class="icon">🏠</div><h3>Guardería - Próximamente</h3><p>Espacio seguro con cámaras 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-banos"><div class="inactivo-placeholder"><div class="icon">🛁</div><h3>Baños - Próximamente</h3><p>Productos hipoalergénicos.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-veterinaria"><div class="inactivo-placeholder"><div class="icon">🩺</div><h3>Veterinaria - Próximamente</h3><p>Consultas y urgencias 24/7.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
+        <div class="servicio-panel" id="panel-entrenamiento"><div class="inactivo-placeholder"><div class="icon">🎓</div><h3>Entrenamiento - Próximamente</h3><p>Refuerzo positivo.</p><a href="https://wa.me/573204829244" class="btn btn-outline" style="margin-top:1rem">Avísame</a></div></div>
         
     </div></section>
 
@@ -231,76 +159,27 @@
 
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
-    <div class="modal-overlay" id="loginModal"><div class="modal-container"><button class="modal-close-btn" onclick="cerrarModal()">&times;</button><div id="formLogin"><div class="modal-icon">🐾</div><h2>Iniciar Sesión</h2><form onsubmit="return loginModal(event)"><div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div><div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div><button type="submit" class="modal-btn">Iniciar Sesión</button></form><p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p></div><div id="formRegistro" style="display:none;"><div class="modal-icon">🐾</div><h2>Crear Cuenta</h2><form onsubmit="return registroModal(event)"><div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div><div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Email" required></div><div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div><button type="submit" class="modal-btn">Crear Cuenta</button></form></div></div></div>
+    <div class="modal-overlay" id="loginModal"><div class="modal-container"><button class="modal-close-btn" onclick="cerrarModal()">&times;</button><div id="formLogin"><div class="modal-icon">🐾</div><h2>Iniciar Sesión</h2><form onsubmit="return loginModal(event)"><div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div><div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div><button type="submit" class="modal-btn">Iniciar Sesión</button></form><p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p></div><div id="formRegistro" style="display:none"><div class="modal-icon">🐾</div><h2>Crear Cuenta</h2><form onsubmit="return registroModal(event)"><div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div><div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Email" required></div><div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div><button type="submit" class="modal-btn">Crear Cuenta</button></form></div></div></div>
     <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
     <div class="profile-sidebar" id="profileSidebar"><div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3></div><div class="profile-menu"><a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a><a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos</a><div class="profile-menu-divider"></div><button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button></div></div>
-    <div class="modal-overlay" id="ofertaModal"><div class="modal-container" style="text-align:center;max-width:500px;"><button class="modal-close-btn" onclick="cerrarOferta()">&times;</button><div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p><button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button></div></div>
+    <div class="modal-overlay" id="ofertaModal"><div class="modal-container" style="text-align:center;max-width:500px"><button class="modal-close-btn" onclick="cerrarOferta()">&times;</button><div style="font-size:5rem">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p><button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button></div></div>
 
     <script src="../assets/js/main.js"></script>
     <script>
         var pasoWizard=1,planSel=null,mascotaSel=null,fechaSel=null,horaSel=null,calendar=null;
-        
-        function init(){
-            if(localStorage.getItem('petfyLogged')==='true'){var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');document.getElementById('clienteLogueado').style.display='block';document.getElementById('clienteNoLogueado').style.display='none';document.getElementById('resumenCliente').textContent=u.nombre+' '+(u.apellido||'');document.getElementById('resumenEmail').textContent=u.email;document.getElementById('resumenTel').textContent=u.telefono||'No registrado'}
-            initCalendario();
-        }
-        
-        function initCalendario(){var el=document.getElementById('calendarioPaseo');if(!el)return;calendar=new FullCalendar.Calendar(el,{initialView:'dayGridMonth',locale:'es',selectable:true,headerToolbar:{left:'prev',center:'title',right:'next'},validRange:{start:new Date().toISOString().split('T')[0]},dateClick:function(info){fechaSel=info.dateStr;document.getElementById('wizFecha').value=fechaSel;document.getElementById('fechaSeleccionada').innerHTML='✅ <strong>'+new Date(fechaSel+'T00:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</strong>';actualizarResumen()}});calendar.render()}
-        
-        function seleccionarPlan(plan){
-            planSel=plan;document.querySelectorAll('.plan-card').forEach(function(c){c.classList.remove('seleccionado')});document.getElementById('card-'+plan).classList.add('seleccionado');
-            document.getElementById('wizardContainer').classList.add('active');document.getElementById('wizardContainer').scrollIntoView({behavior:'smooth'});
-            if(plan!=='unico'){document.getElementById('wizDiasSemana').style.display='block';var dias=['lunes','martes','miercoles','jueves','viernes'];var h='';dias.forEach(function(d){h+='<label class="dia-checkbox" style="display:flex;align-items:center;gap:0.4rem;padding:0.5rem;background:var(--bg);border-radius:8px;cursor:pointer;"><input type="checkbox" value="'+d+'"> '+d.charAt(0).toUpperCase()+d.slice(1)+'</label>'});document.getElementById('checkDias').innerHTML=h}else{document.getElementById('wizDiasSemana').style.display='none'}
-            actualizarResumen();
-        }
-        
-        function seleccionarHora(hora,el){horaSel=hora;document.querySelectorAll('.hora-btn').forEach(function(b){b.classList.remove('seleccionada')});el.classList.add('seleccionada');document.getElementById('wizHora').value=hora;actualizarResumen()}
-        
-        function actualizarResumen(){
-            var planes={unico:{n:'⚡ Paseo Único',p:10990},'3dias':{n:'🌟 3 Días/Semana',p:89990},'5dias':{n:'🔥 5 Días/Semana',p:129990},full:{n:'💎 Full 7 Días',p:159990}};
-            if(planSel){document.getElementById('resPlan').textContent=planes[planSel].n;document.getElementById('resTotal').textContent='$'+planes[planSel].p.toLocaleString()}
-            if(fechaSel)document.getElementById('resFecha').textContent=new Date(fechaSel+'T00:00:00').toLocaleDateString('es-CO');if(horaSel)document.getElementById('resHora').textContent=horaSel;
-        }
-        
+        function init(){if(localStorage.getItem('petfyLogged')==='true'){var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');document.getElementById('clienteLogueado').style.display='block';document.getElementById('clienteNoLogueado').style.display='none';document.getElementById('resumenCliente').textContent=u.nombre+' '+(u.apellido||'');document.getElementById('resumenEmail').textContent=u.email;document.getElementById('resumenTel').textContent=u.telefono||'No registrado'}initCalendario()}
+        function initCalendario(){var el=document.getElementById('calendarioPaseo');if(!el)return;calendar=new FullCalendar.Calendar(el,{initialView:'dayGridMonth',locale:'es',selectable:true,headerToolbar:{left:'prev',center:'title',right:'next'},validRange:{start:new Date().toISOString().split('T')[0]},dateClick:function(info){fechaSel=info.dateStr;document.getElementById('wizFecha').value=fechaSel;document.getElementById('fechaSeleccionada').innerHTML='✅ <strong>'+new Date(fechaSel+'T00:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</strong>'}});calendar.render()}
+        function seleccionarPlan(plan){planSel=plan;document.querySelectorAll('.plan-card').forEach(function(c){c.classList.remove('seleccionado')});document.getElementById('card-'+plan).classList.add('seleccionado');document.getElementById('wizardContainer').classList.add('active');document.getElementById('wizardContainer').scrollIntoView({behavior:'smooth'});if(plan!=='unico'){document.getElementById('wizDiasSemana').style.display='block';var dias=['lunes','martes','miercoles','jueves','viernes'];var h='';dias.forEach(function(d){h+='<label class="dia-checkbox"><input type="checkbox" value="'+d+'"> '+d.charAt(0).toUpperCase()+d.slice(1)+'</label>'});document.getElementById('checkDias').innerHTML=h}else{document.getElementById('wizDiasSemana').style.display='none'}}
+        function seleccionarHora(hora,el){horaSel=hora;document.querySelectorAll('.hora-btn').forEach(function(b){b.classList.remove('seleccionada')});el.classList.add('seleccionada');document.getElementById('wizHora').value=hora}
         function pasoAnterior(){if(pasoWizard>1){pasoWizard--;actualizarWizard()}}
         function pasoSiguiente(){if(validarPaso()){pasoWizard++;actualizarWizard()}}
-        
-        function validarPaso(){
-            if(pasoWizard===1&&localStorage.getItem('petfyLogged')!=='true'){if(!document.getElementById('wizNombre').value||!document.getElementById('wizEmail').value){alert('Completa tus datos');return false}}
-            if(pasoWizard===2&&!mascotaSel&&!document.getElementById('wizPerroNombre').value){alert('Selecciona o crea una mascota');return false}
-            if(pasoWizard===3&&(!fechaSel||!horaSel)){alert('Selecciona fecha y hora');return false}
-            return true;
-        }
-        
-        function actualizarWizard(){
-            for(var i=1;i<=4;i++){var s=document.getElementById('step'+(i+1));s.classList.remove('active','completed');if(i<pasoWizard)s.classList.add('completed');if(i===pasoWizard)s.classList.add('active')}
-            document.querySelectorAll('.wizard-panel').forEach(function(p,i){p.classList.toggle('active',i+1===pasoWizard)});
-            document.getElementById('btnPrev').style.visibility=pasoWizard===1?'hidden':'visible';
-            document.getElementById('btnNext').style.display=pasoWizard===4?'none':'inline-block';
-            if(pasoWizard===4){
-                var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');
-                var planes={unico:{n:'⚡ Paseo Único',p:10990,extras:''},'3dias':{n:'🌟 3 Días/Semana',p:89990,extras:'<div class="detalle-item"><span>📅</span><div><strong>3 Veces por Semana</strong><p>Lunes, Miércoles y Viernes. 1 hora cada día.</p></div></div><div class="detalle-item"><span>👤</span><div><strong>Paseador Fijo</strong><p>La misma persona siempre para tu mascota.</p></div></div>'},'5dias':{n:'🔥 5 Días/Semana',p:129990,extras:'<div class="detalle-item"><span>📅</span><div><strong>Lunes a Viernes</strong><p>5 días a la semana. 1 hora cada día.</p></div></div><div class="detalle-item"><span>🎥</span><div><strong>Fotos + Video</strong><p>Reporte completo con fotos y video.</p></div></div><div class="detalle-item"><span>👤</span><div><strong>Paseador Fijo</strong><p>La misma persona siempre.</p></div></div>'},full:{n:'💎 Full 7 Días',p:159990,extras:'<div class="detalle-item"><span>📅</span><div><strong>Todos los Días</strong><p>7 días a la semana sin falta.</p></div></div><div class="detalle-item"><span>👑</span><div><strong>Paseador VIP</strong><p>El mejor, exclusivo para tu mascota.</p></div></div><div class="detalle-item"><span>🎥</span><div><strong>Video Diario</strong><p>Un video corto cada día.</p></div></div><div class="detalle-item"><span>🌳</span><div><strong>Parque + Socialización</strong><p>Interacción controlada con otros perros.</p></div></div>'}};
-                var p=planes[planSel];
-                document.getElementById('incluyePlan').innerHTML=p.extras;
-                document.getElementById('resumenFinal').innerHTML='<div class="resumen-item"><span>Plan:</span><strong style="color:var(--primary);">'+p.n+'</strong></div><div class="resumen-item"><span>Precio:</span><strong style="color:var(--success);font-size:1.3rem;">$'+p.p.toLocaleString()+'</strong></div><div class="resumen-item"><span>Cliente:</span><strong>'+(u.nombre||document.getElementById('wizNombre').value)+'</strong></div><div class="resumen-item"><span>Mascota:</span><strong>'+(mascotaSel?mascotaSel.nombre:document.getElementById('wizPerroNombre').value)+'</strong></div><div class="resumen-item"><span>Fecha:</span><strong>'+new Date(fechaSel+'T00:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</strong></div><div class="resumen-item"><span>Hora:</span><strong>'+horaSel+'</strong></div>';
-            }
-            setTimeout(function(){if(calendar)calendar.render()},100);
-        }
-        
-        function iniciarPago(){
-            var planes={unico:{n:'Paseo Único',p:10990},'3dias':{n:'Plan 3 Días',p:89990},'5dias':{n:'Plan 5 Días',p:129990},full:{n:'Plan Full 7 Días',p:159990}};
-            var p=planes[planSel];var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');
-            var nombre=u.nombre||document.getElementById('wizNombre').value;var email=u.email||document.getElementById('wizEmail').value;
-            var ref='PETFY-'+Date.now();var perro=mascotaSel?mascotaSel.nombre:document.getElementById('wizPerroNombre').value;
-            var checkout=new WidgetCheckout({currency:'COP',amountInCents:p.p*100,reference:ref,publicKey:'pub_test_xxxxxxxxxxxxx',redirectUrl:window.location.origin+'/servicios/confirmacion.html',customerData:{fullName:nombre,email:email},products:[{name:p.n+' - '+perro,price:p.p*100,quantity:1}]});
-            checkout.open(function(r){if(r.transaction.status==='APPROVED'){alert('✅ Pago exitoso! Te contactaremos pronto.');location.reload()}else{alert('❌ Pago no aprobado')}});
-        }
-        
+        function validarPaso(){if(pasoWizard===1&&localStorage.getItem('petfyLogged')!=='true'){if(!document.getElementById('wizNombre').value||!document.getElementById('wizEmail').value){alert('Completa tus datos');return false}}if(pasoWizard===2&&!mascotaSel&&!document.getElementById('wizPerroNombre').value){alert('Selecciona o crea una mascota');return false}if(pasoWizard===3&&(!fechaSel||!horaSel)){alert('Selecciona fecha y hora');return false}return true}
+        function actualizarWizard(){for(var i=1;i<=4;i++){var s=document.getElementById('step'+(i+1));s.classList.remove('active','completed');if(i<pasoWizard)s.classList.add('completed');if(i===pasoWizard)s.classList.add('active')}document.querySelectorAll('.wizard-panel').forEach(function(p,i){p.classList.toggle('active',i+1===pasoWizard)});document.getElementById('btnPrev').style.visibility=pasoWizard===1?'hidden':'visible';document.getElementById('btnNext').style.display=pasoWizard===4?'none':'inline-block';if(pasoWizard===4){var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');var planes={unico:{n:'⚡ Paseo Único',p:10990},'3dias':{n:'🌟 3 Días/Semana',p:89990},'5dias':{n:'🔥 5 Días/Semana',p:129990},full:{n:'💎 Full 7 Días',p:159990}};var p=planes[planSel];document.getElementById('resumenFinal').innerHTML='<div class="resumen-item"><span>Plan</span><strong style="color:var(--primary)">'+p.n+'</strong></div><div class="resumen-item"><span>Total</span><strong style="color:var(--success);font-size:1.3rem">$'+p.p.toLocaleString()+'</strong></div><div class="resumen-item"><span>Cliente</span><strong>'+(u.nombre||document.getElementById('wizNombre').value)+'</strong></div><div class="resumen-item"><span>Mascota</span><strong>'+(mascotaSel?mascotaSel.nombre:document.getElementById('wizPerroNombre').value)+'</strong></div><div class="resumen-item"><span>Fecha</span><strong>'+new Date(fechaSel+'T00:00:00').toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'</strong></div><div class="resumen-item"><span>Hora</span><strong>'+horaSel+'</strong></div>'}setTimeout(function(){if(calendar)calendar.render()},100)}
+        function iniciarPago(){var planes={unico:{n:'Paseo Único',p:10990},'3dias':{n:'Plan 3 Días',p:89990},'5dias':{n:'Plan 5 Días',p:129990},full:{n:'Plan Full 7 Días',p:159990}};var p=planes[planSel];var u=JSON.parse(localStorage.getItem('petfyUser')||'{}');var nombre=u.nombre||document.getElementById('wizNombre').value;var email=u.email||document.getElementById('wizEmail').value;var ref='PETFY-'+Date.now();var perro=mascotaSel?mascotaSel.nombre:document.getElementById('wizPerroNombre').value;var checkout=new WidgetCheckout({currency:'COP',amountInCents:p.p*100,reference:ref,publicKey:'pub_test_xxxxxxxxxxxxx',redirectUrl:window.location.origin+'/servicios/confirmacion.html',customerData:{fullName:nombre,email:email},products:[{name:p.n+' - '+perro,price:p.p*100,quantity:1}]});checkout.open(function(r){if(r.transaction.status==='APPROVED'){alert('✅ Pago exitoso! Te contactaremos pronto.');location.reload()}else{alert('❌ Pago no aprobado')}})}
         function mostrarServicio(s,b){document.querySelectorAll('.servicio-nav-btn').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.querySelectorAll('.servicio-panel').forEach(function(x){x.classList.remove('active')});document.getElementById('panel-'+s).classList.add('active')}
         function cargarMascotasGuardadas(){var m=JSON.parse(localStorage.getItem('petfyMascotas')||'[]');if(m.length>0){document.getElementById('mascotasGuardadas').style.display='block';document.getElementById('formNuevaMascota').style.display='none';var h='';m.forEach(function(x,i){h+='<div class="mascota-guardada" onclick="selMascota('+i+',this)"><div class="mascota-avatar">🐕</div><div><strong>'+x.nombre+'</strong><p>'+x.raza+' • '+x.edad+' • '+x.peso+'kg</p></div></div>'});document.getElementById('listaMascotas').innerHTML=h}}
         function selMascota(i,el){document.querySelectorAll('.mascota-guardada').forEach(function(x){x.classList.remove('seleccionada')});el.classList.add('seleccionada');mascotaSel=JSON.parse(localStorage.getItem('petfyMascotas')||'[]')[i]}
         function mostrarNuevaMascota(){document.getElementById('mascotasGuardadas').style.display='none';document.getElementById('formNuevaMascota').style.display='block';mascotaSel=null}
-        
         init();
     </script>
 </body>
