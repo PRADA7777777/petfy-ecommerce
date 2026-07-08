@@ -286,84 +286,140 @@
     </div>
 
     <script src="assets/js/main.js"></script>
-    <script>
-        // ========== HEADER STICKY ==========
-        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
-        
-        // ========== MENÚ MÓVIL ==========
-        document.querySelector('.mobile-menu-btn').onclick = function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
-        };
+   <script>
+    // ========== HEADER STICKY ==========
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50);
+    });
 
-        // ========== SIDEBAR ==========
-        function abrirSidebar() {
-            document.getElementById('profileSidebar').classList.add('active');
-            document.getElementById('profileOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
+    // ========== MENÚ MÓVIL ==========
+    document.querySelector('.mobile-menu-btn').onclick = function() {
+        document.querySelector('.nav-links').classList.toggle('active');
+        const icon = this.querySelector('i');
+        if (icon.classList.contains('fa-bars')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
-        function cerrarSidebar() {
-            document.getElementById('profileSidebar').classList.remove('active');
-            document.getElementById('profileOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
+    };
 
-        // ========== LOGIN/REGISTRO ==========
-        function mostrarRegistro() {
-            document.getElementById('formLogin').style.display = 'none';
-            document.getElementById('formRegistro').style.display = 'block';
-        }
-        function mostrarLogin() {
-            document.getElementById('formRegistro').style.display = 'none';
-            document.getElementById('formLogin').style.display = 'block';
-        }
-        function loginModal(e) {
-            e.preventDefault();
-            const email = document.getElementById('modalEmail').value.trim();
-            const password = document.getElementById('modalPassword').value.trim();
-            if (email && password.length >= 4) {
-                const usuario = { nombre: email.split('@')[0], apellido: '', email, telefono: '' };
-                localStorage.setItem('petfyUser', JSON.stringify(usuario));
-                localStorage.setItem('petfyLogged', 'true');
-                actualizarUI(usuario);
-                document.getElementById('loginModal').classList.remove('active');
-            } else { document.getElementById('modalError').style.display = 'block'; }
-            return false;
-        }
-        function registroModal(e) {
-            e.preventDefault();
-            const nombre = document.getElementById('regModalNombre').value.trim();
-            const email = document.getElementById('regModalEmail').value.trim();
-            const password = document.getElementById('regModalPassword').value.trim();
-            if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
-            const usuario = { nombre, apellido: '', email, telefono: '' };
+    // ========== SIDEBAR ==========
+    function abrirSidebar() {
+        document.getElementById('profileSidebar').classList.add('active');
+        document.getElementById('profileOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function cerrarSidebar() {
+        document.getElementById('profileSidebar').classList.remove('active');
+        document.getElementById('profileOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ========== MODAL LOGIN ==========
+    function abrirModal() {
+        document.getElementById('loginModal').classList.add('active');
+    }
+    function cerrarModal() {
+        document.getElementById('loginModal').classList.remove('active');
+    }
+    function mostrarRegistro() {
+        document.getElementById('formLogin').style.display = 'none';
+        document.getElementById('formRegistro').style.display = 'block';
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'none';
+    }
+    function mostrarLogin() {
+        document.getElementById('formRegistro').style.display = 'none';
+        document.getElementById('formLogin').style.display = 'block';
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'none';
+    }
+    function loginModal(e) {
+        e.preventDefault();
+        const email = document.getElementById('modalEmail').value.trim();
+        const password = document.getElementById('modalPassword').value.trim();
+        if (email && password.length >= 4) {
+            const usuario = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
             localStorage.setItem('petfyUser', JSON.stringify(usuario));
             localStorage.setItem('petfyLogged', 'true');
-            document.getElementById('modalSuccess').style.display = 'block';
-            setTimeout(() => { actualizarUI(usuario); document.getElementById('loginModal').classList.remove('active'); mostrarLogin(); }, 1500);
-            return false;
+            actualizarUI(usuario);
+            cerrarModal();
+            document.getElementById('modalEmail').value = '';
+            document.getElementById('modalPassword').value = '';
+        } else {
+            document.getElementById('modalError').style.display = 'block';
         }
-        function actualizarUI(user) {
-            document.getElementById('btnCuenta').innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-            document.getElementById('sidebarNombre').textContent = user.nombre;
-            document.getElementById('sidebarEmail').textContent = user.email;
-        }
-        function cerrarSesion() {
-            localStorage.removeItem('petfyLogged'); localStorage.removeItem('petfyUser');
-            window.location.href = 'index.html';
-        }
+        return false;
+    }
+    function registroModal(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('regModalNombre').value.trim();
+        const email = document.getElementById('regModalEmail').value.trim();
+        const password = document.getElementById('regModalPassword').value.trim();
+        if (password.length < 8) { alert('Mínimo 8 caracteres'); return false; }
+        const usuario = { nombre: nombre, apellido: '', email: email, telefono: '' };
+        localStorage.setItem('petfyUser', JSON.stringify(usuario));
+        localStorage.setItem('petfyLogged', 'true');
+        document.getElementById('modalSuccess').style.display = 'block';
+        setTimeout(() => {
+            actualizarUI(usuario);
+            cerrarModal();
+            mostrarLogin();
+            document.getElementById('regModalNombre').value = '';
+            document.getElementById('regModalEmail').value = '';
+            document.getElementById('regModalPassword').value = '';
+        }, 1500);
+        return false;
+    }
 
-        // ========== INICIAR ==========
-        document.getElementById('btnCuenta').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (localStorage.getItem('petfyLogged') === 'true') { abrirSidebar(); }
-            else { document.getElementById('loginModal').classList.add('active'); }
-        });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrarSidebar(); document.getElementById('loginModal').classList.remove('active'); } });
-        if (localStorage.getItem('petfyLogged') === 'true') {
-            const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-            if (user.nombre) actualizarUI(user);
+    // ========== ACTUALIZAR UI DESPUÉS DE LOGIN ==========
+    function actualizarUI(user) {
+        var btn = document.getElementById('btnCuenta');
+        btn.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
+        btn.title = 'Mi Perfil';
+        btn.setAttribute('data-logged', 'true');
+        document.getElementById('sidebarNombre').textContent = user.nombre;
+        document.getElementById('sidebarEmail').textContent = user.email;
+    }
+
+    // ========== CERRAR SESIÓN ==========
+    function cerrarSesion() {
+        localStorage.removeItem('petfyLogged');
+        localStorage.removeItem('petfyUser');
+        window.location.href = 'index.html';
+    }
+
+    // ========== EVENTO DEL ICONO DE USUARIO ==========
+    document.getElementById('btnCuenta').addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var logged = localStorage.getItem('petfyLogged');
+        
+        if (logged === 'true') {
+            // SOLO abre sidebar
+            abrirSidebar();
+        } else {
+            // SOLO abre modal
+            abrirModal();
         }
-    </script>
+    });
+
+    // ========== CERRAR CON ESC ==========
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarSidebar();
+            cerrarModal();
+        }
+    });
+
+    // ========== CARGAR ESTADO INICIAL ==========
+    if (localStorage.getItem('petfyLogged') === 'true') {
+        var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+        if (user.nombre) actualizarUI(user);
+    }
+</script>
 </body>
 </html>
