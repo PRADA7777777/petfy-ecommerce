@@ -53,6 +53,7 @@
         .modal-overlay.active{display:flex;}
         .modal-container{background:var(--white);border-radius:30px;padding:2.5rem;max-width:420px;width:90%;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.2);animation:modalIn 0.3s ease;}
         @keyframes modalIn{from{transform:translateY(30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+        @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
         .modal-close-btn{position:absolute;top:15px;right:20px;background:none;border:none;font-size:1.5rem;color:var(--text-muted);cursor:pointer;}
         .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.5rem;}
         .modal-container h2{font-family:'Fredoka One',cursive;text-align:center;color:var(--text);margin-bottom:0.25rem;font-size:1.5rem;}
@@ -60,7 +61,8 @@
         .modal-input-group{margin-bottom:1rem;}
         .modal-input-group input{width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;}
         .modal-input-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);}
-        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;}
+        .modal-btn{width:100%;padding:0.85rem;background:var(--primary);color:var(--white);border:none;border-radius:50px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;display:block;text-align:center;}
+        .modal-btn:hover{background:var(--primary-dark);}
         .modal-error{color:var(--danger);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
         .modal-success{color:var(--success);text-align:center;margin-top:0.75rem;font-size:0.85rem;display:none;}
         .modal-switch{text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-light);}
@@ -81,6 +83,9 @@
         .carousel-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;z-index:10;}
         .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.3s;}
         .dot.active{background:white;width:25px;border-radius:10px;}
+
+        /* ========== COOKIES BANNER ========== */
+        .cookies-banner{background:white;width:100%;padding:1.5rem 2rem;box-shadow:0 -10px 40px rgba(0,0,0,0.1);animation:slideUp 0.5s ease;}
 
         @media(max-width:768px){
             .carousel-content{padding:2rem;}.carousel-content h2{font-size:1.5rem;}
@@ -248,14 +253,14 @@
                 <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
                 <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
 
     <!-- ========== WHATSAPP FLOTANTE ========== -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- ========== MODAL LOGIN/REGISTRO ========== -->
+    <!-- ========== MODAL LOGIN ========== -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal-container">
             <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
@@ -319,91 +324,179 @@
         </div>
     </div>
 
+    <!-- ========== COOKIES BANNER ========== -->
+    <div class="modal-overlay" id="cookiesModal" style="display:flex; align-items:flex-end; background:rgba(0,0,0,0.3);">
+        <div class="cookies-banner">
+            <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+                <div style="flex:1; min-width:250px;">
+                    <h4 style="font-family:'Fredoka One',cursive; margin-bottom:0.25rem;">🍪 Cookies y Privacidad</h4>
+                    <p style="font-size:0.85rem; color:var(--text-light); margin:0;">
+                        Usamos cookies para mejorar tu experiencia. Al continuar, aceptas nuestros 
+                        <a href="legal/terminos.html" style="color:var(--primary);">Términos</a> y 
+                        <a href="legal/privacidad.html" style="color:var(--primary);">Política de Privacidad</a>.
+                    </p>
+                </div>
+                <div style="display:flex; gap:0.5rem;">
+                    <button onclick="rechazarCookies()" style="padding:0.6rem 1.5rem; border:2px solid rgba(0,0,0,0.1); border-radius:25px; background:white; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem;">Solo necesarias</button>
+                    <button onclick="aceptarCookies()" style="padding:0.6rem 1.5rem; background:var(--primary); color:white; border:none; border-radius:25px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.85rem;">Aceptar todo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL OFERTA BIENVENIDA ========== -->
+    <div class="modal-overlay" id="ofertaModal">
+        <div class="modal-container" style="text-align:center; max-width:480px;">
+            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
+            <div style="font-size:4rem;">🎉</div>
+            <h2>¡Bienvenido a Petfy!</h2>
+            <p style="color:var(--text-light); margin:1rem 0;">Oferta exclusiva para nuevos clientes</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0;">
+                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0); padding:1.5rem; border-radius:16px;">
+                    <div style="font-size:2.5rem;">🛍️</div>
+                    <div style="font-size:2rem; font-family:'Fredoka One',cursive; color:var(--primary);">50%</div>
+                    <div style="font-weight:700;">DESCUENTO</div>
+                    <div style="font-size:0.8rem; color:var(--text-light);">Primera compra</div>
+                </div>
+                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5); padding:1.5rem; border-radius:16px;">
+                    <div style="font-size:2.5rem;">🐕</div>
+                    <div style="font-size:2rem; font-family:'Fredoka One',cursive; color:#059669;">1</div>
+                    <div style="font-weight:700;">PASEO GRATIS</div>
+                    <div style="font-size:0.8rem; color:var(--text-light);">Primer paseo</div>
+                </div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">⚡ Solo necesitas crear tu cuenta para reclamar</p>
+            <button onclick="reclamarOferta()" class="modal-btn" style="font-size:1.1rem;">🎁 Crear Cuenta y Reclamar</button>
+            <button onclick="cerrarOferta()" style="background:none; border:none; color:var(--text-muted); margin-top:0.75rem; cursor:pointer; font-family:'Nunito',sans-serif; font-size:0.85rem;">No gracias</button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL REGISTRO RÁPIDO ========== -->
+    <div class="modal-overlay" id="registroRapidoModal">
+        <div class="modal-container" style="max-width:480px;">
+            <button class="modal-close-btn" onclick="document.getElementById('registroRapidoModal').classList.remove('active')">&times;</button>
+            <div style="font-size:3rem; text-align:center;">🐾</div>
+            <h2 style="text-align:center;">Crear Cuenta</h2>
+            <p style="text-align:center; color:var(--text-light); margin-bottom:1.5rem;">Regístrate y reclama tu <strong>50% OFF + Paseo Gratis</strong></p>
+            <form onsubmit="return registroRapido(event)">
+                <div class="modal-input-group"><input type="text" id="rapidoNombre" placeholder="Nombre" required></div>
+                <div class="modal-input-group"><input type="email" id="rapidoEmail" placeholder="tu@email.com" required></div>
+                <div class="modal-input-group"><input type="tel" id="rapidoTelefono" placeholder="Teléfono (WhatsApp)"></div>
+                <div class="modal-input-group"><input type="password" id="rapidoPassword" placeholder="Contraseña (mín 8)" required></div>
+                <div style="background:#FEF3C7; padding:1rem; border-radius:12px; margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem;">
+                    <span style="font-size:1.5rem;">🎁</span>
+                    <div style="font-size:0.85rem; color:#92400E;"><strong>Tus beneficios:</strong><br>✅ 50% OFF primera compra<br>✅ 1 Paseo Express GRATIS</div>
+                </div>
+                <button type="submit" class="modal-btn" style="font-size:1.05rem;">🚀 Crear Cuenta y Reclamar</button>
+            </form>
+        </div>
+    </div>
+
     <!-- ========== SCRIPTS ========== -->
+    <script src="assets/js/main.js"></script>
     <script>
-        // Header sticky
-        window.addEventListener('scroll', function() {
-            document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50);
-        });
+        // ========== HEADER STICKY ==========
+        window.addEventListener('scroll',function(){document.getElementById('mainHeader').classList.toggle('scrolled',window.scrollY>50);});
 
-        // Menú móvil
-        document.querySelector('.mobile-menu-btn').onclick = function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        };
+        // ========== MENÚ MÓVIL ==========
+        document.querySelector('.mobile-menu-btn').onclick=function(){document.querySelector('.nav-links').classList.toggle('active');};
 
-        // Sidebar
-        function abrirSidebar() { document.getElementById('profileSidebar').classList.add('active'); document.getElementById('profileOverlay').classList.add('active'); }
-        function cerrarSidebar() { document.getElementById('profileSidebar').classList.remove('active'); document.getElementById('profileOverlay').classList.remove('active'); }
+        // ========== SIDEBAR ==========
+        function abrirSidebar(){document.getElementById('profileSidebar').classList.add('active');document.getElementById('profileOverlay').classList.add('active');}
+        function cerrarSidebar(){document.getElementById('profileSidebar').classList.remove('active');document.getElementById('profileOverlay').classList.remove('active');}
 
-        // Modal
-        function abrirModal() { document.getElementById('loginModal').classList.add('active'); }
-        function cerrarModal() { document.getElementById('loginModal').classList.remove('active'); }
-        function mostrarRegistro() { document.getElementById('formLogin').style.display='none'; document.getElementById('formRegistro').style.display='block'; }
-        function mostrarLogin() { document.getElementById('formRegistro').style.display='none'; document.getElementById('formLogin').style.display='block'; }
-
-        function loginModal(e) {
+        // ========== MODAL LOGIN ==========
+        function abrirModal(){document.getElementById('loginModal').classList.add('active');}
+        function cerrarModal(){document.getElementById('loginModal').classList.remove('active');}
+        function mostrarRegistro(){document.getElementById('formLogin').style.display='none';document.getElementById('formRegistro').style.display='block';}
+        function mostrarLogin(){document.getElementById('formRegistro').style.display='none';document.getElementById('formLogin').style.display='block';}
+        function loginModal(e){
             e.preventDefault();
-            var email = document.getElementById('modalEmail').value.trim();
-            var password = document.getElementById('modalPassword').value.trim();
-            if (email && password.length >= 4) {
-                var u = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
-                localStorage.setItem('petfyUser', JSON.stringify(u));
-                localStorage.setItem('petfyLogged', 'true');
-                actualizarUI(u); cerrarModal();
-            } else { document.getElementById('modalError').style.display = 'block'; }
+            var email=document.getElementById('modalEmail').value.trim();
+            var password=document.getElementById('modalPassword').value.trim();
+            if(email&&password.length>=4){
+                var u={nombre:email.split('@')[0],apellido:'',email:email,telefono:''};
+                localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');
+                actualizarUI(u);cerrarModal();
+            }else{document.getElementById('modalError').style.display='block';}
             return false;
         }
-
-        function registroModal(e) {
+        function registroModal(e){
             e.preventDefault();
-            var n = document.getElementById('regModalNombre').value.trim();
-            var em = document.getElementById('regModalEmail').value.trim();
-            var pw = document.getElementById('regModalPassword').value.trim();
-            if (pw.length < 8) { alert('Mínimo 8 caracteres'); return false; }
-            var u = { nombre: n, apellido: '', email: em, telefono: '' };
-            localStorage.setItem('petfyUser', JSON.stringify(u));
-            localStorage.setItem('petfyLogged', 'true');
-            document.getElementById('modalSuccess').style.display = 'block';
-            setTimeout(function() { actualizarUI(u); cerrarModal(); mostrarLogin(); }, 1500);
+            var n=document.getElementById('regModalNombre').value.trim();
+            var em=document.getElementById('regModalEmail').value.trim();
+            var pw=document.getElementById('regModalPassword').value.trim();
+            if(pw.length<8){alert('Mínimo 8 caracteres');return false;}
+            var u={nombre:n,apellido:'',email:em,telefono:''};
+            localStorage.setItem('petfyUser',JSON.stringify(u));localStorage.setItem('petfyLogged','true');
+            document.getElementById('modalSuccess').style.display='block';
+            setTimeout(function(){actualizarUI(u);cerrarModal();mostrarLogin();},1500);
             return false;
         }
-
-        function actualizarUI(user) {
-            var btn = document.getElementById('btnCuenta');
-            btn.innerHTML = '<i class="fas fa-user-check" style="color:#10B981;"></i>';
-            btn.setAttribute('data-logged', 'true');
-            document.getElementById('sidebarNombre').textContent = user.nombre;
-            document.getElementById('sidebarEmail').textContent = user.email;
+        function actualizarUI(user){
+            var btn=document.getElementById('btnCuenta');
+            btn.innerHTML='<i class="fas fa-user-check" style="color:#10B981;"></i>';
+            btn.setAttribute('data-logged','true');
+            document.getElementById('sidebarNombre').textContent=user.nombre;
+            document.getElementById('sidebarEmail').textContent=user.email;
         }
+        function cerrarSesion(){localStorage.clear();window.location.href='index.html';}
 
-        function cerrarSesion() { localStorage.clear(); window.location.href = 'index.html'; }
-
-        // Evento del botón
-        document.getElementById('btnCuenta').onclick = function(e) {
+        // ========== EVENTO BOTÓN ==========
+        document.getElementById('btnCuenta').onclick=function(e){
             e.preventDefault();
-            if (localStorage.getItem('petfyLogged') === 'true') { abrirSidebar(); } else { abrirModal(); }
+            if(localStorage.getItem('petfyLogged')==='true'){abrirSidebar();}else{abrirModal();}
             return false;
         };
 
-        // ESC
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { cerrarSidebar(); cerrarModal(); } });
+        // ========== ESC ==========
+        document.addEventListener('keydown',function(e){if(e.key==='Escape'){cerrarSidebar();cerrarModal();}});
 
-        // Estado inicial
-        if (localStorage.getItem('petfyLogged') === 'true') {
-            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-            if (user.nombre) actualizarUI(user);
-        }
+        // ========== ESTADO INICIAL ==========
+        if(localStorage.getItem('petfyLogged')==='true'){var user=JSON.parse(localStorage.getItem('petfyUser')||'{}');if(user.nombre)actualizarUI(user);}
 
-        // Carrusel
-        var slide = 0, total = 4, auto;
-        function moverCarrusel(d) { slide = (slide + d + total) % total; updateCarrusel(); }
-        function irSlide(i) { slide = i; updateCarrusel(); }
-        function updateCarrusel() {
-            document.getElementById('carouselTrack').style.transform = 'translateX(-' + (slide * 100) + '%)';
-            document.querySelectorAll('.dot').forEach(function(d, i) { d.classList.toggle('active', i === slide); });
-            clearInterval(auto); auto = setInterval(function() { moverCarrusel(1); }, 5000);
+        // ========== CARRUSEL ==========
+        var slide=0,total=4,auto;
+        function moverCarrusel(d){slide=(slide+d+total)%total;updateCarrusel();}
+        function irSlide(i){slide=i;updateCarrusel();}
+        function updateCarrusel(){
+            document.getElementById('carouselTrack').style.transform='translateX(-'+(slide*100)+'%)';
+            document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===slide);});
+            clearInterval(auto);auto=setInterval(function(){moverCarrusel(1);},5000);
         }
-        auto = setInterval(function() { moverCarrusel(1); }, 5000);
+        auto=setInterval(function(){moverCarrusel(1);},5000);
+
+        // ========== COOKIES ==========
+        function aceptarCookies(){
+            localStorage.setItem('cookiesAceptadas','true');
+            document.getElementById('cookiesModal').style.display='none';
+            if(!localStorage.getItem('ofertaVista')&&localStorage.getItem('petfyLogged')!=='true'){
+                setTimeout(function(){document.getElementById('ofertaModal').classList.add('active');},1000);
+            }
+        }
+        function rechazarCookies(){localStorage.setItem('cookiesAceptadas','minimas');document.getElementById('cookiesModal').style.display='none';}
+        if(localStorage.getItem('cookiesAceptadas')){document.getElementById('cookiesModal').style.display='none';}
+
+        // ========== OFERTA ==========
+        function cerrarOferta(){document.getElementById('ofertaModal').classList.remove('active');localStorage.setItem('ofertaVista','true');}
+        function reclamarOferta(){document.getElementById('ofertaModal').classList.remove('active');document.getElementById('registroRapidoModal').classList.add('active');}
+        if(localStorage.getItem('ofertaVista')||localStorage.getItem('petfyLogged')==='true'){document.getElementById('ofertaModal').style.display='none';}
+
+        // ========== REGISTRO RÁPIDO ==========
+        function registroRapido(e){
+            e.preventDefault();
+            var nombre=document.getElementById('rapidoNombre').value.trim();
+            var email=document.getElementById('rapidoEmail').value.trim();
+            var telefono=document.getElementById('rapidoTelefono').value.trim();
+            var password=document.getElementById('rapidoPassword').value.trim();
+            if(password.length<8){alert('Mínimo 8 caracteres');return false;}
+            var usuario={nombre:nombre,apellido:'',email:email,telefono:telefono,beneficios:{descuento50:true,paseoGratis:true,codigoDescuento:'BIENVENIDO50',codigoPaseo:'PASEOGRATIS1'}};
+            localStorage.setItem('petfyUser',JSON.stringify(usuario));localStorage.setItem('petfyLogged','true');localStorage.setItem('ofertaReclamada','true');
+            actualizarUI(usuario);
+            document.getElementById('registroRapidoModal').classList.remove('active');
+            setTimeout(function(){alert('🎉 ¡Felicidades '+nombre+'!\n\n✅ 50% OFF: BIENVENIDO50\n✅ Paseo Gratis: PASEOGRATIS1\n\nSe aplican en tu próxima compra/paseo.');},500);
+            return false;
+        }
     </script>
 </body>
 </html>
