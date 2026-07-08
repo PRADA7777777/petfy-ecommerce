@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contacto Petfy - Estamos para ayudarte 24/7">
+    <meta name="description" content="Contacto Petfy - Estamos para ayudarte 24/7. WhatsApp, email, redes sociales.">
     <title>Contacto - Petfy | Atención al Cliente</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,60 +11,31 @@
     <link rel="stylesheet" href="../assets/css/petfy.css">
     
     <style>
-        /* ========== CONTACTO - ESTILOS ESPECÍFICOS ========== */
         .contacto-page { background: var(--bg); }
-
-        /* Header Contacto - Mismo estilo suave */
+        
         .contacto-header {
-            background: linear-gradient(160deg, #FDE8DB 0%, #FEF3EB 50%, #FFF8F5 100%);
-            padding: 5rem 0 6rem;
-            color: var(--text);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
+            padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
-
-        /* Doodles animados */
-        .doodle {
-            position: absolute; pointer-events: none; z-index: 1;
-            opacity: 0.3; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
-        }
-        .doodle-1 { top: 10%; left: 5%; font-size: 3.5rem; animation: floatDoodle 5s ease-in-out infinite; }
-        .doodle-2 { top: 20%; right: 8%; font-size: 2.5rem; animation: floatDoodle 6s ease-in-out 1s infinite; }
-        .doodle-3 { bottom: 20%; left: 10%; font-size: 2rem; animation: floatDoodle 4s ease-in-out 0.5s infinite; }
-        .doodle-4 { bottom: 15%; right: 12%; font-size: 3.5rem; animation: floatDoodle 7s ease-in-out 2s infinite; }
-        .doodle-5 { top: 45%; left: 50%; font-size: 2.2rem; animation: floatDoodle 5.5s ease-in-out 0.8s infinite; }
-        .doodle-6 { top: 12%; left: 35%; font-size: 1.8rem; animation: floatDoodle 4.5s ease-in-out 1.5s infinite; }
-
-        @keyframes floatDoodle {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(5deg); }
-            50% { transform: translateY(-8px) rotate(-3deg); }
-            75% { transform: translateY(-20px) rotate(2deg); }
-        }
-
-        .contacto-header-content { position: relative; z-index: 2; }
-        .contacto-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.8rem; margin-bottom: 0.5rem; color: var(--text); }
-        .contacto-header p { color: var(--text-light); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
-
-        /* Contenido principal */
+        .doodle { position: absolute; opacity: 0.22; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
+        .d1 { top: 10%; left: 5%; } .d2 { top: 20%; right: 8%; animation-delay: 1s; }
+        .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; } .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
+        @keyframes floatDoodle { 0%,100%{transform:translateY(0)rotate(0);} 50%{transform:translateY(-18px)rotate(5deg);} }
+        .contacto-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
+        .contacto-header p { color: var(--text-light); position: relative; z-index: 2; }
+        
         .contacto-content { padding: 3rem 0 5rem; }
         .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: start; }
-
-        /* Tarjetas de información */
+        
         .info-card {
-            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
-            padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem;
-            margin-bottom: 1rem; transition: var(--transition);
+            padding: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;
+            transition: var(--transition);
         }
         .info-card:hover { transform: translateX(5px); box-shadow: var(--shadow-md); }
-        .info-icon {
-            width: 50px; height: 50px; border-radius: var(--radius);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; flex-shrink: 0;
-        }
+        .info-icon { width: 50px; height: 50px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
         .info-card:nth-child(1) .info-icon { background: #ECFDF5; color: #059669; }
         .info-card:nth-child(2) .info-icon { background: #EFF6FF; color: #3B82F6; }
         .info-card:nth-child(3) .info-icon { background: #FEF3C7; color: #D97706; }
@@ -72,10 +43,9 @@
         .info-text h4 { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
         .info-text p { color: var(--text-light); font-size: 0.9rem; }
         .info-text a { color: var(--primary); text-decoration: none; font-weight: 700; }
-
-        /* Redes sociales */
+        
         .social-contacto {
-            background: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
             padding: 1.5rem; margin-top: 1rem;
         }
@@ -86,15 +56,12 @@
             font-weight: 700; font-size: 0.85rem; color: white; transition: var(--transition);
             display: flex; align-items: center; gap: 0.4rem;
         }
-        .social-btn.fb { background: #1877F2; }
-        .social-btn.ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); }
-        .social-btn.wa { background: #25D366; }
-        .social-btn.tt { background: #000; }
         .social-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-
-        /* Formulario */
+        .social-btn.fb { background: #1877F2; } .social-btn.ig { background: linear-gradient(135deg,#833AB4,#FD1D1D,#F77737); }
+        .social-btn.wa { background: #25D366; }
+        
         .form-wrapper {
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(15px);
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.9); border-radius: var(--radius-lg);
             padding: 2.5rem; box-shadow: var(--shadow-lg);
         }
@@ -104,14 +71,13 @@
         .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06);
-            border-radius: var(--radius); font-family: 'Nunito', sans-serif;
-            font-size: 0.9rem; transition: var(--transition); background: var(--white);
+            border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+            transition: var(--transition); background: var(--white);
         }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light);
         }
         .form-group textarea { resize: vertical; min-height: 130px; }
-        
         .btn-enviar {
             width: 100%; padding: 0.9rem; background: var(--primary); color: var(--white);
             border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
@@ -119,107 +85,64 @@
             display: flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
         .btn-enviar:hover { background: var(--primary-dark); transform: translateY(-2px); }
-
-        /* Horarios */
+        
         .horario-section { padding: 0 0 4rem; }
         .horario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .horario-card {
-            background: var(--white); border-radius: var(--radius-lg);
-            padding: 1.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.04);
-            box-shadow: var(--shadow-sm); transition: var(--transition);
+            background: var(--white); border-radius: var(--radius-lg); padding: 1.5rem;
+            text-align: center; border: 1px solid rgba(0,0,0,0.04); box-shadow: var(--shadow-sm);
         }
-        .horario-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
         .horario-dia { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--primary); margin-bottom: 0.3rem; }
         .horario-hora { font-size: 1.3rem; font-weight: 800; color: var(--text); }
-
-        /* Mapa */
+        
         .mapa-section { padding: 0 0 4rem; }
-        .mapa-container {
-            background: var(--white); border-radius: var(--radius-lg);
-            overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid rgba(0,0,0,0.04);
-        }
+        .mapa-container { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
         .mapa-container iframe { display: block; }
-
-        @media (max-width: 768px) {
-            .contacto-grid { grid-template-columns: 1fr; }
-            .form-row { grid-template-columns: 1fr; }
-            .contacto-header h1 { font-size: 2rem; }
-        }
+        
+        @media(max-width:768px){.contacto-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.contacto-header h1{font-size:2rem;}}
     </style>
 </head>
-<body class="contacto-page">
+<body>
     
-    <!-- ========== HEADER / NAVBAR ========== -->
-<header class="header" id="mainHeader">
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
-            </div>
-            <ul class="nav-links">
-                <li class="nav-item dropdown-trigger">
-                    <a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a href="../servicios/" class="nav-link">Servicios</a>
-                </li>
-                <li class="nav-item">
-                    <a href="index.html" class="nav-link active">Contacto</a>
-                </li>
-            </ul>
-            <div class="nav-actions">
-                <div class="city-selector">
-                    <i class="fas fa-map-marker-alt city-icon"></i>
-                    <select class="city-select">
-                        <option value="">Selecciona una ciudad</option>
-                        <option value="bogota">Bogotá</option>
-                        <option value="medellin">Medellín</option>
-                        <option value="cali">Cali</option>
-                    </select>
+    <!-- HEADER -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="index.html" class="nav-link active">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="user-actions">
+                        <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
+                        <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
                 </div>
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar...">
-                    <button>Buscar</button>
-                </div>
-                <div class="user-actions">
-                    <a href="../cuenta/login.html" class="icon-link" title="Mi cuenta"><i class="fas fa-user"></i></a>
-                    <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-                </div>
-            </div>
-            <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
-        </nav>
-    </div>
-</header>
-
-<!-- ========== BREADCRUMB ========== -->
-<div class="breadcrumb-wrapper">
-    <div class="container">
-        <nav class="breadcrumb" aria-label="Ruta de navegación">
-            <ol class="breadcrumb-list" id="breadcrumbList"></ol>
-        </nav>
-    </div>
-</div>
-    <!-- ========== HEADER CONTACTO ========== -->
-    <section class="contacto-header">
-        <span class="doodle doodle-1">📞</span>
-        <span class="doodle doodle-2">✨</span>
-        <span class="doodle doodle-3">💬</span>
-        <span class="doodle doodle-4">🐾</span>
-        <span class="doodle doodle-5">⭐</span>
-        <span class="doodle doodle-6">❤️</span>
-        <div class="contacto-header-content">
-            <h1>Contacto</h1>
-            <p>Estamos aquí para ayudarte. Contáctanos por cualquier medio y te responderemos lo antes posible.</p>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
         </div>
+    </header>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <!-- HEADER CONTACTO -->
+    <section class="contacto-header">
+        <span class="doodle d1">📞</span><span class="doodle d2">💬</span><span class="doodle d3">🐾</span><span class="doodle d4">⭐</span>
+        <h1>Contacto</h1>
+        <p>Estamos aquí para ayudarte. Contáctanos por cualquier medio y te responderemos lo antes posible.</p>
     </section>
 
-    <!-- ========== CONTENIDO PRINCIPAL ========== -->
+    <!-- CONTENIDO -->
     <section class="contacto-content">
         <div class="container">
             <div class="contacto-grid">
                 
-                <!-- Información -->
+                <!-- INFO -->
                 <div>
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
@@ -248,7 +171,7 @@
                     </div>
                 </div>
                 
-                <!-- Formulario -->
+                <!-- FORMULARIO -->
                 <div class="form-wrapper">
                     <h2>✉️ Escríbenos</h2>
                     <form onsubmit="return enviarFormulario(event)">
@@ -260,8 +183,8 @@
                             <div class="form-group"><label>Email *</label><input type="email" id="email" required placeholder="tu@email.com"></div>
                             <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono" placeholder="+57 300 123 4567"></div>
                         </div>
-                        <div class="form-group"><label>Asunto *</label><select id="asunto" required><option value="">Selecciona un asunto</option><option>Consulta general</option><option>Estado de mi pedido</option><option>Información de servicios</option><option>Reclamo o queja</option><option>Otro</option></select></div>
-                        <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea></div>
+                        <div class="form-group"><label>Asunto *</label><select id="asunto" required><option value="">Selecciona</option><option>Consulta general</option><option>Estado de mi pedido</option><option>Información de servicios</option><option>Reclamo</option></select></div>
+                        <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required placeholder="Escribe tu mensaje..."></textarea></div>
                         <button type="submit" class="btn-enviar"><i class="fas fa-paper-plane"></i> Enviar Mensaje</button>
                     </form>
                 </div>
@@ -269,13 +192,10 @@
         </div>
     </section>
 
-    <!-- ========== HORARIOS ========== -->
+    <!-- HORARIOS -->
     <section class="horario-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">Siempre Disponibles</span>
-                <h2 class="section-title">Horarios de Atención</h2>
-            </div>
+            <div class="section-header"><span class="section-subtitle">Siempre Disponibles</span><h2 class="section-title">Horarios de Atención</h2></div>
             <div class="horario-grid">
                 <div class="horario-card"><div class="horario-dia">Lunes a Viernes</div><div class="horario-hora">8:00 - 20:00</div></div>
                 <div class="horario-card"><div class="horario-dia">Sábados</div><div class="horario-hora">9:00 - 18:00</div></div>
@@ -285,15 +205,12 @@
         </div>
     </section>
 
-    <!-- ========== MAPA ========== -->
+    <!-- MAPA -->
     <section class="mapa-section">
         <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">Encuéntranos</span>
-                <h2 class="section-title">Nuestra Ubicación</h2>
-            </div>
+            <div class="section-header"><span class="section-subtitle">Encuéntranos</span><h2 class="section-title">Nuestra Ubicación</h2></div>
             <div class="mapa-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.824563636364!2d-74.065!3d4.625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sPetfy!5e0!3m2!1ses!2sco!4v1719432000000!5m2!1ses!2sco" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Petfy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.824563636364!2d-74.065!3d4.625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sPetfy!5e0!3m2!1ses!2sco!4v1719432000000!5m2!1ses!2sco" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" title="Ubicación Petfy"></iframe>
             </div>
         </div>
     </section>
@@ -311,28 +228,55 @@
         </div>
     </footer>
 
-    <!-- WhatsApp Flotante -->
-    <a href="https://wa.me/573204829244?text=Hola%20Petfy%20%F0%9F%90%BE%20Necesito%20informaci%C3%B3n" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- MODAL LOGIN -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-container">
+            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+            <div id="formLogin"><div class="modal-icon">🐾</div><h2>Iniciar Sesión</h2><form onsubmit="return loginModal(event)"><div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div><div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div><button type="submit" class="modal-btn">Iniciar Sesión</button></form><p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p></div>
+            <div id="formRegistro" style="display:none;"><div class="modal-icon">🐾</div><h2>Crear Cuenta</h2><form onsubmit="return registroModal(event)"><div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div><div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Email" required></div><div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div><button type="submit" class="modal-btn">Crear Cuenta</button></form><p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p></div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
+    <div class="profile-sidebar" id="profileSidebar">
+        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
+        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
+        <div class="profile-rewards"><div class="profile-points">💰 1,250 Pts</div><div class="profile-coupons">🎁 2 Cupones</div></div>
+        <div class="profile-menu">
+            <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
+            <a href="../cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
+            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
+            <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
+            <div class="profile-menu-divider"></div>
+            <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <!-- OFERTA -->
+    <div class="modal-overlay" id="ofertaModal">
+        <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
+            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
+            <div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
+            <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
+            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
+        </div>
+    </div>
 
     <script src="../assets/js/main.js"></script>
     <script>
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('mainHeader');
-            if (window.scrollY > 50) { header.classList.add('scrolled'); }
-            else { header.classList.remove('scrolled'); }
-        });
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            const icon = this.querySelector('i');
-            icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times');
-        });
         function enviarFormulario(e) {
             e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            if (!nombre || !email) { alert('Completa los campos requeridos'); return false; }
+            var n = document.getElementById('nombre').value;
+            var em = document.getElementById('email').value;
+            if (!n || !em) { alert('Completa los campos requeridos'); return false; }
             alert('✅ Mensaje enviado con éxito. Te responderemos pronto.');
-            e.target.reset(); return false;
+            e.target.reset();
+            return false;
         }
     </script>
 </body>
