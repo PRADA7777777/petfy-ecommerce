@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Servicios Petfy - Paseos, guardería, baños, veterinaria y entrenamiento para tu mascota">
-    <title>Servicios - Petfy | Cuidado Integral para Mascotas</title>
+    <meta name="description" content="Servicios Petfy - Paseos profesionales con GPS, guardería, baños y más">
+    <title>Servicios - Petfy | Paseos y Cuidado para Mascotas</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,70 +12,105 @@
     
     <style>
         .servicios-page { background: var(--bg); }
+        
+        /* Banner general */
         .servicios-header {
             background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
             padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
             border-radius: 0 0 40% 40% / 0 0 8% 8%;
         }
-        .doodle { position: absolute; opacity: 0.22; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
+        .doodle { position: absolute; opacity: 0.2; font-size: 2.5rem; animation: floatDoodle 5s ease-in-out infinite; pointer-events: none; z-index: 1; }
         .d1 { top: 10%; left: 5%; } .d2 { top: 20%; right: 8%; animation-delay: 1s; }
         .d3 { bottom: 20%; left: 10%; animation-delay: 0.5s; } .d4 { bottom: 15%; right: 12%; animation-delay: 2s; }
-        .d5 { top: 45%; left: 50%; animation-delay: 0.8s; font-size: 2rem; }
         @keyframes floatDoodle { 0%,100%{transform:translateY(0)rotate(0);} 50%{transform:translateY(-18px)rotate(5deg);} }
         .servicios-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
-        .servicios-header p { color: var(--text-light); position: relative; z-index: 2; }
-        .header-mini-stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 1.5rem; flex-wrap: wrap; }
-        .header-stat { text-align: center; }
-        .header-stat-value { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--primary); display: block; }
-        .header-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .servicios-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
         
-        .categorias-nav {
+        /* Barra de servicios */
+        .servicios-nav {
             background: var(--white); border-bottom: 1px solid rgba(0,0,0,0.04);
             position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow-sm);
             margin-top: -2rem; border-radius: 20px 20px 0 0; padding-top: 0.5rem;
         }
-        .categorias-nav .container { display: flex; align-items: center; justify-content: center; padding: 0.6rem 0; gap: 0.4rem; flex-wrap: wrap; }
-        .cat-nav-btn {
-            display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem;
+        .servicios-nav .container { display: flex; align-items: center; justify-content: center; padding: 0.6rem 0; gap: 0.5rem; flex-wrap: wrap; }
+        .servicio-nav-btn {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem;
             border-radius: 25px; border: 2px solid transparent; cursor: pointer;
-            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.82rem;
+            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem;
             background: var(--bg); color: var(--text); transition: var(--transition);
         }
-        .cat-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
-        .cat-nav-btn.active { background: var(--primary); color: var(--white); }
-        .cat-dot { width: 7px; height: 7px; border-radius: 50%; }
-        .cat-dot.activo { background: var(--success); }
-        .cat-dot.inactivo { background: var(--warning); }
+        .servicio-nav-btn:hover { background: rgba(224,99,63,0.08); color: var(--primary); }
+        .servicio-nav-btn.active { background: var(--primary); color: var(--white); }
+        .servicio-nav-btn.inactivo { opacity: 0.5; background: #F5F0ED; color: #B0A89F; }
+        .servicio-nav-btn.inactivo:hover { opacity: 0.7; }
         
+        /* Contenido dinámico */
         .servicios-content { padding: 2rem 0 4rem; }
-        .servicios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
-        .servicio-card {
-            background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.04); transition: var(--transition);
-            display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
-        }
-        .servicio-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-5px); }
-        .servicio-card.activo { border-top: 4px solid var(--success); }
-        .servicio-card.inactivo { border-top: 4px solid var(--warning); opacity: 0.92; }
-        .servicio-card-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
-        .servicio-card-icono { width: 55px; height: 55px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-        .servicio-card.activo .servicio-card-icono { background: #ECFDF5; color: var(--success); }
-        .servicio-card.inactivo .servicio-card-icono { background: #FEF3C7; color: var(--warning); }
-        .badge-activo { background: #ECFDF5; color: #059669; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
-        .badge-proximo { background: #FEF3C7; color: #D97706; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.7rem; font-weight: 800; }
-        .servicio-card-body { padding: 1rem 1.5rem; flex: 1; }
-        .servicio-card-titulo { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--text); margin-bottom: 0.5rem; }
-        .servicio-card-desc { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1rem; }
-        .servicio-card-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between; }
-        .servicio-card-precio { font-family: 'Fredoka One', cursive; font-size: 1.2rem; font-weight: 800; }
-        .servicio-card-btn {
-            padding: 0.55rem 1.2rem; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
-            font-weight: 800; font-size: 0.8rem; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 0.4rem;
-        }
-        .btn-activo { background: var(--success); color: var(--white); border: none; }
-        .btn-espera { background: var(--white); color: #D97706; border: 2px solid var(--warning); }
+        .servicio-panel { display: none; animation: fadeIn 0.4s ease; }
+        .servicio-panel.active { display: block; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
         
-        @media(max-width:768px){.servicios-header h1{font-size:2rem;}.servicios-grid{grid-template-columns:1fr;}}
+        /* Panel de paseos */
+        .paseos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+        .paseo-plan-card {
+            background: var(--white); border: 2px solid rgba(0,0,0,0.04); border-radius: var(--radius-lg);
+            padding: 2rem; text-align: center; cursor: pointer; transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .paseo-plan-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+        .paseo-plan-card.seleccionado { border-color: var(--primary); background: #FFF8F5; }
+        .plan-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+        .plan-nombre { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); }
+        .plan-precio { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--primary); margin: 0.75rem 0; }
+        .plan-desc { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
+        .plan-select-btn {
+            padding: 0.7rem 1.5rem; background: var(--primary); color: white;
+            border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
+            font-weight: 800; cursor: pointer; font-size: 0.9rem; transition: var(--transition);
+        }
+        .plan-select-btn:hover { background: var(--primary-dark); }
+        
+        /* Detalle del plan seleccionado */
+        .plan-detalle {
+            display: none; background: var(--white); border-radius: var(--radius-lg);
+            padding: 2.5rem; margin-top: 2rem; box-shadow: var(--shadow-lg);
+            border: 2px solid var(--primary);
+        }
+        .plan-detalle.active { display: block; animation: fadeIn 0.5s ease; }
+        .plan-detalle h3 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .plan-detalle .info-row { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        .plan-detalle .info-item { flex: 1; min-width: 150px; }
+        .plan-detalle .info-item strong { display: block; color: var(--text); margin-bottom: 0.25rem; }
+        .plan-detalle .info-item span { color: var(--text-light); font-size: 0.9rem; }
+        
+        /* Formulario */
+        .formulario-paseo { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.06); }
+        .formulario-paseo h4 { font-family: 'Fredoka One', cursive; margin-bottom: 1.5rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; font-size: 0.85rem; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 0.8rem 1rem; border: 2px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius); font-family: 'Nunito', sans-serif; font-size: 0.9rem;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary); }
+        .btn-contratar {
+            width: 100%; padding: 1rem; background: var(--primary); color: white;
+            border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: var(--transition);
+        }
+        .btn-contratar:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        
+        /* Placeholder inactivo */
+        .inactivo-placeholder {
+            text-align: center; padding: 5rem 2rem; background: var(--white);
+            border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+        }
+        .inactivo-placeholder .icon { font-size: 5rem; margin-bottom: 1rem; opacity: 0.5; }
+        .inactivo-placeholder h3 { font-family: 'Fredoka One', cursive; color: var(--text); }
+        .inactivo-placeholder p { color: var(--text-muted); }
+        
+        @media(max-width:768px){.form-row{grid-template-columns:1fr;}.servicios-header h1{font-size:2rem;}}
     </style>
 </head>
 <body>
@@ -86,7 +121,8 @@
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item dropdown-trigger"><a href="../tienda/" class="nav-link">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <!-- TIENDA COMENTADA -->
+                    <!-- <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li> -->
                     <li class="nav-item"><a href="index.html" class="nav-link active">Servicios</a></li>
                     <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
@@ -95,7 +131,6 @@
                     <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
                     <div class="user-actions">
                         <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
-                        <a href="../tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
                 <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
@@ -108,75 +143,144 @@
 
     <!-- HEADER SERVICIOS -->
     <section class="servicios-header">
-        <span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span><span class="doodle d5">⭐</span>
-        <h1>Servicios Premium</h1>
-        <p>Soluciones integrales para el cuidado de tu mascota. Profesionales certificados y la mejor atención.</p>
-        <div class="header-mini-stats">
-            <div class="header-stat"><span class="header-stat-value">+500</span><span class="header-stat-label">Paseos</span></div>
-            <div class="header-stat"><span class="header-stat-value">4.9</span><span class="header-stat-label">Rating</span></div>
-            <div class="header-stat"><span class="header-stat-value">1</span><span class="header-stat-label">Activo</span></div>
-            <div class="header-stat"><span class="header-stat-value">4</span><span class="header-stat-label">Próximos</span></div>
-        </div>
+        <span class="doodle d1">🐾</span><span class="doodle d2">✨</span><span class="doodle d3">🦴</span><span class="doodle d4">🐾</span>
+        <h1>Nuestros Servicios</h1>
+        <p>Elige el servicio que necesitas. Paseos disponibles ahora. ¡Más servicios próximamente!</p>
     </section>
 
-    <!-- BARRA CATEGORÍAS -->
-    <div class="categorias-nav">
+    <!-- BARRA DE SERVICIOS -->
+    <div class="servicios-nav">
         <div class="container">
-            <button class="cat-nav-btn active" onclick="filtrar('todos',this)"><i class="fas fa-th-large"></i> Todos</button>
-            <button class="cat-nav-btn" onclick="filtrar('activos',this)"><span class="cat-dot activo"></span> Activos</button>
-            <button class="cat-nav-btn" onclick="filtrar('proximos',this)"><span class="cat-dot inactivo"></span> Próximos</button>
-            <button class="cat-nav-btn" onclick="filtrar('paseos',this)"><i class="fas fa-dog"></i> Paseos</button>
-            <button class="cat-nav-btn" onclick="filtrar('guarderia',this)"><i class="fas fa-home"></i> Guardería</button>
-            <button class="cat-nav-btn" onclick="filtrar('banos',this)"><i class="fas fa-shower"></i> Baños</button>
-            <button class="cat-nav-btn" onclick="filtrar('veterinaria',this)"><i class="fas fa-stethoscope"></i> Veterinaria</button>
-            <button class="cat-nav-btn" onclick="filtrar('entrenamiento',this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button>
+            <button class="servicio-nav-btn active" onclick="mostrarServicio('paseos', this)"><i class="fas fa-dog"></i> Paseos</button>
+            <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('guarderia', this)"><i class="fas fa-home"></i> Guardería</button>
+            <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('banos', this)"><i class="fas fa-shower"></i> Baños</button>
+            <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('veterinaria', this)"><i class="fas fa-stethoscope"></i> Veterinaria</button>
+            <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('entrenamiento', this)"><i class="fas fa-graduation-cap"></i> Entrenamiento</button>
         </div>
     </div>
 
-    <!-- GRID SERVICIOS -->
+    <!-- CONTENIDO DINÁMICO -->
     <section class="servicios-content">
         <div class="container">
-            <div class="servicios-grid" id="serviciosGrid">
-                <div class="servicio-card activo" data-categoria="paseos" data-estado="activo">
-                    <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-dog"></i></div><span class="badge-activo">● Disponible</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Paseos Diarios</h3><p class="servicio-card-desc">Paseos personalizados con GPS en vivo, paseador fijo y reporte diario con fotos.</p></div>
-                    <div class="servicio-card-footer"><div><span class="servicio-card-precio">$8.990 <small>/paseo</small></span></div><a href="paseos.html" class="servicio-card-btn btn-activo">Contratar <i class="fas fa-arrow-right"></i></a></div>
+            
+            <!-- ========== PANEL PASEOS (ACTIVO) ========== -->
+            <div class="servicio-panel active" id="panel-paseos">
+                <div class="section-header"><span class="section-subtitle">Servicio Disponible</span><h2 class="section-title">Planes de Paseo</h2><p class="section-description">Selecciona un plan para ver más información y contratar</p></div>
+                
+                <!-- TARJETAS DE PLANES -->
+                <div class="paseos-grid" id="paseosGrid">
+                    
+                    <!-- Plan 1: Personalizado -->
+                    <div class="paseo-plan-card" onclick="seleccionarPlan('personalizado')" id="card-personalizado">
+                        <div class="plan-icon">⚡</div>
+                        <h3 class="plan-nombre">Paseo Personalizado</h3>
+                        <div class="plan-precio">$10.990<small>/paseo</small></div>
+                        <p class="plan-desc">45 minutos • GPS en vivo • Fotos • Snack</p>
+                        <button class="plan-select-btn">Seleccionar Plan</button>
+                    </div>
+                    
+                    <!-- Plan 2: Suscripción 3 veces -->
+                    <div class="paseo-plan-card" onclick="seleccionarPlan('suscripcion3')" id="card-suscripcion3">
+                        <div class="plan-icon">🌟</div>
+                        <h3 class="plan-nombre">Suscripción 3 Días</h3>
+                        <div class="plan-precio">$89.990<small>/mes</small></div>
+                        <p class="plan-desc">1 hora • 3 veces por semana • Lunes, Miércoles y Viernes</p>
+                        <button class="plan-select-btn">Seleccionar Plan</button>
+                    </div>
+                    
+                    <!-- Plan 3: Suscripción 7 días -->
+                    <div class="paseo-plan-card" onclick="seleccionarPlan('suscripcion7')" id="card-suscripcion7">
+                        <div class="plan-icon">💎</div>
+                        <h3 class="plan-nombre">Suscripción Full</h3>
+                        <div class="plan-precio">$159.990<small>/mes</small></div>
+                        <p class="plan-desc">1 hora • 7 días de la semana • Paseador VIP</p>
+                        <button class="plan-select-btn">Seleccionar Plan</button>
+                    </div>
+                    
                 </div>
-                <div class="servicio-card inactivo" data-categoria="guarderia" data-estado="inactivo">
-                    <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-house-chimney"></i></div><span class="badge-proximo">◉ Próximamente</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Guardería</h3><p class="servicio-card-desc">Espacio seguro con áreas de juego, cámaras 24/7 y personal veterinario en sitio.</p></div>
-                    <div class="servicio-card-footer"><div><span class="servicio-card-precio">$15.990 <small>/día</small></span></div><a href="guarderia.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a></div>
-                </div>
-                <div class="servicio-card inactivo" data-categoria="banos" data-estado="inactivo">
-                    <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-shower"></i></div><span class="badge-proximo">◉ Próximamente</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Baños & Peluquería</h3><p class="servicio-card-desc">Servicio completo con productos hipoalergénicos, corte de pelo y uñas.</p></div>
-                    <div class="servicio-card-footer"><div><span class="servicio-card-precio">$12.990 <small>/sesión</small></span></div><a href="banos.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a></div>
-                </div>
-                <div class="servicio-card inactivo" data-categoria="veterinaria" data-estado="inactivo">
-                    <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-stethoscope"></i></div><span class="badge-proximo">◉ Próximamente</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Veterinaria</h3><p class="servicio-card-desc">Atención integral: consultas, vacunas y urgencias 24/7.</p></div>
-                    <div class="servicio-card-footer"><div><span class="servicio-card-precio">$20.000 <small>/consulta</small></span></div><a href="veterinaria.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a></div>
-                </div>
-                <div class="servicio-card inactivo" data-categoria="entrenamiento" data-estado="inactivo">
-                    <div class="servicio-card-header"><div class="servicio-card-icono"><i class="fas fa-graduation-cap"></i></div><span class="badge-proximo">◉ Próximamente</span></div>
-                    <div class="servicio-card-body"><h3 class="servicio-card-titulo">Entrenamiento</h3><p class="servicio-card-desc">Obediencia básica y avanzada con refuerzo positivo.</p></div>
-                    <div class="servicio-card-footer"><div><span class="servicio-card-precio">$25.000 <small>/sesión</small></span></div><a href="entrenamiento.html" class="servicio-card-btn btn-espera"><i class="fas fa-bell"></i> Avísame</a></div>
+                
+                <!-- DETALLE DEL PLAN SELECCIONADO -->
+                <div class="plan-detalle" id="planDetalle">
+                    <h3 id="detalleTitulo"></h3>
+                    <div class="info-row" id="detalleInfo"></div>
+                    
+                    <!-- FORMULARIO DE INSCRIPCIÓN -->
+                    <div class="formulario-paseo">
+                        <h4>📋 Completa tus datos para contratar</h4>
+                        <form onsubmit="return contratarPaseo(event)">
+                            <div class="form-row">
+                                <div class="form-group"><label>Nombre *</label><input type="text" id="formNombre" required placeholder="Tu nombre"></div>
+                                <div class="form-group"><label>Email *</label><input type="email" id="formEmail" required placeholder="tu@email.com"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Teléfono *</label><input type="tel" id="formTelefono" required placeholder="+57 300 123 4567"></div>
+                                <div class="form-group"><label>Nombre de tu mascota *</label><input type="text" id="formMascota" required placeholder="Nombre"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Dirección *</label><input type="text" id="formDireccion" required placeholder="Calle, barrio, ciudad"></div>
+                                <div class="form-group"><label>Horario preferido</label><select id="formHorario"><option>Mañana (8-12)</option><option>Tarde (12-5)</option><option>Noche (5-8)</option></select></div>
+                            </div>
+                            <button type="submit" class="btn-contratar"><i class="fas fa-paw"></i> Contratar Plan</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            
+            <!-- ========== PANEL GUARDERÍA (INACTIVO) ========== -->
+            <div class="servicio-panel" id="panel-guarderia">
+                <div class="inactivo-placeholder">
+                    <div class="icon">🏠</div>
+                    <h3>Guardería</h3>
+                    <p>Próximamente disponible. Espacio seguro con cámaras 24/7 y personal veterinario.</p>
+                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                </div>
+            </div>
+            
+            <!-- ========== PANEL BAÑOS (INACTIVO) ========== -->
+            <div class="servicio-panel" id="panel-banos">
+                <div class="inactivo-placeholder">
+                    <div class="icon">🛁</div>
+                    <h3>Baños & Peluquería</h3>
+                    <p>Próximamente disponible. Productos hipoalergénicos y corte profesional.</p>
+                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                </div>
+            </div>
+            
+            <!-- ========== PANEL VETERINARIA (INACTIVO) ========== -->
+            <div class="servicio-panel" id="panel-veterinaria">
+                <div class="inactivo-placeholder">
+                    <div class="icon">🩺</div>
+                    <h3>Veterinaria</h3>
+                    <p>Próximamente disponible. Consultas, vacunas y urgencias 24/7.</p>
+                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                </div>
+            </div>
+            
+            <!-- ========== PANEL ENTRENAMIENTO (INACTIVO) ========== -->
+            <div class="servicio-panel" id="panel-entrenamiento">
+                <div class="inactivo-placeholder">
+                    <div class="icon">🎓</div>
+                    <h3>Entrenamiento</h3>
+                    <p>Próximamente disponible. Obediencia básica y avanzada con refuerzo positivo.</p>
+                    <p style="margin-top:1rem;"><a href="https://wa.me/573204829244" target="_blank" class="btn btn-outline">Avísame cuando esté disponible</a></p>
+                </div>
+            </div>
+            
         </div>
     </section>
-  <!-- ========== FOOTER ========== -->
+
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
-                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
-                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
-                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="index.html">Servicios</a></li></ul></div>
+                <div class="footer-col"><h4>Info</h4><ul><li><a href="../legal/terminos.html">Términos</a></li><li><a href="../legal/privacidad.html">Privacidad</a></li></ul></div>
+                <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
         </div>
     </footer>
+
     <!-- WHATSAPP -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
@@ -193,13 +297,10 @@
     <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
     <div class="profile-sidebar" id="profileSidebar">
         <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
-        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
-        <div class="profile-rewards"><div class="profile-points">💰 1,250 Pts</div><div class="profile-coupons">🎁 2 Cupones</div></div>
+        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div></div>
         <div class="profile-menu">
             <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="../cuenta/perfil.html#tab-pedidos" class="profile-menu-item"><i class="fas fa-shopping-bag"></i> Mis Pedidos<span class="badge-count">5</span></a>
             <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
-            <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
             <div class="profile-menu-divider"></div>
             <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
         </div>
@@ -207,7 +308,7 @@
 
     <!-- OFERTA -->
     <div class="modal-overlay" id="ofertaModal">
-        <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
+        <div class="modal-container" style="text-align:center;max-width:500px;">
             <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
             <div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
             <button onclick="reclamarOferta()" class="modal-btn">🎁 Crear Cuenta</button>
@@ -217,15 +318,85 @@
 
     <script src="../assets/js/main.js"></script>
     <script>
-        function filtrar(filtro, btn) {
-            document.querySelectorAll('.cat-nav-btn').forEach(function(b) { b.classList.remove('active'); });
+        var planSeleccionado = null;
+
+        // Cambiar entre servicios
+        function mostrarServicio(servicio, btn) {
+            document.querySelectorAll('.servicio-nav-btn').forEach(function(b) { b.classList.remove('active'); });
             btn.classList.add('active');
-            document.querySelectorAll('.servicio-card').forEach(function(c) {
-                if (filtro === 'todos') c.style.display = 'flex';
-                else if (filtro === 'activos') c.style.display = c.dataset.estado === 'activo' ? 'flex' : 'none';
-                else if (filtro === 'proximos') c.style.display = c.dataset.estado === 'inactivo' ? 'flex' : 'none';
-                else c.style.display = c.dataset.categoria === filtro ? 'flex' : 'none';
+            document.querySelectorAll('.servicio-panel').forEach(function(p) { p.classList.remove('active'); });
+            document.getElementById('panel-' + servicio).classList.add('active');
+            
+            // Resetear plan seleccionado
+            planSeleccionado = null;
+            document.getElementById('planDetalle').classList.remove('active');
+            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
+        }
+
+        // Seleccionar plan de paseo
+        function seleccionarPlan(plan) {
+            planSeleccionado = plan;
+            
+            // Marcar tarjeta seleccionada
+            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.classList.remove('seleccionado'); });
+            document.getElementById('card-' + plan).classList.add('seleccionado');
+            
+            // Ocultar las otras tarjetas
+            document.querySelectorAll('.paseo-plan-card').forEach(function(c) {
+                if (c.id !== 'card-' + plan) { c.style.display = 'none'; }
             });
+            
+            // Mostrar detalle
+            var detalle = document.getElementById('planDetalle');
+            detalle.classList.add('active');
+            
+            // Llenar información según plan
+            var titulo = document.getElementById('detalleTitulo');
+            var info = document.getElementById('detalleInfo');
+            
+            if (plan === 'personalizado') {
+                titulo.textContent = '⚡ Paseo Personalizado - $10.990/paseo';
+                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>45 minutos</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>5 por paseo</span></div><div class="info-item"><strong>🎁 Incluye</strong><span>Snack premium</span></div><div class="info-item"><strong>👤 Paseador</strong><span>Certificado</span></div>';
+            } else if (plan === 'suscripcion3') {
+                titulo.textContent = '🌟 Suscripción 3 Días - $89.990/mes';
+                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>1 hora por sesión</span></div><div class="info-item"><strong>📅 Días</strong><span>Lunes, Miércoles, Viernes</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>10 por paseo</span></div><div class="info-item"><strong>👤 Paseador</strong><span>Fijo asignado</span></div><div class="info-item"><strong>💰 Ahorro</strong><span>20% vs personalizado</span></div>';
+            } else if (plan === 'suscripcion7') {
+                titulo.textContent = '💎 Suscripción Full - $159.990/mes';
+                info.innerHTML = '<div class="info-item"><strong>⏱️ Duración</strong><span>1 hora por sesión</span></div><div class="info-item"><strong>📅 Días</strong><span>7 días de la semana</span></div><div class="info-item"><strong>📍 GPS</strong><span>En vivo</span></div><div class="info-item"><strong>📸 Fotos</strong><span>15 por paseo + video</span></div><div class="info-item"><strong>👤 Paseador</strong><span>VIP exclusivo</span></div><div class="info-item"><strong>💰 Ahorro</strong><span>40% vs personalizado</span></div><div class="info-item"><strong>🛡️ Seguro</strong><span>Incluido</span></div>';
+            }
+            
+            // Scroll al detalle
+            detalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Contratar paseo
+        function contratarPaseo(e) {
+            e.preventDefault();
+            var nombre = document.getElementById('formNombre').value;
+            var email = document.getElementById('formEmail').value;
+            var telefono = document.getElementById('formTelefono').value;
+            var mascota = document.getElementById('formMascota').value;
+            
+            if (!nombre || !email || !telefono || !mascota) {
+                alert('Completa todos los campos requeridos');
+                return false;
+            }
+            
+            var planesNombres = {
+                'personalizado': 'Paseo Personalizado',
+                'suscripcion3': 'Suscripción 3 Días',
+                'suscripcion7': 'Suscripción Full'
+            };
+            
+            alert('✅ ¡Plan contratado con éxito!\n\nPlan: ' + planesNombres[planSeleccionado] + '\nMascota: ' + mascota + '\n\nTe contactaremos en las próximas 2 horas al ' + telefono + ' para coordinar el inicio.');
+            e.target.reset();
+            
+            // Volver a mostrar todas las tarjetas
+            document.querySelectorAll('.paseo-plan-card').forEach(function(c) { c.style.display = ''; c.classList.remove('seleccionado'); });
+            document.getElementById('planDetalle').classList.remove('active');
+            planSeleccionado = null;
+            
+            return false;
         }
     </script>
 </body>
