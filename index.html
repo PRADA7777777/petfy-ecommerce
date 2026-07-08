@@ -37,7 +37,7 @@
                         <a href="tienda/carrito.html" class="icon-link cart-icon" title="Carrito"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
                     </div>
                 </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
@@ -48,36 +48,51 @@
     <!-- ========== MAIN ========== -->
     <main>
         
-        <!-- CARRUSEL -->
+        <!-- CARRUSEL DE BANNERS -->
         <section class="banner-carousel">
             <div class="container">
                 <div class="carousel-container" id="mainCarousel">
                     <button class="carousel-btn carousel-prev">‹</button>
                     <button class="carousel-btn carousel-next">›</button>
-                    <div class="carousel-track">
-                        <div class="carousel-slide"><img src="assets/img/banners/banner-paseos.jpg" alt="Paseos" onerror="this.style.background='linear-gradient(135deg,#E0633F,#F08060)';this.style.minHeight='280px';"><div class="carousel-content"><span class="carousel-badge">🐾 Paseos</span><h2>📅 Agenda tu Paseo</h2><p>Elige el día, la hora y el plan perfecto.</p><a href="servicios/paseos.html" class="btn btn-primary">Agendar Ahora <i class="fas fa-arrow-right"></i></a></div></div>
-                        <div class="carousel-slide"><img src="assets/img/banners/banner-gratis.jpg" alt="Gratis" onerror="this.style.background='linear-gradient(135deg,#10B981,#34D399)';this.style.minHeight='280px';"><div class="carousel-content"><span class="carousel-badge" style="background:#D1FAE5;color:#059669;">🎁 GRATIS</span><h2>🐕 Primer Paseo de Prueba</h2><p>GPS en vivo y fotos sin costo.</p><a href="servicios/paseos.html" class="btn btn-primary" style="background:#059669;">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a></div></div>
-                        <div class="carousel-slide"><img src="assets/img/banners/banner-incluye.jpg" alt="Incluye" onerror="this.style.background='linear-gradient(135deg,#3B82F6,#60A5FA)';this.style.minHeight='280px';"><div class="carousel-content"><span class="carousel-badge" style="background:#DBEAFE;color:#2563EB;">✅ Incluye</span><h2>📍 GPS en Vivo + Fotos</h2><p>Paseador certificado, seguimiento real.</p><a href="servicios/paseos.html" class="btn btn-primary" style="background:#2563EB;">Ver Planes <i class="fas fa-arrow-right"></i></a></div></div>
-                        <div class="carousel-slide"><img src="assets/img/banners/banner-whatsapp.jpg" alt="WhatsApp" onerror="this.style.background='linear-gradient(135deg,#25D366,#4ADE80)';this.style.minHeight='280px';"><div class="carousel-content"><span class="carousel-badge" style="background:#D1FAE5;color:#059669;">💬 WhatsApp</span><h2>📱 ¿Tienes dudas?</h2><p>Contáctanos y te asesoramos.</p><a href="https://wa.me/573204829244" target="_blank" class="btn btn-primary" style="background:#25D366;">Chatear Ahora <i class="fab fa-whatsapp"></i></a></div></div>
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-slide" style="background:linear-gradient(135deg,#E0633F,#F08060);">
+                            <div class="carousel-content"><span class="carousel-badge">🐾 Paseos</span><h2>📅 Agenda tu Paseo</h2><p>Elige el día, la hora y el plan perfecto para tu peludo.</p><a href="servicios/paseos.html" class="btn btn-primary">Agendar Ahora <i class="fas fa-arrow-right"></i></a></div>
+                        </div>
+                        <div class="carousel-slide" style="background:linear-gradient(135deg,#10B981,#34D399);">
+                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#059669;">🎁 GRATIS</span><h2>🐕 Primer Paseo de Prueba</h2><p>GPS en vivo y fotos sin costo.</p><a href="servicios/paseos.html" class="btn btn-primary" style="background:#059669;">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a></div>
+                        </div>
+                        <div class="carousel-slide" style="background:linear-gradient(135deg,#3B82F6,#60A5FA);">
+                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#2563EB;">✅ Incluye</span><h2>📍 GPS en Vivo + Fotos</h2><p>Paseador certificado, seguimiento real.</p><a href="servicios/paseos.html" class="btn btn-primary" style="background:#2563EB;">Ver Planes <i class="fas fa-arrow-right"></i></a></div>
+                        </div>
+                        <div class="carousel-slide" style="background:linear-gradient(135deg,#25D366,#4ADE80);">
+                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#059669;">💬 WhatsApp</span><h2>📱 ¿Tienes dudas?</h2><p>Contáctanos y te asesoramos.</p><a href="https://wa.me/573204829244" target="_blank" class="btn btn-primary" style="background:#25D366;">Chatear Ahora <i class="fab fa-whatsapp"></i></a></div>
+                        </div>
                     </div>
                     <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
                 </div>
             </div>
         </section>
 
-        <!-- HERO -->
+        <!-- HERO SECTION -->
         <section id="home" class="hero-section">
             <div class="container">
                 <div class="hero">
-                    <div class="hero-content"><span class="hero-badge">🐾 Bienvenidos a Petfy</span><h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1><p class="hero-description">Tienda online y servicios profesionales para el cuidado de tu mascota.</p><div class="hero-buttons"><a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a><a href="servicios/" class="btn btn-outline">Ver Servicios</a></div><div class="hero-stats"><div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div><div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div><div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div></div></div>
+                    <div class="hero-content">
+                        <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
+                        <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
+                        <p class="hero-description">Tienda online y servicios profesionales para el cuidado de tu mascota.</p>
+                        <div class="hero-buttons"><a href="tienda/" class="btn btn-primary">Explorar Tienda <i class="fas fa-arrow-right"></i></a><a href="servicios/" class="btn btn-outline">Ver Servicios</a></div>
+                        <div class="hero-stats"><div class="stat-item"><span class="stat-number">+100</span><span class="stat-label">Productos</span></div><div class="stat-item"><span class="stat-number">500+</span><span class="stat-label">Clientes</span></div><div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div></div>
+                    </div>
                     <div class="hero-image"><div class="image-wrapper"><img src="assets/img/Group 1.png" alt="Mascotas" class="floating-image"><div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div></div></div>
                 </div>
             </div>
         </section>
 
-        <!-- SERVICIOS -->
+        <!-- SERVICIOS DESTACADOS -->
         <section class="services-home-section">
-            <div class="container"><div class="section-header"><span class="section-subtitle">Cuidado Integral</span><h2 class="section-title">Nuestros Servicios</h2></div>
+            <div class="container">
+                <div class="section-header"><span class="section-subtitle">Cuidado Integral</span><h2 class="section-title">Nuestros Servicios</h2></div>
                 <div class="services-home-grid">
                     <a href="servicios/paseos.html" class="service-home-card activo"><div class="service-home-icon"><i class="fas fa-dog"></i></div><span class="service-home-badge badge-disponible">Disponible</span><h3>Paseos Diarios</h3><p>GPS en vivo y fotos</p><div class="service-home-price">Desde $8.990</div></a>
                     <a href="servicios/guarderia.html" class="service-home-card inactivo"><div class="service-home-icon"><i class="fas fa-house-chimney"></i></div><span class="service-home-badge badge-proximo">Próximamente</span><h3>Guardería</h3><p>Cámaras 24/7</p><div class="service-home-price">Desde $15.990</div></a>
@@ -90,7 +105,8 @@
 
         <!-- CATEGORÍAS -->
         <section class="categories-section">
-            <div class="container"><div class="section-header"><span class="section-subtitle">Tienda Online</span><h2 class="section-title">Categorías</h2></div>
+            <div class="container">
+                <div class="section-header"><span class="section-subtitle">Tienda Online</span><h2 class="section-title">Categorías</h2></div>
                 <div class="categories-grid">
                     <a href="tienda/" class="category-card"><div class="category-icon"><i class="fas fa-drumstick-bite"></i></div><div class="category-info"><h3>Alimentación</h3><span class="category-link">Ver <i class="fas fa-chevron-right"></i></span></div></a>
                     <a href="tienda/" class="category-card"><div class="category-icon"><i class="fas fa-paw"></i></div><div class="category-info"><h3>Accesorios</h3><span class="category-link">Ver <i class="fas fa-chevron-right"></i></span></div></a>
@@ -102,7 +118,8 @@
 
         <!-- RESEÑAS -->
         <section class="reviews-section">
-            <div class="container"><div class="section-header"><span class="section-subtitle">Testimonios</span><h2 class="section-title">Clientes Felices</h2></div>
+            <div class="container">
+                <div class="section-header"><span class="section-subtitle">Testimonios</span><h2 class="section-title">Clientes Felices</h2></div>
                 <div class="reviews-grid">
                     <div class="review-card"><div class="review-header"><div class="review-avatar">M</div><div><h4>María Gómez</h4><span class="review-pet">🐕 Max</span></div><div class="review-stars">★★★★★</div></div><p class="review-text">"¡Increíble! Max regresa feliz de cada paseo. El GPS me da tranquilidad."</p><div class="review-footer"><span>📅 Hace 2 días</span><span>✅ Paseo Estándar</span></div></div>
                     <div class="review-card"><div class="review-header"><div class="review-avatar">C</div><div><h4>Carlos Ruiz</h4><span class="review-pet">🐕 Rocky</span></div><div class="review-stars">★★★★★</div></div><p class="review-text">"Compré con 50% OFF y llegó en 24h. ¡Petfy lo tiene todo!"</p><div class="review-footer"><span>📅 Hace 1 semana</span><span>🛍️ Compra + Paseo</span></div></div>
@@ -127,12 +144,12 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="../servicios/">Servicios</a></li><li><a href="../tienda/">Tienda</a></li></ul></div>
-                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
-                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
-                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="nosotros/">Nosotros</a></li><li><a href="servicios/">Servicios</a></li><li><a href="tienda/">Tienda</a></li></ul></div>
+                <div class="footer-col"><h4>Info</h4><ul><li><a href="legal/terminos.html">Términos</a></li><li><a href="legal/privacidad.html">Privacidad</a></li></ul></div>
+                <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> Email</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
         </div>
     </footer>
 
@@ -193,37 +210,6 @@
     </div>
 
     <!-- ========== SCRIPTS ========== -->
-  <script src="assets/js/main.js"></script>
-    
-    <script>
-        // Carrusel
-        Carousel.init('mainCarousel', { autoPlay: true, interval: 5000 });
-
-        // Cookies
-        function aceptarCookies() {
-            localStorage.setItem('cookiesAceptadas', 'true');
-            document.getElementById('cookiesModal').style.display = 'none';
-            if (!localStorage.getItem('ofertaVista') && localStorage.getItem('petfyLogged') !== 'true') {
-                setTimeout(function() { document.getElementById('ofertaModal').classList.add('active'); }, 1000);
-            }
-        }
-        function rechazarCookies() {
-            localStorage.setItem('cookiesAceptadas', 'minimas');
-            document.getElementById('cookiesModal').style.display = 'none';
-        }
-        function cerrarOferta() {
-            document.getElementById('ofertaModal').classList.remove('active');
-            localStorage.setItem('ofertaVista', 'true');
-        }
-        function reclamarOferta() {
-            document.getElementById('ofertaModal').classList.remove('active');
-            document.getElementById('loginModal').classList.add('active');
-            mostrarRegistro();
-        }
-
-        // Estado inicial
-        if (localStorage.getItem('cookiesAceptadas')) document.getElementById('cookiesModal').style.display = 'none';
-        if (localStorage.getItem('ofertaVista') || localStorage.getItem('petfyLogged') === 'true') document.getElementById('ofertaModal').style.display = 'none';
-    </script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
