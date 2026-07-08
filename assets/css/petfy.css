@@ -632,3 +632,339 @@ body {
     .payment-methods { justify-content: center; }
     .whatsapp-float { width: 50px; height: 50px; font-size: 24px; bottom: 20px; right: 20px; }
 }
+/* ========== FORMULARIOS MEJORADOS ========== */
+.wizard-panel h3 {
+    font-family: 'Fredoka One', cursive;
+    color: var(--text);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.4rem;
+}
+.wizard-panel h3 i {
+    color: var(--primary);
+    font-size: 1.6rem;
+    background: var(--primary-light);
+    width: 45px;
+    height: 45px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Inputs modernos */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #E8E0D8;
+    border-radius: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #FAFAF8;
+    color: var(--text);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(224,99,63,0.08);
+}
+.form-group input::placeholder {
+    color: #C4B8AD;
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%239CA3AF'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+/* Login aviso mejorado */
+.login-aviso {
+    text-align: center;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #FFF8F5, #FFEDE4);
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    border: 2px dashed rgba(224,99,63,0.2);
+}
+.login-aviso p {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+}
+
+/* Mascotas guardadas mejoradas */
+.mascota-guardada {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    border: 2px solid #E8E0D8;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
+    background: white;
+}
+.mascota-guardada:hover {
+    border-color: var(--primary);
+    background: #FFF8F5;
+    transform: translateX(5px);
+}
+.mascota-guardada.seleccionada {
+    border-color: var(--primary);
+    background: #FFF8F5;
+    box-shadow: 0 0 0 4px rgba(224,99,63,0.1);
+}
+.mascota-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+.mascota-guardada strong {
+    font-size: 1rem;
+    color: var(--text);
+}
+.mascota-guardada p {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    margin: 0.2rem 0 0;
+}
+
+/* Botón nueva mascota */
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 2px dashed var(--primary);
+    color: var(--primary);
+    border-radius: 25px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.btn-outline:hover {
+    background: var(--primary-light);
+}
+
+/* Horas mejoradas */
+.horas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+.hora-btn {
+    padding: 1rem;
+    border: 2px solid #E8E0D8;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: white;
+    color: var(--text);
+}
+.hora-btn:hover {
+    border-color: var(--primary);
+    background: #FFF8F5;
+    transform: translateY(-2px);
+}
+.hora-btn.seleccionada {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 15px rgba(224,99,63,0.3);
+}
+
+/* Días checkbox mejorados */
+.dia-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: white;
+    border: 2px solid #E8E0D8;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.dia-checkbox:hover {
+    border-color: var(--primary);
+    background: #FFF8F5;
+}
+.dia-checkbox input[type="checkbox"] {
+    accent-color: var(--primary);
+    width: 18px;
+    height: 18px;
+}
+
+/* Wizard nav mejorado */
+.wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #F0EBE5;
+    background: #FAFAF8;
+}
+.btn-wiz {
+    padding: 0.85rem 2rem;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+}
+.btn-wiz-prev {
+    background: white;
+    color: var(--text);
+    border: 2px solid #E8E0D8;
+}
+.btn-wiz-prev:hover {
+    background: #F5F0ED;
+}
+.btn-wiz-next {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(224,99,63,0.2);
+}
+.btn-wiz-next:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(224,99,63,0.3);
+}
+.btn-wiz-finish {
+    background: var(--primary);
+    color: white;
+    font-size: 1.05rem;
+    padding: 1rem 2rem;
+    width: 100%;
+    margin-top: 1.5rem;
+    border-radius: 30px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(224,99,63,0.3);
+    transition: all 0.3s ease;
+}
+.btn-wiz-finish:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(224,99,63,0.4);
+}
+
+/* Resumen box mejorado */
+.resumen-box {
+    background: linear-gradient(135deg, #FFF8F5, #FFEDE4);
+    border: 2px solid var(--primary);
+    border-radius: 20px;
+    padding: 1.8rem;
+    margin-top: 1.5rem;
+}
+.resumen-box h4 {
+    font-family: 'Fredoka One', cursive;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+.resumen-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(224,99,63,0.1);
+    font-size: 0.95rem;
+}
+.resumen-item:last-child {
+    border-bottom: none;
+}
+.resumen-item strong {
+    color: var(--text);
+}
+
+/* Calendario mejorado */
+#calendarioPaseo {
+    background: white;
+    border-radius: 18px;
+    padding: 0.75rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 2px solid #E8E0D8;
+}
+.fc {
+    font-family: 'Nunito', sans-serif;
+}
+.fc-toolbar-title {
+    font-family: 'Fredoka One', cursive !important;
+    font-size: 1.1rem !important;
+    color: var(--text) !important;
+}
+.fc-button {
+    background: var(--primary) !important;
+    border: none !important;
+    border-radius: 25px !important;
+    padding: 0.5rem 1rem !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    text-transform: capitalize !important;
+}
+.fc-button:hover {
+    background: var(--primary-dark) !important;
+}
+.fc-day-today {
+    background: var(--primary-light) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .horas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .wizard-nav {
+        padding: 1rem;
+    }
+    .btn-wiz {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.85rem;
+    }
+}
