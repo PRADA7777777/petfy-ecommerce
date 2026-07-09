@@ -1,4 +1,4 @@
-// ========== PETFY - MAIN SCRIPTS ==========
+// ==================== PETFY - MAIN SCRIPTS ====================
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -11,7 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // ========== MENÚ MÓVIL ==========
     var mb = document.querySelector('.mobile-menu-btn');
     var nl = document.querySelector('.nav-links');
-    if (mb && nl) { mb.onclick = function() { nl.classList.toggle('active'); }; }
+    if (mb && nl) {
+        mb.onclick = function() {
+            nl.classList.toggle('active');
+            var icon = this.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+        };
+    }
     
     // ========== BREADCRUMB ==========
     generarBreadcrumb();
@@ -59,8 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (u.nombre) actualizarUI(u);
     }
     
-    // ========== CARRUSEL ==========
-    iniciarCarrusel();
+    // ========== CARRUSEL BANNERS ==========
+    iniciarCarruselBanners();
+    
+    // ========== CARRUSEL 3D SERVICIOS ==========
+    initCarousel3D();
     
     // ========== NEWSLETTER ==========
     var nlForm = document.querySelector('.newsletter-form');
@@ -68,7 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
         nlForm.addEventListener('submit', function(e) {
             e.preventDefault();
             var email = this.querySelector('input[type="email"]').value;
-            if (email) { alert('✅ ¡Suscrito con éxito!'); this.reset(); }
+            if (email) {
+                alert('✅ ¡Suscrito con éxito!');
+                this.reset();
+            }
         });
     }
     
@@ -76,55 +91,98 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============================================================
-// SIDEBAR
+// SIDEBAR DEL PERFIL
 // ============================================================
 function abrirSidebar() {
-    document.getElementById('profileSidebar').classList.add('active');
-    document.getElementById('profileOverlay').classList.add('active');
+    var sidebar = document.getElementById('profileSidebar');
+    var overlay = document.getElementById('profileOverlay');
+    if (sidebar) sidebar.classList.add('active');
+    if (overlay) overlay.classList.add('active');
 }
+
 function cerrarSidebar() {
-    document.getElementById('profileSidebar').classList.remove('active');
-    document.getElementById('profileOverlay').classList.remove('active');
+    var sidebar = document.getElementById('profileSidebar');
+    var overlay = document.getElementById('profileOverlay');
+    if (sidebar) sidebar.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
 }
 
 // ============================================================
 // MODAL LOGIN/REGISTRO
 // ============================================================
-function abrirModal() { document.getElementById('loginModal').classList.add('active'); }
-function cerrarModal() { document.getElementById('loginModal').classList.remove('active'); }
+function abrirModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) modal.classList.add('active');
+}
+
+function cerrarModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) modal.classList.remove('active');
+}
+
 function mostrarRegistro() {
-    document.getElementById('formLogin').style.display = 'none';
-    document.getElementById('formRegistro').style.display = 'block';
+    var formLogin = document.getElementById('formLogin');
+    var formRegistro = document.getElementById('formRegistro');
+    if (formLogin) formLogin.style.display = 'none';
+    if (formRegistro) formRegistro.style.display = 'block';
 }
+
 function mostrarLogin() {
-    document.getElementById('formRegistro').style.display = 'none';
-    document.getElementById('formLogin').style.display = 'block';
+    var formRegistro = document.getElementById('formRegistro');
+    var formLogin = document.getElementById('formLogin');
+    if (formRegistro) formRegistro.style.display = 'none';
+    if (formLogin) formLogin.style.display = 'block';
 }
+
 function loginModal(e) {
     e.preventDefault();
-    var email = document.getElementById('modalEmail').value.trim();
-    var pw = document.getElementById('modalPassword').value.trim();
-    if (email && pw.length >= 4) {
-        var user = { nombre: email.split('@')[0], apellido: '', email: email, telefono: '' };
+    var email = document.getElementById('modalEmail')?.value?.trim();
+    var pw = document.getElementById('modalPassword')?.value?.trim();
+    
+    if (email && pw && pw.length >= 4) {
+        var user = {
+            nombre: email.split('@')[0],
+            apellido: '',
+            email: email,
+            telefono: ''
+        };
         localStorage.setItem('petfyUser', JSON.stringify(user));
         localStorage.setItem('petfyLogged', 'true');
         actualizarUI(user);
         cerrarModal();
+    } else {
+        alert('⚠️ Completa todos los campos correctamente');
     }
     return false;
 }
+
 function registroModal(e) {
     e.preventDefault();
-    var nombre = document.getElementById('regModalNombre').value.trim();
-    var email = document.getElementById('regModalEmail').value.trim();
-    var pw = document.getElementById('regModalPassword').value.trim();
-    if (pw.length < 8) { alert('Mínimo 8 caracteres'); return false; }
-    var user = { nombre: nombre, apellido: '', email: email, telefono: '' };
+    var nombre = document.getElementById('regModalNombre')?.value?.trim();
+    var email = document.getElementById('regModalEmail')?.value?.trim();
+    var pw = document.getElementById('regModalPassword')?.value?.trim();
+    
+    if (!nombre || !email || !pw) {
+        alert('⚠️ Completa todos los campos');
+        return false;
+    }
+    if (pw.length < 8) {
+        alert('⚠️ La contraseña debe tener mínimo 8 caracteres');
+        return false;
+    }
+    
+    var user = {
+        nombre: nombre,
+        apellido: '',
+        email: email,
+        telefono: ''
+    };
     localStorage.setItem('petfyUser', JSON.stringify(user));
     localStorage.setItem('petfyLogged', 'true');
     actualizarUI(user);
     cerrarModal();
     mostrarLogin();
+    alert('✅ ¡Cuenta creada con éxito!');
     return false;
 }
 
@@ -139,65 +197,95 @@ function actualizarUI(user) {
     }
     var sn = document.getElementById('sidebarNombre');
     var se = document.getElementById('sidebarEmail');
-    if (sn) sn.textContent = user.nombre;
-    if (se) se.textContent = user.email;
+    if (sn) sn.textContent = user.nombre || 'Usuario';
+    if (se) se.textContent = user.email || 'usuario@email.com';
 }
+
 function cerrarSesion() {
     localStorage.clear();
     window.location.href = 'index.html';
 }
 
 // ============================================================
-// OFERTA
+// OFERTA BIENVENIDA
 // ============================================================
 function cerrarOferta() {
-    document.getElementById('ofertaModal').classList.remove('active');
+    var oferta = document.getElementById('ofertaModal');
+    if (oferta) oferta.classList.remove('active');
     localStorage.setItem('ofertaVista', 'true');
 }
+
 function reclamarOferta() {
-    document.getElementById('ofertaModal').classList.remove('active');
+    cerrarOferta();
     abrirModal();
     mostrarRegistro();
 }
 
 // ============================================================
-// CARRITO
+// CARRITO DE COMPRAS
 // ============================================================
-function obtenerCarrito() { return JSON.parse(localStorage.getItem('petfyCart')) || []; }
+function obtenerCarrito() {
+    return JSON.parse(localStorage.getItem('petfyCart')) || [];
+}
+
+function guardarCarrito(cart) {
+    localStorage.setItem('petfyCart', JSON.stringify(cart));
+}
+
 function actualizarContadorCarrito() {
     var cart = obtenerCarrito();
-    var total = cart.reduce(function(s, i) { return s + (i.quantity || 1); }, 0);
+    var total = cart.reduce(function(s, i) {
+        return s + (i.quantity || 1);
+    }, 0);
     document.querySelectorAll('.cart-count').forEach(function(el) {
         el.textContent = total;
         el.style.display = total > 0 ? 'flex' : 'none';
     });
 }
+
 function agregarAlCarrito(id, name, price, image, qty) {
     qty = qty || 1;
     var cart = obtenerCarrito();
     var idx = cart.findIndex(function(i) { return i.id === id; });
-    if (idx > -1) { cart[idx].quantity += qty; }
-    else { cart.push({ id: id, name: name, price: price, image: image, quantity: qty }); }
-    localStorage.setItem('petfyCart', JSON.stringify(cart));
+    
+    if (idx > -1) {
+        cart[idx].quantity += qty;
+    } else {
+        cart.push({
+            id: id,
+            name: name,
+            price: price,
+            image: image,
+            quantity: qty
+        });
+    }
+    
+    guardarCarrito(cart);
     actualizarContadorCarrito();
     alert('✅ Añadido al carrito');
 }
 
 // ============================================================
-// CARRUSEL
+// CARRUSEL DE BANNERS (INDEX)
 // ============================================================
-function iniciarCarrusel() {
+function iniciarCarruselBanners() {
     var container = document.getElementById('mainCarousel');
     if (!container) return;
+    
     var track = document.getElementById('carouselTrack');
     var dots = document.querySelectorAll('.carousel-dots .dot');
-    var current = 0, total = 4, interval;
+    var current = 0;
+    var total = 4;
+    var interval;
     
     function go(n) {
         current = (n + total) % total;
         track.style.transform = 'translateX(-' + (current * 100) + '%)';
-        dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+        dots.forEach(function(d, i) {
+            d.classList.toggle('active', i === current);
+        });
     }
+    
     function next() { go(current + 1); }
     function prev() { go(current - 1); }
     function start() { stop(); interval = setInterval(next, 5000); }
@@ -208,7 +296,9 @@ function iniciarCarrusel() {
     if (prevBtn) prevBtn.onclick = function() { prev(); start(); };
     if (nextBtn) nextBtn.onclick = function() { next(); start(); };
     
-    dots.forEach(function(d, i) { d.onclick = function() { go(i); start(); }; });
+    dots.forEach(function(d, i) {
+        d.onclick = function() { go(i); start(); };
+    });
     
     container.addEventListener('mouseenter', stop);
     container.addEventListener('mouseleave', start);
@@ -221,6 +311,7 @@ function iniciarCarrusel() {
 function generarBreadcrumb() {
     var list = document.getElementById('breadcrumbList');
     if (!list) return;
+    
     var path = window.location.pathname;
     var page = path.split('/').pop() || 'index.html';
     var depth = path.split('/').filter(function(p) { return p; }).length;
@@ -229,7 +320,9 @@ function generarBreadcrumb() {
     if (page === 'index.html' || page === '') {
         list.innerHTML = '<li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas fa-home"></i> Inicio</span></li>';
     } else {
-        var name = page.replace('.html','').replace(/-/g,' ').replace(/\b\w/g, function(l) { return l.toUpperCase(); });
+        var name = page.replace('.html', '').replace(/-/g, ' ').replace(/\b\w/g, function(l) {
+            return l.toUpperCase();
+        });
         list.innerHTML = '<li class="breadcrumb-item"><a href="' + base + 'index.html" class="breadcrumb-link"><i class="fas fa-home"></i> Inicio</a></li><li class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></li><li class="breadcrumb-item active"><span class="breadcrumb-current"><i class="fas fa-file"></i> ' + name + '</span></li>';
     }
 }
@@ -244,8 +337,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-console.log('✅ main.js cargado');
-// ==================== SERVICIOS: CARRUSEL 3D + PLANES + FORMULARIO + PAGO ====================
+// ============================================================
+// ==================== SERVICIOS: CARRUSEL 3D ====================
+// ============================================================
 
 var planesData = [
     { id: 'unico', emoji: '⚡', nombre: 'Paseo Único', tag: 'tag-ahorro', tagText: 'Sin suscripción', precio: 10990, periodo: 'por paseo', diasPermitidos: 1, features: ['45 min', 'GPS en vivo', '5 fotos'] },
@@ -258,18 +352,26 @@ var currentIndex = 0;
 var planSeleccionado = null;
 var mascotaSel = null;
 
-// ========== CARRUSEL ==========
-function initCarousel() {
+// ========== INICIAR CARRUSEL 3D ==========
+function initCarousel3D() {
     var track = document.getElementById('carouselTrack3D');
     if (!track) return;
+    
     track.innerHTML = '';
     planesData.forEach(function(p, i) {
-        track.innerHTML += crearCard(i);
+        track.innerHTML += crearCard3D(i);
     });
-    actualizarClases();
+    actualizarClases3D();
+    
+    // Auto-giro cada 5 segundos
+    setInterval(function() {
+        if (document.getElementById('carouselTrack3D')) {
+            girarCarousel(1);
+        }
+    }, 5000);
 }
 
-function crearCard(i) {
+function crearCard3D(i) {
     var p = planesData[i];
     var feats = '';
     p.features.forEach(function(f) {
@@ -278,12 +380,14 @@ function crearCard(i) {
     return '<div class="plan-card-3d" id="card3d-' + i + '" onclick="if(this.classList.contains(\'center\')) elegirPlan(\'' + p.id + '\')"><div class="plan-emoji">' + p.emoji + '</div><h3>' + p.nombre + '</h3><span class="plan-tag ' + p.tag + '">' + p.tagText + '</span><div class="plan-precio">$' + p.precio.toLocaleString() + '<small>' + p.periodo + '</small></div><ul class="plan-features">' + feats + '</ul><button class="plan-btn-elegir" onclick="elegirPlan(\'' + p.id + '\')">Elegir este Plan →</button></div>';
 }
 
-function actualizarClases() {
+function actualizarClases3D() {
     var cards = document.querySelectorAll('.plan-card-3d');
     var total = planesData.length;
+    
     cards.forEach(function(c, i) {
         c.classList.remove('center', 'left', 'right', 'far-left', 'far-right');
         var diff = (i - currentIndex + total) % total;
+        
         if (diff === 0) c.classList.add('center');
         else if (diff === 1 || diff === -(total - 1)) c.classList.add('right');
         else if (diff === total - 1 || diff === -1) c.classList.add('left');
@@ -294,7 +398,7 @@ function actualizarClases() {
 
 function girarCarousel(dir) {
     currentIndex = (currentIndex + dir + planesData.length) % planesData.length;
-    actualizarClases();
+    actualizarClases3D();
 }
 
 // ========== ELEGIR PLAN ==========
@@ -302,18 +406,23 @@ function elegirPlan(planId) {
     planSeleccionado = planesData.find(function(p) { return p.id === planId; });
     if (!planSeleccionado) return;
     
-    document.getElementById('stickyBar').classList.add('active');
+    var stickyBar = document.getElementById('stickyBar');
+    if (stickyBar) stickyBar.classList.add('active');
     actualizarSticky();
     
     var acordeon = document.getElementById('acordeonAgendar');
-    acordeon.classList.add('active');
-    acordeon.innerHTML = generarAcordeon(planSeleccionado);
-    acordeon.scrollIntoView({ behavior: 'smooth' });
+    if (acordeon) {
+        acordeon.classList.add('active');
+        acordeon.innerHTML = generarAcordeon(planSeleccionado);
+        acordeon.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 function cerrarAcordeon() {
-    document.getElementById('acordeonAgendar').classList.remove('active');
-    document.getElementById('stickyBar').classList.remove('active');
+    var acordeon = document.getElementById('acordeonAgendar');
+    var stickyBar = document.getElementById('stickyBar');
+    if (acordeon) acordeon.classList.remove('active');
+    if (stickyBar) stickyBar.classList.remove('active');
     planSeleccionado = null;
 }
 
@@ -333,7 +442,7 @@ function generarAcordeon(plan) {
     });
     h += '<div class="mascota-circle add-new" onclick="nuevaMascota()">➕</div>';
     
-    // Días de la semana (lógica inteligente)
+    // Días de la semana
     var diasHTML = '';
     if (plan.diasPermitidos > 1) {
         var diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
@@ -359,18 +468,26 @@ function validarDias() {
     var aviso = document.getElementById('avisoDias');
     
     if (marcados.length > maxDias) {
-        aviso.style.display = 'block';
-        aviso.textContent = '⚠️ Solo puedes seleccionar ' + maxDias + ' días para este plan';
-        event.target.checked = false;
+        if (aviso) {
+            aviso.style.display = 'block';
+            aviso.textContent = '⚠️ Solo puedes seleccionar ' + maxDias + ' días para este plan';
+        }
+        // Desmarcar el último checkbox marcado
+        if (event && event.target) {
+            event.target.checked = false;
+        }
     } else {
-        aviso.style.display = 'none';
+        if (aviso) aviso.style.display = 'none';
     }
     
     checkboxes.forEach(function(cb) {
         var label = cb.closest('.dia-cb');
-        if (cb.checked) label.classList.add('marcado');
-        else label.classList.remove('marcado');
+        if (label) {
+            if (cb.checked) label.classList.add('marcado');
+            else label.classList.remove('marcado');
+        }
     });
+    
     actualizarSticky();
 }
 
@@ -380,8 +497,10 @@ function selMascota(i, el) {
         c.style.borderColor = '#F0EBE5';
         c.style.boxShadow = 'none';
     });
-    el.style.borderColor = '#E0633F';
-    el.style.boxShadow = '0 0 0 3px rgba(224,99,63,0.2)';
+    if (el) {
+        el.style.borderColor = '#E0633F';
+        el.style.boxShadow = '0 0 0 3px rgba(224,99,63,0.2)';
+    }
 }
 
 function nuevaMascota() {
@@ -391,7 +510,10 @@ function nuevaMascota() {
     var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
     mascotas.push({ nombre: n, raza: r });
     localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
-    elegirPlan(planSeleccionado.id);
+    
+    if (planSeleccionado) {
+        elegirPlan(planSeleccionado.id);
+    }
 }
 
 function preview(input, previewId) {
@@ -399,61 +521,146 @@ function preview(input, previewId) {
         var reader = new FileReader();
         reader.onload = function(e) {
             var img = document.getElementById(previewId);
-            img.src = e.target.result;
-            img.style.display = 'block';
+            if (img) {
+                img.src = e.target.result;
+                img.style.display = 'block';
+            }
         };
         reader.readAsDataURL(input.files[0]);
     }
 }
 
-// ========== STICKY BAR Y PAGO ==========
+// ========== STICKY BAR ==========
 function actualizarSticky() {
     if (!planSeleccionado) return;
-    document.getElementById('stickyPlan').textContent = planSeleccionado.nombre;
-    document.getElementById('stickyPrecio').textContent = '$' + planSeleccionado.precio.toLocaleString();
+    var planEl = document.getElementById('stickyPlan');
+    var precioEl = document.getElementById('stickyPrecio');
+    if (planEl) planEl.textContent = planSeleccionado.nombre;
+    if (precioEl) precioEl.textContent = '$' + planSeleccionado.precio.toLocaleString();
 }
 
+// ========== INICIAR PAGO Y REDIRIGIR A CONFIRMACIÓN ==========
 function iniciarPago() {
     if (!planSeleccionado) {
-        alert('Selecciona un plan');
+        alert('⚠️ Selecciona un plan primero');
         return;
     }
+    
     var u = JSON.parse(localStorage.getItem('petfyUser') || '{}');
     var nombre = u.nombre || document.getElementById('wizNombre')?.value;
+    var apellido = document.getElementById('wizApellido')?.value || '';
+    var telefono = document.getElementById('wizTelefono')?.value || '';
+    var email = u.email || document.getElementById('wizEmail')?.value || 'cliente@petfy.com';
+    
     if (!nombre) {
-        alert('Completa tus datos');
+        alert('⚠️ Completa tus datos personales');
         return;
     }
-    var email = u.email || document.getElementById('wizEmail')?.value || 'cliente@petfy.com';
-    var ref = 'PETFY-' + Date.now();
-    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
-    var perro = mascotaSel !== null && mascotas[mascotaSel] ? mascotas[mascotaSel].nombre : 'Mascota';
     
-    var checkout = new WidgetCheckout({
-        currency: 'COP',
-        amountInCents: planSeleccionado.precio * 100,
-        reference: ref,
-        publicKey: 'pub_test_xxxxxxxxxxxxx',
-        redirectUrl: window.location.origin + '/servicios/confirmacion.html',
-        customerData: {
-            fullName: nombre,
-            email: email
-        },
-        products: [{
-            name: planSeleccionado.nombre + ' - ' + perro,
-            price: planSeleccionado.precio * 100,
-            quantity: 1
-        }]
-    });
+    // Validar mascota
+    var perroNombre = document.getElementById('wizPerroNombre')?.value;
+    if (!perroNombre) {
+        alert('⚠️ Ingresa el nombre de tu mascota');
+        return;
+    }
     
-    checkout.open(function(result) {
-        if (result.transaction.status === 'APPROVED') {
-            alert('✅ Pago exitoso!');
-            location.reload();
-        } else {
-            alert('❌ Pago no aprobado');
+    // Validar fecha
+    var fechaHora = document.getElementById('wizFechaHora')?.value;
+    if (!fechaHora) {
+        alert('⚠️ Selecciona una fecha y hora');
+        return;
+    }
+    
+    // Validar dirección
+    var direccion = document.getElementById('wizDireccion')?.value;
+    if (!direccion) {
+        alert('⚠️ Ingresa la dirección del servicio');
+        return;
+    }
+    
+    // Validar días (si el plan lo requiere)
+    if (planSeleccionado.diasPermitidos > 1) {
+        var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
+        if (diasMarcados.length === 0) {
+            alert('⚠️ Selecciona al menos un día de la semana');
+            return;
         }
-    });
+        if (diasMarcados.length > planSeleccionado.diasPermitidos) {
+            alert('⚠️ Solo puedes seleccionar ' + planSeleccionado.diasPermitidos + ' días');
+            return;
+        }
+    }
+    
+    var nombreCompleto = nombre + (apellido ? ' ' + apellido : '');
+    var ref = 'PETFY-' + Date.now();
+    var torreApto = document.getElementById('wizTorreApto')?.value || '';
+    var direccionCompleta = direccion + (torreApto ? ' - ' + torreApto : '');
+    
+    // Formatear fecha
+    var fechaObj = new Date(fechaHora);
+    var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+    var opcionesHora = { hour: '2-digit', minute: '2-digit' };
+    var fechaFormateada = fechaObj.toLocaleDateString('es-CO', opcionesFecha);
+    var horaFormateada = fechaObj.toLocaleTimeString('es-CO', opcionesHora);
+    
+    // Obtener días seleccionados
+    var diasSeleccionados = [];
+    if (planSeleccionado.diasPermitidos > 1) {
+        var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
+        diasMarcados.forEach(function(cb) {
+            diasSeleccionados.push(cb.value.charAt(0).toUpperCase() + cb.value.slice(1));
+        });
+    }
+    
+    // Guardar pedido en localStorage para la página de confirmación
+    var pedido = {
+        referencia: ref,
+        plan: planSeleccionado.nombre,
+        mascota: perroNombre,
+        fecha: fechaFormateada,
+        hora: horaFormateada,
+        fechaCompleta: fechaHora,
+        direccion: direccionCompleta,
+        dias: diasSeleccionados.length > 0 ? diasSeleccionados.join(', ') : 'Único',
+        cliente: nombreCompleto,
+        email: email,
+        telefono: telefono,
+        precio: planSeleccionado.precio
+    };
+    
+    localStorage.setItem('petfyUltimoPedido', JSON.stringify(pedido));
+    
+    // Intentar checkout con Wompi (si está disponible)
+    if (typeof WidgetCheckout !== 'undefined') {
+        var checkout = new WidgetCheckout({
+            currency: 'COP',
+            amountInCents: planSeleccionado.precio * 100,
+            reference: ref,
+            publicKey: 'pub_test_xxxxxxxxxxxxx',
+            redirectUrl: window.location.origin + '/servicios/confirmacion.html',
+            customerData: {
+                fullName: nombreCompleto,
+                email: email
+            },
+            products: [{
+                name: planSeleccionado.nombre + ' - ' + perroNombre,
+                price: planSeleccionado.precio * 100,
+                quantity: 1
+            }]
+        });
+        
+        checkout.open(function(result) {
+            if (result.transaction && result.transaction.status === 'APPROVED') {
+                window.location.href = 'confirmacion.html';
+            } else {
+                alert('❌ Pago no aprobado. Intenta de nuevo.');
+            }
+        });
+    } else {
+        // Si no hay pasarela de pago, ir directo a confirmación
+        alert('✅ ¡Servicio agendado con éxito!');
+        window.location.href = 'confirmacion.html';
+    }
 }
 
 // ========== MOSTRAR SERVICIO ==========
@@ -461,17 +668,14 @@ function mostrarServicio(servicio, btn) {
     document.querySelectorAll('.servicio-nav-btn').forEach(function(x) {
         x.classList.remove('active');
     });
-    btn.classList.add('active');
+    if (btn) btn.classList.add('active');
+    
     document.querySelectorAll('.servicio-panel').forEach(function(x) {
         x.classList.remove('active');
     });
-    document.getElementById('panel-' + servicio).classList.add('active');
+    
+    var panel = document.getElementById('panel-' + servicio);
+    if (panel) panel.classList.add('active');
 }
 
-// ========== INICIAR CARRUSEL ==========
-document.addEventListener('DOMContentLoaded', function() {
-    initCarousel();
-    setInterval(function() {
-        girarCarousel(1);
-    }, 5000);
-});
+console.log('✅ main.js cargado completamente');
