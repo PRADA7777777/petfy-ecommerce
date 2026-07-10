@@ -1714,9 +1714,11 @@ body {
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 1096px;
+    max-width: 100%;
     margin: 0 auto;
     overflow: hidden;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
 }
 
 .carousel-track {
@@ -1733,22 +1735,39 @@ body {
 .carousel-img {
     width: 100%;
     height: auto;
+    min-height: 300px;
     display: block;
+    object-fit: cover;
+    object-position: center;
 }
 
+/* Overlay sutil para el botón */
+.carousel-slide::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Flechas */
 .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255,255,255,0.9);
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    font-size: 22px;
+    font-size: 24px;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -1759,70 +1778,84 @@ body {
 .carousel-btn:hover {
     background: #E0633F;
     color: white;
+    box-shadow: 0 6px 20px rgba(224,99,63,0.4);
 }
 
-.carousel-prev { left: 10px; }
-.carousel-next { right: 10px; }
+.carousel-prev { left: 20px; }
+.carousel-next { right: 20px; }
 
+/* Botón de acción */
 .carousel-btn-accion {
     position: absolute;
-    bottom: 20px;
+    bottom: 35px;
     left: 50%;
     transform: translateX(-50%);
     background: #E0633F;
     color: white;
-    padding: 10px 25px;
+    padding: 14px 35px;
     border-radius: 50px;
     text-decoration: none;
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 16px;
     white-space: nowrap;
     z-index: 5;
     transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    letter-spacing: 0.5px;
 }
 
 .carousel-btn-accion:hover {
     background: #C94E2E;
-    transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
 }
 
+/* Dots */
 .carousel-dots {
     position: absolute;
-    bottom: 8px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
+    gap: 8px;
     z-index: 10;
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.5);
     cursor: pointer;
     transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.3);
 }
 
 .dot.active {
     background: #E0633F;
-    width: 22px;
-    border-radius: 8px;
+    width: 30px;
+    border-radius: 10px;
+    border-color: #E0633F;
 }
 
 @media (max-width: 768px) {
+    .carousel-container {
+        border-radius: 0 0 30px 30px;
+    }
+    
     .carousel-btn {
-        width: 32px;
-        height: 32px;
+        width: 38px;
+        height: 38px;
         font-size: 18px;
     }
+    
+    .carousel-prev { left: 10px; }
+    .carousel-next { right: 10px; }
+    
     .carousel-btn-accion {
-        bottom: 15px;
-        padding: 8px 18px;
-        font-size: 12px;
+        bottom: 25px;
+        padding: 12px 25px;
+        font-size: 14px;
     }
 }
