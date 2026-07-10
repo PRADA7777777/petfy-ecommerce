@@ -266,43 +266,72 @@ function agregarAlCarrito(id, name, price, image, qty) {
 }
 
 // ============================================================
-// CARRUSEL DE BANNERS (INDEX)
+// CARRUSEL DE BANNERS (INDEX) - CORREGIDO
 // ============================================================
 function iniciarCarruselBanners() {
-    var container = document.getElementById('mainCarousel');
-    if (!container) return;
-    
     var track = document.getElementById('carouselTrack');
-    var dots = document.querySelectorAll('.carousel-dots .dot');
-    var current = 0;
-    var total = 4;
-    var interval;
+    var dots = document.querySelectorAll('#mainCarousel .dot');
+    var prevBtn = document.querySelector('#mainCarousel .carousel-prev');
+    var nextBtn = document.querySelector('#mainCarousel .carousel-next');
     
-    function go(n) {
-        current = (n + total) % total;
-        track.style.transform = 'translateX(-' + (current * 100) + '%)';
-        dots.forEach(function(d, i) {
-            d.classList.toggle('active', i === current);
+    if (!track || !dots.length) return;
+    
+    var currentIndex = 0;
+    var totalSlides = 4;
+    var autoPlayInterval;
+    
+    function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentIndex = index;
+        track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+        dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === currentIndex);
         });
     }
     
-    function next() { go(current + 1); }
-    function prev() { go(current - 1); }
-    function start() { stop(); interval = setInterval(next, 5000); }
-    function stop() { clearInterval(interval); }
+    function nextSlide() {
+        goToSlide(currentIndex + 1);
+    }
     
-    var prevBtn = container.querySelector('.carousel-prev');
-    var nextBtn = container.querySelector('.carousel-next');
-    if (prevBtn) prevBtn.onclick = function() { prev(); start(); };
-    if (nextBtn) nextBtn.onclick = function() { next(); start(); };
+    function prevSlide() {
+        goToSlide(currentIndex - 1);
+    }
     
-    dots.forEach(function(d, i) {
-        d.onclick = function() { go(i); start(); };
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function stopAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+    }
+    
+    if (prevBtn) prevBtn.addEventListener('click', function() { prevSlide(); startAutoPlay(); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { nextSlide(); startAutoPlay(); });
+    
+    dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+            var index = parseInt(this.getAttribute('data-index'));
+            if (!isNaN(index)) {
+                goToSlide(index);
+                startAutoPlay();
+            }
+        });
     });
     
-    container.addEventListener('mouseenter', stop);
-    container.addEventListener('mouseleave', start);
-    start();
+    var container = document.getElementById('mainCarousel');
+    if (container) {
+        container.addEventListener('mouseenter', stopAutoPlay);
+        container.addEventListener('mouseleave', startAutoPlay);
+    }
+    
+    // Iniciar
+    goToSlide(0);
+    startAutoPlay();
 }
 
 // ============================================================
@@ -460,7 +489,7 @@ function generarAcordeon(plan) {
 }
 
 // ========== VALIDACIÓN DE DÍAS ==========
-function validarDias() {
+function validarDias(event) {
     if (!planSeleccionado) return;
     var maxDias = planSeleccionado.diasPermitidos;
     var checkboxes = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]');
@@ -472,7 +501,6 @@ function validarDias() {
             aviso.style.display = 'block';
             aviso.textContent = '⚠️ Solo puedes seleccionar ' + maxDias + ' días para este plan';
         }
-        // Desmarcar el último checkbox marcado
         if (event && event.target) {
             event.target.checked = false;
         }
@@ -557,28 +585,24 @@ function iniciarPago() {
         return;
     }
     
-    // Validar mascota
     var perroNombre = document.getElementById('wizPerroNombre')?.value;
     if (!perroNombre) {
         alert('⚠️ Ingresa el nombre de tu mascota');
         return;
     }
     
-    // Validar fecha
     var fechaHora = document.getElementById('wizFechaHora')?.value;
     if (!fechaHora) {
         alert('⚠️ Selecciona una fecha y hora');
         return;
     }
     
-    // Validar dirección
     var direccion = document.getElementById('wizDireccion')?.value;
     if (!direccion) {
         alert('⚠️ Ingresa la dirección del servicio');
         return;
     }
     
-    // Validar días (si el plan lo requiere)
     if (planSeleccionado.diasPermitidos > 1) {
         var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
         if (diasMarcados.length === 0) {
@@ -596,14 +620,12 @@ function iniciarPago() {
     var torreApto = document.getElementById('wizTorreApto')?.value || '';
     var direccionCompleta = direccion + (torreApto ? ' - ' + torreApto : '');
     
-    // Formatear fecha
     var fechaObj = new Date(fechaHora);
     var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
     var opcionesHora = { hour: '2-digit', minute: '2-digit' };
     var fechaFormateada = fechaObj.toLocaleDateString('es-CO', opcionesFecha);
     var horaFormateada = fechaObj.toLocaleTimeString('es-CO', opcionesHora);
     
-    // Obtener días seleccionados
     var diasSeleccionados = [];
     if (planSeleccionado.diasPermitidos > 1) {
         var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
@@ -612,7 +634,6 @@ function iniciarPago() {
         });
     }
     
-    // Guardar pedido en localStorage para la página de confirmación
     var pedido = {
         referencia: ref,
         plan: planSeleccionado.nombre,
@@ -630,7 +651,6 @@ function iniciarPago() {
     
     localStorage.setItem('petfyUltimoPedido', JSON.stringify(pedido));
     
-    // Intentar checkout con Wompi (si está disponible)
     if (typeof WidgetCheckout !== 'undefined') {
         var checkout = new WidgetCheckout({
             currency: 'COP',
@@ -657,7 +677,6 @@ function iniciarPago() {
             }
         });
     } else {
-        // Si no hay pasarela de pago, ir directo a confirmación
         alert('✅ ¡Servicio agendado con éxito!');
         window.location.href = 'confirmacion.html';
     }
