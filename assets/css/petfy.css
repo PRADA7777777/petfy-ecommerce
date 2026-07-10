@@ -1699,11 +1699,21 @@ body {
         font-size: 12px;
     }
 }
-/* ========== CARRUSEL DE BANNERS ========== */
+/* ============================================================
+   VARIABLES DE COLOR - EDITA AQUÍ LOS COLORES PRINCIPALES
+   ============================================================ */
+:root {
+    --color-fondo-general: #ffffff;  /* Color de fondo por defecto (si no hay banner) */
+}
+
+/* ============================================================
+   CARRUSEL DE BANNERS - CONTENEDOR PRINCIPAL
+   ============================================================ */
 .banner-carousel {
     width: 100%;
     padding: 0;
     margin: 0;
+    background: var(--color-fondo-general);
 }
 
 .banner-carousel .container {
@@ -1711,37 +1721,55 @@ body {
     padding: 0;
 }
 
+/* ============================================================
+   CONTENEDOR DEL CARRUSEL - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
 .carousel-container {
     position: relative;
     width: 100%;
-    max-width: 1096px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
     overflow: hidden;
-    border-radius: 30px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border-radius: 0;
+    box-shadow: 0 8px 30px rgb(202 193 193 / 10%);
 }
 
+/* ============================================================
+   TRACK - DONDE SE DESPLAZAN LOS SLIDES
+   ============================================================ */
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    width: 100%;
+    will-change: transform;
 }
 
+/* ============================================================
+   CADA SLIDE - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
 .carousel-slide {
-    min-width: 100%;
+    flex: 0 0 100%;
+    min-width: 0;
     position: relative;
     line-height: 0;
-    border-radius: 30px;
+    border-radius: 0;
     overflow: hidden;
 }
 
+/* ============================================================
+   IMAGEN - CENTRADA HORIZONTALMENTE CON SU TAMAÑO ACTUAL
+   ============================================================ */
 .carousel-img {
-    width: 100%;
+    width: 85%;
     height: auto;
     display: block;
-    border-radius: 30px;
+    border-radius: 0;
+    margin: 0 auto; /* ← CENTRA LA IMAGEN HORIZONTALMENTE */
 }
 
-/* Flechas */
+/* ============================================================
+   FLECHAS - ANTERIOR / SIGUIENTE
+   ============================================================ */
 .carousel-btn {
     position: absolute;
     top: 50%;
@@ -1770,15 +1798,16 @@ body {
 .carousel-prev { left: 12px; }
 .carousel-next { right: 12px; }
 
-/* Botón de acción */
+/* ============================================================
+   BOTÓN DE ACCIÓN - ESTILOS BASE (NO MODIFICAR)
+   ============================================================ */
 .carousel-btn-accion {
     position: absolute;
     bottom: 20px;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
-    background: #E0633F;
     color: white;
-    padding: 10px 25px;
+    padding: 12px 30px;
     border-radius: 50px;
     text-decoration: none;
     font-family: 'Nunito', sans-serif;
@@ -1786,30 +1815,44 @@ body {
     font-size: 14px;
     white-space: nowrap;
     z-index: 5;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .carousel-btn-accion:hover {
-    background: #C94E2E;
     transform: translateX(-50%) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    color: white;
 }
 
-/* Dots */
+.carousel-btn-accion i {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.carousel-btn-accion:hover i {
+    transform: translateX(3px);
+}
+
+/* ============================================================
+   DOTS - INDICADORES (NO MODIFICAR)
+   ============================================================ */
 .carousel-dots {
     position: absolute;
-    bottom: 6px;
+    bottom: 3px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 6px;
-    z-index: 10;
+    gap: 1px;
+    z-index: 1;
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: rgba(255,255,255,0.6);
     cursor: pointer;
@@ -1817,17 +1860,113 @@ body {
 }
 
 .dot.active {
-    background: #E0633F;
-    width: 22px;
-    border-radius: 8px;
+    width: 7px;
+    border-radius: 5px;
 }
 
+/* ============================================================
+   ============================================================
+   🎨 COLORES PERSONALIZADOS PARA CADA BANNER
+   ============================================================
+   ============================================================ */
+
+/* ============================================================
+   BANNER 1 - COLOR NARANJA - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
+.banner-1 {
+    background: #e0633f;
+    border-radius: 0;
+}
+
+.banner-1 .carousel-btn-accion {
+    background: #E0633F;
+    box-shadow: 0 4px 15px rgba(224, 99, 63, 0.4);
+}
+
+.banner-1 .carousel-btn-accion:hover {
+    background: #C94E2E;
+    box-shadow: 0 6px 25px rgba(224, 99, 63, 0.5);
+}
+
+.banner-1 .dot.active {
+    background: #E0633F;
+}
+
+/* ============================================================
+   BANNER 2 - COLOR VERDE - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
+.banner-2 {
+    background: #58a57b;
+    border-radius: 0;
+}
+
+.banner-2 .carousel-btn-accion {
+    background: #2ECC71;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+.banner-2 .carousel-btn-accion:hover {
+    background: #27AE60;
+    box-shadow: 0 6px 25px rgba(46, 204, 113, 0.5);
+}
+
+.banner-2 .dot.active {
+    background: #2ECC71;
+}
+
+/* ============================================================
+   BANNER 3 - COLOR AZUL - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
+.banner-3 {
+    background: #4a75e6;
+    border-radius: 0;
+}
+
+.banner-3 .carousel-btn-accion {
+    background: #3498DB;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.banner-3 .carousel-btn-accion:hover {
+    background: #2980B9;
+    box-shadow: 0 6px 25px rgba(52, 152, 219, 0.5);
+}
+
+.banner-3 .dot.active {
+    background: #4a75e6;
+}
+
+/* ============================================================
+   BANNER 4 - COLOR VERDE - SIN ESQUINAS REDONDEADAS
+   ============================================================ */
+.banner-4 {
+    background: #63b25f;
+    border-radius: 0;
+}
+
+.banner-4 .carousel-btn-accion {
+    background: #2ECC71;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+.banner-4 .carousel-btn-accion:hover {
+    background: #27AE60;
+    box-shadow: 0 6px 25px rgba(46, 204, 113, 0.5);
+}
+
+.banner-4 .dot.active {
+    background: #2ECC71;
+}
+
+/* ============================================================
+   RESPONSIVE - TABLETS
+   ============================================================ */
 @media (max-width: 768px) {
     .carousel-container {
-        border-radius: 20px;
+        border-radius: 0;
     }
     .carousel-img {
-        border-radius: 20px;
+        border-radius: 0;
     }
     .carousel-btn {
         width: 32px;
@@ -1836,7 +1975,26 @@ body {
     }
     .carousel-btn-accion {
         bottom: 15px;
-        padding: 8px 18px;
-        font-size: 12px;
+        padding: 8px 20px;
+        font-size: 11px;
+        gap: 5px;
+    }
+    .carousel-btn-accion i {
+        font-size: 11px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - MÓVILES
+   ============================================================ */
+@media (max-width: 480px) {
+    .carousel-btn-accion {
+        bottom: 12px;
+        padding: 6px 16px;
+        font-size: 10px;
+        gap: 4px;
+    }
+    .carousel-btn-accion i {
+        font-size: 10px;
     }
 }
