@@ -1575,25 +1575,32 @@ body {
 /* ========== CARRUSEL DE BANNERS ========== */
 .banner-carousel {
     width: 100%;
+    padding: 0;
     margin: 0;
+}
+
+.banner-carousel .container {
+    max-width: 100%;
     padding: 0;
 }
 
 .carousel-container {
     position: relative;
     width: 100%;
+    max-width: 1096px;
+    margin: 0 auto;
     overflow: hidden;
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
-    width: 100%;
 }
 
 .carousel-slide {
     min-width: 100%;
     position: relative;
+    line-height: 0;
 }
 
 .carousel-img {
@@ -1602,58 +1609,24 @@ body {
     display: block;
 }
 
-.carousel-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
-    pointer-events: none;
-}
-
-.carousel-btn-accion {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #E0633F;
-    color: white;
-    padding: 12px 30px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    white-space: nowrap;
-    z-index: 5;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.carousel-btn-accion:hover {
-    background: #C94E2E;
-    transform: translateX(-50%) translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-}
-
 .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: white;
+    background: rgba(255,255,255,0.9);
     border: none;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
     z-index: 10;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: all 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #333;
 }
 
 .carousel-btn:hover {
@@ -1661,45 +1634,195 @@ body {
     color: white;
 }
 
-.carousel-prev { left: 15px; }
-.carousel-next { right: 15px; }
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
+
+.carousel-btn-accion {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #E0633F;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 5;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.carousel-btn-accion:hover {
+    background: #C94E2E;
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
 
 .carousel-dots {
     position: absolute;
-    bottom: 15px;
+    bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 8px;
+    gap: 6px;
     z-index: 10;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.6);
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .dot.active {
     background: #E0633F;
-    width: 25px;
-    border-radius: 10px;
+    width: 22px;
+    border-radius: 8px;
 }
 
 @media (max-width: 768px) {
     .carousel-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
     }
-    .carousel-prev { left: 8px; }
-    .carousel-next { right: 8px; }
     .carousel-btn-accion {
-        bottom: 20px;
-        padding: 10px 20px;
-        font-size: 14px;
+        bottom: 15px;
+        padding: 8px 18px;
+        font-size: 12px;
+    }
+}
+/* ========== CARRUSEL DE BANNERS ========== */
+.banner-carousel {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.banner-carousel .container {
+    max-width: 100%;
+    padding: 0;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1096px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    position: relative;
+    line-height: 0;
+}
+
+.carousel-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.carousel-btn:hover {
+    background: #E0633F;
+    color: white;
+}
+
+.carousel-prev { left: 10px; }
+.carousel-next { right: 10px; }
+
+.carousel-btn-accion {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #E0633F;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 5;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.carousel-btn-accion:hover {
+    background: #C94E2E;
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: #E0633F;
+    width: 22px;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+    .carousel-btn-accion {
+        bottom: 15px;
+        padding: 8px 18px;
+        font-size: 12px;
     }
 }
