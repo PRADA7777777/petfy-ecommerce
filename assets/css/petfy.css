@@ -1572,3 +1572,46 @@ body {
         height: 460px;
     }
 }
+/* ========== CARRUSEL DE BANNERS LIMPIO ========== */
+.carousel-slide {
+    position: relative;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    border-radius: 30px;
+}
+
+.carousel-btn-accion {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    white-space: nowrap;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.carousel-btn-accion:hover {
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+    .carousel-img {
+        height: 250px;
+    }
+    .carousel-btn-accion {
+        bottom: 20px;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}

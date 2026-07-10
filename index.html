@@ -86,29 +86,48 @@
     <main>
         
         <!-- CARRUSEL DE BANNERS -->
-        <section class="banner-carousel">
-            <div class="container">
-                <div class="carousel-container" id="mainCarousel">
-                    <button class="carousel-btn carousel-prev">‹</button>
-                    <button class="carousel-btn carousel-next">›</button>
-                    <div class="carousel-track" id="carouselTrack">
-                        <div class="carousel-slide" style="background:linear-gradient(135deg,#E0633F,#F08060);">
-                            <div class="carousel-content"><span class="carousel-badge">🐾 Paseos</span><h2>📅 Agenda tu Paseo</h2><p>Elige el día, la hora y el plan perfecto para tu peludo.</p><a href="servicios/" class="btn btn-primary">Agendar Ahora <i class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                        <div class="carousel-slide" style="background:linear-gradient(135deg,#10B981,#34D399);">
-                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#059669;">🎁 GRATIS</span><h2>🐕 Primer Paseo de Prueba</h2><p>GPS en vivo y fotos sin costo.</p><a href="servicios/" class="btn btn-primary" style="background:#059669;">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                        <div class="carousel-slide" style="background:linear-gradient(135deg,#3B82F6,#60A5FA);">
-                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#2563EB;">✅ Incluye</span><h2>📍 GPS en Vivo + Fotos</h2><p>Paseador certificado, seguimiento real.</p><a href="servicios/" class="btn btn-primary" style="background:#2563EB;">Ver Planes <i class="fas fa-arrow-right"></i></a></div>
-                        </div>
-                        <div class="carousel-slide" style="background:linear-gradient(135deg,#25D366,#4ADE80);">
-                            <div class="carousel-content"><span class="carousel-badge" style="background:rgba(255,255,255,0.9);color:#059669;">💬 WhatsApp</span><h2>📱 ¿Tienes dudas?</h2><p>Contáctanos y te asesoramos.</p><a href="https://wa.me/573204829244" target="_blank" class="btn btn-primary" style="background:#25D366;">Chatear Ahora <i class="fab fa-whatsapp"></i></a></div>
-                        </div>
-                    </div>
-                    <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <!-- ========== CARRUSEL DE BANNERS ========== -->
+<section class="banner-carousel">
+    <div class="container">
+        <div class="carousel-container" id="mainCarousel">
+            <button class="carousel-btn carousel-prev">‹</button>
+            <button class="carousel-btn carousel-next">›</button>
+            <div class="carousel-track" id="carouselTrack">
+                
+                <!-- Slide 1 -->
+                <div class="carousel-slide">
+                    <img src="assets/img/banner1.jpg" alt="Banner 1" class="carousel-img">
+                    <a href="servicios/" class="btn btn-primary carousel-btn-accion">Agendar Ahora <i class="fas fa-arrow-right"></i></a>
                 </div>
+                
+                <!-- Slide 2 -->
+                <div class="carousel-slide">
+                    <img src="assets/img/banner2.jpg" alt="Banner 2" class="carousel-img">
+                    <a href="servicios/" class="btn btn-primary carousel-btn-accion">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="carousel-slide">
+                    <img src="assets/img/banner3.jpg" alt="Banner 3" class="carousel-img">
+                    <a href="servicios/" class="btn btn-primary carousel-btn-accion">Ver Planes <i class="fas fa-arrow-right"></i></a>
+                </div>
+                
+                <!-- Slide 4 -->
+                <div class="carousel-slide">
+                    <img src="assets/img/banner4.jpg" alt="Banner 4" class="carousel-img">
+                    <a href="https://wa.me/573204829244" target="_blank" class="btn btn-primary carousel-btn-accion">Chatear Ahora <i class="fab fa-whatsapp"></i></a>
+                </div>
+                
             </div>
-        </section>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- HERO SECTION -->
         <section id="home" class="hero-section">
