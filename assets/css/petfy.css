@@ -1572,49 +1572,37 @@ body {
         height: 460px;
     }
 }
-/* ========== CARRUSEL DE BANNERS FULL-WIDTH ========== */
+/* ========== CARRUSEL DE BANNERS ========== */
 .banner-carousel {
-    padding: 0;
+    width: 100%;
     margin: 0;
-}
-
-.banner-carousel .container {
-    max-width: 100%;
     padding: 0;
-    margin: 0;
 }
 
 .carousel-container {
     position: relative;
-    overflow: hidden;
-    border-radius: 0;
     width: 100%;
-    margin: 0;
+    overflow: hidden;
 }
 
 .carousel-track {
     display: flex;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
 }
 
 .carousel-slide {
-    position: relative;
     min-width: 100%;
-    overflow: hidden;
-    border-radius: 0;
+    position: relative;
 }
 
 .carousel-img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: cover;
-    object-position: center;
 }
 
-/* Overlay degradado para mejorar legibilidad del botón */
-.carousel-slide::after {
-    content: '';
+.carousel-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1622,52 +1610,46 @@ body {
     height: 50%;
     background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
     pointer-events: none;
-    z-index: 2;
 }
 
-/* Botón de acción */
 .carousel-btn-accion {
     position: absolute;
-    bottom: 40px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 5;
-    white-space: nowrap;
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
+    background: #E0633F;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    animation: pulseBtn 2s infinite;
-    letter-spacing: 0.5px;
-}
-
-@keyframes pulseBtn {
-    0%, 100% { box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    50% { box-shadow: 0 15px 40px rgba(224,99,63,0.6); }
+    font-size: 16px;
+    white-space: nowrap;
+    z-index: 5;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .carousel-btn-accion:hover {
-    transform: translateX(-50%) translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-    animation: none;
+    background: #C94E2E;
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
 }
 
-/* Flechas */
 .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px);
+    background: white;
     border: none;
-    width: 55px;
-    height: 55px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    font-size: 1.8rem;
+    font-size: 20px;
     cursor: pointer;
-    color: var(--text);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -1675,74 +1657,49 @@ body {
 }
 
 .carousel-btn:hover {
-    background: var(--primary);
+    background: #E0633F;
     color: white;
-    box-shadow: 0 12px 35px rgba(224,99,63,0.4);
-    transform: translateY(-50%) scale(1.1);
 }
 
-.carousel-prev { left: 25px; }
-.carousel-next { right: 25px; }
+.carousel-prev { left: 15px; }
+.carousel-next { right: 15px; }
 
-/* Dots */
 .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 1.2rem 0;
     position: absolute;
-    bottom: 10px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
     z-index: 10;
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: rgba(255,255,255,0.5);
-    backdrop-filter: blur(5px);
     cursor: pointer;
     transition: all 0.3s;
-    border: 2px solid rgba(255,255,255,0.3);
 }
 
 .dot.active {
-    background: var(--primary);
-    width: 35px;
+    background: #E0633F;
+    width: 25px;
     border-radius: 10px;
-    border-color: var(--primary);
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1.3rem;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
     }
-    
-    .carousel-prev { left: 10px; }
-    .carousel-next { right: 10px; }
-    
+    .carousel-prev { left: 8px; }
+    .carousel-next { right: 8px; }
     .carousel-btn-accion {
-        bottom: 30px;
-        padding: 0.8rem 1.8rem;
-        font-size: 0.95rem;
-    }
-    
-    .carousel-dots {
-        bottom: 5px;
-        gap: 0.4rem;
-    }
-    
-    .dot {
-        width: 10px;
-        height: 10px;
-    }
-    
-    .dot.active {
-        width: 28px;
+        bottom: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }
