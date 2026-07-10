@@ -1572,59 +1572,84 @@ body {
         height: 460px;
     }
 }
-/* ========== CARRUSEL DE BANNERS ========== */
+/* ========== CARRUSEL DE BANNERS FULL-WIDTH ========== */
 .banner-carousel {
-    padding: 2rem 0;
+    padding: 0;
+    margin: 0;
+}
+
+.banner-carousel .container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .carousel-container {
     position: relative;
     overflow: hidden;
-    border-radius: 30px;
-    background: var(--bg);
-    max-width: 1096px;
-    margin: 0 auto;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
 }
 
 .carousel-track {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .carousel-slide {
     position: relative;
     min-width: 100%;
     overflow: hidden;
-    border-radius: 30px;
-    background: var(--bg);
+    border-radius: 0;
 }
 
 .carousel-img {
     width: 100%;
     height: auto;
-    aspect-ratio: 274 / 75;
-    object-fit: contain;
-    object-position: center;
     display: block;
-    border-radius: 30px;
-    background: var(--bg);
+    object-fit: cover;
+    object-position: center;
 }
 
+/* Overlay degradado para mejorar legibilidad del botón */
+.carousel-slide::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Botón de acción */
 .carousel-btn-accion {
     position: absolute;
-    bottom: 25px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 5;
     white-space: nowrap;
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    animation: pulseBtn 2s infinite;
+    letter-spacing: 0.5px;
+}
+
+@keyframes pulseBtn {
+    0%, 100% { box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    50% { box-shadow: 0 15px 40px rgba(224,99,63,0.6); }
 }
 
 .carousel-btn-accion:hover {
-    transform: translateX(-50%) translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+    transform: translateX(-50%) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    animation: none;
 }
 
 /* Flechas */
@@ -1633,15 +1658,16 @@ body {
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(10px);
     border: none;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
     color: var(--text);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     transition: all 0.3s;
     display: flex;
     align-items: center;
@@ -1651,59 +1677,72 @@ body {
 .carousel-btn:hover {
     background: var(--primary);
     color: white;
+    box-shadow: 0 12px 35px rgba(224,99,63,0.4);
+    transform: translateY(-50%) scale(1.1);
 }
 
-.carousel-prev { left: 15px; }
-.carousel-next { right: 15px; }
+.carousel-prev { left: 25px; }
+.carousel-next { right: 25px; }
 
 /* Dots */
 .carousel-dots {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 0;
+    gap: 0.6rem;
+    padding: 1.2rem 0;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    background: #D0C8C0;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(5px);
     cursor: pointer;
     transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.3);
 }
 
 .dot.active {
     background: var(--primary);
-    width: 28px;
+    width: 35px;
     border-radius: 10px;
+    border-color: var(--primary);
 }
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-    .carousel-container {
-        border-radius: 20px;
-        max-width: 100%;
-    }
-    
-    .carousel-img {
-        border-radius: 20px;
-        aspect-ratio: 274 / 75;
-        object-fit: contain;
-    }
-    
     .carousel-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 1.2rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
     }
     
-    .carousel-prev { left: 8px; }
-    .carousel-next { right: 8px; }
+    .carousel-prev { left: 10px; }
+    .carousel-next { right: 10px; }
     
     .carousel-btn-accion {
-        bottom: 15px;
-        padding: 0.7rem 1.3rem;
-        font-size: 0.85rem;
+        bottom: 30px;
+        padding: 0.8rem 1.8rem;
+        font-size: 0.95rem;
+    }
+    
+    .carousel-dots {
+        bottom: 5px;
+        gap: 0.4rem;
+    }
+    
+    .dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .dot.active {
+        width: 28px;
     }
 }
