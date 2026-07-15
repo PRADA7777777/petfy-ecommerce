@@ -406,7 +406,7 @@ body {
 /* ============================================================
    14. FOOTER
    ============================================================ */
-.footer { background: var(--secondary); color: var(--white); padding: 4rem 0 0; }
+.footer { background: var(--primary); color: var(--white); padding: 4rem 0 0; }
 .footer-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.08);
