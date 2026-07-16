@@ -371,10 +371,9 @@ document.addEventListener('keydown', function(e) {
 // ============================================================
 
 var planesData = [
-    { id: 'unico', emoji: '⚡', nombre: 'Paseo Único', tag: 'tag-ahorro', tagText: 'Sin suscripción', precio: 10990, periodo: 'por paseo', diasPermitidos: 1, features: ['45 min', 'GPS en vivo', '5 fotos'] },
-    { id: '3dias', emoji: '🌟', nombre: '3 Días/Semana', tag: 'tag-popular', tagText: 'Más Popular', precio: 89990, periodo: '/mes', diasPermitidos: 3, features: ['1h por sesión', 'Paseador fijo', 'Seguro incluido'] },
-    { id: '5dias', emoji: '🔥', nombre: '5 Días/Semana', tag: 'tag-premium', tagText: 'Recomendado', precio: 129990, periodo: '/mes', diasPermitidos: 5, features: ['1h por sesión', 'Fotos + video', 'Seguro incluido'] },
-    { id: 'full', emoji: '💎', nombre: 'Full 7 Días', tag: 'tag-premium', tagText: 'VIP', precio: 159990, periodo: '/mes', diasPermitidos: 7, features: ['1h por sesión', 'Paseador VIP', 'Parque + socialización'] }
+    { id: 'unico', emoji: '⚡', nombre: 'Paseo Único', tag: 'tag-ahorro', tagText: 'Sin suscripción', precio: 19990, periodo: 'por paseo', diasPermitidos: 1, features: ['45 min', 'GPS en vivo', '5 fotos'] },
+    { id: '3dias', emoji: '🌟', nombre: '3 Días/Semana', tag: 'tag-popular', tagText: 'Más Popular', precio: 189990, periodo: '/mes', diasPermitidos: 3, features: ['1h por sesión', 'Paseador fijo', 'Seguro incluido'] },
+    { id: '5dias', emoji: '🔥', nombre: '5 Días/Semana', tag: 'tag-premium', tagText: 'Recomendado', precio: 299990, periodo: '/mes', diasPermitidos: 5, features: ['1h por sesión', 'Fotos + video', 'Seguro incluido'] },
 ];
 
 var currentIndex = 0;
