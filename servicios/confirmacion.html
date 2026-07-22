@@ -3,370 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Confirmación de Pago - Petfy | Tu paseo ha sido agendado con éxito">
-    <title>Confirmación de Pago - Petfy | Paseo Agendado</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Confirmación - Petfy | Servicio Agendado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
-    
     <style>
-        .confirmacion-page {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-            padding: 2rem;
-            background: var(--bg);
-        }
-        .confirmacion-card {
-            background: white;
-            border-radius: 30px;
-            padding: 3rem 2.5rem;
-            text-align: center;
-            max-width: 550px;
-            width: 100%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            animation: fadeSlideUp 0.6s ease;
-        }
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .confirmacion-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            animation: bounceIn 0.6s ease 0.3s both;
-        }
-        @keyframes bounceIn {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .confirmacion-card h1 {
-            font-family: 'Fredoka One', cursive;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-        .confirmacion-card .subtitulo {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-        .confirmacion-detalle {
-            background: #FAFAF8;
-            border-radius: 20px;
-            padding: 1.5rem;
-            text-align: left;
-            margin: 1.5rem 0;
-            border: 1px solid #F0EBE5;
-        }
-        .confirmacion-detalle .detalle-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid #F0EBE5;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-        .confirmacion-detalle .detalle-item:last-child {
-            border-bottom: none;
-        }
-        .detalle-item i {
-            width: 24px;
-            color: var(--primary);
-            text-align: center;
-        }
-        .detalle-item strong {
-            color: var(--text);
-            min-width: 90px;
-        }
-        .detalle-item span {
-            color: var(--text-light);
-        }
-        .detalle-total {
-            background: var(--primary-light);
-            border-radius: 15px;
-            padding: 1rem;
-            margin-top: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 800;
-            font-size: 1.1rem;
-        }
-        .detalle-total .total-label {
-            color: var(--text);
-        }
-        .detalle-total .total-precio {
-            font-family: 'Fredoka One', cursive;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-        .confirmacion-acciones {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .btn-confirmacion {
-            flex: 1;
-            min-width: 180px;
-            padding: 0.9rem 1.5rem;
-            border-radius: 30px;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .btn-primario {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
-        .btn-primario:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        .btn-secundario {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        .btn-secundario:hover {
-            background: var(--primary);
-            color: white;
-        }
-        .whatsapp-confirmacion {
-            background: #25D366;
-            color: white;
-            border: none;
-        }
-        .whatsapp-confirmacion:hover {
-            background: #1fa855;
-            transform: translateY(-2px);
-        }
-        
-        @media (max-width: 768px) {
-            .confirmacion-card {
-                padding: 2rem 1.5rem;
-            }
-            .confirmacion-acciones {
-                flex-direction: column;
-            }
-        }
+        .confirmacion-page{display:flex;align-items:center;justify-content:center;min-height:80vh;padding:2rem;background:var(--bg);}
+        .confirmacion-card{background:white;border-radius:30px;padding:3rem 2.5rem;text-align:center;max-width:600px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,0.1);animation:fadeSlideUp 0.6s ease;}
+        @keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+        .confirmacion-icon{font-size:5rem;animation:bounceIn 0.6s ease 0.3s both;}
+        @keyframes bounceIn{0%{transform:scale(0);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+        .confirmacion-card h1{font-family:'Fredoka One',cursive;color:var(--text);font-size:1.8rem;}
+        .detalle-box{background:#FAFAF8;border-radius:20px;padding:1.5rem;text-align:left;margin:1.5rem 0;}
+        .detalle-box h3{font-family:'Fredoka One',cursive;color:var(--primary);margin-bottom:0.5rem;}
+        .detalle-row{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #F0EBE5;}
+        .detalle-row:last-child{border-bottom:none;}
+        .total-box{background:var(--primary-light);padding:1rem;border-radius:15px;text-align:center;margin:1rem 0;}
+        .total-box .precio{font-family:'Fredoka One',cursive;font-size:2rem;color:var(--primary);}
+        .btn-group{display:flex;gap:1rem;flex-wrap:wrap;}
+        .btn{flex:1;min-width:150px;padding:0.9rem;border-radius:30px;font-weight:800;text-decoration:none;text-align:center;}
+        .btn-primary{background:var(--primary);color:white;}
+        .btn-outline{border:2px solid var(--primary);color:var(--primary);background:white;}
+        .btn-wa{background:#25D366;color:white;}
+        @media(max-width:768px){.confirmacion-card{padding:2rem 1.5rem;}.btn-group{flex-direction:column;}}
     </style>
 </head>
 <body>
+    <header class="header"><div class="container"><nav class="navbar"><div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div></nav></div></header>
     
-    <!-- ========== HEADER / NAVBAR ========== -->
-    <header class="header" id="mainHeader">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item"><a href="index.html" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <div class="user-actions">
-                        <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
-                    </div>
-                </div>
-                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
-            </nav>
-        </div>
-    </header>
-
-    <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
-
-    <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <main class="confirmacion-page">
         <div class="confirmacion-card" id="confirmacionCard">
             <div class="confirmacion-icon">✅</div>
-            <h1>¡Pago Exitoso!</h1>
-            <p class="subtitulo">Tu paseo ha sido agendado correctamente</p>
-            
-            <div class="confirmacion-detalle" id="detallePedido">
-                <!-- Se llena con JavaScript -->
-            </div>
-            
-            <div class="confirmacion-acciones">
-                <a href="../index.html" class="btn-confirmacion btn-primario">
-                    <i class="fas fa-home"></i> Volver al Inicio
-                </a>
-                <a href="index.html" class="btn-confirmacion btn-secundario">
-                    <i class="fas fa-calendar"></i> Agendar Otro Paseo
-                </a>
-                <a href="https://wa.me/573204829244" target="_blank" class="btn-confirmacion whatsapp-confirmacion">
-                    <i class="fab fa-whatsapp"></i> Hablar con Soporte
-                </a>
+            <h1>¡Servicio Agendado!</h1>
+            <p style="color:var(--text-light);">Tu paseo ha sido confirmado exitosamente</p>
+            <div id="detallePedido"></div>
+            <div class="btn-group">
+                <a href="../index.html" class="btn btn-primary"><i class="fas fa-home"></i> Inicio</a>
+                <a href="index.html" class="btn btn-outline"><i class="fas fa-calendar"></i> Agendar Otro</a>
+                <a href="https://wa.me/573204829244" target="_blank" class="btn btn-wa" style="color:white;"><i class="fab fa-whatsapp"></i> Soporte</a>
             </div>
         </div>
     </main>
-
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="index.html">Servicios</a></li></ul></div>
-                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="../index.html#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li><li><a href="../legal/envios.html">Políticas de Entrega</a></li><li><a href="../legal/devoluciones.html">Devoluciones</a></li></ul></div>
-                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
-                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
-            </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
-        </div>
-    </footer>
-
-    <!-- ========== WHATSAPP FLOTANTE ========== -->
-    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
-
-    <!-- ========== MODAL LOGIN/REGISTRO ========== -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="modal-container">
-            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
-            <div id="formLogin">
-                <div class="modal-icon">🐾</div>
-                <h2>Iniciar Sesión</h2>
-                <form onsubmit="return loginModal(event)">
-                    <div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div>
-                    <div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div>
-                    <button type="submit" class="modal-btn">Iniciar Sesión</button>
-                </form>
-                <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
-            </div>
-            <div id="formRegistro" style="display:none;">
-                <div class="modal-icon">🐾</div>
-                <h2>Crear Cuenta</h2>
-                <form onsubmit="return registroModal(event)">
-                    <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div>
-                    <div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Email" required></div>
-                    <div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div>
-                    <button type="submit" class="modal-btn">Crear Cuenta</button>
-                </form>
-                <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========== PROFILE SIDEBAR ========== -->
-    <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
-    <div class="profile-sidebar" id="profileSidebar">
-        <div class="profile-panel-header">
-            <button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button>
-            <div class="profile-avatar-large">🐾</div>
-            <h3 id="sidebarNombre">Usuario</h3>
-            <p id="sidebarEmail">usuario@email.com</p>
-            <span class="profile-badge-vip">⭐ VIP</span>
-        </div>
-        <div class="profile-kpis">
-            <div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div>
-        </div>
-        <div class="profile-rewards">
-            <div class="profile-points">💰 1,250 Pts</div>
-            <div class="profile-coupons">🎁 2 Cupones</div>
-        </div>
-        <div class="profile-menu">
-            <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
-            <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
-            <div class="profile-menu-divider"></div>
-            <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
-        </div>
-    </div>
-
-    <!-- ========== OFERTA BIENVENIDA ========== -->
-    <div class="modal-overlay" id="ofertaModal">
-        <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
-            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
-            <div style="font-size:5rem;">🎉</div>
-            <h2>¡Bienvenido!</h2>
-            <p>50% OFF + Paseo Gratis</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
-                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0);padding:1.5rem;border-radius:20px;">
-                    <div style="font-size:2.5rem;">🛍️</div>
-                    <div style="font-size:2rem;font-family:'Fredoka One',cursive;color:var(--primary);">50%</div>
-                    <div style="font-weight:800;">DESCUENTO</div>
-                    <div style="background:var(--primary);color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">BIENVENIDO50</div>
-                </div>
-                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);padding:1.5rem;border-radius:20px;">
-                    <div style="font-size:2.5rem;">🐕</div>
-                    <div style="font-size:2rem;font-family:'Fredoka One',cursive;color:#059669;">1</div>
-                    <div style="font-weight:800;">PASEO GRATIS</div>
-                    <div style="background:#059669;color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">PASEOGRATIS1</div>
-                </div>
-            </div>
-            <button onclick="reclamarOferta()" class="modal-btn" style="font-size:1.1rem;">🎁 Crear Cuenta y Reclamar</button>
-            <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
-        </div>
-    </div>
-
-    <!-- ========== SCRIPTS ========== -->
-    <script src="../assets/js/main.js"></script>
+    
+    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    
     <script>
-        // Cargar datos del pedido desde localStorage
         var pedido = JSON.parse(localStorage.getItem('petfyUltimoPedido') || '{}');
+        var html = '';
         
         if (pedido.referencia) {
-            var detalleHTML = '';
+            html += '<div class="detalle-box">';
+            html += '<h3>🐾 ' + pedido.plan_nombre + '</h3>';
+            html += '<div class="detalle-row"><span>📋 Referencia:</span><strong>' + pedido.referencia + '</strong></div>';
+            html += '<div class="detalle-row"><span>🐕 Mascota:</span><strong>' + pedido.mascota_nombre + '</strong></div>';
+            html += '<div class="detalle-row"><span>📍 Dirección:</span><strong>' + pedido.servicio_direccion + '</strong></div>';
+            html += '<div class="detalle-row"><span>📅 Inicio:</span><strong>' + pedido.servicio_fecha_inicio + '</strong></div>';
+            html += '<div class="detalle-row"><span>⏰ Hora:</span><strong>' + pedido.servicio_hora + '</strong></div>';
             
-            // Referencia
-            detalleHTML += '<div class="detalle-item"><i class="fas fa-hashtag"></i><strong>Referencia:</strong><span>' + pedido.referencia + '</span></div>';
-            
-            // Plan
-            if (pedido.plan) {
-                detalleHTML += '<div class="detalle-item"><i class="fas fa-paw"></i><strong>Plan:</strong><span>' + pedido.plan + '</span></div>';
+            if (pedido.paseo_prueba) {
+                html += '<div style="background:#ECFDF5;padding:1rem;border-radius:10px;margin:0.5rem 0;">';
+                html += '<strong>🎁 Paseo de Prueba GRATIS</strong><br>';
+                html += '📅 ' + pedido.paseo_prueba.fecha + ' ⏰ ' + pedido.paseo_prueba.hora;
+                html += '</div>';
             }
             
-            // Mascota
-            if (pedido.mascota) {
-                detalleHTML += '<div class="detalle-item"><i class="fas fa-dog"></i><strong>Mascota:</strong><span>' + pedido.mascota + '</span></div>';
+            if (pedido.servicio_dias_semana && pedido.servicio_dias_semana.length > 0) {
+                html += '<div class="detalle-row"><span>📆 Días:</span><strong>' + pedido.servicio_dias_semana.join(', ') + '</strong></div>';
             }
             
-            // Fecha
-            if (pedido.fecha) {
-                detalleHTML += '<div class="detalle-item"><i class="fas fa-calendar"></i><strong>Fecha:</strong><span>' + pedido.fecha + '</span></div>';
+            if (pedido.facturacion && pedido.facturacion.fecha_proximo_pago) {
+                html += '<div class="detalle-row"><span>💰 Próximo pago:</span><strong>' + pedido.facturacion.fecha_proximo_pago + '</strong></div>';
             }
             
-            // Hora
-            if (pedido.hora) {
-                detalleHTML += '<div class="detalle-item"><i class="fas fa-clock"></i><strong>Hora:</strong><span>' + pedido.hora + '</span></div>';
-            }
+            html += '</div>';
             
-            // Dirección
-            if (pedido.direccion) {
-                detalleHTML += '<div class="detalle-item"><i class="fas fa-map-marker-alt"></i><strong>Dirección:</strong><span>' + pedido.direccion + '</span></div>';
-            }
-            
-            // Total
-            if (pedido.precio) {
-                detalleHTML += '<div class="detalle-total"><span class="total-label">💰 Total Pagado</span><span class="total-precio">$' + pedido.precio.toLocaleString() + '</span></div>';
-            }
-            
-            document.getElementById('detallePedido').innerHTML = detalleHTML;
-            
+            html += '<div class="total-box">';
+            html += '<p>Total pagado</p>';
+            html += '<div class="precio">$' + pedido.plan_precio.toLocaleString() + '</div>';
+            html += '<p style="font-size:0.8rem;">' + (pedido.facturacion && pedido.facturacion.frecuencia === 'mensual' ? 'Facturación mensual' : 'Pago único') + '</p>';
+            html += '</div>';
         } else {
-            // No hay pedido
-            document.getElementById('confirmacionCard').innerHTML = 
-                '<div class="confirmacion-icon" style="color:var(--text-muted);">📋</div>' +
-                '<h1>No se encontró pedido</h1>' +
-                '<p class="subtitulo">Parece que no hay una contratación reciente. Realiza una nueva para ver los detalles aquí.</p>' +
-                '<div class="confirmacion-acciones" style="margin-top:1.5rem;">' +
-                '<a href="index.html" class="btn-confirmacion btn-primario"><i class="fas fa-calendar"></i> Agendar un Paseo</a>' +
-                '<a href="../index.html" class="btn-confirmacion btn-secundario"><i class="fas fa-home"></i> Volver al Inicio</a>' +
-                '</div>';
+            html = '<p>No se encontró información del pedido.</p><a href="index.html" class="btn btn-primary">Agendar un Paseo</a>';
         }
+        
+        document.getElementById('detallePedido').innerHTML = html;
     </script>
 </body>
 </html>
