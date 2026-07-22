@@ -1,4 +1,6 @@
-// ==================== PETFY - MAIN SCRIPTS ====================
+// ================================================================
+// PETFY - MAIN SCRIPTS v2.0
+// ================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    console.log('✅ Petfy inicializado');
+    console.log('✅ Petfy v2.0 inicializado');
 });
 
 // ============================================================
@@ -360,11 +362,14 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// ============================================================
-// ========== SERVICIOS: CARRUSEL 3D + FORMULARIO ==========
-// ============================================================
+// ================================================================
+// ==================== SERVICIOS: PLANES Y PRECIOS ====================
+// ================================================================
 
-// ⚠️ AQUÍ MODIFICAS LOS PLANES Y PRECIOS ⚠️
+/**
+ * CONFIGURACIÓN DE PLANES
+ * Modifica aquí: precios, nombres, features, días permitidos
+ */
 var planesData = [
     { 
         id: 'unico', 
@@ -465,7 +470,7 @@ function elegirPlan(planId) {
     var acordeon = document.getElementById('acordeonAgendar');
     if (acordeon) {
         acordeon.classList.add('active');
-        acordeon.innerHTML = generarAcordeon(planSeleccionado);
+        acordeon.innerHTML = generarFormulario(planSeleccionado);
         acordeon.scrollIntoView({ behavior: 'smooth' });
     }
 }
@@ -478,95 +483,286 @@ function cerrarAcordeon() {
     planSeleccionado = null;
 }
 
-// ============================================================
-// ⚠️ FORMULARIO - AQUÍ MODIFICAS LOS CAMPOS ⚠️
-// ============================================================
-function generarAcordeon(plan) {
+// ================================================================
+// ==================== FORMULARIO 3 FASES ====================
+// ================================================================
+
+/**
+ * FORMULARIO DE AGENDAMIENTO
+ * Fase 1: Datos del Cliente (Responsable y Facturación)
+ * Fase 2: Datos del Perro
+ * Fase 3: Datos del Servicio (Dirección, Fecha, Días)
+ */
+function generarFormulario(plan) {
     var logueado = localStorage.getItem('petfyLogged') === 'true';
     var u = JSON.parse(localStorage.getItem('petfyUser') || '{}');
     
-    // SECCIÓN 1: DATOS DEL DUEÑO
-    var quien = logueado
-        ? '<div class="badge-logeado"><i class="fas fa-check-circle"></i> ' + u.nombre + ' (datos cargados)</div>'
-        : '<div class="form-row">' +
-            '<div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" name="cliente_nombre" required></div>' +
-            '<div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" name="cliente_apellido" required></div>' +
-          '</div>' +
-          '<div class="form-row">' +
-            '<div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" name="cliente_telefono" required></div>' +
-            '<div class="form-group"><label>Email *</label><input type="email" id="wizEmail" name="cliente_email" required></div>' +
-          '</div>';
+    // ========== FASE 1: DATOS DEL CLIENTE ==========
+    var fase1 = '' +
+    '<div class="form-section" id="fase1-cliente">' +
+        '<h4><span>👤</span> Datos del Responsable y Facturación</h4>' +
+        '<p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;">Estos datos son del responsable de la mascota y para facturación del servicio</p>' +
+        
+        (logueado ? 
+            '<div class="badge-logeado"><i class="fas fa-check-circle"></i> ' + u.nombre + ' (datos cargados)</div>' +
+            '<input type="hidden" id="wizNombre" name="cliente_nombre" value="' + u.nombre + '">' +
+            '<input type="hidden" id="wizApellido" name="cliente_apellido" value="' + (u.apellido || '') + '">' +
+            '<input type="hidden" id="wizEmail" name="cliente_email" value="' + u.email + '">'
+        :
+            '<div class="form-row">' +
+                '<div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" name="cliente_nombre" placeholder="Nombres" required></div>' +
+                '<div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" name="cliente_apellido" placeholder="Apellidos" required></div>' +
+            '</div>' +
+            '<div class="form-group"><label>Correo Electrónico *</label><input type="email" id="wizEmail" name="cliente_email" placeholder="tu@email.com" required></div>'
+        ) +
+        
+        '<div class="form-row">' +
+            '<div class="form-group"><label>Tipo de Documento *</label><select id="wizTipoDoc" name="cliente_tipo_documento" required><option value="">Seleccionar</option><option value="CC" selected>Cédula de Ciudadanía (CC)</option><option value="CE">Cédula de Extranjería (CE)</option><option value="NIT">NIT</option><option value="PP">Pasaporte</option></select></div>' +
+            '<div class="form-group"><label>Número de Documento *</label><input type="text" id="wizNumDoc" name="cliente_numero_documento" placeholder="Ej: 1234567890" required></div>' +
+        '</div>' +
+        
+        '<div class="form-group"><label>Dirección de Facturación *</label><input type="text" id="wizDirFactura" name="cliente_direccion_factura" placeholder="Dirección para facturación" required></div>' +
+    '</div>';
     
-    // SECCIÓN 2: MASCOTA
-    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
-    var h = '';
-    mascotas.forEach(function(m, i) {
-        h += '<div class="mascota-circle" onclick="selMascota(' + i + ',this)"><span style="font-size:1.5rem">🐕</span><span>' + m.nombre + '</span></div>';
-    });
-    h += '<div class="mascota-circle add-new" onclick="nuevaMascota()">➕</div>';
+    // ========== FASE 2: DATOS DEL PERRO ==========
+    var fase2 = '' +
+    '<div class="form-section" id="fase2-perro">' +
+        '<h4><span>🐕</span> Datos de tu Perro</h4>' +
+        
+        '<div class="form-row">' +
+            '<div class="form-group"><label>Nombre de la Mascota *</label><input type="text" id="wizPerroNombre" name="mascota_nombre" placeholder="Nombre de tu perro" required></div>' +
+            '<div class="form-group"><label>Raza *</label><select id="wizPerroRaza" name="mascota_raza" required><option value="">Seleccionar raza</option>' + generarListaRazas() + '</select></div>' +
+        '</div>' +
+        
+        '<div class="form-row-3">' +
+            '<div class="form-group"><label>Edad *</label><input type="text" id="wizPerroEdad" name="mascota_edad" placeholder="Ej: 2 años, 6 meses" required></div>' +
+            '<div class="form-group"><label>Peso (kg) *</label><input type="text" id="wizPerroPeso" name="mascota_peso" placeholder="Ej: 15" required></div>' +
+            '<div class="form-group">' +
+                '<label>Comportamiento con otros perros *</label>' +
+                '<select id="wizPerroComp" name="mascota_comportamiento" required onchange="toggleOtroComportamiento(this.value)">' +
+                    '<option value="">Seleccionar</option>' +
+                    '<option value="sociable">Sociable</option>' +
+                    '<option value="nervioso">Nervioso</option>' +
+                    '<option value="agresivo">Agresivo</option>' +
+                    '<option value="otro">Otro (especificar)</option>' +
+                '</select>' +
+                '<input type="text" id="wizPerroCompOtro" name="mascota_comportamiento_otro" placeholder="Especificar comportamiento" style="display:none;margin-top:0.5rem;">' +
+            '</div>' +
+        '</div>' +
+        
+        '<div class="form-group">' +
+            '<label>Condiciones Médicas Especiales</label>' +
+            '<select id="wizPerroCondMed" name="mascota_condiciones_medicas" onchange="toggleOtroCondMed(this.value)">' +
+                '<option value="ninguna">No tiene</option>' +
+                '<option value="alergias">Alergias</option>' +
+                '<option value="cardiaco">Problemas cardíacos</option>' +
+                '<option value="respiratorio">Problemas respiratorios</option>' +
+                '<option value="articular">Problemas articulares</option>' +
+                '<option value="otro">Otra (especificar)</option>' +
+            '</select>' +
+            '<input type="text" id="wizPerroCondMedOtro" name="mascota_condiciones_medicas_otro" placeholder="Especificar condición médica" style="display:none;margin-top:0.5rem;">' +
+        '</div>' +
+        
+        '<div class="form-group">' +
+            '<label>Otras Indicaciones o Información de la Mascota</label>' +
+            '<textarea id="wizPerroInfo" name="mascota_indicaciones" rows="3" placeholder="Ej: No le gustan los gatos, prefiere parques abiertos, come a las 2pm, etc."></textarea>' +
+        '</div>' +
+        
+        '<div class="form-row">' +
+            '<div class="form-group">' +
+                '<label>📸 Foto del Perro *</label>' +
+                '<div class="file-upload" onclick="document.getElementById(\'fotoPerro\').click()"><span>🐕</span><p>Click para subir foto</p><input type="file" id="fotoPerro" name="mascota_foto" accept="image/*" onchange="preview(this,\'prevPerro\')" required></div>' +
+                '<img id="prevPerro" class="preview-img">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>💉 Carné de Vacunación *</label>' +
+                '<div class="file-upload" onclick="document.getElementById(\'fotoVacuna\').click()"><span>📋</span><p>Click para subir carné</p><input type="file" id="fotoVacuna" name="mascota_vacuna" accept="image/*" onchange="preview(this,\'prevVacuna\')" required></div>' +
+                '<img id="prevVacuna" class="preview-img">' +
+            '</div>' +
+        '</div>' +
+    '</div>';
     
-    // SECCIÓN 3: DÍAS DE LA SEMANA
+    // ========== FASE 3: DATOS DEL SERVICIO ==========
     var diasHTML = '';
     if (plan.diasPermitidos > 1) {
         var diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
         diasHTML = '<div class="dias-block">' +
-            '<span class="dias-block-label">📆 Días de la semana (máx ' + plan.diasPermitidos + ')</span>' +
+            '<span class="dias-block-label">📆 Días de la semana (selecciona ' + plan.diasPermitidos + ')</span>' +
             '<div class="dias-checkboxes" id="diasCheckboxes">';
         diasSemana.forEach(function(d) {
             diasHTML += '<label class="dia-cb"><input type="checkbox" name="dias_semana[]" value="' + d + '" onchange="validarDias(event)"> ' + d.charAt(0).toUpperCase() + d.slice(1) + '</label>';
         });
-        diasHTML += '</div><p class="aviso-dias" id="avisoDias">Solo puedes seleccionar ' + plan.diasPermitidos + ' días</p></div>';
+        diasHTML += '</div><p class="aviso-dias" id="avisoDias">Debes seleccionar exactamente ' + plan.diasPermitidos + ' días</p></div>';
     }
     
-    // ARMAR FORMULARIO COMPLETO
-    return '' +
-        // SECCIÓN 1
-        '<div class="form-section">' +
-            '<h4><span>👤</span> Datos del Dueño</h4>' + quien +
+    var fase3 = '' +
+    '<div class="form-section" id="fase3-servicio">' +
+        '<h4><span>📅</span> Datos del Servicio</h4>' +
+        
+        '<div class="form-group">' +
+            '<label>Dirección de Recogida *</label>' +
+            '<p style="color:var(--text-muted);font-size:0.8rem;margin-bottom:0.5rem;">Ingresa la dirección completa donde recogeremos a tu mascota</p>' +
         '</div>' +
         
-        // SECCIÓN 2
-        '<div class="form-section">' +
-            '<h4><span>🐕</span> Tu Mascota</h4>' +
-            '<div class="form-row">' +
-                '<div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" name="mascota_nombre" required></div>' +
-                '<div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" name="mascota_raza" required></div>' +
+        '<div class="form-row">' +
+            '<div class="form-group"><label>Ciudad *</label><select id="wizCiudad" name="servicio_ciudad" required><option value="">Seleccionar ciudad</option><option value="bogota" selected>Bogotá</option><option value="medellin" disabled>Medellín (Próximamente)</option><option value="cali" disabled>Cali (Próximamente)</option></select></div>' +
+            '<div class="form-group"><label>Localidad *</label><select id="wizLocalidad" name="servicio_localidad" required><option value="">Seleccionar localidad</option>' + generarListaLocalidades() + '</select></div>' +
+        '</div>' +
+        
+        '<div class="form-row">' +
+            '<div class="form-group">' +
+                '<label>Tipo de Vía *</label>' +
+                '<select id="wizTipoVia" name="servicio_tipo_via" required>' +
+                    '<option value="">Seleccionar</option>' +
+                    '<option value="calle">Calle</option>' +
+                    '<option value="carrera">Carrera</option>' +
+                    '<option value="diagonal">Diagonal</option>' +
+                    '<option value="transversal">Transversal</option>' +
+                    '<option value="avenida">Avenida</option>' +
+                    '<option value="autopista">Autopista</option>' +
+                '</select>' +
             '</div>' +
-            '<div class="form-row-3">' +
-                '<div class="form-group"><label>Edad</label><input type="text" id="wizPerroEdad" name="mascota_edad"></div>' +
-                '<div class="form-group"><label>Peso (kg)</label><input type="text" id="wizPerroPeso" name="mascota_peso"></div>' +
-                '<div class="form-group"><label>Comportamiento</label><select id="wizPerroComp" name="mascota_comportamiento"><option>Sociable</option><option>Tímido</option><option>Agresivo</option></select></div>' +
+            '<div class="form-group">' +
+                '<label>Número *</label>' +
+                '<input type="text" id="wizNumVia" name="servicio_numero_via" placeholder="Ej: 155a #7-87" required>' +
             '</div>' +
+        '</div>' +
+        
+        '<div class="form-group">' +
+            '<label>Complemento / Detalles</label>' +
+            '<input type="text" id="wizComplemento" name="servicio_complemento" placeholder="Ej: Edificio Palmetto, Casa azul, Local 3, etc.">' +
+        '</div>' +
+        
+        '<div class="form-group">' +
+            '<label>¿Es un conjunto residencial? *</label>' +
+            '<select id="wizEsConjunto" name="servicio_es_conjunto" required onchange="toggleConjunto(this.value)">' +
+                '<option value="">Seleccionar</option>' +
+                '<option value="si">Sí, es un conjunto</option>' +
+                '<option value="no">No, es una casa/apto independiente</option>' +
+            '</select>' +
+        '</div>' +
+        
+        '<div id="datosConjunto" style="display:none;">' +
             '<div class="form-row">' +
                 '<div class="form-group">' +
-                    '<label>📸 Foto del perro</label>' +
-                    '<div class="file-upload" onclick="document.getElementById(\'fotoPerro\').click()"><span>🐕</span><p>Click para subir</p><input type="file" id="fotoPerro" name="mascota_foto" accept="image/*" onchange="preview(this,\'prevPerro\')"></div>' +
-                    '<img id="prevPerro" class="preview-img">' +
+                    '<label>Torre / Bloque *</label>' +
+                    '<input type="text" id="wizTorre" name="servicio_torre" placeholder="Ej: Torre 5, Bloque B">' +
                 '</div>' +
                 '<div class="form-group">' +
-                    '<label>💉 Carné vacunación</label>' +
-                    '<div class="file-upload" onclick="document.getElementById(\'fotoVacuna\').click()"><span>📋</span><p>Click para subir</p><input type="file" id="fotoVacuna" name="mascota_vacuna" accept="image/*" onchange="preview(this,\'prevVacuna\')"></div>' +
-                    '<img id="prevVacuna" class="preview-img">' +
+                    '<label>Apartamento / Casa # *</label>' +
+                    '<input type="text" id="wizApto" name="servicio_apto" placeholder="Ej: Apto 301, Casa 12">' +
                 '</div>' +
             '</div>' +
-            '<div style="display:flex;gap:.75rem;overflow-x:auto;padding:.5rem 0;margin-top:.5rem">' + h + '</div>' +
         '</div>' +
         
-        // SECCIÓN 3
-        '<div class="form-section">' +
-            '<h4><span>📅</span> Agenda y Dirección</h4>' +
-            '<div class="form-row">' +
-                '<div class="form-group"><label>Dirección *</label><input type="text" id="wizDireccion" name="servicio_direccion" required></div>' +
-                '<div class="form-group"><label>Torre / Apto</label><input type="text" id="wizTorreApto" name="servicio_torre_apto"></div>' +
-            '</div>' +
-            '<div class="form-group"><label>Fecha y Hora *</label><input type="datetime-local" class="input-datetime" id="wizFechaHora" name="servicio_fecha_hora" required onchange="actualizarSticky()"></div>' +
-            diasHTML +
+        '<div class="form-group">' +
+            '<label>Fecha y Hora del Servicio *</label>' +
+            '<input type="datetime-local" class="input-datetime" id="wizFechaHora" name="servicio_fecha_hora" required onchange="actualizarSticky()">' +
         '</div>' +
         
+        diasHTML +
+    '</div>';
+    
+    // ========== ARMAR FORMULARIO COMPLETO ==========
+    return fase1 + fase2 + fase3 +
         '<span class="btn-cerrar-acordeon" onclick="cerrarAcordeon()">← Ver todos los planes</span>';
 }
 
-// ========== VALIDACIÓN DE DÍAS ==========
+// ============================================================
+// LISTAS DESPLEGABLES
+// ============================================================
+
+function generarListaRazas() {
+    var razas = [
+        'Affenpinscher', 'Afgano', 'Akita', 'Alaskan Malamute', 'American Bully', 'American Pit Bull Terrier',
+        'American Staffordshire Terrier', 'Basenji', 'Basset Hound', 'Beagle', 'Bearded Collie', 'Bichón Frisé',
+        'Bichón Maltés', 'Bloodhound', 'Border Collie', 'Borzoi', 'Boston Terrier', 'Boxer', 'Boyero de Berna',
+        'Bulldog Francés', 'Bulldog Inglés', 'Bullmastiff', 'Bull Terrier', 'Caniche (Poodle)', 'Carlino (Pug)',
+        'Chihuahua', 'Chow Chow', 'Cocker Spaniel', 'Collie', 'Corgi', 'Crestado Chino', 'Criollo (Mestizo)',
+        'Dálmata', 'Doberman', 'Dogo Argentino', 'Dogo de Burdeos', 'Fila Brasileiro', 'Fox Terrier', 'Galgo',
+        'Golden Retriever', 'Gran Danés', 'Husky Siberiano', 'Jack Russell Terrier', 'Labrador Retriever',
+        'Lhasa Apso', 'Mastín Napolitano', 'Pastor Alemán', 'Pastor Australiano', 'Pastor Belga', 'Pekinés',
+        'Pinscher Miniatura', 'Pitbull', 'Pointer', 'Pomerania', 'Rottweiler', 'San Bernardo', 'Schnauzer',
+        'Scottish Terrier', 'Setter Irlandés', 'Shar Pei', 'Shiba Inu', 'Shih Tzu', 'Spaniel Bretón',
+        'Terranova', 'Weimaraner', 'West Highland White Terrier', 'Yorkshire Terrier', 'Otra'
+    ];
+    
+    var html = '';
+    razas.forEach(function(raza) {
+        html += '<option value="' + raza.toLowerCase().replace(/\s+/g, '-') + '">' + raza + '</option>';
+    });
+    return html;
+}
+
+function generarListaLocalidades() {
+    var localidades = [
+        { value: 'usaquen', label: 'Usaquén', enabled: true },
+        { value: 'chapinero', label: 'Chapinero', enabled: false },
+        { value: 'santa-fe', label: 'Santa Fe', enabled: false },
+        { value: 'san-cristobal', label: 'San Cristóbal', enabled: false },
+        { value: 'usme', label: 'Usme', enabled: false },
+        { value: 'tunjuelito', label: 'Tunjuelito', enabled: false },
+        { value: 'bosa', label: 'Bosa', enabled: false },
+        { value: 'kennedy', label: 'Kennedy', enabled: false },
+        { value: 'fontibon', label: 'Fontibón', enabled: false },
+        { value: 'engativa', label: 'Engativá', enabled: false },
+        { value: 'suba', label: 'Suba', enabled: false },
+        { value: 'barrios-unidos', label: 'Barrios Unidos', enabled: false },
+        { value: 'teusaquillo', label: 'Teusaquillo', enabled: false },
+        { value: 'martires', label: 'Los Mártires', enabled: false },
+        { value: 'antonio-narino', label: 'Antonio Nariño', enabled: false },
+        { value: 'puente-aranda', label: 'Puente Aranda', enabled: false },
+        { value: 'candelaria', label: 'La Candelaria', enabled: false },
+        { value: 'rafael-uribe', label: 'Rafael Uribe Uribe', enabled: false },
+        { value: 'ciudad-bolivar', label: 'Ciudad Bolívar', enabled: false },
+        { value: 'sumapaz', label: 'Sumapaz', enabled: false }
+    ];
+    
+    var html = '';
+    localidades.forEach(function(loc) {
+        var disabled = loc.enabled ? '' : ' disabled';
+        var proximamente = loc.enabled ? '' : ' (Próximamente)';
+        html += '<option value="' + loc.value + '"' + disabled + '>' + loc.label + proximamente + '</option>';
+    });
+    return html;
+}
+
+// ============================================================
+// TOGGLES PARA CAMPOS CONDICIONALES
+// ============================================================
+
+function toggleOtroComportamiento(valor) {
+    var otro = document.getElementById('wizPerroCompOtro');
+    if (otro) {
+        otro.style.display = valor === 'otro' ? 'block' : 'none';
+        if (valor !== 'otro') otro.value = '';
+    }
+}
+
+function toggleOtroCondMed(valor) {
+    var otro = document.getElementById('wizPerroCondMedOtro');
+    if (otro) {
+        otro.style.display = valor === 'otro' ? 'block' : 'none';
+        if (valor !== 'otro') otro.value = '';
+    }
+}
+
+function toggleConjunto(valor) {
+    var datos = document.getElementById('datosConjunto');
+    var torre = document.getElementById('wizTorre');
+    var apto = document.getElementById('wizApto');
+    
+    if (datos) {
+        datos.style.display = valor === 'si' ? 'block' : 'none';
+        if (torre) torre.required = valor === 'si';
+        if (apto) apto.required = valor === 'si';
+    }
+}
+
+// ============================================================
+// VALIDACIÓN DE DÍAS
+// ============================================================
+
 function validarDias(event) {
     if (!planSeleccionado) return;
     var maxDias = planSeleccionado.diasPermitidos;
@@ -636,7 +832,10 @@ function preview(input, previewId) {
     }
 }
 
-// ========== STICKY BAR ==========
+// ============================================================
+// STICKY BAR
+// ============================================================
+
 function actualizarSticky() {
     if (!planSeleccionado) return;
     var planEl = document.getElementById('stickyPlan');
@@ -646,8 +845,13 @@ function actualizarSticky() {
 }
 
 // ============================================================
-// ⚠️ PAGO Y ENVÍO A BACKEND ⚠️
+// PAGO Y ENVÍO A BACKEND
 // ============================================================
+
+/**
+ * RECOLECTA DATOS DEL FORMULARIO Y LOS PREPARA PARA BACKEND
+ * Endpoint: POST /api/servicios
+ */
 function iniciarPago() {
     if (!planSeleccionado) {
         alert('⚠️ Selecciona un plan primero');
@@ -657,31 +861,21 @@ function iniciarPago() {
     var u = JSON.parse(localStorage.getItem('petfyUser') || '{}');
     var nombre = u.nombre || document.getElementById('wizNombre')?.value;
     var apellido = document.getElementById('wizApellido')?.value || '';
-    var telefono = document.getElementById('wizTelefono')?.value || '';
-    var email = u.email || document.getElementById('wizEmail')?.value || 'cliente@petfy.com';
     
+    // Validaciones
     if (!nombre) { alert('⚠️ Completa tus datos personales'); return; }
-    
-    var perroNombre = document.getElementById('wizPerroNombre')?.value;
-    if (!perroNombre) { alert('⚠️ Ingresa el nombre de tu mascota'); return; }
-    
-    var fechaHora = document.getElementById('wizFechaHora')?.value;
-    if (!fechaHora) { alert('⚠️ Selecciona una fecha y hora'); return; }
-    
-    var direccion = document.getElementById('wizDireccion')?.value;
-    if (!direccion) { alert('⚠️ Ingresa la dirección del servicio'); return; }
+    if (!document.getElementById('wizNumDoc')?.value) { alert('⚠️ Ingresa tu número de documento'); return; }
+    if (!document.getElementById('wizPerroNombre')?.value) { alert('⚠️ Ingresa el nombre de tu mascota'); return; }
+    if (!document.getElementById('wizFechaHora')?.value) { alert('⚠️ Selecciona una fecha y hora'); return; }
+    if (!document.getElementById('wizNumVia')?.value) { alert('⚠️ Ingresa la dirección de recogida'); return; }
     
     if (planSeleccionado.diasPermitidos > 1) {
         var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
-        if (diasMarcados.length === 0) { alert('⚠️ Selecciona al menos un día'); return; }
-        if (diasMarcados.length > planSeleccionado.diasPermitidos) { alert('⚠️ Solo puedes seleccionar ' + planSeleccionado.diasPermitidos + ' días'); return; }
+        if (diasMarcados.length === 0) { alert('⚠️ Selecciona los días de la semana'); return; }
     }
     
-    var nombreCompleto = nombre + (apellido ? ' ' + apellido : '');
     var ref = 'PETFY-' + Date.now();
-    var torreApto = document.getElementById('wizTorreApto')?.value || '';
-    var direccionCompleta = direccion + (torreApto ? ' - ' + torreApto : '');
-    
+    var fechaHora = document.getElementById('wizFechaHora')?.value;
     var fechaObj = new Date(fechaHora);
     var fechaFormateada = fechaObj.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
     var horaFormateada = fechaObj.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
@@ -693,57 +887,103 @@ function iniciarPago() {
         });
     }
     
-    // DATOS PARA BACKEND
+    // Construir dirección completa
+    var tipoVia = document.getElementById('wizTipoVia')?.value || '';
+    var numVia = document.getElementById('wizNumVia')?.value || '';
+    var complemento = document.getElementById('wizComplemento')?.value || '';
+    var esConjunto = document.getElementById('wizEsConjunto')?.value || 'no';
+    var torre = document.getElementById('wizTorre')?.value || '';
+    var apto = document.getElementById('wizApto')?.value || '';
+    
+    var direccionCompleta = tipoVia + ' ' + numVia;
+    if (complemento) direccionCompleta += ', ' + complemento;
+    if (esConjunto === 'si') {
+        if (torre) direccionCompleta += ' - ' + torre;
+        if (apto) direccionCompleta += ' - ' + apto;
+    }
+    
+    // ========== DATOS PARA BACKEND ==========
     var datosBackend = {
         referencia: ref,
         plan_id: planSeleccionado.id,
         plan_nombre: planSeleccionado.nombre,
         plan_precio: planSeleccionado.precio,
+        
+        // Cliente
         cliente_nombre: nombre,
         cliente_apellido: apellido,
-        cliente_nombre_completo: nombreCompleto,
-        cliente_telefono: telefono,
-        cliente_email: email,
-        mascota_nombre: perroNombre,
-        mascota_raza: document.getElementById('wizPerroRaza')?.value || '',
-        mascota_edad: document.getElementById('wizPerroEdad')?.value || '',
-        mascota_peso: document.getElementById('wizPerroPeso')?.value || '',
-        mascota_comportamiento: document.getElementById('wizPerroComp')?.value || '',
+        cliente_nombre_completo: nombre + (apellido ? ' ' + apellido : ''),
+        cliente_email: u.email || document.getElementById('wizEmail')?.value,
+        cliente_tipo_documento: document.getElementById('wizTipoDoc')?.value,
+        cliente_numero_documento: document.getElementById('wizNumDoc')?.value,
+        cliente_direccion_factura: document.getElementById('wizDirFactura')?.value,
+        
+        // Mascota
+        mascota_nombre: document.getElementById('wizPerroNombre')?.value,
+        mascota_raza: document.getElementById('wizPerroRaza')?.value,
+        mascota_edad: document.getElementById('wizPerroEdad')?.value,
+        mascota_peso: document.getElementById('wizPerroPeso')?.value,
+        mascota_comportamiento: document.getElementById('wizPerroComp')?.value,
+        mascota_comportamiento_otro: document.getElementById('wizPerroCompOtro')?.value || '',
+        mascota_condiciones_medicas: document.getElementById('wizPerroCondMed')?.value,
+        mascota_condiciones_medicas_otro: document.getElementById('wizPerroCondMedOtro')?.value || '',
+        mascota_indicaciones: document.getElementById('wizPerroInfo')?.value || '',
+        
+        // Servicio
+        servicio_ciudad: document.getElementById('wizCiudad')?.value,
+        servicio_localidad: document.getElementById('wizLocalidad')?.value,
+        servicio_tipo_via: tipoVia,
+        servicio_numero_via: numVia,
+        servicio_complemento: complemento,
+        servicio_es_conjunto: esConjunto,
+        servicio_torre: torre,
+        servicio_apto: apto,
+        servicio_direccion_completa: direccionCompleta,
         servicio_fecha_hora: fechaHora,
         servicio_fecha: fechaFormateada,
         servicio_hora: horaFormateada,
-        servicio_direccion: direccion,
-        servicio_torre_apto: torreApto,
-        servicio_direccion_completa: direccionCompleta,
-        servicio_dias: diasSeleccionados.join(', ') || 'Único',
+        servicio_dias: diasSeleccionados.length > 0 ? diasSeleccionados.join(', ') : 'Único',
         servicio_dias_array: diasSeleccionados
     };
     
-    // Guardar en localStorage para confirmación
+    // Guardar en localStorage para página de confirmación
     localStorage.setItem('petfyUltimoPedido', JSON.stringify(datosBackend));
     
-    console.log('📦 Datos listos para backend:', datosBackend);
+    console.log('📦 Datos para backend:', datosBackend);
     
-    // ⚠️ AQUÍ CONECTAS CON TU BACKEND ⚠️
-    // fetch('https://tu-api.com/api/pedidos', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(datosBackend)
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //     window.location.href = 'confirmacion.html';
-    // })
-    // .catch(error => {
-    //     alert('❌ Error al procesar el pago');
-    // });
+    // ========== CONEXIÓN A BACKEND ==========
+    // DESCOMENTA Y CONFIGURA TU ENDPOINT:
+    /*
+    fetch('https://tu-api.com/api/servicios', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer TU_TOKEN'
+        },
+        body: JSON.stringify(datosBackend)
+    })
+    .then(function(response) {
+        if (!response.ok) throw new Error('Error en el servidor');
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('✅ Respuesta del servidor:', data);
+        window.location.href = 'confirmacion.html';
+    })
+    .catch(function(error) {
+        console.error('❌ Error:', error);
+        alert('Error al procesar el pago. Intenta de nuevo.');
+    });
+    */
     
-    // Por ahora, redirigir directo
+    // Mientras tanto, redirigir directo
     alert('✅ ¡Servicio agendado con éxito!');
     window.location.href = 'confirmacion.html';
 }
 
-// ========== MOSTRAR SERVICIO ==========
+// ============================================================
+// MOSTRAR SERVICIO
+// ============================================================
 function mostrarServicio(servicio, btn) {
     document.querySelectorAll('.servicio-nav-btn').forEach(function(x) { x.classList.remove('active'); });
     if (btn) btn.classList.add('active');
@@ -752,4 +992,4 @@ function mostrarServicio(servicio, btn) {
     if (panel) panel.classList.add('active');
 }
 
-console.log('✅ main.js cargado completamente');
+console.log('✅ Petfy v2.0 - main.js cargado completamente');
