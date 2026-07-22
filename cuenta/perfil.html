@@ -3,206 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil - Petfy</title>
+    <meta name="description" content="Mi Perfil - Petfy | Gestiona tus datos, mascotas y paseos">
+    <title>Mi Perfil - Petfy | Cuenta de Usuario</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
+    
     <style>
-        .perfil-page { padding: 2rem 0 4rem; background: var(--bg); min-height: 100vh; }
-        .perfil-grid { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; }
-        .perfil-sidebar { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border-radius: var(--radius-lg); padding: 1.5rem; position: sticky; top: 100px; border: 1px solid rgba(255,255,255,0.9); height: fit-content; }
-        .perfil-avatar { text-align: center; margin-bottom: 1.5rem; }
-        .perfil-avatar img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background: var(--bg); }
-        .perfil-avatar h3 { font-family: 'Fredoka One', cursive; color: var(--text); font-size: 1.1rem; }
-        .perfil-avatar p { color: var(--text-light); font-size: 0.8rem; }
-        .perfil-menu { display: flex; flex-direction: column; gap: 0.2rem; }
-        .perfil-menu a { padding: 0.65rem 1rem; border-radius: var(--radius); text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.88rem; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition); }
-        .perfil-menu a:hover, .perfil-menu a.active { background: var(--primary-light); color: var(--primary); }
-        .perfil-content { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
-        .perfil-content h2 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 1.5rem; font-size: 1.5rem; }
-        .tab { display: none; }
-        .tab.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .form-group { margin-bottom: 1rem; }
-        .form-group label { display: block; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; font-size: 0.85rem; }
-        .form-group input { width: 100%; padding: 0.7rem 1rem; border: 2px solid rgba(0,0,0,0.06); border-radius: var(--radius); font-family: 'Nunito', sans-serif; }
-        .form-group input:focus { outline: none; border-color: var(--primary); }
-        .btn-guardar { padding: 0.7rem 1.5rem; background: var(--primary); color: white; border: none; border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; }
-        .btn-agregar { padding: 0.6rem 1.2rem; background: var(--primary-light); color: var(--primary); border: 2px dashed var(--primary); border-radius: var(--radius-btn); font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; margin-top: 1rem; }
-        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
-        .mini-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; text-align: center; border: 1px solid rgba(0,0,0,0.04); }
-        .mini-card h4 { font-family: 'Fredoka One', cursive; font-size: 1rem; }
-        .item-card { background: var(--bg); border-radius: var(--radius); padding: 1rem; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-        .badge { padding: 0.2rem 0.7rem; border-radius: 15px; font-size: 0.72rem; font-weight: 800; }
-        .badge-ok { background: #D1FAE5; color: #059669; }
-        .badge-pend { background: #FEF3C7; color: #D97706; }
-        .badge-blue { background: #DBEAFE; color: #2563EB; }
-        .btn-chico { padding: 0.3rem 0.8rem; border-radius: 15px; border: none; cursor: pointer; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.75rem; }
-        .btn-rojo { background: #FEE2E2; color: #DC2626; }
-        @media (max-width: 768px) { .perfil-grid { grid-template-columns: 1fr; } .perfil-sidebar { position: static; } }
+        .perfil-page { background: var(--bg); min-height: 100vh; }
+        
+        .perfil-header {
+            background: linear-gradient(135deg, var(--primary), #C94E2E);
+            padding: 3rem 0 4rem;
+            color: white;
+            text-align: center;
+            border-radius: 0 0 40% 40% / 0 0 6% 6%;
+        }
+        .perfil-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1rem;
+            border: 4px solid rgba(255,255,255,0.4);
+        }
+        .perfil-header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+        }
+        .perfil-header p { opacity: 0.9; }
+        
+        .perfil-content { padding: 2rem 0 5rem; }
+        .perfil-grid { display: grid; grid-template-columns: 250px 1fr; gap: 2rem; align-items: start; }
+        
+        /* Sidebar tabs */
+        .perfil-sidebar {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 100px;
+        }
+        .perfil-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text);
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+            font-size: 0.9rem;
+        }
+        .perfil-tab:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+        .perfil-tab.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+        .perfil-tab i { width: 22px; text-align: center; font-size: 1.1rem; }
+        
+        /* Contenido */
+        .perfil-panel {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .perfil-panel.active { display: block; }
+        .perfil-panel h2 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Formularios */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+            font-size: 0.85rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid #F0EBE5;
+            border-radius: 14px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background: #FAFAF8;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(224,99,63,0.06);
+        }
+        .form-group input:disabled {
+            background: #F5F0ED;
+            cursor: not-allowed;
+        }
+        
+        .btn-guardar {
+            padding: 0.85rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        .btn-guardar:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* Mascotas */
+        .mascota-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 2px solid #F0EBE5;
+            border-radius: 16px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+        .mascota-card:hover {
+            border-color: var(--primary);
+            background: #FFF8F5;
+        }
+        .mascota-card-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        .mascota-card-info { flex: 1; }
+        .mascota-card-info strong { font-size: 1rem; color: var(--text); }
+        .mascota-card-info p { color: var(--text-light); font-size: 0.85rem; margin: 0.2rem 0; }
+        .mascota-card-actions { display: flex; gap: 0.5rem; }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .btn-edit { background: #EFF6FF; color: #3B82F6; }
+        .btn-edit:hover { background: #3B82F6; color: white; }
+        .btn-delete { background: #FEE2E2; color: #EF4444; }
+        .btn-delete:hover { background: #EF4444; color: white; }
+        
+        .btn-agregar {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px dashed var(--primary);
+            color: var(--primary);
+            border-radius: 25px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .btn-agregar:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Paseos */
+        .paseo-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 2px solid #F0EBE5;
+            border-radius: 16px;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+        .paseo-card:hover {
+            border-color: var(--primary);
+            background: #FFF8F5;
+        }
+        .paseo-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .status-activo { background: #ECFDF5; color: #059669; }
+        .status-completado { background: #EFF6FF; color: #3B82F6; }
+        .status-pendiente { background: #FFFBEB; color: #D97706; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+        .empty-state i { font-size: 4rem; display: block; margin-bottom: 1rem; }
+        .empty-state h3 { font-family: 'Fredoka One', cursive; color: var(--text); margin-bottom: 0.5rem; }
+        
+        @media (max-width: 768px) {
+            .perfil-grid {
+                grid-template-columns: 1fr;
+            }
+            .perfil-sidebar {
+                display: flex;
+                overflow-x: auto;
+                position: static;
+                border-radius: 20px;
+            }
+            .perfil-tab {
+                flex-shrink: 0;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            .perfil-tab.active {
+                border-left: none;
+                border-bottom-color: var(--primary);
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="perfil-page">
+    
     <!-- ========== HEADER ========== -->
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
                 <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item"><a href="../tienda/" class="nav-link">Tienda</a></li>
                     <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
                     <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <a href="perfil.html" class="icon-link active"><i class="fas fa-user"></i></a>
-                    <a href="../tienda/carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    <div class="user-actions">
+                        <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
+                    </div>
                 </div>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
             </nav>
         </div>
     </header>
 
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <main class="perfil-page">
+    <!-- ========== HEADER PERFIL ========== -->
+    <section class="perfil-header">
+        <div class="container">
+            <div class="perfil-avatar">🐾</div>
+            <h1 id="perfilNombre">Usuario</h1>
+            <p id="perfilEmail">usuario@email.com</p>
+        </div>
+    </section>
+
+    <!-- ========== CONTENIDO ========== -->
+    <section class="perfil-content">
         <div class="container">
             <div class="perfil-grid">
-                <!-- SIDEBAR -->
-                <aside class="perfil-sidebar">
-                    <div class="perfil-avatar">
-                        <img src="../assets/img/placeholder.png" alt="Avatar">
-                        <h3 id="nombrePerfil">Juan Pérez</h3>
-                        <p id="emailPerfil">juan@email.com</p>
+                
+                <!-- SIDEBAR TABS -->
+                <div class="perfil-sidebar">
+                    <div class="perfil-tab active" onclick="mostrarPanel('datos', this)">
+                        <i class="fas fa-user"></i> Mis Datos
                     </div>
-                    <nav class="perfil-menu">
-                        <a href="#" class="active" onclick="cambiarTab('datos')"><i class="fas fa-user-edit"></i> Editar Datos</a>
-                        <a href="#" onclick="cambiarTab('mascotas')"><i class="fas fa-paw"></i> Mis Mascotas</a>
-                        <a href="#" onclick="cambiarTab('paseos')"><i class="fas fa-calendar"></i> Mis Paseos</a>
-                        <a href="#" onclick="cambiarTab('pedidos')"><i class="fas fa-shopping-bag"></i> Mis Pedidos</a>
-                        <a href="#" onclick="cambiarTab('direcciones')"><i class="fas fa-map-marker-alt"></i> Mis Direcciones</a>
-                        <a href="#" onclick="cerrarSesion()" style="color:var(--danger);"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-                    </nav>
-                </aside>
-
-                <!-- CONTENIDO -->
-                <div class="perfil-content">
-                    
-                    <!-- TAB: Datos -->
-                    <div class="tab active" id="tab-datos">
-                        <h2>✏️ Editar Mis Datos</h2>
+                    <div class="perfil-tab" onclick="mostrarPanel('mascotas', this)">
+                        <i class="fas fa-paw"></i> Mis Mascotas
+                    </div>
+                    <div class="perfil-tab" onclick="mostrarPanel('paseos', this)">
+                        <i class="fas fa-calendar"></i> Mis Paseos
+                    </div>
+                    <div class="perfil-tab" onclick="mostrarPanel('facturacion', this)">
+                        <i class="fas fa-file-invoice"></i> Facturación
+                    </div>
+                </div>
+                
+                <!-- PANELES -->
+                <div>
+                    <!-- DATOS PERSONALES -->
+                    <div class="perfil-panel active" id="panel-datos">
+                        <h2>📝 Datos Personales</h2>
                         <form onsubmit="return guardarDatos(event)">
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-                                <div class="form-group"><label>Nombre</label><input type="text" id="editNombre" value="Juan"></div>
-                                <div class="form-group"><label>Apellido</label><input type="text" id="editApellido" value="Pérez"></div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre *</label>
+                                    <input type="text" id="editNombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Apellido *</label>
+                                    <input type="text" id="editApellido" required>
+                                </div>
                             </div>
-                            <div class="form-group"><label>Email</label><input type="email" id="editEmail" value="juan@email.com"></div>
-                            <div class="form-group"><label>Teléfono</label><input type="tel" id="editTelefono" value="+57 300 123 4567"></div>
+                            <div class="form-group">
+                                <label>Correo Electrónico</label>
+                                <input type="email" id="editEmail" disabled>
+                                <small style="color:var(--text-muted);">El correo no se puede cambiar</small>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Tipo Documento</label>
+                                    <select id="editTipoDoc">
+                                        <option value="CC">CC - Cédula de Ciudadanía</option>
+                                        <option value="CE">CE - Cédula de Extranjería</option>
+                                        <option value="NIT">NIT</option>
+                                        <option value="PP">Pasaporte</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Número Documento</label>
+                                    <input type="text" id="editNumDoc">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" id="editTelefono">
+                            </div>
+                            <div class="form-group">
+                                <label>Dirección de Facturación</label>
+                                <input type="text" id="editDirFactura">
+                            </div>
                             <button type="submit" class="btn-guardar"><i class="fas fa-save"></i> Guardar Cambios</button>
-                            <span id="saveMsg" style="color:var(--success);margin-left:1rem;display:none;">✅ Guardado</span>
                         </form>
                     </div>
-
-                    <!-- TAB: Mascotas -->
-                    <div class="tab" id="tab-mascotas">
-                        <h2>🐾 Mis Mascotas</h2>
-                        <div class="grid-cards" id="mascotasContainer">
-                            <div class="mini-card"><h4>🐕 Max</h4><p style="color:var(--text-light);font-size:0.85rem;">Golden • 3 años</p></div>
-                            <div class="mini-card"><h4>🐱 Luna</h4><p style="color:var(--text-light);font-size:0.85rem;">Siamés • 2 años</p></div>
+                    
+                    <!-- MIS MASCOTAS -->
+                    <div class="perfil-panel" id="panel-mascotas">
+                        <h2>🐕 Mis Mascotas</h2>
+                        <div id="listaMascotas"></div>
+                        <button class="btn-agregar" onclick="agregarMascota()">
+                            <i class="fas fa-plus"></i> Agregar Mascota
+                        </button>
+                        
+                        <!-- Formulario para agregar/editar mascota -->
+                        <div id="formMascota" style="display:none;margin-top:1.5rem;padding:1.5rem;background:#FAFAF8;border-radius:16px;border:2px dashed #E8E0D8;">
+                            <h3 style="font-family:'Fredoka One',cursive;margin-bottom:1rem;" id="formMascotaTitulo">Nueva Mascota</h3>
+                            <input type="hidden" id="mascotaIndex" value="-1">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre *</label>
+                                    <input type="text" id="mascotaNombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Raza *</label>
+                                    <input type="text" id="mascotaRaza" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Edad</label>
+                                    <input type="text" id="mascotaEdad">
+                                </div>
+                                <div class="form-group">
+                                    <label>Peso (kg)</label>
+                                    <input type="text" id="mascotaPeso">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Comportamiento</label>
+                                <select id="mascotaComportamiento">
+                                    <option value="sociable">Sociable</option>
+                                    <option value="nervioso">Nervioso</option>
+                                    <option value="agresivo">Agresivo</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div style="display:flex;gap:0.75rem;">
+                                <button type="button" class="btn-guardar" onclick="guardarMascota()" style="flex:1;">💾 Guardar Mascota</button>
+                                <button type="button" class="btn-agregar" onclick="cancelarMascota()" style="flex:1;justify-content:center;">Cancelar</button>
+                            </div>
                         </div>
-                        <button class="btn-agregar" onclick="agregarMascota()"><i class="fas fa-plus"></i> Agregar Mascota</button>
                     </div>
-
-                    <!-- TAB: Paseos -->
-                    <div class="tab" id="tab-paseos">
+                    
+                    <!-- MIS PASEOS -->
+                    <div class="perfil-panel" id="panel-paseos">
                         <h2>📅 Mis Paseos</h2>
-                        <div class="item-card"><div><strong>Paseo Estándar - Max</strong><p style="color:var(--text-light);font-size:0.85rem;">26/06/2024 • 10:00 AM</p></div><span class="badge badge-ok">Confirmado</span></div>
-                        <div class="item-card"><div><strong>Paseo Express - Max</strong><p style="color:var(--text-light);font-size:0.85rem;">24/06/2024 • 8:00 AM</p></div><span class="badge badge-ok">Completado</span></div>
-                    </div>
-
-                    <!-- TAB: Pedidos -->
-                    <div class="tab" id="tab-pedidos">
-                        <h2>🛍️ Mis Pedidos</h2>
-                        <div class="item-card"><div><strong>#2024001 - Royal Canin 2kg</strong><p style="color:var(--text-light);font-size:0.85rem;">25/06/2024</p></div><span class="badge badge-ok">Entregado</span><span style="font-weight:800;">$19.999</span></div>
-                        <div class="item-card"><div><strong>#2024002 - Cama Ortopédica</strong><p style="color:var(--text-light);font-size:0.85rem;">20/06/2024</p></div><span class="badge badge-blue">En camino</span><span style="font-weight:800;">$45.990</span></div>
-                    </div>
-
-                    <!-- TAB: Direcciones -->
-                    <div class="tab" id="tab-direcciones">
-                        <h2>📍 Mis Direcciones</h2>
-                        <div id="direccionesContainer">
-                            <div class="item-card"><div><strong>🏠 Casa</strong><p style="color:var(--text-light);font-size:0.85rem;">Calle 123 #45-67, Bogotá</p></div><span class="badge badge-ok">Principal</span><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button></div>
-                            <div class="item-card"><div><strong>🏢 Oficina</strong><p style="color:var(--text-light);font-size:0.85rem;">Carrera 15 #93-25, Bogotá</p></div><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button></div>
+                        <div id="listaPaseos"></div>
+                        <div style="margin-top:1rem;">
+                            <a href="../servicios/" class="btn-guardar" style="text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;">
+                                <i class="fas fa-plus"></i> Agendar Nuevo Paseo
+                            </a>
                         </div>
-                        <button class="btn-agregar" onclick="agregarDireccion()"><i class="fas fa-plus"></i> Agregar Dirección</button>
                     </div>
+                    
+                    <!-- FACTURACIÓN -->
+                    <div class="perfil-panel" id="panel-facturacion">
+                        <h2>💰 Facturación</h2>
+                        <div id="listaFacturacion"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../servicios/">Servicios</a></li></ul></div>
+                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos</a></li><li><a href="../legal/privacidad.html">Privacidad</a></li></ul></div>
+                <div class="footer-col"><h4>Contacto</h4><ul><li><a href="https://wa.me/573204829244"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+        </div>
+    </footer>
+
+    <!-- ========== WHATSAPP ========== -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
+    <!-- ========== SCRIPTS ========== -->
     <script src="../assets/js/main.js"></script>
     <script>
-        window.addEventListener('scroll', () => document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 50));
-        document.querySelector('.mobile-menu-btn').onclick = function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-            this.querySelector('i').classList.toggle('fa-bars'); this.querySelector('i').classList.toggle('fa-times');
-        };
-        if (localStorage.getItem('petfyLogged') !== 'true') { window.location.href = 'login.html'; }
-
-        const user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
-        if (user.nombre) {
-            document.getElementById('nombrePerfil').textContent = user.nombre + ' ' + (user.apellido || '');
-            document.getElementById('emailPerfil').textContent = user.email;
+        // ========== CARGAR DATOS DEL USUARIO ==========
+        function cargarPerfil() {
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            
+            document.getElementById('perfilNombre').textContent = user.nombre + ' ' + (user.apellido || '');
+            document.getElementById('perfilEmail').textContent = user.email || 'usuario@email.com';
+            
             document.getElementById('editNombre').value = user.nombre || '';
             document.getElementById('editApellido').value = user.apellido || '';
             document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editTipoDoc').value = user.tipoDoc || 'CC';
+            document.getElementById('editNumDoc').value = user.numDoc || '';
             document.getElementById('editTelefono').value = user.telefono || '';
+            document.getElementById('editDirFactura').value = user.dirFactura || '';
+            
+            cargarMascotas();
+            cargarPaseos();
+            cargarFacturacion();
         }
-
-        function cambiarTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.perfil-menu a').forEach(a => a.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-            event.target.closest('a').classList.add('active');
-        }
-
+        
+        // ========== GUARDAR DATOS ==========
         function guardarDatos(e) {
             e.preventDefault();
-            const u = { nombre: document.getElementById('editNombre').value.trim(), apellido: document.getElementById('editApellido').value.trim(), email: document.getElementById('editEmail').value.trim(), telefono: document.getElementById('editTelefono').value.trim() };
-            localStorage.setItem('petfyUser', JSON.stringify(u));
-            document.getElementById('nombrePerfil').textContent = u.nombre + ' ' + u.apellido;
-            document.getElementById('emailPerfil').textContent = u.email;
-            document.getElementById('saveMsg').style.display = 'inline';
-            setTimeout(() => document.getElementById('saveMsg').style.display = 'none', 2000);
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            user.nombre = document.getElementById('editNombre').value;
+            user.apellido = document.getElementById('editApellido').value;
+            user.tipoDoc = document.getElementById('editTipoDoc').value;
+            user.numDoc = document.getElementById('editNumDoc').value;
+            user.telefono = document.getElementById('editTelefono').value;
+            user.dirFactura = document.getElementById('editDirFactura').value;
+            
+            localStorage.setItem('petfyUser', JSON.stringify(user));
+            cargarPerfil();
+            alert('✅ Datos guardados con éxito');
             return false;
         }
-
-        function cerrarSesion() { localStorage.clear(); window.location.href = '../index.html'; }
-
+        
+        // ========== PANELES ==========
+        function mostrarPanel(panel, tab) {
+            document.querySelectorAll('.perfil-tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.perfil-panel').forEach(function(p) { p.classList.remove('active'); });
+            
+            tab.classList.add('active');
+            document.getElementById('panel-' + panel).classList.add('active');
+        }
+        
+        // ========== MASCOTAS ==========
+        function cargarMascotas() {
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            var html = '';
+            
+            if (mascotas.length === 0) {
+                html = '<div class="empty-state"><i class="fas fa-paw"></i><h3>No tienes mascotas registradas</h3><p>Agrega tu primera mascota para empezar</p></div>';
+            } else {
+                mascotas.forEach(function(m, i) {
+                    html += '' +
+                    '<div class="mascota-card">' +
+                        '<div class="mascota-card-avatar">🐕</div>' +
+                        '<div class="mascota-card-info">' +
+                            '<strong>' + m.nombre + '</strong>' +
+                            '<p>' + (m.raza || 'Sin raza') + ' • ' + (m.edad || 'N/A') + ' • ' + (m.peso || 'N/A') + ' kg</p>' +
+                            '<p style="font-size:0.8rem;">' + (m.comportamiento || 'Sociable') + '</p>' +
+                        '</div>' +
+                        '<div class="mascota-card-actions">' +
+                            '<button class="btn-icon btn-edit" onclick="editarMascota(' + i + ')" title="Editar"><i class="fas fa-pen"></i></button>' +
+                            '<button class="btn-icon btn-delete" onclick="eliminarMascota(' + i + ')" title="Eliminar"><i class="fas fa-trash"></i></button>' +
+                        '</div>' +
+                    '</div>';
+                });
+            }
+            
+            document.getElementById('listaMascotas').innerHTML = html;
+        }
+        
         function agregarMascota() {
-            const nombre = prompt('Nombre de la mascota:');
-            if (nombre) {
-                const tipo = prompt('Tipo (perro/gato):', 'perro');
-                const d = document.createElement('div');
-                d.className = 'mini-card';
-                d.innerHTML = `<h4>${tipo === 'gato' ? '🐱' : '🐕'} ${nombre}</h4><p style="color:var(--text-light);font-size:0.85rem;">${tipo || 'Mascota'}</p>`;
-                document.getElementById('mascotasContainer').appendChild(d);
-            }
+            document.getElementById('formMascota').style.display = 'block';
+            document.getElementById('formMascotaTitulo').textContent = 'Nueva Mascota';
+            document.getElementById('mascotaIndex').value = '-1';
+            document.getElementById('mascotaNombre').value = '';
+            document.getElementById('mascotaRaza').value = '';
+            document.getElementById('mascotaEdad').value = '';
+            document.getElementById('mascotaPeso').value = '';
+            document.getElementById('mascotaComportamiento').value = 'sociable';
         }
-
-        function agregarDireccion() {
-            const calle = prompt('Dirección (ej: Calle 123 #45-67):');
-            const ciudad = prompt('Ciudad:', 'Bogotá');
-            if (calle && ciudad) {
-                const d = document.createElement('div');
-                d.className = 'item-card';
-                d.innerHTML = `<div><strong>📍 Nueva</strong><p style="color:var(--text-light);font-size:0.85rem;">${calle}, ${ciudad}</p></div><button class="btn-chico btn-rojo" onclick="this.closest('.item-card').remove()"><i class="fas fa-trash"></i></button>`;
-                document.getElementById('direccionesContainer').appendChild(d);
-            }
+        
+        function editarMascota(index) {
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            var m = mascotas[index];
+            
+            document.getElementById('formMascota').style.display = 'block';
+            document.getElementById('formMascotaTitulo').textContent = 'Editar Mascota';
+            document.getElementById('mascotaIndex').value = index;
+            document.getElementById('mascotaNombre').value = m.nombre || '';
+            document.getElementById('mascotaRaza').value = m.raza || '';
+            document.getElementById('mascotaEdad').value = m.edad || '';
+            document.getElementById('mascotaPeso').value = m.peso || '';
+            document.getElementById('mascotaComportamiento').value = m.comportamiento || 'sociable';
         }
+        
+        function guardarMascota() {
+            var index = parseInt(document.getElementById('mascotaIndex').value);
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            
+            var mascota = {
+                nombre: document.getElementById('mascotaNombre').value,
+                raza: document.getElementById('mascotaRaza').value,
+                edad: document.getElementById('mascotaEdad').value,
+                peso: document.getElementById('mascotaPeso').value,
+                comportamiento: document.getElementById('mascotaComportamiento').value
+            };
+            
+            if (!mascota.nombre || !mascota.raza) {
+                alert('⚠️ Nombre y raza son obligatorios');
+                return;
+            }
+            
+            if (index >= 0) {
+                mascotas[index] = mascota;
+            } else {
+                mascotas.push(mascota);
+            }
+            
+            localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+            document.getElementById('formMascota').style.display = 'none';
+            cargarMascotas();
+            alert('✅ Mascota guardada con éxito');
+        }
+        
+        function cancelarMascota() {
+            document.getElementById('formMascota').style.display = 'none';
+        }
+        
+        function eliminarMascota(index) {
+            if (!confirm('¿Estás seguro de eliminar esta mascota?')) return;
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            mascotas.splice(index, 1);
+            localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+            cargarMascotas();
+        }
+        
+        // ========== PASEOS ==========
+        function cargarPaseos() {
+            var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+            var html = '';
+            
+            if (paseos.length === 0) {
+                html = '<div class="empty-state"><i class="fas fa-calendar"></i><h3>No tienes paseos agendados</h3><p>Agenda tu primer paseo ahora</p></div>';
+            } else {
+                paseos.reverse().forEach(function(p) {
+                    html += '' +
+                    '<div class="paseo-card">' +
+                        '<div style="flex:1;">' +
+                            '<strong>' + p.plan + '</strong>' +
+                            '<p style="color:var(--text-light);font-size:0.85rem;">📅 ' + (p.fecha || 'N/A') + '</p>' +
+                            '<p style="color:var(--text-muted);font-size:0.75rem;">Ref: ' + (p.referencia || '') + '</p>' +
+                        '</div>' +
+                        '<span class="paseo-status status-activo">Activo</span>' +
+                        '<strong style="color:var(--primary);">$' + (p.precio || 0).toLocaleString() + '</strong>' +
+                    '</div>';
+                });
+            }
+            
+            document.getElementById('listaPaseos').innerHTML = html;
+        }
+        
+        // ========== FACTURACIÓN ==========
+        function cargarFacturacion() {
+            var pedido = JSON.parse(localStorage.getItem('petfyUltimoPedido') || '{}');
+            var html = '';
+            
+            if (!pedido.referencia) {
+                html = '<div class="empty-state"><i class="fas fa-file-invoice"></i><h3>No tienes facturas</h3><p>Tu historial de facturación aparecerá aquí</p></div>';
+            } else {
+                html += '' +
+                '<div class="detalle-box" style="background:#FAFAF8;border-radius:16px;padding:1.5rem;">' +
+                    '<h4 style="font-family:\'Fredoka One\',cursive;color:var(--primary);">📋 Último Servicio</h4>' +
+                    '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span>Referencia:</span><strong>' + pedido.referencia + '</strong></div>' +
+                    '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span>Plan:</span><strong>' + pedido.plan_nombre + '</strong></div>' +
+                    '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span>Fecha inicio:</span><strong>' + pedido.servicio_fecha_inicio + '</strong></div>' +
+                    '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span>Total:</span><strong style="color:var(--primary);">$' + (pedido.plan_precio || 0).toLocaleString() + '</strong></div>';
+                
+                if (pedido.facturacion && pedido.facturacion.fecha_proximo_pago) {
+                    html += '<div style="display:flex;justify-content:space-between;padding:0.5rem 0;"><span>Próximo pago:</span><strong>' + pedido.facturacion.fecha_proximo_pago + '</strong></div>';
+                }
+                
+                html += '</div>';
+            }
+            
+            document.getElementById('listaFacturacion').innerHTML = html;
+        }
+        
+        // ========== INICIAR ==========
+        cargarPerfil();
     </script>
 </body>
 </html>
