@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ========== BOTÓN CUENTA (LOGIN/SIDEBAR) ==========
+    // ========== BOTÓN CUENTA ==========
     var btn = document.getElementById('btnCuenta');
     if (btn) {
         btn.onclick = function(e) {
@@ -266,7 +266,7 @@ function agregarAlCarrito(id, name, price, image, qty) {
 }
 
 // ============================================================
-// CARRUSEL DE BANNERS (INDEX) - CORREGIDO
+// CARRUSEL DE BANNERS (INDEX)
 // ============================================================
 function iniciarCarruselBanners() {
     var track = document.getElementById('carouselTrack');
@@ -290,13 +290,8 @@ function iniciarCarruselBanners() {
         });
     }
     
-    function nextSlide() {
-        goToSlide(currentIndex + 1);
-    }
-    
-    function prevSlide() {
-        goToSlide(currentIndex - 1);
-    }
+    function nextSlide() { goToSlide(currentIndex + 1); }
+    function prevSlide() { goToSlide(currentIndex - 1); }
     
     function startAutoPlay() {
         stopAutoPlay();
@@ -329,7 +324,6 @@ function iniciarCarruselBanners() {
         container.addEventListener('mouseleave', startAutoPlay);
     }
     
-    // Iniciar
     goToSlide(0);
     startAutoPlay();
 }
@@ -367,13 +361,44 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ============================================================
-// ==================== SERVICIOS: CARRUSEL 3D ====================
+// ========== SERVICIOS: CARRUSEL 3D + FORMULARIO ==========
 // ============================================================
 
+// ⚠️ AQUÍ MODIFICAS LOS PLANES Y PRECIOS ⚠️
 var planesData = [
-    { id: 'unico', emoji: '⚡', nombre: 'Paseo Único', tag: 'tag-ahorro', tagText: 'Sin suscripción', precio: 19990, periodo: 'por paseo', diasPermitidos: 1, features: ['45 min', 'GPS en vivo', '5 fotos'] },
-    { id: '3dias', emoji: '🌟', nombre: '3 Días/Semana', tag: 'tag-popular', tagText: 'Más Popular', precio: 189990, periodo: '/mes', diasPermitidos: 3, features: ['1h por sesión', 'Paseador fijo', 'Seguro incluido'] },
-    { id: '5dias', emoji: '🔥', nombre: '5 Días/Semana', tag: 'tag-premium', tagText: 'Recomendado', precio: 299990, periodo: '/mes', diasPermitidos: 5, features: ['1h por sesión', 'Fotos + video', 'Seguro incluido'] },
+    { 
+        id: 'unico', 
+        emoji: '⚡', 
+        nombre: 'Paseo Único', 
+        tag: 'tag-ahorro', 
+        tagText: 'Sin suscripción', 
+        precio: 19990, 
+        periodo: 'por paseo', 
+        diasPermitidos: 1, 
+        features: ['45 min', 'GPS en vivo', '5 fotos'] 
+    },
+    { 
+        id: '3dias', 
+        emoji: '🌟', 
+        nombre: '3 Días/Semana', 
+        tag: 'tag-popular', 
+        tagText: 'Más Popular', 
+        precio: 189990, 
+        periodo: '/mes', 
+        diasPermitidos: 3, 
+        features: ['1h por sesión', 'Paseador fijo', 'Seguro incluido'] 
+    },
+    { 
+        id: '5dias', 
+        emoji: '🔥', 
+        nombre: '5 Días/Semana', 
+        tag: 'tag-premium', 
+        tagText: 'Recomendado', 
+        precio: 299990, 
+        periodo: '/mes', 
+        diasPermitidos: 5, 
+        features: ['1h por sesión', 'Fotos + video', 'Seguro incluido'] 
+    }
 ];
 
 var currentIndex = 0;
@@ -391,7 +416,6 @@ function initCarousel3D() {
     });
     actualizarClases3D();
     
-    // Auto-giro cada 5 segundos
     setInterval(function() {
         if (document.getElementById('carouselTrack3D')) {
             girarCarousel(1);
@@ -454,15 +478,26 @@ function cerrarAcordeon() {
     planSeleccionado = null;
 }
 
-// ========== GENERAR FORMULARIO ==========
+// ============================================================
+// ⚠️ FORMULARIO - AQUÍ MODIFICAS LOS CAMPOS ⚠️
+// ============================================================
 function generarAcordeon(plan) {
     var logueado = localStorage.getItem('petfyLogged') === 'true';
     var u = JSON.parse(localStorage.getItem('petfyUser') || '{}');
     
+    // SECCIÓN 1: DATOS DEL DUEÑO
     var quien = logueado
         ? '<div class="badge-logeado"><i class="fas fa-check-circle"></i> ' + u.nombre + ' (datos cargados)</div>'
-        : '<div class="form-row"><div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" required></div><div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" required></div></div><div class="form-row"><div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" required></div><div class="form-group"><label>Email *</label><input type="email" id="wizEmail" required></div></div>';
+        : '<div class="form-row">' +
+            '<div class="form-group"><label>Nombre *</label><input type="text" id="wizNombre" name="cliente_nombre" required></div>' +
+            '<div class="form-group"><label>Apellido *</label><input type="text" id="wizApellido" name="cliente_apellido" required></div>' +
+          '</div>' +
+          '<div class="form-row">' +
+            '<div class="form-group"><label>Teléfono *</label><input type="tel" id="wizTelefono" name="cliente_telefono" required></div>' +
+            '<div class="form-group"><label>Email *</label><input type="email" id="wizEmail" name="cliente_email" required></div>' +
+          '</div>';
     
+    // SECCIÓN 2: MASCOTA
     var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
     var h = '';
     mascotas.forEach(function(m, i) {
@@ -470,21 +505,65 @@ function generarAcordeon(plan) {
     });
     h += '<div class="mascota-circle add-new" onclick="nuevaMascota()">➕</div>';
     
-    // Días de la semana
+    // SECCIÓN 3: DÍAS DE LA SEMANA
     var diasHTML = '';
     if (plan.diasPermitidos > 1) {
         var diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
-        var bloqueados = plan.diasPermitidos === 7;
-        diasHTML = '<div class="dias-block"><span class="dias-block-label">📆 Días de la semana (máx ' + plan.diasPermitidos + ')</span><div class="dias-checkboxes" id="diasCheckboxes">';
+        diasHTML = '<div class="dias-block">' +
+            '<span class="dias-block-label">📆 Días de la semana (máx ' + plan.diasPermitidos + ')</span>' +
+            '<div class="dias-checkboxes" id="diasCheckboxes">';
         diasSemana.forEach(function(d) {
-            var checked = bloqueados ? ' checked' : '';
-            var disabled = bloqueados ? ' disabled' : '';
-            diasHTML += '<label class="dia-cb' + (bloqueados ? ' bloqueado' : '') + '"><input type="checkbox" value="' + d + '"' + checked + disabled + ' onchange="validarDias()"> ' + d.charAt(0).toUpperCase() + d.slice(1) + '</label>';
+            diasHTML += '<label class="dia-cb"><input type="checkbox" name="dias_semana[]" value="' + d + '" onchange="validarDias(event)"> ' + d.charAt(0).toUpperCase() + d.slice(1) + '</label>';
         });
         diasHTML += '</div><p class="aviso-dias" id="avisoDias">Solo puedes seleccionar ' + plan.diasPermitidos + ' días</p></div>';
     }
     
-    return '<div class="form-section"><h4><span>👤</span> Datos del Dueño</h4>' + quien + '</div><div class="form-section"><h4><span>🐕</span> Tu Mascota</h4><div class="form-row"><div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" required></div><div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" required></div></div><div class="form-row-3"><div class="form-group"><label>Edad</label><input type="text" id="wizPerroEdad"></div><div class="form-group"><label>Peso (kg)</label><input type="text" id="wizPerroPeso"></div><div class="form-group"><label>Comportamiento</label><select id="wizPerroComp"><option>Sociable</option><option>Tímido</option></select></div></div><div class="form-row"><div class="form-group"><label>📸 Foto del perro</label><div class="file-upload" onclick="document.getElementById(\'fotoPerro\').click()"><span>🐕</span><p>Click para subir</p><input type="file" id="fotoPerro" accept="image/*" onchange="preview(this,\'prevPerro\')"></div><img id="prevPerro" class="preview-img"></div><div class="form-group"><label>💉 Carné vacunación</label><div class="file-upload" onclick="document.getElementById(\'fotoVacuna\').click()"><span>📋</span><p>Click para subir</p><input type="file" id="fotoVacuna" accept="image/*" onchange="preview(this,\'prevVacuna\')"></div><img id="prevVacuna" class="preview-img"></div></div><div style="display:flex;gap:.75rem;overflow-x:auto;padding:.5rem 0;margin-top:.5rem">' + h + '</div></div><div class="form-section"><h4><span>📅</span> Agenda y Dirección</h4><div class="form-row"><div class="form-group"><label>Dirección *</label><input type="text" id="wizDireccion" required></div><div class="form-group"><label>Torre / Apto</label><input type="text" id="wizTorreApto"></div></div><div class="form-group"><label>Fecha y Hora *</label><input type="datetime-local" class="input-datetime" id="wizFechaHora" required onchange="actualizarSticky()"></div>' + diasHTML + '</div><span class="btn-cerrar-acordeon" onclick="cerrarAcordeon()">← Ver todos los planes</span>';
+    // ARMAR FORMULARIO COMPLETO
+    return '' +
+        // SECCIÓN 1
+        '<div class="form-section">' +
+            '<h4><span>👤</span> Datos del Dueño</h4>' + quien +
+        '</div>' +
+        
+        // SECCIÓN 2
+        '<div class="form-section">' +
+            '<h4><span>🐕</span> Tu Mascota</h4>' +
+            '<div class="form-row">' +
+                '<div class="form-group"><label>Nombre *</label><input type="text" id="wizPerroNombre" name="mascota_nombre" required></div>' +
+                '<div class="form-group"><label>Raza *</label><input type="text" id="wizPerroRaza" name="mascota_raza" required></div>' +
+            '</div>' +
+            '<div class="form-row-3">' +
+                '<div class="form-group"><label>Edad</label><input type="text" id="wizPerroEdad" name="mascota_edad"></div>' +
+                '<div class="form-group"><label>Peso (kg)</label><input type="text" id="wizPerroPeso" name="mascota_peso"></div>' +
+                '<div class="form-group"><label>Comportamiento</label><select id="wizPerroComp" name="mascota_comportamiento"><option>Sociable</option><option>Tímido</option><option>Agresivo</option></select></div>' +
+            '</div>' +
+            '<div class="form-row">' +
+                '<div class="form-group">' +
+                    '<label>📸 Foto del perro</label>' +
+                    '<div class="file-upload" onclick="document.getElementById(\'fotoPerro\').click()"><span>🐕</span><p>Click para subir</p><input type="file" id="fotoPerro" name="mascota_foto" accept="image/*" onchange="preview(this,\'prevPerro\')"></div>' +
+                    '<img id="prevPerro" class="preview-img">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label>💉 Carné vacunación</label>' +
+                    '<div class="file-upload" onclick="document.getElementById(\'fotoVacuna\').click()"><span>📋</span><p>Click para subir</p><input type="file" id="fotoVacuna" name="mascota_vacuna" accept="image/*" onchange="preview(this,\'prevVacuna\')"></div>' +
+                    '<img id="prevVacuna" class="preview-img">' +
+                '</div>' +
+            '</div>' +
+            '<div style="display:flex;gap:.75rem;overflow-x:auto;padding:.5rem 0;margin-top:.5rem">' + h + '</div>' +
+        '</div>' +
+        
+        // SECCIÓN 3
+        '<div class="form-section">' +
+            '<h4><span>📅</span> Agenda y Dirección</h4>' +
+            '<div class="form-row">' +
+                '<div class="form-group"><label>Dirección *</label><input type="text" id="wizDireccion" name="servicio_direccion" required></div>' +
+                '<div class="form-group"><label>Torre / Apto</label><input type="text" id="wizTorreApto" name="servicio_torre_apto"></div>' +
+            '</div>' +
+            '<div class="form-group"><label>Fecha y Hora *</label><input type="datetime-local" class="input-datetime" id="wizFechaHora" name="servicio_fecha_hora" required onchange="actualizarSticky()"></div>' +
+            diasHTML +
+        '</div>' +
+        
+        '<span class="btn-cerrar-acordeon" onclick="cerrarAcordeon()">← Ver todos los planes</span>';
 }
 
 // ========== VALIDACIÓN DE DÍAS ==========
@@ -566,7 +645,9 @@ function actualizarSticky() {
     if (precioEl) precioEl.textContent = '$' + planSeleccionado.precio.toLocaleString();
 }
 
-// ========== INICIAR PAGO Y REDIRIGIR A CONFIRMACIÓN ==========
+// ============================================================
+// ⚠️ PAGO Y ENVÍO A BACKEND ⚠️
+// ============================================================
 function iniciarPago() {
     if (!planSeleccionado) {
         alert('⚠️ Selecciona un plan primero');
@@ -579,39 +660,21 @@ function iniciarPago() {
     var telefono = document.getElementById('wizTelefono')?.value || '';
     var email = u.email || document.getElementById('wizEmail')?.value || 'cliente@petfy.com';
     
-    if (!nombre) {
-        alert('⚠️ Completa tus datos personales');
-        return;
-    }
+    if (!nombre) { alert('⚠️ Completa tus datos personales'); return; }
     
     var perroNombre = document.getElementById('wizPerroNombre')?.value;
-    if (!perroNombre) {
-        alert('⚠️ Ingresa el nombre de tu mascota');
-        return;
-    }
+    if (!perroNombre) { alert('⚠️ Ingresa el nombre de tu mascota'); return; }
     
     var fechaHora = document.getElementById('wizFechaHora')?.value;
-    if (!fechaHora) {
-        alert('⚠️ Selecciona una fecha y hora');
-        return;
-    }
+    if (!fechaHora) { alert('⚠️ Selecciona una fecha y hora'); return; }
     
     var direccion = document.getElementById('wizDireccion')?.value;
-    if (!direccion) {
-        alert('⚠️ Ingresa la dirección del servicio');
-        return;
-    }
+    if (!direccion) { alert('⚠️ Ingresa la dirección del servicio'); return; }
     
     if (planSeleccionado.diasPermitidos > 1) {
         var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
-        if (diasMarcados.length === 0) {
-            alert('⚠️ Selecciona al menos un día de la semana');
-            return;
-        }
-        if (diasMarcados.length > planSeleccionado.diasPermitidos) {
-            alert('⚠️ Solo puedes seleccionar ' + planSeleccionado.diasPermitidos + ' días');
-            return;
-        }
+        if (diasMarcados.length === 0) { alert('⚠️ Selecciona al menos un día'); return; }
+        if (diasMarcados.length > planSeleccionado.diasPermitidos) { alert('⚠️ Solo puedes seleccionar ' + planSeleccionado.diasPermitidos + ' días'); return; }
     }
     
     var nombreCompleto = nombre + (apellido ? ' ' + apellido : '');
@@ -620,78 +683,71 @@ function iniciarPago() {
     var direccionCompleta = direccion + (torreApto ? ' - ' + torreApto : '');
     
     var fechaObj = new Date(fechaHora);
-    var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
-    var opcionesHora = { hour: '2-digit', minute: '2-digit' };
-    var fechaFormateada = fechaObj.toLocaleDateString('es-CO', opcionesFecha);
-    var horaFormateada = fechaObj.toLocaleTimeString('es-CO', opcionesHora);
+    var fechaFormateada = fechaObj.toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+    var horaFormateada = fechaObj.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
     
     var diasSeleccionados = [];
     if (planSeleccionado.diasPermitidos > 1) {
-        var diasMarcados = document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked');
-        diasMarcados.forEach(function(cb) {
+        document.querySelectorAll('#diasCheckboxes input[type="checkbox"]:checked').forEach(function(cb) {
             diasSeleccionados.push(cb.value.charAt(0).toUpperCase() + cb.value.slice(1));
         });
     }
     
-    var pedido = {
+    // DATOS PARA BACKEND
+    var datosBackend = {
         referencia: ref,
-        plan: planSeleccionado.nombre,
-        mascota: perroNombre,
-        fecha: fechaFormateada,
-        hora: horaFormateada,
-        fechaCompleta: fechaHora,
-        direccion: direccionCompleta,
-        dias: diasSeleccionados.length > 0 ? diasSeleccionados.join(', ') : 'Único',
-        cliente: nombreCompleto,
-        email: email,
-        telefono: telefono,
-        precio: planSeleccionado.precio
+        plan_id: planSeleccionado.id,
+        plan_nombre: planSeleccionado.nombre,
+        plan_precio: planSeleccionado.precio,
+        cliente_nombre: nombre,
+        cliente_apellido: apellido,
+        cliente_nombre_completo: nombreCompleto,
+        cliente_telefono: telefono,
+        cliente_email: email,
+        mascota_nombre: perroNombre,
+        mascota_raza: document.getElementById('wizPerroRaza')?.value || '',
+        mascota_edad: document.getElementById('wizPerroEdad')?.value || '',
+        mascota_peso: document.getElementById('wizPerroPeso')?.value || '',
+        mascota_comportamiento: document.getElementById('wizPerroComp')?.value || '',
+        servicio_fecha_hora: fechaHora,
+        servicio_fecha: fechaFormateada,
+        servicio_hora: horaFormateada,
+        servicio_direccion: direccion,
+        servicio_torre_apto: torreApto,
+        servicio_direccion_completa: direccionCompleta,
+        servicio_dias: diasSeleccionados.join(', ') || 'Único',
+        servicio_dias_array: diasSeleccionados
     };
     
-    localStorage.setItem('petfyUltimoPedido', JSON.stringify(pedido));
+    // Guardar en localStorage para confirmación
+    localStorage.setItem('petfyUltimoPedido', JSON.stringify(datosBackend));
     
-    if (typeof WidgetCheckout !== 'undefined') {
-        var checkout = new WidgetCheckout({
-            currency: 'COP',
-            amountInCents: planSeleccionado.precio * 100,
-            reference: ref,
-            publicKey: 'pub_test_xxxxxxxxxxxxx',
-            redirectUrl: window.location.origin + '/servicios/confirmacion.html',
-            customerData: {
-                fullName: nombreCompleto,
-                email: email
-            },
-            products: [{
-                name: planSeleccionado.nombre + ' - ' + perroNombre,
-                price: planSeleccionado.precio * 100,
-                quantity: 1
-            }]
-        });
-        
-        checkout.open(function(result) {
-            if (result.transaction && result.transaction.status === 'APPROVED') {
-                window.location.href = 'confirmacion.html';
-            } else {
-                alert('❌ Pago no aprobado. Intenta de nuevo.');
-            }
-        });
-    } else {
-        alert('✅ ¡Servicio agendado con éxito!');
-        window.location.href = 'confirmacion.html';
-    }
+    console.log('📦 Datos listos para backend:', datosBackend);
+    
+    // ⚠️ AQUÍ CONECTAS CON TU BACKEND ⚠️
+    // fetch('https://tu-api.com/api/pedidos', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(datosBackend)
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //     window.location.href = 'confirmacion.html';
+    // })
+    // .catch(error => {
+    //     alert('❌ Error al procesar el pago');
+    // });
+    
+    // Por ahora, redirigir directo
+    alert('✅ ¡Servicio agendado con éxito!');
+    window.location.href = 'confirmacion.html';
 }
 
 // ========== MOSTRAR SERVICIO ==========
 function mostrarServicio(servicio, btn) {
-    document.querySelectorAll('.servicio-nav-btn').forEach(function(x) {
-        x.classList.remove('active');
-    });
+    document.querySelectorAll('.servicio-nav-btn').forEach(function(x) { x.classList.remove('active'); });
     if (btn) btn.classList.add('active');
-    
-    document.querySelectorAll('.servicio-panel').forEach(function(x) {
-        x.classList.remove('active');
-    });
-    
+    document.querySelectorAll('.servicio-panel').forEach(function(x) { x.classList.remove('active'); });
     var panel = document.getElementById('panel-' + servicio);
     if (panel) panel.classList.add('active');
 }
