@@ -3,87 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Confirmación de Servicio - Petfy | Tu paseo ha sido agendado con éxito">
     <title>Confirmación - Petfy | Servicio Agendado</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
+    
     <style>
-        .confirmacion-page{display:flex;align-items:center;justify-content:center;min-height:80vh;padding:2rem;background:var(--bg);}
-        .confirmacion-card{background:white;border-radius:30px;padding:3rem 2.5rem;text-align:center;max-width:600px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,0.1);animation:fadeSlideUp 0.6s ease;}
-        @keyframes fadeSlideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-        .confirmacion-icon{font-size:5rem;animation:bounceIn 0.6s ease 0.3s both;}
-        @keyframes bounceIn{0%{transform:scale(0);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
-        .confirmacion-card h1{font-family:'Fredoka One',cursive;color:var(--text);font-size:1.8rem;}
-        .detalle-box{background:#FAFAF8;border-radius:20px;padding:1.5rem;text-align:left;margin:1.5rem 0;}
-        .detalle-box h3{font-family:'Fredoka One',cursive;color:var(--primary);margin-bottom:0.5rem;}
-        .detalle-row{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #F0EBE5;}
-        .detalle-row:last-child{border-bottom:none;}
-        .total-box{background:var(--primary-light);padding:1rem;border-radius:15px;text-align:center;margin:1rem 0;}
-        .total-box .precio{font-family:'Fredoka One',cursive;font-size:2rem;color:var(--primary);}
-        .btn-group{display:flex;gap:1rem;flex-wrap:wrap;}
-        .btn{flex:1;min-width:150px;padding:0.9rem;border-radius:30px;font-weight:800;text-decoration:none;text-align:center;}
-        .btn-primary{background:var(--primary);color:white;}
-        .btn-outline{border:2px solid var(--primary);color:var(--primary);background:white;}
-        .btn-wa{background:#25D366;color:white;}
-        @media(max-width:768px){.confirmacion-card{padding:2rem 1.5rem;}.btn-group{flex-direction:column;}}
+        .confirmacion-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 2rem;
+            background: var(--bg);
+        }
+        
+        .confirmacion-card {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            animation: fadeSlideUp 0.6s ease;
+        }
+        
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .confirmacion-icon {
+            font-size: 5rem;
+            animation: bounceIn 0.6s ease 0.3s both;
+        }
+        
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .confirmacion-card h1 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--text);
+            margin: 1rem 0 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .confirmacion-subtitulo {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .confirmacion-referencia {
+            background: var(--primary-light);
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detalle-box {
+            background: #FAFAF8;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: left;
+            margin-bottom: 1rem;
+            border: 1px solid #F0EBE5;
+        }
+        
+        .detalle-box h3 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .detalle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #F0EBE5;
+            font-size: 0.9rem;
+        }
+        
+        .detalle-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detalle-row span {
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .detalle-row strong {
+            color: var(--text);
+            text-align: right;
+        }
+        
+        .detalle-row i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .prueba-box {
+            background: #ECFDF5;
+            border: 2px solid #10B981;
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin: 0.75rem 0;
+        }
+        
+        .prueba-box h4 {
+            color: #059669;
+            font-family: 'Fredoka One', cursive;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prueba-box p {
+            color: #047857;
+            font-size: 0.85rem;
+            margin: 0.2rem 0;
+        }
+        
+        .total-box {
+            background: linear-gradient(135deg, var(--primary-light), #FFE8DB);
+            border-radius: 15px;
+            padding: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .total-box .total-label {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        
+        .total-box .total-precio {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+        
+        .total-box .total-facturacion {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-confirmacion {
+            flex: 1;
+            min-width: 140px;
+            padding: 0.9rem 1.5rem;
+            border-radius: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+        }
+        
+        .btn-inicio {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-inicio:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-agendar {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-agendar:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #1fa855;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .confirmacion-card {
+                padding: 2rem 1.5rem;
+            }
+            .btn-group {
+                flex-direction: column;
+            }
+            .btn-confirmacion {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="header"><div class="container"><nav class="navbar"><div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div></nav></div></header>
     
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="user-actions">
+                        <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ========== BREADCRUMB ========== -->
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <main class="confirmacion-page">
         <div class="confirmacion-card" id="confirmacionCard">
             <div class="confirmacion-icon">✅</div>
-            <h1>¡Servicio Agendado!</h1>
-            <p style="color:var(--text-light);">Tu paseo ha sido confirmado exitosamente</p>
-            <div id="detallePedido"></div>
+            <h1>¡Servicio Agendado con Éxito!</h1>
+            <p class="confirmacion-subtitulo">Tu paseo ha sido confirmado. Te enviaremos los detalles a tu correo.</p>
+            
+            <div id="detallePedido">
+                <!-- Se llena con JavaScript -->
+            </div>
+            
             <div class="btn-group">
-                <a href="../index.html" class="btn btn-primary"><i class="fas fa-home"></i> Inicio</a>
-                <a href="index.html" class="btn btn-outline"><i class="fas fa-calendar"></i> Agendar Otro</a>
-                <a href="https://wa.me/573204829244" target="_blank" class="btn btn-wa" style="color:white;"><i class="fab fa-whatsapp"></i> Soporte</a>
+                <a href="../index.html" class="btn-confirmacion btn-inicio">
+                    <i class="fas fa-home"></i> Ir al Inicio
+                </a>
+                <a href="index.html" class="btn-confirmacion btn-agendar">
+                    <i class="fas fa-calendar-plus"></i> Agendar Otro
+                </a>
+                <a href="https://wa.me/573204829244" target="_blank" class="btn-confirmacion btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Soporte
+                </a>
             </div>
         </div>
     </main>
-    
-    <footer class="footer"><div class="container"><div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div></div></footer>
-    
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="../nosotros/">Nosotros</a></li><li><a href="../nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="../nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="index.html">Servicios</a></li></ul></div>
+                <div class="footer-col"><h4>Información</h4><ul><li><a href="../legal/terminos.html">Términos y Condiciones</a></li><li><a href="../index.html#faq">Preguntas Frecuentes</a></li><li><a href="../legal/privacidad.html">Política de Privacidad</a></li></ul></div>
+                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li></ul></div>
+                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+            </div>
+            <div class="footer-bottom"><div class="footer-bottom-content"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+        </div>
+    </footer>
+
+    <!-- ========== WHATSAPP ========== -->
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="../assets/js/main.js"></script>
     <script>
+        // Cargar datos del pedido
         var pedido = JSON.parse(localStorage.getItem('petfyUltimoPedido') || '{}');
         var html = '';
         
         if (pedido.referencia) {
-            html += '<div class="detalle-box">';
-            html += '<h3>🐾 ' + pedido.plan_nombre + '</h3>';
-            html += '<div class="detalle-row"><span>📋 Referencia:</span><strong>' + pedido.referencia + '</strong></div>';
-            html += '<div class="detalle-row"><span>🐕 Mascota:</span><strong>' + pedido.mascota_nombre + '</strong></div>';
-            html += '<div class="detalle-row"><span>📍 Dirección:</span><strong>' + pedido.servicio_direccion + '</strong></div>';
-            html += '<div class="detalle-row"><span>📅 Inicio:</span><strong>' + pedido.servicio_fecha_inicio + '</strong></div>';
-            html += '<div class="detalle-row"><span>⏰ Hora:</span><strong>' + pedido.servicio_hora + '</strong></div>';
             
+            // Referencia
+            html += '<div class="confirmacion-referencia">📋 Ref: ' + pedido.referencia + '</div>';
+            
+            // Datos del servicio
+            html += '<div class="detalle-box">';
+            html += '<h3>🐾 ' + (pedido.plan_nombre || 'Servicio') + '</h3>';
+            html += '<div class="detalle-row"><span><i class="fas fa-dog"></i> Mascota:</span><strong>' + (pedido.mascota_nombre || '') + '</strong></div>';
+            html += '<div class="detalle-row"><span><i class="fas fa-user"></i> Cliente:</span><strong>' + (pedido.cliente_nombre || '') + ' ' + (pedido.cliente_apellido || '') + '</strong></div>';
+            html += '<div class="detalle-row"><span><i class="fas fa-envelope"></i> Email:</span><strong>' + (pedido.cliente_email || '') + '</strong></div>';
+            html += '<div class="detalle-row"><span><i class="fas fa-map-marker-alt"></i> Dirección:</span><strong>' + (pedido.servicio_direccion || '') + '</strong></div>';
+            html += '<div class="detalle-row"><span><i class="fas fa-calendar"></i> Fecha inicio:</span><strong>' + (pedido.servicio_fecha_inicio || '') + '</strong></div>';
+            html += '<div class="detalle-row"><span><i class="fas fa-clock"></i> Hora:</span><strong>' + (pedido.servicio_hora || '') + '</strong></div>';
+            
+            // Días de la semana (si aplica)
+            if (pedido.servicio_dias_semana && pedido.servicio_dias_semana.length > 0) {
+                var diasFormateados = pedido.servicio_dias_semana.map(function(d) {
+                    return d.charAt(0).toUpperCase() + d.slice(1);
+                }).join(', ');
+                html += '<div class="detalle-row"><span><i class="fas fa-calendar-week"></i> Días:</span><strong>' + diasFormateados + '</strong></div>';
+            }
+            
+            html += '</div>';
+            
+            // Paseo de prueba (si aplica)
             if (pedido.paseo_prueba) {
-                html += '<div style="background:#ECFDF5;padding:1rem;border-radius:10px;margin:0.5rem 0;">';
-                html += '<strong>🎁 Paseo de Prueba GRATIS</strong><br>';
-                html += '📅 ' + pedido.paseo_prueba.fecha + ' ⏰ ' + pedido.paseo_prueba.hora;
+                html += '<div class="prueba-box">';
+                html += '<h4>🎁 Paseo de Prueba GRATIS</h4>';
+                html += '<p><i class="fas fa-calendar"></i> Fecha: ' + (pedido.paseo_prueba.fecha || '') + '</p>';
+                html += '<p><i class="fas fa-clock"></i> Hora: ' + (pedido.paseo_prueba.hora || '') + '</p>';
+                html += '<p><i class="fas fa-info-circle"></i> Visita de conocimiento (1 hora) - Sin costo</p>';
                 html += '</div>';
             }
             
-            if (pedido.servicio_dias_semana && pedido.servicio_dias_semana.length > 0) {
-                html += '<div class="detalle-row"><span>📆 Días:</span><strong>' + pedido.servicio_dias_semana.join(', ') + '</strong></div>';
-            }
-            
-            if (pedido.facturacion && pedido.facturacion.fecha_proximo_pago) {
-                html += '<div class="detalle-row"><span>💰 Próximo pago:</span><strong>' + pedido.facturacion.fecha_proximo_pago + '</strong></div>';
-            }
-            
-            html += '</div>';
-            
+            // Total
             html += '<div class="total-box">';
-            html += '<p>Total pagado</p>';
-            html += '<div class="precio">$' + pedido.plan_precio.toLocaleString() + '</div>';
-            html += '<p style="font-size:0.8rem;">' + (pedido.facturacion && pedido.facturacion.frecuencia === 'mensual' ? 'Facturación mensual' : 'Pago único') + '</p>';
+            html += '<p class="total-label">💰 Total Pagado</p>';
+            html += '<p class="total-precio">$' + (pedido.plan_precio || 0).toLocaleString() + '</p>';
+            
+            if (pedido.facturacion && pedido.facturacion.frecuencia === 'mensual') {
+                html += '<p class="total-facturacion">📆 Próximo pago: ' + (pedido.facturacion.fecha_proximo_pago || '') + '</p>';
+                html += '<p class="total-facturacion">Facturación mensual</p>';
+            } else {
+                html += '<p class="total-facturacion">Pago único</p>';
+            }
+            
             html += '</div>';
+            
         } else {
-            html = '<p>No se encontró información del pedido.</p><a href="index.html" class="btn btn-primary">Agendar un Paseo</a>';
+            // No hay pedido
+            html = '' +
+            '<div style="text-align:center;padding:2rem 0;">' +
+                '<div style="font-size:4rem;margin-bottom:1rem;">📋</div>' +
+                '<h2 style="font-family:\'Fredoka One\',cursive;color:var(--text);">No se encontró información del pedido</h2>' +
+                '<p style="color:var(--text-light);margin:1rem 0;">Parece que no hay una contratación reciente.</p>' +
+                '<a href="index.html" class="btn-confirmacion btn-inicio" style="display:inline-flex;text-decoration:none;">' +
+                    '<i class="fas fa-calendar-plus"></i> Agendar un Paseo' +
+                '</a>' +
+            '</div>';
         }
         
         document.getElementById('detallePedido').innerHTML = html;
