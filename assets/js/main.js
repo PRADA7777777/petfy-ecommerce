@@ -624,7 +624,7 @@ function generarFormulario(plan) {
             '</div>' +
             '<div class="form-group">' +
                 '<label>Número *</label>' +
-                '<input type="text" id="wizNumVia" name="servicio_numero_via" placeholder="Ej: 155a #7-87" required>' +
+                '<input type="text" id="wizNumVia" name="servicio_numero_via" placeholder="Ej: 15z #7-70" required>' +
             '</div>' +
         '</div>' +
         
