@@ -856,3 +856,42 @@ function mostrarServicio(servicio, btn) {
 }
 
 console.log('✅ Petfy v3.0 Limpio - Cargado completamente');
+// ============================================================
+// CARGAR PLANES EN EL INDEX
+// ============================================================
+function cargarPlanesIndex() {
+    var grid = document.getElementById('planesGrid');
+    if (!grid) return;
+    
+    var planesIndex = [
+        { icono: '⚡', nombre: 'Paseo Único', precio: '19.990', periodo: '/paseo', duracion: '55 minutos', destacado: false, features: ['1 hora de paseo', 'GPS en vivo', '5 fotos', 'Sin suscripción', 'Paseador certificado'] },
+        { icono: '🌟', nombre: '3 Días/Semana', precio: '189.990', periodo: '/mes', duracion: '55 minutos', destacado: true, features: ['1 hora por sesión', 'Paseador fijo', 'GPS en vivo', 'Fotos', 'Seguro incluido'] },
+        { icono: '🔥', nombre: '5 Días/Semana', precio: '299.990', periodo: '/mes', duracion: '55 minutos', destacado: false, features: ['1 hora por sesión', 'Paseador VIP', 'GPS en vivo', 'Fotos + video', 'Seguro incluido'] }
+    ];
+    
+    var html = '';
+    planesIndex.forEach(function(p) {
+        var feats = '';
+        p.features.forEach(function(f) {
+            feats += '<li><i class="fas fa-check-circle"></i> ' + f + '</li>';
+        });
+        
+        html += '' +
+        '<div class="plan-card' + (p.destacado ? ' destacado' : '') + '">' +
+            (p.destacado ? '<div class="plan-badge">MÁS POPULAR</div>' : '') +
+            '<div class="plan-icono">' + p.icono + '</div>' +
+            '<h3 class="plan-nombre">' + p.nombre + '</h3>' +
+            '<div class="plan-precio">$' + p.precio + '<small>' + p.periodo + '</small></div>' +
+            '<p class="plan-duracion">*Duración: ' + p.duracion + '</p>' +
+            '<ul class="plan-features">' + feats + '</ul>' +
+            '<a href="servicios/" class="plan-btn' + (p.destacado ? '' : ' outline') + '">Elegir Plan <i class="fas fa-arrow-right"></i></a>' +
+        '</div>';
+    });
+    
+    grid.innerHTML = html;
+}
+
+// Agregar al DOMContentLoaded:
+document.addEventListener('DOMContentLoaded', function() {
+    cargarPlanesIndex();
+});

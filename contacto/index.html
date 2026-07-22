@@ -13,7 +13,6 @@
     <style>
         .contacto-page { background: var(--bg); }
         
-        /* Header */
         .contacto-header {
             background: linear-gradient(160deg, #FDE8DB, #FEF3EB, #FFF8F5);
             padding: 4rem 0 5rem; text-align: center; position: relative; overflow: hidden;
@@ -26,11 +25,9 @@
         .contacto-header h1 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: var(--text); position: relative; z-index: 2; }
         .contacto-header p { color: var(--text-light); position: relative; z-index: 2; font-size: 1.05rem; }
         
-        /* Contenido */
         .contacto-content { padding: 3rem 0 5rem; }
         .contacto-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2.5rem; align-items: start; }
         
-        /* Info cards */
         .info-card {
             background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
@@ -47,7 +44,6 @@
         .info-text p { color: var(--text-light); font-size: 0.9rem; }
         .info-text a { color: var(--primary); text-decoration: none; font-weight: 700; }
         
-        /* Redes sociales */
         .social-contacto {
             background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius-lg);
@@ -62,9 +58,8 @@
         }
         .social-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
         .social-btn.fb { background: #1877F2; } .social-btn.ig { background: linear-gradient(135deg,#833AB4,#FD1D1D,#F77737); }
-        .social-btn.wa { background: #25D366; } .social-btn.tt { background: #000; }
+        .social-btn.wa { background: #25D366; }
         
-        /* Formulario */
         .form-wrapper {
             background: rgba(255,255,255,0.85); backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.9); border-radius: var(--radius-lg);
@@ -91,7 +86,6 @@
         }
         .btn-enviar:hover { background: var(--primary-dark); transform: translateY(-2px); }
         
-        /* Horarios */
         .horario-section { padding: 0 0 4rem; }
         .horario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .horario-card {
@@ -103,7 +97,6 @@
         .horario-dia { font-family: 'Fredoka One', cursive; font-weight: 700; color: var(--primary); margin-bottom: 0.3rem; }
         .horario-hora { font-size: 1.3rem; font-weight: 800; color: var(--text); }
         
-        /* Mapa */
         .mapa-section { padding: 0 0 4rem; }
         .mapa-container {
             background: var(--white); border-radius: var(--radius-lg);
@@ -111,7 +104,6 @@
         }
         .mapa-container iframe { display: block; }
         
-        /* FAQ */
         .faq-section { padding: 0 0 4rem; }
         .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem; }
         .faq-card {
@@ -124,12 +116,16 @@
         .faq-card p { color: var(--text-light); font-size: 0.9rem; display: none; }
         .faq-card.open p { display: block; margin-top: 0.5rem; }
         
-        @media(max-width:768px){.contacto-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.contacto-header h1{font-size:2rem;}}
+        @media(max-width:768px){
+            .contacto-grid{grid-template-columns:1fr;}
+            .form-row{grid-template-columns:1fr;}
+            .contacto-header h1{font-size:2rem;}
+        }
     </style>
 </head>
 <body>
     
-    <!-- HEADER -->
+    <!-- ========== HEADER ========== -->
     <header class="header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
@@ -150,38 +146,55 @@
         </div>
     </header>
 
-    <!-- BREADCRUMB -->
+    <!-- ========== BREADCRUMB ========== -->
     <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
-    <!-- HEADER CONTACTO -->
+    <!-- ========== HEADER CONTACTO ========== -->
     <section class="contacto-header">
         <span class="doodle d1">📞</span><span class="doodle d2">💬</span><span class="doodle d3">🐾</span><span class="doodle d4">⭐</span>
         <h1>Contacto</h1>
         <p>Estamos aquí para ayudarte. Escríbenos por cualquier medio.</p>
     </section>
 
-    <!-- CONTENIDO -->
+    <!-- ========== CONTENIDO ========== -->
     <section class="contacto-content">
         <div class="container">
             <div class="contacto-grid">
                 
-                <!-- INFORMACIÓN -->
+                <!-- INFORMACIÓN DE CONTACTO -->
                 <div>
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
-                        <div class="info-text"><h4>WhatsApp</h4><p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p><p style="font-size:0.8rem;color:var(--text-muted);">Respuesta inmediata</p></div>
+                        <div class="info-text">
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p>
+                            <p style="font-size:0.8rem;color:var(--text-muted);">Respuesta inmediata</p>
+                        </div>
                     </div>
+                    
                     <div class="info-card">
                         <div class="info-icon"><i class="fas fa-envelope"></i></div>
-                        <div class="info-text"><h4>Email</h4><p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p><p style="font-size:0.8rem;color:var(--text-muted);">Respondemos en menos de 2 horas</p></div>
+                        <div class="info-text">
+                            <h4>Email</h4>
+                            <p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p>
+                            <p style="font-size:0.8rem;color:var(--text-muted);">Respondemos en menos de 2 horas</p>
+                        </div>
                     </div>
+                    
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-instagram"></i></div>
-                        <div class="info-text"><h4>Instagram</h4><p><a href="https://www.instagram.com/petfyservice___/" target="_blank">@petfyservice___</a></p></div>
+                        <div class="info-text">
+                            <h4>Instagram</h4>
+                            <p><a href="https://www.instagram.com/petfyservice___/" target="_blank">@petfyservice___</a></p>
+                        </div>
                     </div>
+                    
                     <div class="info-card">
                         <div class="info-icon"><i class="fab fa-facebook"></i></div>
-                        <div class="info-text"><h4>Facebook</h4><p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank">Petfy Service</a></p></div>
+                        <div class="info-text">
+                            <h4>Facebook</h4>
+                            <p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank">Petfy Service</a></p>
+                        </div>
                     </div>
                     
                     <div class="social-contacto">
@@ -225,7 +238,7 @@
         </div>
     </section>
 
-    <!-- FAQ -->
+    <!-- ========== FAQ ========== -->
     <section class="faq-section">
         <div class="container">
             <div class="section-header"><span class="section-subtitle">Preguntas Frecuentes</span><h2 class="section-title">¿Tienes dudas?</h2></div>
@@ -240,17 +253,17 @@
                 </div>
                 <div class="faq-card" onclick="this.classList.toggle('open')">
                     <h4><i class="fas fa-chevron-down"></i> ¿Qué pasa si mi perro es agresivo?</h4>
-                    <p>Antes del primer paseo hacemos una evaluación gratuita para conocer a tu mascota y asignar el paseador más adecuado.</p>
+                    <p>Antes del primer paseo hacemos una evaluación gratuita (Paseo de Prueba) para conocer a tu mascota y asignar el paseador más adecuado.</p>
                 </div>
                 <div class="faq-card" onclick="this.classList.toggle('open')">
                     <h4><i class="fas fa-chevron-down"></i> ¿Cómo se realiza el pago?</h4>
-                    <p>Aceptamos transferencia, efectivo y próximamente pagos en línea. El pago se realiza antes del servicio.</p>
+                    <p>Aceptamos transferencia, efectivo y próximamente pagos en línea. El pago se realiza antes del servicio. Para planes mensuales, la facturación es automática.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- HORARIOS -->
+    <!-- ========== HORARIOS ========== -->
     <section class="horario-section">
         <div class="container">
             <div class="section-header"><span class="section-subtitle">Disponibles</span><h2 class="section-title">Horarios de Atención</h2></div>
@@ -263,7 +276,7 @@
         </div>
     </section>
 
-    <!-- MAPA -->
+    <!-- ========== MAPA ========== -->
     <section class="mapa-section">
         <div class="container">
             <div class="section-header"><span class="section-subtitle">Encuéntranos</span><h2 class="section-title">Nuestra Ubicación</h2></div>
@@ -286,7 +299,7 @@
         </div>
     </footer>
 
-    <!-- WHATSAPP -->
+    <!-- ========== WHATSAPP FLOTANTE ========== -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <!-- ========== MODAL LOGIN/REGISTRO ========== -->
@@ -294,8 +307,7 @@
         <div class="modal-container">
             <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
             <div id="formLogin">
-                <div class="modal-icon">🐾</div>
-                <h2>Iniciar Sesión</h2>
+                <div class="modal-icon">🐾</div><h2>Iniciar Sesión</h2>
                 <form onsubmit="return loginModal(event)">
                     <div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com" required></div>
                     <div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña" required></div>
@@ -304,13 +316,26 @@
                 <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
             </div>
             <div id="formRegistro" style="display:none;">
-                <div class="modal-icon">🐾</div>
-                <h2>Crear Cuenta</h2>
+                <div class="modal-icon">🐾</div><h2>Crear Cuenta</h2>
+                <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;">Datos del responsable y facturación</p>
                 <form onsubmit="return registroModal(event)">
-                    <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre" required></div>
-                    <div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Email" required></div>
-                    <div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8)" required></div>
-                    <button type="submit" class="modal-btn">Crear Cuenta</button>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre *" required></div>
+                        <div class="modal-input-group"><input type="text" id="regModalApellido" placeholder="Apellido *" required></div>
+                    </div>
+                    <div class="modal-input-group"><input type="email" id="regModalEmail" placeholder="Correo electrónico *" required></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div class="modal-input-group">
+                            <select id="regModalTipoDoc" required style="width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;">
+                                <option value="">Tipo Doc *</option><option value="CC">CC</option><option value="CE">CE</option><option value="NIT">NIT</option><option value="PP">Pasaporte</option>
+                            </select>
+                        </div>
+                        <div class="modal-input-group"><input type="text" id="regModalNumDoc" placeholder="N° Documento *" required></div>
+                    </div>
+                    <div class="modal-input-group"><input type="tel" id="regModalTelefono" placeholder="Teléfono (opcional)"></div>
+                    <div class="modal-input-group"><input type="text" id="regModalDirFactura" placeholder="Dirección de facturación *" required></div>
+                    <div class="modal-input-group"><input type="password" id="regModalPassword" placeholder="Contraseña (mín 8) *" required></div>
+                    <button type="submit" class="modal-btn">🐾 Crear Cuenta</button>
                 </form>
                 <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
             </div>
@@ -320,25 +345,11 @@
     <!-- ========== PROFILE SIDEBAR ========== -->
     <div class="profile-overlay" id="profileOverlay" onclick="cerrarSidebar()"></div>
     <div class="profile-sidebar" id="profileSidebar">
-        <div class="profile-panel-header">
-            <button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button>
-            <div class="profile-avatar-large">🐾</div>
-            <h3 id="sidebarNombre">Usuario</h3>
-            <p id="sidebarEmail">usuario@email.com</p>
-            <span class="profile-badge-vip">⭐ VIP</span>
-        </div>
-        <div class="profile-kpis">
-            <div class="profile-kpi"><span class="profile-kpi-number">5</span><span class="profile-kpi-label">Pedidos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">3</span><span class="profile-kpi-label">Paseos</span></div>
-            <div class="profile-kpi"><span class="profile-kpi-number">2</span><span class="profile-kpi-label">Mascotas</span></div>
-        </div>
-        <div class="profile-rewards">
-            <div class="profile-points">💰 1,250 Pts</div>
-            <div class="profile-coupons">🎁 2 Cupones</div>
-        </div>
+        <div class="profile-panel-header"><button class="profile-panel-close" onclick="cerrarSidebar()">&times;</button><div class="profile-avatar-large">🐾</div><h3 id="sidebarNombre">Usuario</h3><p id="sidebarEmail">usuario@email.com</p><span class="profile-badge-vip">⭐ VIP</span></div>
+        <div class="profile-kpis"><div class="profile-kpi"><span class="profile-kpi-number" id="kpiPaseos">0</span><span class="profile-kpi-label">Paseos</span></div><div class="profile-kpi"><span class="profile-kpi-number" id="kpiMascotas">0</span><span class="profile-kpi-label">Mascotas</span></div></div>
         <div class="profile-menu">
             <a href="../cuenta/perfil.html" class="profile-menu-item"><i class="fas fa-user"></i> Mi Perfil</a>
-            <a href="../cuenta/perfil.html#tab-paseos" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos<span class="badge-count">3</span></a>
+            <a href="../cuenta/mis-paseos.html" class="profile-menu-item"><i class="fas fa-calendar"></i> Mis Paseos</a>
             <a href="../cuenta/perfil.html#tab-mascotas" class="profile-menu-item"><i class="fas fa-paw"></i> Mis Mascotas</a>
             <div class="profile-menu-divider"></div>
             <button class="profile-menu-item logout" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
@@ -349,28 +360,17 @@
     <div class="modal-overlay" id="ofertaModal">
         <div class="modal-container" style="text-align:center;max-width:500px;padding:3rem 2.5rem;">
             <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
-            <div style="font-size:5rem;">🎉</div>
-            <h2>¡Bienvenido!</h2>
-            <p>50% OFF + Paseo Gratis</p>
+            <div style="font-size:5rem;">🎉</div><h2>¡Bienvenido!</h2><p>50% OFF + Paseo Gratis</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
-                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0);padding:1.5rem;border-radius:20px;">
-                    <div style="font-size:2.5rem;">🛍️</div>
-                    <div style="font-size:2rem;font-family:'Fredoka One',cursive;color:var(--primary);">50%</div>
-                    <div style="font-weight:800;">DESCUENTO</div>
-                    <div style="background:var(--primary);color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">BIENVENIDO50</div>
-                </div>
-                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);padding:1.5rem;border-radius:20px;">
-                    <div style="font-size:2.5rem;">🐕</div>
-                    <div style="font-size:2rem;font-family:'Fredoka One',cursive;color:#059669;">1</div>
-                    <div style="font-weight:800;">PASEO GRATIS</div>
-                    <div style="background:#059669;color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">PASEOGRATIS1</div>
-                </div>
+                <div style="background:linear-gradient(135deg,#FFF0E8,#FFE0D0);padding:1.5rem;border-radius:20px;"><div style="font-size:2.5rem;">🛍️</div><div style="font-size:2rem;font-family:'Fredoka One',cursive;color:var(--primary);">50%</div><div style="font-weight:800;">DESCUENTO</div><div style="background:var(--primary);color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">BIENVENIDO50</div></div>
+                <div style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);padding:1.5rem;border-radius:20px;"><div style="font-size:2.5rem;">🐕</div><div style="font-size:2rem;font-family:'Fredoka One',cursive;color:#059669;">1</div><div style="font-weight:800;">PASEO GRATIS</div><div style="background:#059669;color:white;padding:0.3rem 0.8rem;border-radius:15px;font-size:0.75rem;margin-top:0.5rem;display:inline-block;">PASEOGRATIS1</div></div>
             </div>
             <button onclick="reclamarOferta()" class="modal-btn" style="font-size:1.1rem;">🎁 Crear Cuenta y Reclamar</button>
             <button onclick="cerrarOferta()" style="background:none;border:none;color:var(--text-muted);margin-top:0.75rem;cursor:pointer;font-family:'Nunito',sans-serif;">No gracias</button>
         </div>
     </div>
 
+    <!-- ========== SCRIPTS ========== -->
     <script src="../assets/js/main.js"></script>
     <script>
         function enviarFormulario(e) {
@@ -378,7 +378,7 @@
             var nombre = document.getElementById('nombre').value;
             var email = document.getElementById('email').value;
             var mensaje = document.getElementById('mensaje').value;
-            if (!nombre || !email || !mensaje) { alert('Completa los campos requeridos'); return false; }
+            if (!nombre || !email || !mensaje) { alert('⚠️ Completa los campos requeridos'); return false; }
             alert('✅ Mensaje enviado con éxito. Te responderemos pronto.');
             e.target.reset();
             return false;
