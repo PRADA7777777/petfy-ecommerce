@@ -895,3 +895,315 @@ function cargarPlanesIndex() {
 document.addEventListener('DOMContentLoaded', function() {
     cargarPlanesIndex();
 });
+// ============================================================
+// PERFIL DE USUARIO
+// ============================================================
+
+function cargarPerfil() {
+    var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+    document.getElementById('perfilNombre').textContent = user.nombre || 'Usuario';
+    
+    document.getElementById('editNombre').value = user.nombre || '';
+    document.getElementById('editApellido').value = user.apellido || '';
+    document.getElementById('editEmail').value = user.email || '';
+    document.getElementById('editTipoDoc').value = user.tipoDoc || 'CC';
+    document.getElementById('editNumDoc').value = user.numDoc || '';
+    document.getElementById('editTelefono').value = user.telefono || '';
+    document.getElementById('editDirFactura').value = user.dirFactura || '';
+    
+    cargarKPIs();
+    cargarDireccion();
+    cargarPaseosActivos();
+    cargarHistorialPaseos();
+    cargarMascotas();
+    cargarFacturacion();
+    generarHorarios();
+}
+
+// ========== KPIs ==========
+function cargarKPIs() {
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+    var activos = paseos.filter(function(p) { return p.estado === 'activo'; });
+    
+    document.getElementById('kpiPaseosActivos').textContent = activos.length;
+    document.getElementById('kpiMascotas').textContent = mascotas.length;
+    document.getElementById('kpiPlanActivo').textContent = activos.length > 0 ? activos[0].plan : '-';
+    document.getElementById('kpiProximoPago').textContent = activos.length > 0 && activos[0].proximoPago ? activos[0].proximoPago : '-';
+}
+
+// ========== TABS ==========
+function mostrarTabPerfil(tab, btn) {
+    document.querySelectorAll('.perfil-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.perfil-tab-content').forEach(function(c) { c.classList.remove('active'); });
+    if (btn) btn.classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// ========== DATOS PERSONALES ==========
+function guardarDatos(e) {
+    e.preventDefault();
+    var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+    user.nombre = document.getElementById('editNombre').value;
+    user.apellido = document.getElementById('editApellido').value;
+    user.tipoDoc = document.getElementById('editTipoDoc').value;
+    user.numDoc = document.getElementById('editNumDoc').value;
+    user.telefono = document.getElementById('editTelefono').value;
+    user.dirFactura = document.getElementById('editDirFactura').value;
+    localStorage.setItem('petfyUser', JSON.stringify(user));
+    cargarPerfil();
+    alert('✅ Datos guardados');
+    return false;
+}
+
+// ========== DIRECCIÓN ==========
+function cargarDireccion() {
+    var dir = JSON.parse(localStorage.getItem('petfyDireccionServicio') || JSON.parse(localStorage.getItem('petfyUltimaDireccion') || '{}'));
+    document.getElementById('editCiudad').value = dir.ciudad || 'Bogotá';
+    document.getElementById('editLocalidad').value = dir.localidad || 'Usaquén';
+    document.getElementById('editTipoVia').value = dir.tipoVia || 'calle';
+    document.getElementById('editNumVia').value = dir.numeroVia || '';
+    document.getElementById('editComplemento').value = dir.complemento || '';
+    document.getElementById('editEsConjunto').value = dir.esConjunto || 'no';
+    document.getElementById('editTorre').value = dir.torre || '';
+    document.getElementById('editApto').value = dir.apto || '';
+    toggleConjuntoPerfil();
+}
+
+function guardarDireccion(e) {
+    e.preventDefault();
+    var dir = {
+        ciudad: 'Bogotá', localidad: 'Usaquén',
+        tipoVia: document.getElementById('editTipoVia').value,
+        numeroVia: document.getElementById('editNumVia').value,
+        complemento: document.getElementById('editComplemento').value,
+        esConjunto: document.getElementById('editEsConjunto').value,
+        torre: document.getElementById('editTorre').value,
+        apto: document.getElementById('editApto').value
+    };
+    localStorage.setItem('petfyDireccionServicio', JSON.stringify(dir));
+    localStorage.setItem('petfyUltimaDireccion', JSON.stringify(dir));
+    alert('✅ Dirección guardada');
+    return false;
+}
+
+function toggleConjuntoPerfil() {
+    var es = document.getElementById('editEsConjunto').value;
+    document.getElementById('datosConjuntoPerfil').style.display = es === 'si' ? 'block' : 'none';
+}
+
+// ========== PASEOS ACTIVOS ==========
+function cargarPaseosActivos() {
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var activos = paseos.filter(function(p) { return p.estado === 'activo'; });
+    var html = '';
+    
+    if (activos.length === 0) {
+        html = '<div class="perfil-empty"><i class="fas fa-calendar"></i><p>No tienes paseos activos</p></div>';
+    } else {
+        activos.forEach(function(p) {
+            var dias = p.dias && p.dias.length > 0 ? p.dias.map(function(d) { return d.charAt(0).toUpperCase() + d.slice(1); }).join(', ') : '';
+            html += '<div class="paseo-card">' +
+                '<div class="paseo-card-header"><span class="paseo-card-plan">' + (p.plan || '') + '</span><span class="paseo-card-status status-activo">Activo</span></div>' +
+                '<div class="paseo-card-body"><div><i class="fas fa-dog"></i> ' + (p.mascota || '') + '</div><div><i class="fas fa-calendar"></i> ' + (p.fecha || '') + '</div><div><i class="fas fa-clock"></i> ' + (p.hora || '') + '</div>' + (dias ? '<div><i class="fas fa-calendar-week"></i> ' + dias + '</div>' : '') + '<div><i class="fas fa-map-marker-alt"></i> ' + (p.direccion || '') + '</div></div>' +
+                '<div class="paseo-card-footer"><span class="paseo-card-precio">$' + (p.precio || 0).toLocaleString() + '</span><div class="paseo-card-acciones"><a href="https://wa.me/573204829244" target="_blank" class="btn-paseo btn-contactar"><i class="fab fa-whatsapp"></i></a><button class="btn-paseo btn-cancelar" onclick="cancelarPaseo(\'' + p.referencia + '\')"><i class="fas fa-times"></i></button></div></div></div>';
+        });
+    }
+    document.getElementById('listaPaseosActivos').innerHTML = html;
+}
+
+function cancelarPaseo(ref) {
+    if (!confirm('¿Cancelar este paseo?')) return;
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var idx = paseos.findIndex(function(p) { return p.referencia === ref; });
+    if (idx >= 0) { paseos[idx].estado = 'cancelado'; localStorage.setItem('petfyHistorialPaseos', JSON.stringify(paseos)); cargarPerfil(); }
+}
+
+// ========== HISTORIAL ==========
+function cargarHistorialPaseos() {
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var historial = paseos.filter(function(p) { return p.estado !== 'activo'; });
+    var html = '';
+    if (historial.length === 0) {
+        html = '<div class="perfil-empty"><i class="fas fa-history"></i><p>Sin historial</p></div>';
+    } else {
+        historial.reverse().forEach(function(p) {
+            html += '<div class="historial-row"><span>' + (p.plan || '') + '</span><span>' + (p.fecha || '') + '</span><span>$' + (p.precio || 0).toLocaleString() + '</span><span class="status-' + (p.estado || 'completado') + '">' + (p.estado || '') + '</span></div>';
+        });
+    }
+    document.getElementById('listaHistorialPaseos').innerHTML = html;
+}
+
+// ========== MASCOTAS ==========
+function cargarMascotas() {
+    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+    var html = '';
+    if (mascotas.length === 0) {
+        html = '<div class="perfil-empty"><i class="fas fa-paw"></i><p>No tienes mascotas</p></div>';
+    } else {
+        mascotas.forEach(function(m, i) {
+            html += '<div class="mascota-card"><div class="mascota-card-avatar">🐕</div><div class="mascota-card-info"><strong>' + m.nombre + '</strong><p>' + (m.raza || '') + '</p></div><div class="mascota-card-actions"><button class="btn-icon btn-edit" onclick="editarMascota(' + i + ')"><i class="fas fa-pen"></i></button><button class="btn-icon btn-delete" onclick="eliminarMascota(' + i + ')"><i class="fas fa-trash"></i></button></div></div>';
+        });
+    }
+    document.getElementById('listaMascotas').innerHTML = html;
+}
+
+function mostrarFormMascota() {
+    document.getElementById('formMascota').style.display = 'block';
+    document.getElementById('formMascotaTitulo').textContent = 'Nueva Mascota';
+    document.getElementById('mascotaIndex').value = '-1';
+    document.getElementById('mascotaNombre').value = '';
+    document.getElementById('mascotaRaza').value = '';
+    document.getElementById('mascotaEdad').value = '';
+    document.getElementById('mascotaPeso').value = '';
+}
+
+function editarMascota(i) {
+    var m = JSON.parse(localStorage.getItem('petfyMascotas') || '[]')[i];
+    document.getElementById('formMascota').style.display = 'block';
+    document.getElementById('formMascotaTitulo').textContent = 'Editar Mascota';
+    document.getElementById('mascotaIndex').value = i;
+    document.getElementById('mascotaNombre').value = m.nombre;
+    document.getElementById('mascotaRaza').value = m.raza;
+    document.getElementById('mascotaEdad').value = m.edad || '';
+    document.getElementById('mascotaPeso').value = m.peso || '';
+}
+
+function guardarMascota() {
+    var i = parseInt(document.getElementById('mascotaIndex').value);
+    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+    var m = {
+        nombre: document.getElementById('mascotaNombre').value,
+        raza: document.getElementById('mascotaRaza').value,
+        edad: document.getElementById('mascotaEdad').value,
+        peso: document.getElementById('mascotaPeso').value,
+        comportamiento: document.getElementById('mascotaComportamiento').value
+    };
+    if (!m.nombre || !m.raza) { alert('⚠️ Nombre y raza son obligatorios'); return; }
+    if (i >= 0) { mascotas[i] = m; } else { mascotas.push(m); }
+    localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+    document.getElementById('formMascota').style.display = 'none';
+    cargarMascotas();
+    cargarKPIs();
+}
+
+function cancelarFormMascota() { document.getElementById('formMascota').style.display = 'none'; }
+
+function eliminarMascota(i) {
+    if (!confirm('¿Eliminar esta mascota?')) return;
+    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+    mascotas.splice(i, 1);
+    localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+    cargarMascotas();
+    cargarKPIs();
+}
+
+// ========== FACTURACIÓN ==========
+function cargarFacturacion() {
+    var pagos = JSON.parse(localStorage.getItem('petfyHistorialPagos') || '[]');
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var activo = paseos.filter(function(p) { return p.estado === 'activo'; })[0];
+    
+    var html = '';
+    if (activo) {
+        html = '<div class="factura-card"><div><strong>' + activo.plan + '</strong></div><div>$' + (activo.precio || 0).toLocaleString() + '/mes</div><div>Inicio: ' + (activo.fecha || '') + '</div><div>Próximo pago: ' + (activo.proximoPago || 'Pendiente') + '</div><button class="btn-perfil btn-primary" onclick="abrirModalPagoProximo()" style="margin-top:0.5rem;">💳 Pagar Próximo Mes</button></div>';
+    } else {
+        html = '<div class="perfil-empty"><i class="fas fa-credit-card"></i><p>No tienes un plan activo</p></div>';
+    }
+    document.getElementById('resumenPlanActivo').innerHTML = html;
+    
+    var htmlPagos = '';
+    if (pagos.length === 0) {
+        htmlPagos = '<div class="perfil-empty"><i class="fas fa-receipt"></i><p>Sin historial de pagos</p></div>';
+    } else {
+        pagos.reverse().forEach(function(p) {
+            htmlPagos += '<div class="historial-row"><span>' + (p.fecha || '') + '</span><span>$' + (p.monto || 0).toLocaleString() + '</span><span>' + (p.referencia || '') + '</span><span class="status-completado">✅ Pagado</span></div>';
+        });
+    }
+    document.getElementById('listaHistorialPagos').innerHTML = htmlPagos;
+}
+
+// ========== MODAL PAGO PRÓXIMO MES ==========
+function abrirModalPagoProximo() {
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var activo = paseos.filter(function(p) { return p.estado === 'activo'; })[0];
+    if (!activo) { alert('No tienes un plan activo'); return; }
+    
+    document.getElementById('detallePagoProximo').innerHTML = '<p><strong>Plan:</strong> ' + activo.plan + '</p><p><strong>Mascota:</strong> ' + (activo.mascota || '') + '</p><p><strong>Período:</strong> ' + (activo.proximoPago || 'Próximo mes') + '</p>';
+    document.getElementById('totalPagoProximo').textContent = '$' + (activo.precio || 0).toLocaleString();
+    document.getElementById('modalPagoProximo').classList.add('active');
+}
+
+function cerrarModalPagoProximo() { document.getElementById('modalPagoProximo').classList.remove('active'); }
+
+function confirmarPagoProximo() {
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    var activo = paseos.filter(function(p) { return p.estado === 'activo'; })[0];
+    if (!activo) return;
+    
+    var pagos = JSON.parse(localStorage.getItem('petfyHistorialPagos') || '[]');
+    pagos.push({ referencia: 'PAGO-' + Date.now(), servicio_ref: activo.referencia, fecha: new Date().toISOString().split('T')[0], monto: activo.precio, estado: 'pagado' });
+    localStorage.setItem('petfyHistorialPagos', JSON.stringify(pagos));
+    
+    var idx = paseos.findIndex(function(p) { return p.referencia === activo.referencia; });
+    if (idx >= 0) {
+        var fecha = new Date(); fecha.setMonth(fecha.getMonth() + 1);
+        paseos[idx].proximoPago = fecha.toLocaleDateString('es-CO', {year:'numeric',month:'long',day:'numeric'});
+        localStorage.setItem('petfyHistorialPaseos', JSON.stringify(paseos));
+    }
+    cerrarModalPagoProximo();
+    cargarPerfil();
+    alert('✅ Pago realizado con éxito');
+}
+
+// ========== MODAL PASEO ADICIONAL ==========
+function generarHorarios() {
+    var select = document.getElementById('paseoAdicionalHora');
+    if (!select) return;
+    var horas = ['07:00 AM','08:00 AM','09:00 AM','10:00 AM','11:00 AM','12:00 PM','01:00 PM','02:00 PM','03:00 PM','04:00 PM','05:00 PM','06:00 PM'];
+    select.innerHTML = '<option value="">Seleccionar hora</option>' + horas.map(function(h) { return '<option value="'+h+'">'+h+'</option>'; }).join('');
+}
+
+function abrirModalPaseoAdicional() {
+    var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+    document.getElementById('paseoAdicionalMascota').innerHTML = '<option value="">Seleccionar mascota</option>' + mascotas.map(function(m) { return '<option value="'+m.nombre+'">'+m.nombre+'</option>'; }).join('');
+    
+    var dir = JSON.parse(localStorage.getItem('petfyDireccionServicio') || '{}');
+    document.getElementById('paseoAdicionalDireccion').value = (dir.tipoVia||'') + ' ' + (dir.numeroVia||'') + (dir.complemento ? ', ' + dir.complemento : '') || 'No configurada';
+    
+    var hoy = new Date(); hoy.setDate(hoy.getDate() + 1);
+    document.getElementById('paseoAdicionalFecha').min = hoy.toISOString().split('T')[0];
+    document.getElementById('modalPaseoAdicional').classList.add('active');
+}
+
+function cerrarModalPaseoAdicional() { document.getElementById('modalPaseoAdicional').classList.remove('active'); }
+
+function confirmarPaseoAdicional() {
+    var mascota = document.getElementById('paseoAdicionalMascota').value;
+    var fecha = document.getElementById('paseoAdicionalFecha').value;
+    var hora = document.getElementById('paseoAdicionalHora').value;
+    if (!mascota || !fecha || !hora) { alert('⚠️ Completa todos los campos'); return; }
+    
+    var f = new Date(fecha + 'T00:00:00');
+    if (f.getDay() === 0) { alert('⚠️ No se agendan servicios los domingos'); return; }
+    
+    var ref = 'PETFY-AD-' + Date.now();
+    var paseos = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+    paseos.push({ referencia: ref, plan: 'Paseo Único', mascota: mascota, fecha: fecha, hora: hora, precio: 19990, direccion: document.getElementById('paseoAdicionalDireccion').value, estado: 'activo', fechaAgendamiento: new Date().toISOString() });
+    localStorage.setItem('petfyHistorialPaseos', JSON.stringify(paseos));
+    
+    var pagos = JSON.parse(localStorage.getItem('petfyHistorialPagos') || '[]');
+    pagos.push({ referencia: 'PAGO-' + Date.now(), servicio_ref: ref, fecha: new Date().toISOString().split('T')[0], monto: 19990, estado: 'pagado' });
+    localStorage.setItem('petfyHistorialPagos', JSON.stringify(pagos));
+    
+    cerrarModalPaseoAdicional();
+    cargarPerfil();
+    alert('✅ Paseo adicional agendado con éxito');
+}
+
+// Iniciar perfil
+if (document.querySelector('.perfil-page')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarPerfil();
+    });
+}
