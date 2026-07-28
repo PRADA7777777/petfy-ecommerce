@@ -1,2 +1,0 @@
-# petfy-final
-tienda mascotas
