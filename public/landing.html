@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="PETFY - Servicios de Paseos para Mascotas. GPS en vivo, paseador fijo, fotos y más.">
+    <meta name="keywords" content="mascotas, perros, paseos, pet shop, paseador, GPS">
+    <meta property="og:title" content="PETFY - Paseos para Mascotas">
+    <meta property="og:description" content="Paseos profesionales con GPS en vivo, fotos y paseador fijo">
+    <meta property="og:image" content="assets/img/og-image.png">
+    <meta property="og:url" content="https://petfy.com">
+    <title>PETFY - Paseos y Servicios para Mascotas | Un Universo Peludo</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Usamos landing.css -->
+    <link rel="stylesheet" href="assets/css/landing.css">
+</head>
+
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="#inicio"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li class="nav-item"><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
+                    <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
+                    <li class="nav-item mobile-only">
+                        <a href="#" class="nav-link" id="btnCuentaMobile">
+                            <i class="fas fa-user"></i> Mi cuenta
+                        </a>
+                    </li>
+                </ul>
+                    <!--<div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                </div>-->
+                <div class="user-actions">
+                    <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- SECCIÓN 1: INICIO (id="inicio") -->
+    <section id="inicio" class="section-inicio">
+    <!-- CARRUSEL DE BANNERS -->
+    <section class="banner-carousel">
+        <div class="carousel-container" id="mainCarousel">
+            <button class="carousel-btn carousel-prev">‹</button>
+            <button class="carousel-btn carousel-next">›</button>
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide banner-1">
+                    <img src="assets/img/Petfy-Carusell-1.jpg" alt="Banner 1" class="carousel-img">
+                    <a href="#planes" class="carousel-btn-accion">Agendar Ahora <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="carousel-slide banner-2">
+                    <img src="assets/img/Petfy-Carusell-2.jpg" alt="Banner 2" class="carousel-img">
+                    <a href="#planes" class="carousel-btn-accion">Quiero mi Paseo Gratis <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="carousel-slide banner-3">
+                    <img src="assets/img/Petfy-Carrusel-3.jpg" alt="Banner 3" class="carousel-img">
+                    <a href="#planes" class="carousel-btn-accion">Ver Planes <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="carousel-slide banner-4">
+                    <img src="assets/img/Petfy-Carrusel-4.jpg" alt="Banner 4" class="carousel-img">
+                    <a href="https://wa.me/573204829244" class="carousel-btn-accion">Chatear Ahora <i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="carousel-dots">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+                <span class="dot" data-index="3"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
+                    <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
+                    <p class="hero-description">Paseos profesionales con GPS en vivo, fotos y paseador fijo. ¡Tu mascota feliz y segura!</p>
+                    <div class="hero-buttons">
+                        <a href="#planes" class="btn btn-primary">Contratar Paseo <i class="fas fa-arrow-right"></i></a>
+                        <a href="#servicios" class="btn btn-outline">Conocer más</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item"><span class="stat-number">+500</span><span class="stat-label">Paseos</span></div>
+                        <div class="stat-item"><span class="stat-number">4.9</span><span class="stat-label">Rating</span></div>
+                        <div class="stat-item"><span class="stat-number">24/7</span><span class="stat-label">Soporte</span></div>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-wrapper">
+                        <img src="assets/img/Group 1.png" alt="Mascotas" class="floating-image">
+                        <div class="floating-badge"><i class="fas fa-star"></i><span>4.9/5 Reseñas</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 2: SERVICIOS (id="servicios") -->
+    <!-- ================================================================ -->
+    <section id="servicios" class="services-home-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Cuidado Integral</span>
+                <h2 class="section-title">Nuestros Servicios</h2>
+            </div>
+            <div class="services-home-grid">
+                <a href="#planes" class="service-home-card activo featured">
+                    <div class="service-home-icon"><i class="fas fa-dog"></i></div>
+                    <span class="service-home-badge badge-disponible">Disponible</span>
+                    <h3>Paseos Diarios</h3>
+                    <p>GPS en vivo y fotos</p>
+                    <div class="service-home-price">Desde $19.990</div>
+                </a>
+                <a href="#" class="service-home-card inactivo">
+                    <div class="service-home-icon"><i class="fas fa-house-chimney"></i></div>
+                    <span class="service-home-badge badge-proximo">Próximamente</span>
+                    <h3>Guardería</h3>
+                    <p>Cámaras 24/7</p>
+                    <div class="service-home-price">Desde $15.990</div>
+                </a>
+                <a href="#" class="service-home-card inactivo">
+                    <div class="service-home-icon"><i class="fas fa-shower"></i></div>
+                    <span class="service-home-badge badge-proximo">Próximamente</span>
+                    <h3>Baños</h3>
+                    <p>Hipoalergénicos</p>
+                    <div class="service-home-price">Desde $12.990</div>
+                </a>
+                <a href="#" class="service-home-card inactivo">
+                    <div class="service-home-icon"><i class="fas fa-stethoscope"></i></div>
+                    <span class="service-home-badge badge-proximo">Próximamente</span>
+                    <h3>Veterinaria</h3>
+                    <p>Urgencias 24/7</p>
+                    <div class="service-home-price">Desde $20.000</div>
+                </a>
+            </div>
+            <div class="text-center mt-4">
+                <a href="#planes" class="btn btn-primary">Ver todos los planes <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 3: PLANES (id="planes") -->
+    <!-- ================================================================ -->
+    <section id="planes" class="planes-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Elige tu Plan</span>
+                <h2 class="section-title">Planes de Paseo</h2>
+                <p class="section-description">Todos los planes incluyen GPS en vivo, fotos y paseador certificado</p>
+            </div>
+            <div class="planes-grid" id="planesGrid"></div>
+            <div class="text-center mt-4">
+                <p style="color:var(--text-muted);">¿No sabes cuál elegir? <a href="https://wa.me/573204829244"
+                        target="_blank" style="color:var(--primary);font-weight:700;">Contáctanos por WhatsApp <i
+                            class="fab fa-whatsapp"></i></a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 4: RESEÑAS -->
+    <!-- ================================================================ -->
+    <section class="reviews-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Testimonios</span>
+                <h2 class="section-title">Clientes Felices</h2>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">M</div>
+                        <div>
+                            <h4>María Gómez</h4><span class="review-pet">🐕 Max</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"¡Increíble! Max regresa feliz de cada paseo. El GPS me da tranquilidad."</p>
+                    <div class="review-footer"><span>📅 Hace 2 días</span><span>✅ Paseo 3 Días</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">C</div>
+                        <div>
+                            <h4>Carlos Ruiz</h4><span class="review-pet">🐕 Rocky</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"El plan de 5 días es perfecto. Rocky llega agotado y feliz. ¡10/10!"</p>
+                    <div class="review-footer"><span>📅 Hace 1 semana</span><span>✅ Paseo 5 Días</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">A</div>
+                        <div>
+                            <h4>Ana López</h4><span class="review-pet">🐱 Luna</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"La agenda es súper fácil. El paseador llegó puntual. ¡Profesionales!"</p>
+                    <div class="review-footer"><span>📅 Hace 2 semanas</span><span>✅ Paseo Único</span></div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="#planes" class="btn btn-primary">🐾 Agendar mi Paseo <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 5: BENEFICIOS -->
+    <!-- ================================================================ -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card"><i class="fas fa-map-marker-alt"></i>
+                    <h3>GPS en Vivo</h3>
+                    <p>Seguimiento real</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-camera"></i>
+                    <h3>Fotos del Paseo</h3>
+                    <p>Recibe reportes</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-user-check"></i>
+                    <h3>Paseador Fijo</h3>
+                    <p>Confianza total</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-headset"></i>
+                    <h3>Soporte 24/7</h3>
+                    <p>WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 6: NOSOTROS (id="nosotros") -->
+    <!-- ================================================================ -->
+    <section id="nosotros" class="nosotros-section">
+        <div class="nosotros-hero">
+            <div class="container">
+                <h1>Somos Petfy</h1>
+                <p>Nacimos del amor incondicional por las mascotas. Somos más que una tienda: una comunidad dedicada al
+                    bienestar y felicidad de tus compañeros peludos.</p>
+                <div class="nosotros-stats">
+                    <div class="nosotros-stat"><span class="nosotros-stat-num">+5000</span><span
+                            class="nosotros-stat-label">Clientes Felices</span></div>
+                    <div class="nosotros-stat"><span class="nosotros-stat-num">+1000</span><span
+                            class="nosotros-stat-label">Productos</span></div>
+                    <div class="nosotros-stat"><span class="nosotros-stat-num">50+</span><span
+                            class="nosotros-stat-label">Marcas</span></div>
+                    <div class="nosotros-stat"><span class="nosotros-stat-num">24/7</span><span
+                            class="nosotros-stat-label">Soporte</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="mvv-section">
+            <div class="container">
+                <div class="mvv-grid">
+                    <div class="mvv-card">
+                        <div class="mvv-icon"><i class="fas fa-bullseye"></i></div>
+                        <h2>🎯 Nuestra Misión</h2>
+                        <p>Proveer productos y servicios de la más alta calidad para el cuidado de las mascotas.</p>
+                    </div>
+                    <div class="mvv-card">
+                        <div class="mvv-icon"><i class="fas fa-eye"></i></div>
+                        <h2>🔭 Nuestra Visión</h2>
+                        <p>Ser la plataforma líder en Latinoamérica para el cuidado integral de mascotas para 2030.</p>
+                    </div>
+                    <div class="mvv-card">
+                        <div class="mvv-icon"><i class="fas fa-heart"></i></div>
+                        <h2>💛 Nuestros Valores</h2>
+                        <ul>
+                            <li><i class="fas fa-paw"></i> <strong>Amor Animal</strong></li>
+                            <li><i class="fas fa-shield-alt"></i> <strong>Calidad</strong></li>
+                            <li><i class="fas fa-handshake"></i> <strong>Confianza</strong></li>
+                            <li><i class="fas fa-leaf"></i> <strong>Sostenibilidad</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 7: CONTACTO (id="contacto") -->
+    <!-- ================================================================ -->
+    <section id="contacto" class="contacto-section">
+        <div class="contacto-header">
+            <span class="doodle d1">📞</span><span class="doodle d2">💬</span><span class="doodle d3">🐾</span><span
+                class="doodle d4">⭐</span>
+            <div class="container">
+                <h1>Contacto</h1>
+                <p>Estamos aquí para ayudarte. Escríbenos por cualquier medio.</p>
+            </div>
+        </div>
+        <div class="contacto-content">
+            <div class="container">
+                <div class="contacto-grid">
+                    <div>
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="info-text">
+                                <h4>WhatsApp</h4>
+                                <p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p>
+                                <p style="font-size:0.8rem;color:var(--text-muted);">Respuesta inmediata</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="info-text">
+                                <h4>Email</h4>
+                                <p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p>
+                                <p style="font-size:0.8rem;color:var(--text-muted);">Respondemos en menos de 2 horas</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                            <div class="info-text">
+                                <h4>Instagram</h4>
+                                <p><a href="https://www.instagram.com/petfyservice___/"
+                                        target="_blank">@petfyservice___</a></p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-facebook"></i></div>
+                            <div class="info-text">
+                                <h4>Facebook</h4>
+                                <p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr"
+                                        target="_blank">Petfy Service</a></p>
+                            </div>
+                        </div>
+                        <div class="social-contacto">
+                            <h4>🌐 Síguenos</h4>
+                            <div class="social-btns">
+                                <a href="https://www.instagram.com/petfyservice___/" target="_blank"
+                                    class="social-btn ig"><i class="fab fa-instagram"></i> Instagram</a>
+                                <a href="https://wa.me/573204829244" target="_blank" class="social-btn wa"><i
+                                        class="fab fa-whatsapp"></i> WhatsApp</a>
+                                <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"
+                                    class="social-btn fb"><i class="fab fa-facebook"></i> Facebook</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-wrapper">
+                        <h2>✉️ Escríbenos</h2>
+                        <form onsubmit="return enviarFormulario(event)">
+                            <div class="form-row">
+                                <div class="form-group"><label>Nombre *</label><input type="text" id="nombre" required
+                                        placeholder="Tu nombre"></div>
+                                <div class="form-group"><label>Apellido *</label><input type="text" id="apellido"
+                                        required placeholder="Tu apellido"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label>Email *</label><input type="email" id="email" required
+                                        placeholder="tu@email.com"></div>
+                                <div class="form-group"><label>Teléfono</label><input type="tel" id="telefono"
+                                        placeholder="+57 300 123 4567"></div>
+                            </div>
+                            <div class="form-group"><label>Asunto *</label><select id="asunto" required>
+                                    <option value="">Selecciona un asunto</option>
+                                    <option>Quiero contratar un paseo</option>
+                                    <option>Información de servicios</option>
+                                    <option>Tengo una duda</option>
+                                    <option>Sugerencia o reclamo</option>
+                                    <option>Otro</option>
+                                </select></div>
+                            <div class="form-group"><label>Mensaje *</label><textarea id="mensaje" required
+                                    placeholder="Escribe tu mensaje aquí..."></textarea></div>
+                            <button type="submit" class="btn-enviar"><i class="fas fa-paper-plane"></i> Enviar
+                                Mensaje</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Conócenos</h4>
+                    <ul>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#nosotros">Nuestro Equipo</a></li>
+                        <li><a href="#contacto">Trabaja con Nosotros</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="#contacto">Términos y Condiciones</a></li>
+                        <li><a href="#faq">Preguntas Frecuentes</a></li>
+                        <li><a href="#contacto">Política de Privacidad</a></li>
+                        <li><a href="#contacto">Políticas de Entrega</a></li>
+                        <li><a href="#contacto">Devoluciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contáctanos</h4>
+                    <ul>
+                        <li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482
+                                9244</a></li>
+                        <li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i>
+                                petfyservice@gmail.com</a></li>
+                        <li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i
+                                    class="fab fa-instagram"></i> @petfyservice___</a></li>
+                        <li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i
+                                    class="fab fa-facebook"></i> Petfy Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Suscríbete</h4>
+                    <p>Recibe noticias y promociones diarias</p>
+                    <form class="newsletter-form" onsubmit="return false;">
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
+                    <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-amex"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== WHATSAPP FLOTANTE ========== -->
+    <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- ========== MODALES ========== -->
+    <!-- (Mantén los mismos modales que ya tenías, los he dejado fuera por brevedad pero puedes copiarlos desde tu index.html) -->
+    <!-- ... -->
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>

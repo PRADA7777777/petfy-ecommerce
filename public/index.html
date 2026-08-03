@@ -22,35 +22,43 @@
 </head>
 <body>
     
-    <!-- ========== HEADER / NAVBAR ========== -->
-    <header class="header" id="mainHeader">
-        <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="#" onclick="mostrarSeccion('inicio')"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item"><a href="#" class="nav-link active" onclick="mostrarSeccion('inicio')">Inicio</a></li>
-                    <li class="nav-item"><a href="pages/servicios.html" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarSeccion('nosotros')">Nosotros</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link" onclick="mostrarSeccion('contacto')">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
-                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
-                    <div class="user-actions">
-                        <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
-                    </div>
-                </div>
-                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
-            </nav>
-        </div>
-    </header>
+
 
     <!-- ========== BREADCRUMB ========== -->
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+    <div
+    
+    
+    
+    class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
 
     <!-- ================================================================ -->
     <!-- SECCIÓN 1: INICIO (Visible por defecto) -->
     <!-- ================================================================ -->
+        <header class="header" id="mainHeader">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="#"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item"><a href="#" class="nav-link active">Inicio</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Nosotros</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Contacto</a></li>
+                </ul>
+                
+                <!-- Opciones para habilitar proximamente, de momento -->
+                
+                <!--<div class="nav-actions">
+                    <div class="city-selector"><i class="fas fa-map-marker-alt city-icon"></i><select class="city-select"><option value="">Ciudad</option><option>Bogotá</option><option>Medellín</option><option>Cali</option></select></div>
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                </div>-->
+                
+                <div class="user-actions">
+                    <a href="#" class="icon-link" title="Mi cuenta" id="btnCuenta"><i class="fas fa-user"></i></a>
+                </div>
+                <!-- Boton responsive vista celular-->
+                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
+            </nav>
+            
     <div id="seccion-inicio">
         <main>
             
