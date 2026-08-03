@@ -29,7 +29,7 @@
             <nav class="navbar">
                 <div class="logo"><a href="#inicio"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
                 <ul class="nav-links">
-                    <li class="nav-item"><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li class="nav-item"><a href="#inicio" class="nav-link">Inicio</a></li>
                     <li class="nav-item"><a href="#servicios" class="nav-link">Servicios</a></li>
                     <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
                     <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
@@ -88,15 +88,18 @@
     <!-- HERO -->
     <section class="hero-section">
         <div class="container">
+            <div class="container-badge ">
+                <span class="hero-badge">🐾 Bienvenidos a Petfy 🐾</span>
+            </div>
             <div class="hero">
                 <div class="hero-content">
-                    <span class="hero-badge">🐾 Bienvenidos a Petfy</span>
-                    <h1>UN <span class="highlight">MUNDO PELUDO</span> PARA TUS MEJORES AMIGOS</h1>
-                    <p class="hero-description">Paseos profesionales con GPS en vivo, fotos y paseador fijo. ¡Tu mascota feliz y segura!</p>
-                    <div class="hero-buttons">
+                    <h1>UN <span class="highlight">MUNDO PELUDO</span>
+                        <br> PARA TUS MEJORES AMIGOS</h1>
+                    <p class="hero-description">Baños, Vet y Diversión ya están en camino. Mientras tanto, estrenamos con los paseos más seguros y felices para tu peludo.</p>
+                    <!--<div class="hero-buttons">
                         <a href="#planes" class="btn btn-primary">Contratar Paseo <i class="fas fa-arrow-right"></i></a>
                         <a href="#servicios" class="btn btn-outline">Conocer más</a>
-                    </div>
+                    </div>-->
                     <div class="hero-stats">
                         <div class="stat-item"><span class="stat-number">+500</span><span class="stat-label">Paseos</span></div>
                         <div class="stat-item"><span class="stat-number">4.9</span><span class="stat-label">Rating</span></div>
@@ -114,70 +117,282 @@
     </section>
 </section>
 
-
+<!-- ================================================================ -->
+    <!-- SECCIÓN 2: SERVICIOS COMPLETO (id="servicios") -->
     <!-- ================================================================ -->
-    <!-- SECCIÓN 2: SERVICIOS (id="servicios") -->
-    <!-- ================================================================ -->
-    <section id="servicios" class="services-home-section">
-        <div class="container">
-            <div class="section-header">
+    <section id="servicios" class="services-full-section">
+        <!-- HEADER SERVICIOS -->
+        <div class="servicios-header">
+            <span class="doodle d1">🐾</span>
+            <span class="doodle d2">✨</span>
+            <span class="doodle d3">🦴</span>
+            <span class="doodle d4">🐾</span>
+            <div class="container">
                 <span class="section-subtitle">Cuidado Integral</span>
-                <h2 class="section-title">Nuestros Servicios</h2>
+                <h1>Nuestros Servicios</h1>
+                <p>Gira el carrusel y elige tu plan ideal</p>
             </div>
-            <div class="services-home-grid">
-                <a href="#planes" class="service-home-card activo featured">
-                    <div class="service-home-icon"><i class="fas fa-dog"></i></div>
-                    <span class="service-home-badge badge-disponible">Disponible</span>
-                    <h3>Paseos Diarios</h3>
-                    <p>GPS en vivo y fotos</p>
-                    <div class="service-home-price">Desde $19.990</div>
-                </a>
-                <a href="#" class="service-home-card inactivo">
-                    <div class="service-home-icon"><i class="fas fa-house-chimney"></i></div>
-                    <span class="service-home-badge badge-proximo">Próximamente</span>
-                    <h3>Guardería</h3>
-                    <p>Cámaras 24/7</p>
-                    <div class="service-home-price">Desde $15.990</div>
-                </a>
-                <a href="#" class="service-home-card inactivo">
-                    <div class="service-home-icon"><i class="fas fa-shower"></i></div>
-                    <span class="service-home-badge badge-proximo">Próximamente</span>
-                    <h3>Baños</h3>
-                    <p>Hipoalergénicos</p>
-                    <div class="service-home-price">Desde $12.990</div>
-                </a>
-                <a href="#" class="service-home-card inactivo">
-                    <div class="service-home-icon"><i class="fas fa-stethoscope"></i></div>
-                    <span class="service-home-badge badge-proximo">Próximamente</span>
-                    <h3>Veterinaria</h3>
-                    <p>Urgencias 24/7</p>
-                    <div class="service-home-price">Desde $20.000</div>
-                </a>
+        </div>
+
+        <!-- NAVEGACIÓN DE SERVICIOS -->
+        <div class="servicios-nav">
+            <div class="container">
+                <button class="servicio-nav-btn active" onclick="mostrarServicio('paseos', this)">
+                    <i class="fas fa-dog"></i> Paseos
+                </button>
+                <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('guarderia', this)">
+                    <i class="fas fa-home"></i> Guardería
+                </button>
+                <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('banos', this)">
+                    <i class="fas fa-shower"></i> Baños
+                </button>
+                <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('veterinaria', this)">
+                    <i class="fas fa-stethoscope"></i> Veterinaria
+                </button>
+                <button class="servicio-nav-btn inactivo" onclick="mostrarServicio('entrenamiento', this)">
+                    <i class="fas fa-graduation-cap"></i> Entrenamiento
+                </button>
             </div>
-            <div class="text-center mt-4">
-                <a href="#planes" class="btn btn-primary">Ver todos los planes <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <!-- CONTENIDO DE SERVICIOS -->
+        <div class="servicios-content">
+            <div class="container">
+                
+                <!-- PANEL PASEOS (ACTIVO) -->
+                <div class="servicio-panel active" id="panel-paseos">
+                    
+                    <!-- CARRUSEL 3D DE PLANES -->
+                    <div class="carousel-3d-container" id="carousel3D">
+                        <div class="carousel-3d" id="carouselTrack3D">
+                            <!-- Las tarjetas se generan dinámicamente con JS -->
+                        </div>
+                        <div class="carousel-arrows">
+                            <button class="carousel-arrow" onclick="girarCarousel(-1)" aria-label="Anterior">‹</button>
+                            <button class="carousel-arrow" onclick="girarCarousel(1)" aria-label="Siguiente">›</button>
+                        </div>
+                    </div>
+                    
+                    <!-- INDICADORES DEL CARRUSEL -->
+                    <div class="carousel-indicators" id="carouselIndicators"></div>
+                    
+                    <!-- FORMULARIO ACORDEÓN PARA AGENDAR -->
+                    <div class="acordeon-container" id="acordeonAgendar"></div>
+                    
+                    <!-- BENEFICIOS INCLUIDOS -->
+                    <div class="benefits-inline">
+                        <div class="benefit-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>GPS en Vivo</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-camera"></i>
+                            <span>Fotos del Paseo</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-user-check"></i>
+                            <span>Paseador Fijo</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-headset"></i>
+                            <span>Soporte 24/7</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PANEL GUARDERÍA -->
+                <div class="servicio-panel" id="panel-guarderia">
+                    <div class="inactivo-placeholder">
+                        <div class="placeholder-icon">🏠</div>
+                        <h3>Guardería - Próximamente</h3>
+                        <p>Cuidado diario con cámaras 24/7 para que tu mascota esté segura y feliz mientras trabajas</p>
+                        <ul class="placeholder-features">
+                            <li><i class="fas fa-video"></i> Cámaras en vivo 24/7</li>
+                            <li><i class="fas fa-users"></i> Socialización supervisada</li>
+                            <li><i class="fas fa-bone"></i> Alimentación personalizada</li>
+                        </ul>
+                        <a href="https://wa.me/573204829244" class="btn btn-outline">
+                            <i class="fab fa-whatsapp"></i> Avísame cuando esté disponible
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PANEL BAÑOS -->
+                <div class="servicio-panel" id="panel-banos">
+                    <div class="inactivo-placeholder">
+                        <div class="placeholder-icon">🛁</div>
+                        <h3>Baños - Próximamente</h3>
+                        <p>Servicio de baño profesional con productos hipoalergénicos y secado especializado</p>
+                        <ul class="placeholder-features">
+                            <li><i class="fas fa-shield-alt"></i> Productos hipoalergénicos</li>
+                            <li><i class="fas fa-wind"></i> Secado profesional</li>
+                            <li><i class="fas fa-home"></i> Servicio a domicilio</li>
+                        </ul>
+                        <a href="https://wa.me/573204829244" class="btn btn-outline">
+                            <i class="fab fa-whatsapp"></i> Avísame cuando esté disponible
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PANEL VETERINARIA -->
+                <div class="servicio-panel" id="panel-veterinaria">
+                    <div class="inactivo-placeholder">
+                        <div class="placeholder-icon">🩺</div>
+                        <h3>Veterinaria - Próximamente</h3>
+                        <p>Atención veterinaria a domicilio con profesionales certificados para el cuidado integral de tu mascota</p>
+                        <ul class="placeholder-features">
+                            <li><i class="fas fa-stethoscope"></i> Consultas a domicilio</li>
+                            <li><i class="fas fa-syringe"></i> Vacunación</li>
+                            <li><i class="fas fa-ambulance"></i> Urgencias 24/7</li>
+                        </ul>
+                        <a href="https://wa.me/573204829244" class="btn btn-outline">
+                            <i class="fab fa-whatsapp"></i> Avísame cuando esté disponible
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PANEL ENTRENAMIENTO -->
+                <div class="servicio-panel" id="panel-entrenamiento">
+                    <div class="inactivo-placeholder">
+                        <div class="placeholder-icon">🎓</div>
+                        <h3>Entrenamiento - Próximamente</h3>
+                        <p>Adiestramiento profesional personalizado para mejorar el comportamiento y fortalecer el vínculo con tu mascota</p>
+                        <ul class="placeholder-features">
+                            <li><i class="fas fa-graduation-cap"></i> Entrenadores certificados</li>
+                            <li><i class="fas fa-check-circle"></i> Obediencia básica y avanzada</li>
+                            <li><i class="fas fa-calendar-check"></i> Planes personalizados</li>
+                        </ul>
+                        <a href="https://wa.me/573204829244" class="btn btn-outline">
+                            <i class="fab fa-whatsapp"></i> Avísame cuando esté disponible
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- STICKY BAR INFERIOR -->
+        <div class="sticky-bar" id="stickyBar">
+            <div class="sticky-bar-content">
+                <div class="sticky-bar-info">
+                    <span class="sticky-bar-label">Plan seleccionado:</span>
+                    <span class="sticky-bar-plan" id="stickyPlan">Selecciona un plan</span>
+                    <span class="sticky-bar-precio" id="stickyPrecio"></span>
+                </div>
+                <div class="sticky-bar-actions">
+                    <button class="sticky-bar-btn secondary" onclick="scrollToAcordeon()">
+                        <i class="fas fa-eye"></i> Ver Detalles
+                    </button>
+                    <button class="sticky-bar-btn primary" onclick="mostrarResumen()" id="btnVerResumen">
+                        <i class="fas fa-shopping-cart"></i> Ver Resumen
+                    </button>
+                    <button class="sticky-bar-btn success" onclick="iniciarPago()" style="display:none;" id="btnPagar">
+                        <i class="fas fa-lock"></i> Pagar y Agendar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL RESUMEN DE CONTRATACIÓN -->
+        <div class="modal-overlay" id="resumenModal">
+            <div class="modal-container resumen-modal">
+                <button class="modal-close-btn" onclick="cerrarResumen()">&times;</button>
+                <div class="resumen-header">
+                    <span class="resumen-icon">📋</span>
+                    <h2>Resumen de Contratación</h2>
+                    <p>Revisa los detalles antes de confirmar</p>
+                </div>
+                <div class="resumen-body" id="resumenContenido">
+                    <!-- Se llena dinámicamente -->
+                </div>
+                <div class="resumen-footer">
+                    <button onclick="cerrarResumen()" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <button onclick="iniciarPago()" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Confirmar y Pagar
+                    </button>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ================================================================ -->
-    <!-- SECCIÓN 3: PLANES (id="planes") -->
+    <!-- SECCIÓN 3: RESEÑAS -->
     <!-- ================================================================ -->
-    <section id="planes" class="planes-section">
+    <section class="reviews-section">
         <div class="container">
             <div class="section-header">
-                <span class="section-subtitle">Elige tu Plan</span>
-                <h2 class="section-title">Planes de Paseo</h2>
-                <p class="section-description">Todos los planes incluyen GPS en vivo, fotos y paseador certificado</p>
+                <span class="section-subtitle">Testimonios</span>
+                <h2 class="section-title">Clientes Felices</h2>
             </div>
-            <div class="planes-grid" id="planesGrid"></div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">M</div>
+                        <div>
+                            <h4>María Gómez</h4><span class="review-pet">🐕 Max</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"¡Increíble! Max regresa feliz de cada paseo. El GPS me da tranquilidad."</p>
+                    <div class="review-footer"><span>📅 Hace 2 días</span><span>✅ Paseo 3 Días</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">C</div>
+                        <div>
+                            <h4>Carlos Ruiz</h4><span class="review-pet">🐕 Rocky</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"El plan de 5 días es perfecto. Rocky llega agotado y feliz. ¡10/10!"</p>
+                    <div class="review-footer"><span>📅 Hace 1 semana</span><span>✅ Paseo 5 Días</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">A</div>
+                        <div>
+                            <h4>Ana López</h4><span class="review-pet">🐱 Luna</span>
+                        </div>
+                        <div class="review-stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"La agenda es súper fácil. El paseador llegó puntual. ¡Profesionales!"</p>
+                    <div class="review-footer"><span>📅 Hace 2 semanas</span><span>✅ Paseo Único</span></div>
+                </div>
+            </div>
             <div class="text-center mt-4">
-                <p style="color:var(--text-muted);">¿No sabes cuál elegir? <a href="https://wa.me/573204829244"
-                        target="_blank" style="color:var(--primary);font-weight:700;">Contáctanos por WhatsApp <i
-                            class="fab fa-whatsapp"></i></a></p>
+                <a href="#servicios" class="btn btn-primary">🐾 Agendar mi Paseo <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
+
+    <!-- ================================================================ -->
+    <!-- SECCIÓN 4: BENEFICIOS -->
+    <!-- ================================================================ -->
+    <section class="benefits-section">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card"><i class="fas fa-map-marker-alt"></i>
+                    <h3>GPS en Vivo</h3>
+                    <p>Seguimiento real</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-camera"></i>
+                    <h3>Fotos del Paseo</h3>
+                    <p>Recibe reportes</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-user-check"></i>
+                    <h3>Paseador Fijo</h3>
+                    <p>Confianza total</p>
+                </div>
+                <div class="benefit-card"><i class="fas fa-headset"></i>
+                    <h3>Soporte 24/7</h3>
+                    <p>WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <!-- ================================================================ -->
     <!-- SECCIÓN 4: RESEÑAS -->
