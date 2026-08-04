@@ -74,3 +74,4 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
+

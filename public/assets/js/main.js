@@ -10,19 +10,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (h) h.classList.toggle('scrolled', window.scrollY > 50);
     });
     
-    // ========== MENÚ MÓVIL ==========
+    // ========== MENÚ MÓVIL (CORREGIDO) ==========
     var mb = document.querySelector('.mobile-menu-btn');
     var nl = document.querySelector('.nav-links');
     if (mb && nl) {
         mb.onclick = function() {
-            nl.classList.toggle('active');
+            nl.classList.toggle('open'); // <--- CAMBIADO DE 'active' A 'open'
             var icon = this.querySelector('i');
             if (icon) { icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times'); }
         };
     }
-    
-    // ========== BREADCRUMB ==========
-    generarBreadcrumb();
     
     // ========== BOTÓN CUENTA ==========
     var btn = document.getElementById('btnCuenta');
@@ -56,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('✅ Petfy v3.0 Limpio inicializado');
 });
-
 // ============================================================
 // SIDEBAR DEL PERFIL
 // ============================================================
@@ -327,20 +323,19 @@ function detectarTipoCliente() {
 
 // ========== CARRUSEL 3D ==========
 function initCarousel3D() {
-    var track = document.getElementById('carouselTrack3D');
-    if (!track) return;
-    
-    track.innerHTML = '';
-    planesData.forEach(function(p, i) {
-        track.innerHTML += crearCard3D(i);
-    });
-    actualizarClases3D();
-    
-    setInterval(function() {
-        if (document.getElementById('carouselTrack3D')) {
-            girarCarousel(1);
+    setTimeout(function() {
+        var track = document.getElementById('carouselTrack3D');
+        if (!track) {
+            console.warn('❌ No se encontró #carouselTrack3D');
+            return;
         }
-    }, 5000);
+        console.log('✅ Construyendo carrusel 3D');
+        track.innerHTML = '';
+        planesData.forEach(function(p, i) {
+            track.innerHTML += crearCard3D(i);
+        });
+        actualizarClases3D();
+    }, 100);
 }
 
 function crearCard3D(i) {

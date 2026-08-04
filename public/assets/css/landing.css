@@ -1,4 +1,3 @@
-/* 🐾 PETFY - ESTILOS GLOBALES (VERSIÓN LIMPIA Y ORDENADA)*/
 @import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap");
 
 /* 1. VARIABLES */
@@ -587,260 +586,639 @@ body {
     color: #f59e0b;
 }
 
-/*   7. SECCIONES GENERALES */
-.section-header {
-    text-align: center;
-    margin-bottom: 3rem;
+.services-full-section {
+  background: var(--bg);
+  padding: 0 0 4rem;
+  position: relative;
 }
 
-.section-subtitle {
-    color: var(--primary);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.8rem;
-    margin-bottom: 0.5rem;
-    display: block;
+/* HEADER DE SERVICIOS */
+.servicios-header {
+  background: linear-gradient(160deg, #fde8db 0%, #fef3eb 50%, #fff8f5 100%);
+  padding: 4rem 0 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 40% 40% / 0 0 8% 8%;
+  margin-bottom: 2rem;
+}
+.servicios-header .doodle {
+  position: absolute;
+  opacity: 0.15;
+  font-size: 3.5rem;
+  animation: floatDoodle 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.servicios-header .d1 { top: 15%; left: 8%; }
+.servicios-header .d2 { top: 20%; right: 10%; animation-delay: 1.5s; }
+.servicios-header .d3 { bottom: 20%; left: 12%; animation-delay: 0.8s; }
+.servicios-header .d4 { bottom: 15%; right: 15%; animation-delay: 2.2s; }
+.servicios-header .container {
+  position: relative;
+  z-index: 2;
+}
+.servicios-header h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 3.5rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.servicios-header p {
+  color: var(--text-light);
+  font-size: 1.2rem;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.section-title {
-    font-family: "Fredoka One", cursive;
-    font-size: 2.5rem;
-    color: var(--text);
-    margin-bottom: 0.75rem;
+/* NAVEGACIÓN DE SERVICIOS */
+.servicios-nav {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  margin-bottom: 2rem;
+}
+.servicios-nav .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.servicio-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.8rem;
+  border: 2px solid transparent;
+  border-radius: 50px;
+  background: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.servicio-nav-btn i {
+  font-size: 1.1rem;
+}
+.servicio-nav-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 4px 15px rgba(224,99,63,0.25);
+}
+.servicio-nav-btn.inactivo {
+  background: rgba(0,0,0,0.03);
+  color: var(--text-muted);
+}
+.servicio-nav-btn.inactivo:hover {
+  background: rgba(0,0,0,0.06);
+  color: var(--text);
+}
+.servicio-nav-btn.inactivo i {
+  opacity: 0.5;
 }
 
-.section-description {
-    color: var(--text-light);
-    font-size: 1.05rem;
-    max-width: 550px;
-    margin: 0 auto;
+/* PANEL DE SERVICIOS */
+.servicios-content {
+  padding: 1rem 0 2rem;
+
+}
+.servicio-panel {
+  display: none;
+  animation: fadeInUp 0.5s ease;
+}
+.servicio-panel.active {
+  display: block;
 }
 
-/* 8. SERVICIOS HOME */
-.services-home-section {
-    padding: 5rem 0;
-    background: var(--bg);
+/* PLACEHOLDER PARA SERVICIOS INACTIVOS */
+.inactivo-placeholder {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  border: 2px dashed rgba(0,0,0,0.08);
+}
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+.inactivo-placeholder h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.inactivo-placeholder p {
+  color: var(--text-light);
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  font-size: 1.05rem;
+}
+.placeholder-features {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem 1.5rem;
+  max-width: 550px;
+  margin: 0 auto 2rem;
+  text-align: left;
+}
+.placeholder-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+.placeholder-features li i {
+  color: var(--primary);
+  width: 1.5rem;
 }
 
-.services-home-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+/* ============================================================
+   CARRUSEL 3D - VERSIÓN CORRECTA CENTRADA
+   ============================================================ */
+.carousel-3d-container {
+  position: relative;
+  perspective: 1400px;
+  height: 480px;
+  margin: 2rem auto;
+  overflow: visible;
+  max-width: 1100px;
+  width: 100%;
 }
 
-.service-home-card {
-    background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: var(--radius-lg);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+.carousel-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1.2);
 }
 
-.service-home-card:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: var(--shadow-lg);
+/* Tarjeta individual */
+.plan-card-3d {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotateY(0deg) translateZ(0px);
+  width: 300px;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 2rem 1.5rem 1.8rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.04);
+  text-align: center;
+  transition: box-shadow 0.3s, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+  will-change: transform, opacity;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 400px;
+  backface-visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.service-home-card.featured {
-    transform: scale(1.02);
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 8px 30px rgba(224, 99, 63, 0.15);
+.plan-card-3d:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
 
-.service-home-card.featured:hover {
-    transform: scale(1.04) translateY(-5px);
+.plan-card-3d .plan-emoji {
+  font-size: 2.8rem;
+  margin-bottom: 0.4rem;
 }
 
-.service-home-card.activo {
-    border-color: rgba(16, 185, 129, 0.3);
+.plan-card-3d h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
 }
 
-.service-home-icon {
-    width: 65px;
-    height: 65px;
-    border-radius: var(--radius-full);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.6rem;
+.plan-card-3d .plan-tag {
+  display: inline-block;
+  padding: 0.2rem 1rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.plan-tag.tag-popular {
+  background: var(--primary);
+  color: white;
+}
+.plan-tag.tag-ahorro {
+  background: #ECFDF5;
+  color: #059669;
+}
+.plan-tag.tag-premium {
+  background: #FEF3C7;
+  color: #D97706;
 }
 
-.service-home-card.activo .service-home-icon {
-    background: #ecfdf5;
-    color: var(--success);
+.plan-card-3d .plan-precio {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2rem;
+  color: var(--primary);
+  margin: 0.4rem 0;
+}
+.plan-card-3d .plan-precio small {
+  font-size: 0.85rem;
+  color: var(--text-muted);
 }
 
-.service-home-card.inactivo .service-home-icon {
-    background: #fffbeb;
-    color: var(--warning);
+.plan-card-3d .plan-features {
+  list-style: none;
+  text-align: left;
+  margin: 0.5rem 0 0.8rem;
+  width: 100%;
+}
+.plan-card-3d .plan-features li {
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+.plan-card-3d .plan-features li i {
+  color: var(--success);
+  width: 1.2rem;
 }
 
-.service-home-badge {
-    padding: 0.25rem 0.85rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.plan-card-3d .plan-btn-elegir {
+  display: inline-block;
+  width: 100%;
+  padding: 0.65rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: auto;
+}
+.plan-card-3d .plan-btn-elegir:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
-.badge-disponible {
-    background: #ecfdf5;
-    color: #059669;
+.plan-card-3d.center {
+  transform: translateX(-50%) rotateY(0deg) translateZ(0px);
+  opacity: 1;
+  z-index: 20;
+  border-color: var(--primary);
+  box-shadow: 0 20px 60px rgba(224,99,63,0.15);
+  pointer-events: auto;
+}
+.plan-card-3d.left {
+  transform: translateX(-100%) rotateY(20deg) translateZ(-180px);
+  opacity: 0.6;
+  z-index: 10;
+  pointer-events: none;
+}
+.plan-card-3d.right {
+  transform: translateX(-10%) rotateY(-20deg) translateZ(-180px);
+  opacity: 0.6;
+  z-index: 10;
+  pointer-events: none;
+}
+.plan-card-3d.far-left {
+  transform: translateX(-100%) rotateY(35deg) translateZ(-320px);
+  opacity: 0.2;
+  z-index: 5;
+  pointer-events: none;
+}
+.plan-card-3d.far-right {
+  transform: translateX(0%) rotateY(-35deg) translateZ(-320px);
+  opacity: 0.2;
+  z-index: 5;
+  pointer-events: none;
 }
 
-.badge-proximo {
-    background: #fffbeb;
-    color: #d97706;
+/* ===== FLECHAS DE NAVEGACIÓN ===== */
+.carousel-arrows {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 30;
+}
+.carousel-arrow {
+  position: absolute;
+  pointer-events: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  color: var(--text);
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.carousel-arrow:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 8px 25px rgba(224,99,63,0.3);
+}
+.carousel-arrow:first-child {
+  left: -10px;
+}
+.carousel-arrow:last-child {
+  right: -10px;
 }
 
-.service-home-card h3 {
-    font-family: "Fredoka One", cursive;
-    font-size: 1.15rem;
-    color: var(--text);
+/* ===== INDICADORES ===== */
+.carousel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0 1rem;
+}
+.carousel-indicators .dot-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.carousel-indicators .dot-indicator.active {
+  background: var(--primary);
+  width: 30px;
+  border-radius: 6px;
 }
 
-.service-home-card p {
-    font-size: 0.85rem;
-    color: var(--text-light);
+/* ACORDEÓN */
+.acordeon-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.acordeon-header {
+  padding: 1.5rem 2rem;
+  background: var(--primary-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text);
+  transition: background 0.3s;
+}
+.acordeon-header:hover {
+  background: #ffe0d0;
+}
+.acordeon-header .acordeon-icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+.acordeon-header.open .acordeon-icon {
+  transform: rotate(180deg);
+}
+.acordeon-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  padding: 0 2rem;
+}
+.acordeon-body.open {
+  max-height: 800px;
+  padding: 1.5rem 2rem 2rem;
+}
+.acordeon-body .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.acordeon-body .form-group {
+  margin-bottom: 1rem;
+}
+.acordeon-body .form-group label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.acordeon-body .form-group input,
+.acordeon-body .form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0,0,0,0.06);
+  border-radius: 15px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  background: var(--white);
+  transition: border 0.3s;
+}
+.acordeon-body .form-group input:focus,
+.acordeon-body .form-group select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+.acordeon-body .btn-enviar {
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
-.service-home-price {
-    font-family: "Fredoka One", cursive;
-    font-size: 1.2rem;
-    color: var(--primary);
-    margin-top: auto;
+/* BENEFICIOS INLINE */
+.benefits-inline {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 3rem;
+  margin: 2.5rem 0 1rem;
+}
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.benefit-item i {
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+.benefit-item span {
+  font-size: 0.95rem;
 }
 
-/* 9. PLANES */
-.planes-section {
-    padding: 5rem 0;
-    background: var(--white);
+/* STICKY BAR */
+.sticky-bar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0,0,0,0.04);
+  padding: 0.75rem 0;
+  z-index: 100;
+  box-shadow: 0 -6px 30px rgba(0,0,0,0.06);
+  transition: transform 0.3s;
+}
+.sticky-bar.hidden {
+  transform: translateY(100%);
+}
+.sticky-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.sticky-bar-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
+}
+.sticky-bar-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+.sticky-bar-plan {
+  font-weight: 800;
+  color: var(--text);
+  font-size: 1rem;
+}
+.sticky-bar-precio {
+  font-family: 'Fredoka One', cursive;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+.sticky-bar-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.sticky-bar-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sticky-bar-btn.secondary {
+  background: rgba(0,0,0,0.04);
+  color: var(--text);
+}
+.sticky-bar-btn.secondary:hover {
+  background: rgba(0,0,0,0.08);
+}
+.sticky-bar-btn.primary {
+  background: var(--primary);
+  color: white;
+}
+.sticky-bar-btn.primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+.sticky-bar-btn.success {
+  background: var(--success);
+  color: white;
+}
+.sticky-bar-btn.success:hover {
+  background: #059669;
+  transform: translateY(-2px);
 }
 
-.planes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+/* MODAL RESUMEN */
+.resumen-modal {
+  max-width: 600px;
+  padding: 2rem 2.5rem;
+}
+.resumen-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.resumen-icon {
+  font-size: 3rem;
+  display: block;
+}
+.resumen-header h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.8rem;
+  margin: 0.25rem 0;
+}
+.resumen-header p {
+  color: var(--text-muted);
+}
+.resumen-body {
+  padding: 1rem 0;
+}
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.resumen-item .label {
+  color: var(--text-muted);
+}
+.resumen-item .value {
+  font-weight: 700;
+}
+.resumen-total {
+  margin-top: 1rem;
+  padding: 1rem 0;
+  border-top: 2px solid var(--primary);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+.resumen-total .total-precio {
+  color: var(--primary);
+}
+.resumen-footer {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+.resumen-footer .btn {
+  flex: 1;
+  justify-content: center;
 }
 
-.plan-card {
-    background: var(--white);
-    border: 2px solid rgba(0, 0, 0, 0.04);
-    border-radius: var(--radius-lg);
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transition: var(--transition);
-    box-shadow: var(--shadow-sm);
-    position: relative;
-    overflow: hidden;
-}
 
-.plan-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-}
 
-.plan-card.destacado {
-    border-color: var(--primary);
-    background: linear-gradient(to bottom, #fff8f5, white);
-}
-
-.plan-badge {
-    position: absolute;
-    top: 20px;
-    right: -35px;
-    background: var(--primary);
-    color: white;
-    padding: 0.3rem 3rem;
-    transform: rotate(45deg);
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-}
-
-.plan-icono {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.plan-nombre {
-    font-family: "Fredoka One", cursive;
-    font-size: 1.4rem;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-}
-
-.plan-precio {
-    font-family: "Fredoka One", cursive;
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin: 1rem 0;
-}
-
-.plan-precio small {
-    font-size: 1rem;
-    color: var(--text-muted);
-}
-
-.plan-features {
-    list-style: none;
-    text-align: left;
-    margin: 1.5rem 0;
-}
-
-.plan-features li {
-    padding: 0.5rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-.plan-features li i {
-    color: var(--success);
-}
-
-.plan-btn {
-    display: inline-block;
-    width: 100%;
-    padding: 0.85rem;
-    background: var(--primary);
-    color: white;
-    border-radius: var(--radius-btn);
-    text-decoration: none;
-    font-weight: 800;
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-.plan-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.plan-btn.outline {
-    background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-}
-
-.plan-btn.outline:hover {
-    background: var(--primary);
-    color: white;
-}
 
 /* 10. RESEÑAS */
 .reviews-section {
