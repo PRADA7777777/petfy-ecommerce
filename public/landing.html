@@ -17,8 +17,11 @@
         href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Usamos landing.css -->
+    <link rel="icon" href="assets/img/logo.a.png" type="image/x-icon">
+
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/landing.css">
+
 </head>
 
 <body>
@@ -28,13 +31,13 @@
         <div class="container">
             <nav class="navbar">
                 <div class="logo"><a href="#inicio"><img src="assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
+                <ul class="nav-links" id="navLinks">
                     <li class="nav-item"><a href="#inicio" class="nav-link">Inicio</a></li>
                     <li class="nav-item"><a href="#servicios" class="nav-link">Servicios</a></li>
                     <li class="nav-item"><a href="#nosotros" class="nav-link">Nosotros</a></li>
                     <li class="nav-item"><a href="#contacto" class="nav-link">Contacto</a></li>
                     <li class="nav-item mobile-only">
-                        <a href="#" class="nav-link" id="btnCuentaMobile">
+                        <a href="" class="nav-link">
                             <i class="fas fa-user"></i> Mi cuenta
                         </a>
                     </li>
@@ -380,124 +383,128 @@
 
     </section>
 
-<!-- ================================================================ -->
-<!-- SECCIÓN 7: CONTACTO (id="contacto")                              -->
-<!-- ================================================================ -->
-<section id="contacto" class="contacto-section">
-    <!-- Encabezado con doodles -->
-    <div class="contacto-header">
-        <span class="doodle d1">📞</span>
-        <span class="doodle d2">💬</span>
-        <span class="doodle d3">🐾</span>
-        <span class="doodle d4">⭐</span>
-        <div class="container">
-            <h1>Contacto</h1>
-            <p>Estamos aquí para ayudarte. Escríbenos por cualquier medio.</p>
-        </div>
-    </div>
+    <!-- SECCIÓN 7: CONTACTO (id="contacto")-->
 
-    <!-- Contenido principal -->
-    <div class="contacto-content">
-        <div class="container">
-            <div class="contacto-grid">
-                <!-- Columna izquierda: información de contacto -->
-                <div class="contacto-info">
-                    <!-- WhatsApp -->
-                    <div class="info-card">
-                        <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
-                        <div class="info-text">
-                            <h4>WhatsApp</h4>
-                            <p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p>
-                            <p class="info-detail">Respuesta inmediata</p>
+    <section id="contacto" class="contacto-section">
+        <!-- Encabezado con doodles -->
+        <div class="contacto-header">
+            <span class="doodle d1">📞</span>
+            <span class="doodle d2">💬</span>
+            <span class="doodle d3">🐾</span>
+            <span class="doodle d4">⭐</span>
+            <div class="container">
+                <h1>Contacto</h1>
+                <p>Estamos aquí para ayudarte. Escríbenos por cualquier medio.</p>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="container">
+                <div class="contacto-grid">
+                    <!-- Columna izquierda: información de contacto -->
+                    <div class="contacto-info">
+                        <!-- WhatsApp -->
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="info-text">
+                                <h4>WhatsApp</h4>
+                                <p><a href="https://wa.me/573204829244" target="_blank">320 482 9244</a></p>
+                                <p class="info-detail">Respuesta inmediata</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Email -->
-                    <div class="info-card">
-                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
-                        <div class="info-text">
-                            <h4>Email</h4>
-                            <p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p>
-                            <p class="info-detail">Respondemos en menos de 2 horas</p>
+                        <!-- Email -->
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="info-text">
+                                <h4>Email</h4>
+                                <p><a href="mailto:petfyservice@gmail.com">petfyservice@gmail.com</a></p>
+                                <p class="info-detail">Respondemos en menos de 2 horas</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Instagram -->
-                    <div class="info-card">
-                        <div class="info-icon"><i class="fab fa-instagram"></i></div>
-                        <div class="info-text">
-                            <h4>Instagram</h4>
-                            <p><a href="https://www.instagram.com/petfyservice___/" target="_blank">@petfyservice___</a></p>
+                        <!-- Instagram -->
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-instagram"></i></div>
+                            <div class="info-text">
+                                <h4>Instagram</h4>
+                                <p><a href="https://www.instagram.com/petfyservice___/"
+                                        target="_blank">@petfyservice___</a></p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Facebook -->
-                    <div class="info-card">
-                        <div class="info-icon"><i class="fab fa-facebook"></i></div>
-                        <div class="info-text">
-                            <h4>Facebook</h4>
-                            <p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank">Petfy Service</a></p>
+                        <!-- Facebook -->
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fab fa-facebook"></i></div>
+                            <div class="info-text">
+                                <h4>Facebook</h4>
+                                <p><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr"
+                                        target="_blank">Petfy Service</a></p>
+                            </div>
+                        </div>
+
+                        <!-- Redes sociales (solo íconos, sin repetir texto) -->
+                        <div class="social-mini">
+                            <span>Síguenos en</span>
+                            <a href="https://www.instagram.com/petfyservice___/" target="_blank"
+                                aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://wa.me/573204829244" target="_blank" aria-label="WhatsApp"><i
+                                    class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"
+                                aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         </div>
                     </div>
 
-                    <!-- Redes sociales (solo íconos, sin repetir texto) -->
-                    <div class="social-mini">
-                        <span>Síguenos en</span>
-                        <a href="https://www.instagram.com/petfyservice___/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/573204829244" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <!-- Columna derecha: formulario -->
+                    <div class="form-wrapper">
+                        <h2>✉️ Escríbenos</h2>
+                        <form onsubmit="return enviarFormulario(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nombre *</label>
+                                    <input type="text" id="nombre" required placeholder="Tu nombre">
+                                </div>
+                                <div class="form-group">
+                                    <label>Apellido *</label>
+                                    <input type="text" id="apellido" required placeholder="Tu apellido">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email *</label>
+                                    <input type="email" id="email" required placeholder="tu@email.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <input type="tel" id="telefono" placeholder="+57 300 123 4567">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Asunto *</label>
+                                <select id="asunto" required>
+                                    <option value="">Selecciona un asunto</option>
+                                    <option>Quiero contratar un paseo</option>
+                                    <option>Información de servicios</option>
+                                    <option>Tengo una duda</option>
+                                    <option>Sugerencia o reclamo</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Mensaje *</label>
+                                <textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-enviar">
+                                <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                            </button>
+                        </form>
                     </div>
-                </div>
-
-                <!-- Columna derecha: formulario -->
-                <div class="form-wrapper">
-                    <h2>✉️ Escríbenos</h2>
-                    <form onsubmit="return enviarFormulario(event)">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Nombre *</label>
-                                <input type="text" id="nombre" required placeholder="Tu nombre">
-                            </div>
-                            <div class="form-group">
-                                <label>Apellido *</label>
-                                <input type="text" id="apellido" required placeholder="Tu apellido">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" id="email" required placeholder="tu@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" id="telefono" placeholder="+57 300 123 4567">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Asunto *</label>
-                            <select id="asunto" required>
-                                <option value="">Selecciona un asunto</option>
-                                <option>Quiero contratar un paseo</option>
-                                <option>Información de servicios</option>
-                                <option>Tengo una duda</option>
-                                <option>Sugerencia o reclamo</option>
-                                <option>Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Mensaje *</label>
-                            <textarea id="mensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
-                        </div>
-                        <button type="submit" class="btn-enviar">
-                            <i class="fas fa-paper-plane"></i> Enviar Mensaje
-                        </button>
-                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
 
-    <!-- ================================================================ -->
+
+        </div>
+
+
+    </section>
+
     <!-- SECCIÓN 4: RESEÑAS -->
-    <!-- ================================================================ -->
     <section class="reviews-section">
         <div class="container">
             <div class="section-header">
@@ -542,10 +549,11 @@
         </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
+                <!-- Conócenos -->
                 <div class="footer-col">
                     <h4>Conócenos</h4>
                     <ul>
@@ -555,6 +563,7 @@
                         <li><a href="#servicios">Servicios</a></li>
                     </ul>
                 </div>
+                <!-- Información -->
                 <div class="footer-col">
                     <h4>Información</h4>
                     <ul>
@@ -565,6 +574,7 @@
                         <li><a href="#contacto">Devoluciones</a></li>
                     </ul>
                 </div>
+                <!-- Contáctanos -->
                 <div class="footer-col">
                     <h4>Contáctanos</h4>
                     <ul>
@@ -578,15 +588,29 @@
                                     class="fab fa-facebook"></i> Petfy Service</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <!-- Métodos de Pago y Redes Sociales -->
+                <div class="footer-col footer-col-payments">
+                    <h4>Pago Seguro</h4>
                     <div class="payment-methods">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-visa" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                        <i class="fab fa-cc-amex" title="American Express"></i>
+                        <i class="fab fa-cc-paypal" title="PayPal"></i>
+                        <i class="fas fa-lock" title="Pago seguro"></i>
+                    </div>
+                    <div class="footer-social">
+                        <span>Síguenos</span>
+                        <a href="https://www.instagram.com/petfyservice___/" target="_blank" aria-label="Instagram"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/573204829244" target="_blank" aria-label="WhatsApp"><i
+                                class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"
+                            aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                     </div>
                 </div>
             </div>
+
+            <!-- Barra inferior: logo + copyright -->
             <div class="footer-bottom">
                 <div class="footer-bottom-content">
                     <img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom">
@@ -595,17 +619,95 @@
             </div>
         </div>
     </footer>
-
     <!-- ========== WHATSAPP FLOTANTE ========== -->
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- ========== MODALES ========== -->
-    <!-- (Mantén los mismos modales que ya tenías, los he dejado fuera por brevedad pero puedes copiarlos desde tu index.html) -->
-    <!-- ... -->
+    <!-- ========== OFERTA BIENVENIDA ========== -->
+    <div class="modal-overlay" id="ofertaModal">
+        <div class="modal-container modal-oferta">
+            <button class="modal-close-btn" onclick="cerrarOferta()">&times;</button>
+            <div class="oferta-icono">🎉</div>
+            <h2>¡Bienvenido!</h2>
+            <p>50% OFF + Paseo Gratis</p>
+            <div class="oferta-grid">
+                <div class="oferta-card oferta-descuento">
+                    <div class="oferta-emoji">🛍️</div>
+                    <div class="oferta-numero">50%</div>
+                    <div class="oferta-etiqueta">DESCUENTO</div>
+                    <div class="oferta-codigo">BIENVENIDO50</div>
+                </div>
+                <div class="oferta-card oferta-gratis">
+                    <div class="oferta-emoji">🐕</div>
+                    <div class="oferta-numero">1</div>
+                    <div class="oferta-etiqueta">PASEO GRATIS</div>
+                    <div class="oferta-codigo">PASEOGRATIS1</div>
+                </div>
+            </div>
+            <button onclick="reclamarOferta()" class="modal-btn oferta-btn-principal">Crear Cuenta y Reclamar</button>
+            <button onclick="cerrarOferta()" class="oferta-btn-secundario">No gracias</button>
+        </div>
+    </div>
+
+    <!-- ========== MODAL LOGIN/REGISTRO ========== -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-container">
+            <button class="modal-close-btn" onclick="cerrarModal()">&times;</button>
+            <div id="formLogin">
+                <div class="modal-icon">🐾</div>
+                <h2>Iniciar Sesión</h2>
+                <form onsubmit="return loginModal(event)">
+                    <div class="modal-input-group"><input type="email" id="modalEmail" placeholder="tu@email.com"
+                            required></div>
+                    <div class="modal-input-group"><input type="password" id="modalPassword" placeholder="Contraseña"
+                            required></div>
+                    <button type="submit" class="modal-btn">Iniciar Sesión</button>
+                </form>
+                <p class="modal-switch">¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Crear cuenta</a></p>
+            </div>
+            <div id="formRegistro" style="display:none;">
+                <div class="modal-icon">🐾</div>
+                <h2>Crear Cuenta</h2>
+                <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:1rem;">Datos del
+                    responsable y facturación</p>
+                <form onsubmit="return registroModal(event)">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div class="modal-input-group"><input type="text" id="regModalNombre" placeholder="Nombre *"
+                                required></div>
+                        <div class="modal-input-group"><input type="text" id="regModalApellido" placeholder="Apellido *"
+                                required></div>
+                    </div>
+                    <div class="modal-input-group"><input type="email" id="regModalEmail"
+                            placeholder="Correo electrónico *" required></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div class="modal-input-group">
+                            <select id="regModalTipoDoc" required
+                                style="width:100%;padding:0.85rem 1rem;border:2px solid rgba(0,0,0,0.08);border-radius:15px;font-family:'Nunito',sans-serif;font-size:0.95rem;">
+                                <option value="">Tipo Doc *</option>
+                                <option value="CC">CC</option>
+                                <option value="CE">CE</option>
+                                <option value="NIT">NIT</option>
+                                <option value="PP">Pasaporte</option>
+                            </select>
+                        </div>
+                        <div class="modal-input-group"><input type="text" id="regModalNumDoc"
+                                placeholder="N° Documento *" required></div>
+                    </div>
+                    <div class="modal-input-group"><input type="tel" id="regModalTelefono"
+                            placeholder="Teléfono (opcional)"></div>
+                    <div class="modal-input-group"><input type="text" id="regModalDirFactura"
+                            placeholder="Dirección de facturación *" required></div>
+                    <div class="modal-input-group"><input type="password" id="regModalPassword"
+                            placeholder="Contraseña (mín 8) *" required></div>
+                    <button type="submit" class="modal-btn">🐾 Crear Cuenta</button>
+                </form>
+                <p class="modal-switch">¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Iniciar Sesión</a></p>
+            </div>
+        </div>
+    </div>
 
     <!-- ========== SCRIPTS ========== -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/landing.js"></script>
 </body>
 
 </html>

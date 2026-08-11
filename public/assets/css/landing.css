@@ -75,6 +75,7 @@ body {
 
 /* 3. ANIMACIONES (sin cambios) */
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -147,9 +148,10 @@ body {
 }
 
 .header.scrolled {
-  background: hsla(20, 69%, 85%, 0.500);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 248, 245, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
 }
 
 .navbar {
@@ -200,26 +202,48 @@ body {
 }
 
 .nav-link {
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text);
   text-decoration: none;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 50px;
-  transition: var(--transition);
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2.5px;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 60%;
 }
 
 .nav-link:hover {
-  color: var(--primary-light);
-  background: rgba(224, 97, 62, 0.500);
+  color: var(--primary);
+  background: rgba(224, 99, 63, 0.08);
 }
 
 .nav-link.active {
   color: var(--primary);
-  background: rgba(224, 99, 63, 0.5);
+  background: rgba(224, 99, 63, 0.12);
+}
+
+.nav-link.active::after {
+  width: 60%;
 }
 
 .user-actions {
@@ -229,35 +253,38 @@ body {
 
 .icon-link {
   color: var(--text);
-  font-size: 1rem;
-  text-decoration: none;
-  width: 36px;
-  height: 36px;
+  font-size: 1.1rem;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: all 0.25s ease;
+  background: transparent;
 }
 
 .icon-link:hover {
-  color: var(--primary-light);
-  background: rgba(224, 97, 62, 0.500);
+  color: var(--primary);
+  background: rgba(224, 99, 63, 0.10);
+  transform: scale(1.05);
 }
 
 .mobile-menu-btn {
   display: none;
   background: none;
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   color: var(--text);
   cursor: pointer;
-  padding: 0.4rem;
+  padding: 0.4rem 0.6rem;
   border-radius: var(--radius-full);
+  transition: all 0.25s ease;
 }
 
 .mobile-menu-btn:hover {
   background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
 }
 
 .mobile-only {
@@ -600,32 +627,34 @@ body {
 
 .servicios-header .doodle {
   position: absolute;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   animation: floatDoodle 6s ease-in-out infinite;
   pointer-events: none;
+  z-index: 1;
+  opacity: 0.15;
 }
 
 .servicios-header .d1 {
-  top: 50%;
-  left: 15%;
-    animation-delay: 0.5s;
+  top: 55%;
+  left: 25%;
+  animation-delay: 0.5s;
 }
 
 .servicios-header .d2 {
-  top: 50%;
-  right: 15%;
+  top: 55%;
+  right: 25%;
   animation-delay: 1.5s;
 }
 
 .servicios-header .d3 {
-  bottom: 10%;
-  left: 25%;
+  bottom: 0%;
+  left: 15%;
   animation-delay: 2s;
 }
 
 .servicios-header .d4 {
-  bottom: 10%;
-  right: 25%;
+  bottom: 0%;
+  right: 15%;
   animation-delay: 1s;
 }
 
@@ -649,7 +678,7 @@ body {
 }
 
 .servicios-nav {
-    padding: 0.5rem 0;
+  padding: 0.5rem 0;
 }
 
 .servicios-nav .container {
@@ -1303,61 +1332,95 @@ body {
 }
 
 /* 8. RESEÑAS */
+.section-subtitle {
+  display: block;
+  font-family: "Fredoka One", cursive;
+  font-size: 1.2rem;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.section-title {
+  font-family: "Fredoka One", cursive;
+  font-size: 2.5rem;
+  color: var(--text);
+  margin-bottom: 2rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
 .reviews-section {
-  padding: 3rem 0;
+  position: relative;
+  padding: 3rem 0 4rem;
   background: #fffaf7;
   margin-top: -200px;
   padding-top: calc(200px + 3rem);
-  z-index: 2;
+  z-index: 0;
 }
 
 .reviews-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  /* centra horizontalmente */
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .review-card {
   background: var(--white);
-  border: 1px solid rgba(0, 0, 0, 0.04);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  padding: 1.8rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0, 0, 0, 0.04);
   transition: var(--transition);
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
 }
 
 .review-card:hover {
   box-shadow: var(--shadow-lg);
-  transform: translateY(-3px);
+  transform: translateY(-6px);
 }
 
 .review-header {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.8rem;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .review-avatar {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: 800;
   color: var(--primary);
+  flex-shrink: 0;
 }
 
 .review-header h4 {
   font-family: "Fredoka One", cursive;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: var(--text);
+  margin: 0;
 }
 
 .review-pet {
-  font-size: 0.75rem;
+  display: block;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
@@ -1368,19 +1431,21 @@ body {
 
 .review-text {
   color: var(--text-light);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   font-style: italic;
+  margin: 0.5rem 0 1rem;
+  flex-grow: 1;
 }
 
 .review-footer {
   display: flex;
   justify-content: space-between;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
-  padding-top: 0.6rem;
-  margin-top: 0.6rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 0.8rem;
+  margin-top: auto;
 }
 
 /* 9. BENEFICIOS (si se usa) */
@@ -1433,7 +1498,7 @@ body {
   color: var(--text);
   text-align: center;
   border-radius: 0 0 20% 20%;
-    margin-top: -180px;
+  margin-top: -180px;
   padding-top: calc(180px + 3rem);
   position: relative;
   z-index: 4;
@@ -1557,8 +1622,8 @@ body {
 
 /* 11. CONTACTO */
 .contacto-header {
-  background: linear-gradient(160deg, #fde8db, #fef3eb, #fff8f5);
-  padding: 3rem 0 4rem;
+  background-color: #fff5ef;
+  padding: 3rem 0 6rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -1571,36 +1636,38 @@ body {
 .doodle {
   position: absolute;
   opacity: 0.2;
-  font-size: 2rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   animation: floatDoodle 5s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
 }
 
-.d1 {
-  top: 10%;
-  left: 5%;
+.contacto-header .d1 {
+  top: 22%;
+  left: 25%;
 }
 
-.d2 {
-  top: 20%;
-  right: 8%;
+.contacto-header .d2 {
+  top: 22%;
+  right: 25%;
   animation-delay: 1s;
 }
 
-.d3 {
-  bottom: 20%;
-  left: 10%;
+.contacto-header .d3 {
+  bottom: 6%;
+  left: 20%;
   animation-delay: 0.5s;
 }
 
-.d4 {
-  bottom: 15%;
-  right: 12%;
+.contacto-header .d4 {
+  bottom: 6%;
+  right: 20%;
   animation-delay: 2s;
+  z-index:-1;
 }
 
 @keyframes floatDoodle {
+
   0%,
   100% {
     transform: translateY(0) rotate(0);
@@ -1634,12 +1701,14 @@ body {
   grid-template-columns: 1fr 1.2fr;
   gap: 2rem;
   align-items: stretch;
+  padding: 2rem 0 2rem;
+  text-align: left;
 }
 
 .contacto-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 .info-card {
@@ -1647,9 +1716,9 @@ body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-lg);
-  padding: 1.2rem;
+  padding: 1.5rem;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.8rem;
   margin-bottom: 0.8rem;
   transition: var(--transition);
@@ -1661,9 +1730,9 @@ body {
 }
 
 .info-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1710,36 +1779,36 @@ body {
 }
 
 .info-detail {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 0.1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
 }
 
 
 .social-mini {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem 0;
-    border-top: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .social-mini span {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .social-mini a {
-    color: var(--text-muted);
-    font-size: 1.4rem;
-    transition: var(--transition);
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  transition: var(--transition);
 }
 
 .social-mini a:hover {
-    color: var(--primary);
-    transform: scale(1.15);
+  color: var(--primary);
+  transform: scale(1.15);
 }
 
 
@@ -1798,7 +1867,7 @@ body {
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: var(--radius-lg);
-  padding: 2rem;
+  padding: 2.5rem;
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
@@ -1827,6 +1896,8 @@ body {
   font-size: 0.8rem;
   color: var(--text);
   margin-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
+  text-align: left;
 }
 
 .form-group input,
@@ -1881,23 +1952,25 @@ body {
 .footer {
   background: var(--primary);
   color: var(--white);
-  padding: 3rem 0 0;
+  padding: 4rem 0 0;
+  position: relative;
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
-  padding-bottom: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem;
+  padding-bottom: 3rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-col h4 {
   font-family: "Fredoka One", cursive;
-  font-size: 0.95rem;
-  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
   position: relative;
-  padding-bottom: 0.4rem;
+  padding-bottom: 0.6rem;
+  color: var(--white);
 }
 
 .footer-col h4::after {
@@ -1905,16 +1978,10 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 30px;
+  width: 32px;
   height: 3px;
   background: var(--accent);
   border-radius: 2px;
-}
-
-.footer-col p {
-  color: rgba(255, 255, 255, 0.75);
-  margin-bottom: 0.8rem;
-  font-size: 0.8rem;
 }
 
 .footer-col ul {
@@ -1923,17 +1990,17 @@ body {
 }
 
 .footer-col ul li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
 }
 
 .footer-col ul li a {
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
 }
 
 .footer-col ul li a:hover {
@@ -1941,42 +2008,70 @@ body {
   padding-left: 4px;
 }
 
-.newsletter-form {
+/* Columna de pagos y redes */
+.footer-col-payments {
   display: flex;
-  border-radius: 25px;
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  flex-direction: column;
+  gap: 1.2rem;
 }
 
-.newsletter-form input {
-  flex: 1;
-  padding: 0.6rem 0.8rem;
-  border: none;
-  outline: none;
-  font-family: "Nunito", sans-serif;
-  font-size: 0.8rem;
-  background: rgba(255, 255, 255, 0.12);
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.payment-methods i {
+  font-size: 2.4rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: var(--transition);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+}
+
+.payment-methods i:hover {
   color: var(--white);
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
 }
 
-.newsletter-form input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+.payment-methods .fa-lock {
+  font-size: 1.6rem;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
 }
 
-.newsletter-form button {
-  padding: 0.6rem 1rem;
-  background: var(--accent);
-  color: var(--white);
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-social span {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.footer-social a {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.6rem;
   transition: var(--transition);
 }
 
-.newsletter-form button:hover {
-  background: #c97a00;
+.footer-social a:hover {
+  color: var(--accent);
+  transform: scale(1.15);
 }
 
+/* Footer bottom */
 .footer-bottom {
   padding: 1.5rem 0;
 }
@@ -1990,30 +2085,16 @@ body {
 }
 
 .footer-logo-bottom {
-  height: 28px;
+  height: 32px;
   width: auto;
-  opacity: 0.85;
+  opacity: 0.9;
+  filter: brightness(0) invert(1);
 }
 
 .footer-bottom p {
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   margin: 0;
-}
-
-.payment-methods {
-  display: flex;
-  gap: 0.5rem;
-  font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.35);
-}
-
-.payment-methods i {
-  transition: var(--transition);
-}
-
-.payment-methods i:hover {
-  color: rgba(255, 255, 255, 0.7);
 }
 
 /* 13. WHATSAPP FLOTANTE */
@@ -2411,10 +2492,10 @@ body {
 }
 
 /* ============================================================ */
-/* 16. MEDIA QUERIES MEJORADAS                                 */
+/* 16. MEDIA QUERIES RESPONSIVE (MEJORADAS)                    */
 /* ============================================================ */
 
-/* --- Tablets y pantallas medianas (≤ 1024px) --- */
+/* --- Pantallas medianas (tablets, ≤ 1024px) --- */
 @media (max-width: 1024px) {
   .hero {
     grid-template-columns: 1fr;
@@ -2467,23 +2548,148 @@ body {
   .hero-badge {
     font-size: 1.8rem;
   }
+
+  /* Ajuste de curvas en tablet */
+  .hero-section,
+  .servicios-header,
+  .nosotros-hero,
+  .contacto-header {
+    border-radius: 0 0 40px 40px;
+    /* radio fijo más pequeño */
+  }
+
+  .servicios-header {
+    margin-top: -40px;
+    padding-top: calc(40px + 2.5rem);
+  }
+
+  .nosotros-hero {
+    margin-top: -40px;
+    padding-top: calc(40px + 3rem);
+  }
+
+  .contacto-header {
+    margin-top: -40px;
+    padding-top: calc(40px + 3rem);
+  }
+
+  .reviews-section {
+    margin-top: -40px;
+    padding-top: calc(40px + 3rem);
+  }
+
+  .servicios-header .doodle,
+  .contacto-header .doodle {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    opacity: 0.12;
+  }
+
+  /* Ajuste de posiciones para tablet */
+  .servicios-header .d1 {
+    top: 15%;
+    left: 6%;
+  }
+
+  .servicios-header .d2 {
+    top: 20%;
+    right: 6%;
+  }
+
+  .servicios-header .d3 {
+    bottom: 12%;
+    left: 8%;
+  }
+
+  .servicios-header .d4 {
+    bottom: 15%;
+    right: 10%;
+  }
+
+  .contacto-header .d1 {
+    top: 12%;
+    left: 5%;
+  }
+
+  .contacto-header .d2 {
+    top: 18%;
+    right: 5%;
+  }
+
+  .contacto-header .d3 {
+    bottom: 15%;
+    left: 8%;
+  }
+
+  .contacto-header .d4 {
+    bottom: 18%;
+    right: 8%;
+  }
+
+  /* --- Ajustes de modales para tablet --- */
+.modal-container {
+    max-width: 90%;
+    padding: 1.8rem;
+}
+.modal-oferta {
+    max-width: 95%;
+    padding: 2rem 1.5rem;
+}
+.oferta-grid {
+    gap: 0.8rem;
+}
+.oferta-card {
+    padding: 1rem;
+}
+.oferta-numero {
+    font-size: 1.4rem;
+}
 }
 
 /* --- Móviles grandes (≤ 768px) --- */
 @media (max-width: 768px) {
+
   .nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: var(--bg-white);
+    background: #ffffff;
     position: absolute;
     top: 100%;
     left: 0;
-    padding: 1rem 1.5rem;
-    box-shadow: var(--shadow-lg);
-    border-radius: 0 0 20px 20px;
-    gap: 0.2rem;
+    padding: 1.2rem 1.5rem 1.8rem;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    gap: 0.3rem;
     z-index: 999;
+    /* Animación de entrada */
+    transform-origin: top center;
+    animation: menuSlideDown 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    border-top: 2px solid rgba(224, 99, 63, 0.15);
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 16px;
+    width: 100%;
+    justify-content: flex-start;
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .nav-link:hover {
+    background: rgba(224, 99, 63, 0.08);
+    color: var(--primary);
+    padding-left: 1.6rem;
+  }
+
+  .nav-link.active {
+    background: rgba(224, 99, 63, 0.12);
+    color: var(--primary);
   }
 
   .nav-links.open {
@@ -2502,12 +2708,33 @@ body {
     display: block;
   }
 
-  .hero-wrapper {
-    min-height: 0 !important;
-    height: auto !important;
-    flex: 0 0 auto !important;
+  @keyframes menuSlideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-12px) scaleY(0.95);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
   }
 
+  /* --- Animación del ícono hamburguesa (opcional) --- */
+  .mobile-menu-btn .fa-bars {
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-menu-btn .fa-times {
+    transform: rotate(90deg);
+  }
+
+  /* Estilo del scroll cuando el menú está abierto (evita scroll detrás) */
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* === CARRUSEL === */
   .banner-carousel {
     flex: 0 0 auto !important;
     width: 100% !important;
@@ -2561,9 +2788,11 @@ body {
     border-radius: 12px !important;
   }
 
+  /* === HERO === */
   .hero-section {
     padding: 1rem 0 1.5rem;
-    border-radius: 0 0 12% 12% / 0 0 3% 3%;
+    border-radius: 0 0 30px 30px;
+    /* radio fijo para móvil */
   }
 
   .hero {
@@ -2607,12 +2836,16 @@ body {
     padding: 0.4rem 1.2rem;
   }
 
-  .servicios-header h1 {
-    font-size: 2.2rem;
-  }
-
+  /* === SERVICIOS === */
   .servicios-header {
     padding: 1.8rem 0 2.5rem;
+    border-radius: 0 0 30px 30px;
+    margin-top: -30px;
+    padding-top: calc(30px + 2.5rem);
+  }
+
+  .servicios-header h1 {
+    font-size: 2.2rem;
   }
 
   .servicios-nav .container {
@@ -2624,6 +2857,7 @@ body {
     font-size: 0.75rem;
   }
 
+  /* Carrusel 3D */
   .carousel-3d-container {
     height: 340px;
   }
@@ -2656,35 +2890,11 @@ body {
     font-size: 1rem;
   }
 
-  .acordeon-body .form-row {
-    grid-template-columns: 1fr;
-  }
-
-  .sticky-bar-content {
-    padding: 0 12px;
-    gap: 0.5rem;
-  }
-
-  .sticky-bar-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .reviews-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .benefits-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .profile-sidebar {
-    width: 300px;
-    right: -320px;
+  /* === NOSOTROS === */
+  .nosotros-hero {
+    border-radius: 0 0 30px 30px;
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
   }
 
   .nosotros-hero h1 {
@@ -2695,12 +2905,19 @@ body {
     gap: 1rem;
   }
 
-  .contacto-header h1 {
-    font-size: 1.8rem;
+  .mvv-grid {
+    grid-template-columns: 1fr;
   }
 
-  .oferta-grid {
-    grid-template-columns: 1fr;
+  /* === CONTACTO === */
+  .contacto-header {
+    border-radius: 0 0 30px 30px;
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
+  }
+
+  .contacto-header h1 {
+    font-size: 1.8rem;
   }
 
   .contacto-grid {
@@ -2711,28 +2928,247 @@ body {
     padding: 1.5rem;
   }
 
-  .modal-container {
+  .info-card {
+    padding: 1rem;
+  }
+
+  /* === RESEÑAS === */
+  .reviews-section {
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .review-card {
+    max-width: 100%;
     padding: 1.5rem;
   }
-}
 
-/* --- Móviles pequeños (≤ 480px) --- */
-@media (max-width: 480px) {
-  .services-home-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .benefits-grid {
-    grid-template-columns: 1fr;
-  }
-
+  /* === FOOTER === */
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-col-payments {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-col-payments h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .payment-methods {
+    justify-content: center;
+  }
+
+  .footer-social {
+    justify-content: center;
   }
 
   .footer-bottom-content {
     flex-direction: column;
     text-align: center;
+  }
+
+  /* Ajuste general de márgenes negativos para que todas las secciones encajen */
+  .services-full-section {
+    border-radius: 0 0 30px 30px;
+  }
+
+  .servicios-header {
+    margin-top: -30px;
+    padding-top: calc(30px + 2.5rem);
+  }
+
+  .nosotros-hero {
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
+  }
+
+  .contacto-header {
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
+  }
+
+  .reviews-section {
+    margin-top: -30px;
+    padding-top: calc(30px + 3rem);
+  }
+
+  servicios-header .doodle,
+  .contacto-header .doodle {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    opacity: 0.10;
+  }
+
+  /* Reubicación para móvil: los ponemos más cerca de las esquinas */
+  .servicios-header .d1 {
+    top: 10%;
+    left: 4%;
+    animation-delay: 0.3s;
+  }
+
+  .servicios-header .d2 {
+    top: 12%;
+    right: 4%;
+    animation-delay: 1.2s;
+  }
+
+  .servicios-header .d3 {
+    bottom: 8%;
+    left: 6%;
+    animation-delay: 1.8s;
+  }
+
+  .servicios-header .d4 {
+    bottom: 10%;
+    right: 6%;
+    animation-delay: 0.8s;
+  }
+
+  .contacto-header .d1 {
+    top: 8%;
+    left: 4%;
+  }
+
+  .contacto-header .d2 {
+    top: 12%;
+    right: 4%;
+    animation-delay: 0.8s;
+  }
+
+  .contacto-header .d3 {
+    bottom: 10%;
+    left: 6%;
+    animation-delay: 1.5s;
+  }
+
+  .contacto-header .d4 {
+    bottom: 12%;
+    right: 6%;
+    animation-delay: 0.5s;
+  }
+
+  /* --- Ajustes de modales para móvil grande --- */
+.modal-container {
+    max-width: 95%;
+    padding: 1.5rem;
+    border-radius: 24px;
+}
+.modal-close-btn {
+    top: 10px;
+    right: 14px;
+    font-size: 1.2rem;
+}
+.modal-icon {
+    font-size: 2rem;
+}
+.modal-container h2 {
+    font-size: 1.2rem;
+}
+.modal-input-group input,
+.modal-input-group select {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+}
+.modal-btn {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+}
+.modal-switch {
+    font-size: 0.8rem;
+}
+
+/* --- Ajustes para el modal de oferta --- */
+.modal-oferta {
+    max-width: 95%;
+    padding: 1.8rem 1.2rem;
+}
+.oferta-icono {
+    font-size: 3rem;
+}
+.oferta-grid {
+    grid-template-columns: 1fr;  /* ← una columna en móvil */
+    gap: 0.8rem;
+}
+.oferta-card {
+    padding: 1rem;
+}
+.oferta-emoji {
+    font-size: 1.6rem;
+}
+.oferta-numero {
+    font-size: 1.4rem;
+}
+.oferta-btn-principal {
+    font-size: 0.95rem;
+}
+.oferta-btn-secundario {
+    font-size: 0.85rem;
+}
+
+/* --- Ajustes para el modal de login/registro (grid interno) --- */
+#formRegistro .modal-input-group {
+    margin-bottom: 0.6rem;
+}
+#formRegistro > form > div:first-of-type,
+#formRegistro > form > div:last-of-type {
+    grid-template-columns: 1fr;  /* los grids de dos columnas pasan a una */
+    gap: 0.5rem;
+}
+#formRegistro > form > div:first-of-type .modal-input-group,
+#formRegistro > form > div:last-of-type .modal-input-group {
+    margin-bottom: 0.6rem;
+}
+}
+
+/* --- Móviles pequeños (≤ 480px) --- */
+@media (max-width: 480px) {
+
+  /* === HEADER === */
+  .logo img {
+    max-height: 30px;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* === CARRUSEL === */
+  .carousel-btn-accion {
+    bottom: 12px !important;
+    font-size: 0.6rem !important;
+    padding: 3px 10px !important;
+    max-width: 80% !important;
+  }
+
+  .carousel-dots {
+    bottom: 4px !important;
+    gap: 5px !important;
+  }
+
+  .dot {
+    width: 5px !important;
+    height: 5px !important;
+  }
+
+  .dot.active {
+    width: 14px !important;
+    border-radius: 7px !important;
+  }
+
+  /* === HERO === */
+  .hero-section {
+    border-radius: 0 0 20px 20px;
   }
 
   .hero h1 {
@@ -2757,26 +3193,11 @@ body {
     font-size: 0.85rem;
   }
 
-  .carousel-btn-accion {
-    bottom: 12px !important;
-    font-size: 0.6rem !important;
-    padding: 3px 10px !important;
-    max-width: 80% !important;
-  }
-
-  .carousel-dots {
-    bottom: 4px !important;
-    gap: 5px !important;
-  }
-
-  .dot {
-    width: 5px !important;
-    height: 5px !important;
-  }
-
-  .dot.active {
-    width: 14px !important;
-    border-radius: 7px !important;
+  /* === SERVICIOS === */
+  .servicios-header {
+    border-radius: 0 0 20px 20px;
+    margin-top: -20px;
+    padding-top: calc(20px + 2.5rem);
   }
 
   .servicios-header h1 {
@@ -2827,38 +3248,252 @@ body {
     right: 0;
   }
 
-  .acordeon-header {
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
+  /* === NOSOTROS === */
+  .nosotros-hero {
+    border-radius: 0 0 20px 20px;
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
   }
 
-  .acordeon-body.open {
-    padding: 0.8rem 1rem 1rem;
+  .nosotros-hero h1 {
+    font-size: 1.6rem;
   }
 
-  .sticky-bar-plan {
-    font-size: 0.8rem;
+  .nosotros-stat-num {
+    font-size: 1.2rem;
   }
 
-  .sticky-bar-precio {
-    font-size: 0.9rem;
+  /* === CONTACTO === */
+  .contacto-header {
+    border-radius: 0 0 20px 20px;
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
   }
 
-  .sticky-bar-btn {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.65rem;
+  .contacto-header h1 {
+    font-size: 1.6rem;
   }
 
-  .profile-sidebar {
-    width: 280px;
-    right: -300px;
+  .contacto-grid {
+    gap: 1rem;
   }
 
-  .modal-container {
+  .form-wrapper {
+    padding: 1rem;
+  }
+
+  .form-wrapper h2 {
+    font-size: 1.1rem;
+  }
+
+  .info-card {
+    padding: 0.8rem;
+  }
+
+  .info-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .info-text h4 {
+    font-size: 0.95rem;
+  }
+
+  /* === RESEÑAS === */
+  .reviews-section {
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .review-card {
     padding: 1.2rem;
   }
 
-  .modal-oferta {
-    padding: 1.5rem;
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
+
+  .review-header h4 {
+    font-size: 1rem;
+  }
+
+  /* === FOOTER === */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-col-payments {
+    align-items: center;
+    text-align: center;
+  }
+
+  .payment-methods {
+    justify-content: center;
+  }
+
+  .payment-methods i {
+    font-size: 2rem;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-logo-bottom {
+    height: 26px;
+  }
+
+  .footer-bottom p {
+    font-size: 0.7rem;
+  }
+
+  /* Ajuste general de márgenes negativos para móvil pequeño */
+  .services-full-section {
+    border-radius: 0 0 20px 20px;
+  }
+
+  .servicios-header {
+    margin-top: -20px;
+    padding-top: calc(20px + 2.5rem);
+  }
+
+  .nosotros-hero {
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
+  }
+
+  .contacto-header {
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
+  }
+
+  .reviews-section {
+    margin-top: -20px;
+    padding-top: calc(20px + 3rem);
+  }
+
+  .servicios-header .doodle,
+  .contacto-header .doodle {
+    font-size: 1.2rem;
+    opacity: 0.08;
+  }
+
+  /* Ocultamos algunos doodles en móvil muy pequeño para no saturar */
+  .servicios-header .d3,
+  .servicios-header .d4,
+  .contacto-header .d3,
+  .contacto-header .d4 {
+    display: none;
+  }
+
+  /* Reubicamos los que quedan */
+  .servicios-header .d1 {
+    top: 8%;
+    left: 3%;
+  }
+
+  .servicios-header .d2 {
+    top: 8%;
+    right: 3%;
+  }
+
+  .contacto-header .d1 {
+    top: 6%;
+    left: 3%;
+  }
+
+  .contacto-header .d2 {
+    top: 6%;
+    right: 3%;
+  }
+
+  /* --- Ajustes de modales para móvil pequeño --- */
+.modal-container {
+    max-width: 98%;
+    padding: 1.2rem;
+    border-radius: 20px;
+}
+.modal-close-btn {
+    top: 8px;
+    right: 10px;
+    font-size: 1.1rem;
+}
+.modal-icon {
+    font-size: 1.8rem;
+}
+.modal-container h2 {
+    font-size: 1.1rem;
+}
+.modal-input-group input,
+.modal-input-group select {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+.modal-btn {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+.modal-switch {
+    font-size: 0.75rem;
+}
+
+/* --- Ajustes para el modal de oferta --- */
+.modal-oferta {
+    padding: 1.5rem 1rem;
+}
+.oferta-icono {
+    font-size: 2.5rem;
+}
+.oferta-grid {
+    gap: 0.6rem;
+}
+.oferta-card {
+    padding: 0.8rem;
+}
+.oferta-emoji {
+    font-size: 1.4rem;
+}
+.oferta-numero {
+    font-size: 1.2rem;
+}
+.oferta-etiqueta {
+    font-size: 0.8rem;
+}
+.oferta-codigo {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+}
+.oferta-btn-principal {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+}
+.oferta-btn-secundario {
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
+}
+
+/* --- Ajustes para el modal de registro (grid interno) --- */
+#formRegistro > form > div:first-of-type,
+#formRegistro > form > div:last-of-type {
+    gap: 0.3rem;
+}
+#formRegistro .modal-input-group input,
+#formRegistro .modal-input-group select {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+}
 }
