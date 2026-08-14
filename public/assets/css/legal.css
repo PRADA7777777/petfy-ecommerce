@@ -1,0 +1,246 @@
+/* ============================================================
+   📄 LEGAL.CSS - Estilos para páginas legales (independiente)
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;600;700;800&display=swap');
+
+/* ===== VARIABLES (mismas que landing.css) ===== */
+:root {
+    --primary: #e0633f;
+    --primary-dark: #c94e2e;
+    --primary-light: #fff0e8;
+    --secondary: #064f56;
+    --secondary-light: #0a6b74;
+    --accent: #ea9200;
+    --bg: #f4ebe2;
+    --bg-white: #ffffff;
+    --text: #1f1b24;
+    --text-light: #4b5563;
+    --text-muted: #9ca3af;
+    --white: #ffffff;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow: 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 16px 40px rgba(0,0,0,0.10);
+    --radius-sm: 12px;
+    --radius: 20px;
+    --radius-lg: 30px;
+    --radius-btn: 50px;
+    --radius-full: 50%;
+    --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+    --header-height: 70px;
+}
+
+/* ===== RESET BÁSICO ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding-top: var(--header-height);
+    min-height: 100vh;
+}
+
+/* ===== HEADER STICKY ===== */
+.legal-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: var(--white);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.legal-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.legal-header .logo img {
+    max-height: 36px;
+    width: auto;
+    display: block;
+}
+
+.legal-header .page-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--text);
+    text-align: center;
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.legal-header .back-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.legal-header .back-link:hover {
+    color: var(--primary-dark);
+    transform: translateX(-3px);
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.legal-page {
+    max-width: 820px;
+    margin: 2rem auto;
+    padding: 2.5rem 3rem;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.legal-page h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.4rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+    text-align: center;
+
+}
+
+.legal-page .last-update {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-light);
+}
+
+/* Títulos con fondo de marca */
+.legal-page h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--white);
+    background: var(--primary);
+    border-radius: 50px;
+    padding: 0.6rem 1.4rem;
+    margin: 2.5rem 0 1rem;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(224,99,63,0.25);
+    letter-spacing: 3px;
+    width: 100%;
+}
+
+.legal-page h3 {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin: 1.8rem 0 0.5rem;
+}
+
+.legal-page p {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.legal-page ul,
+.legal-page ol {
+    margin: 0 0 1.5rem 1.8rem;
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.legal-page ul li,
+.legal-page ol li {
+    margin-bottom: 0.4rem;
+}
+
+.legal-page a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.legal-page a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* Botón volver al inicio (dentro del contenido) */
+.legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    padding: 0.7rem 1.8rem;
+    border-radius: var(--radius-btn);
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    text-decoration: none;
+    border: 2px solid transparent;
+}
+
+.legal-back:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateX(-4px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .legal-header {
+        padding: 0 1rem;
+        height: 60px;
+    }
+    .legal-header .page-title {
+        font-size: 1rem;
+    }
+    .legal-header .back-link span {
+        display: none;
+    }
+    .legal-page {
+        margin: 1.5rem 1rem;
+        padding: 1.8rem 1.5rem;
+    }
+    .legal-page h1 {
+        font-size: 2rem;
+    }
+    .legal-page h2 {
+        font-size: 1.2rem;
+        padding: 0.4rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-header .logo img {
+        max-height: 28px;
+    }
+    .legal-page {
+        padding: 1.2rem 1rem;
+    }
+    .legal-page h1 {
+        font-size: 1.6rem;
+    }
+    .legal-page h2 {
+        font-size: 1.1rem;
+        padding: 0.3rem 0.8rem;
+    }
+}
