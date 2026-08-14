@@ -3,52 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mi Perfil - Petfy | Gestiona tus paseos, mascotas y pagos">
+    <meta name="description" content="Mi Perfil - Petfy | Panel de Control">
     <title>Mi Perfil - Petfy | Panel de Control</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/petfy.css">
+    <link rel="stylesheet" href="../assets/css/perfil.css">
 </head>
 <body class="perfil-page">
     
-    <!-- HEADER -->
-    <header class="header" id="mainHeader">
+    <!-- TOPBAR -->
+    <header class="perfil-topbar">
         <div class="container">
-            <nav class="navbar">
-                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
-                <ul class="nav-links">
-                    <li class="nav-item"><a href="../servicios/" class="nav-link">Servicios</a></li>
-                    <li class="nav-item"><a href="../contacto/" class="nav-link">Contacto</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <div class="user-actions">
-                        <a href="perfil.html" class="icon-link" title="Mi cuenta"><i class="fas fa-user-check" style="color:#10B981;"></i></a>
-                    </div>
+            <div class="perfil-topbar-content">
+                <div class="logo">
+                    <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
                 </div>
-                <button class="mobile-menu-btn" aria-label="Menú"><i class="fas fa-bars"></i></button>
-            </nav>
+                
+                <nav class="perfil-nav">
+                    <ul class="perfil-nav-links">
+                        <li class="perfil-nav-item dropdown-perfil">
+                            <a href="#" class="perfil-nav-link" onclick="toggleDropdown(event, 'dropdownServicios')">
+                                <i class="fas fa-concierge-bell"></i> Mis Servicios 
+                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            </a>
+                            <div class="dropdown-menu-perfil" id="dropdownServicios">
+                                <a href="#" class="dropdown-item-perfil" onclick="mostrarServicio('vista-paseos', this)">
+                                    <span>🐕</span> Paseos
+                                </a>
+                                <a href="#" class="dropdown-item-perfil inactivo" onclick="return false;">
+                                    <span>🏠</span> Guardería
+                                </a>
+                                <a href="#" class="dropdown-item-perfil inactivo" onclick="return false;">
+                                    <span>🛁</span> Baños
+                                </a>
+                                <a href="#" class="dropdown-item-perfil inactivo" onclick="return false;">
+                                    <span>🩺</span> Veterinaria
+                                </a>
+                                <a href="#" class="dropdown-item-perfil inactivo" onclick="return false;">
+                                    <span>🎓</span> Entrenamiento
+                                </a>
+                            </div>
+                        </li>
+                        
+                        <li class="perfil-nav-item">
+                            <a href="#" class="perfil-nav-link" onclick="mostrarVistaPerfil('vista-mascotas', this)">
+                                <i class="fas fa-paw"></i> Mis Mascotas
+                            </a>
+                        </li>
+                        
+                        <li class="perfil-nav-item">
+                            <a href="#" class="perfil-nav-link" onclick="mostrarVistaPerfil('vista-datos', this)">
+                                <i class="fas fa-user"></i> Mi Perfil
+                            </a>
+                        </li>
+                        
+                        <li class="perfil-nav-item">
+                            <a href="#" class="perfil-nav-link" onclick="mostrarVistaPerfil('vista-facturacion', this)">
+                                <i class="fas fa-file-invoice"></i> Facturación
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="perfil-topbar-user">
+                    <span id="topbarNombre">Usuario</span>
+                    <div class="perfil-topbar-avatar">🐾</div>
+                    <a href="#" class="perfil-topbar-logout" onclick="cerrarSesion()" title="Cerrar sesión">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- BREADCRUMB -->
-    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
-
-    <!-- HEADER PERFIL -->
-    <section class="perfil-header">
+    <!-- CONTENIDO -->
+    <main class="perfil-main">
         <div class="container">
-            <div class="perfil-welcome">
-                <div class="perfil-avatar">🐾</div>
-                <div>
-                    <h1>Bienvenido, <span id="perfilNombre">Usuario</span></h1>
-                    <p>Panel de control de tu cuenta</p>
-                </div>
-            </div>
+            
+            <!-- KPIs -->
             <div class="perfil-kpis">
                 <div class="perfil-kpi">
                     <span class="perfil-kpi-icon">📅</span>
-                    <span class="perfil-kpi-num" id="kpiPaseosActivos">0</span>
-                    <span class="perfil-kpi-label">Paseos Activos</span>
+                    <span class="perfil-kpi-num" id="kpiServiciosActivos">0</span>
+                    <span class="perfil-kpi-label">Servicios</span>
                 </div>
                 <div class="perfil-kpi">
                     <span class="perfil-kpi-icon">🐕</span>
@@ -66,92 +105,109 @@
                     <span class="perfil-kpi-label">Próximo Pago</span>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- CONTENIDO -->
-    <section class="perfil-content">
-        <div class="container">
             
-            <!-- TABS -->
-            <div class="perfil-tabs">
-                <button class="perfil-tab active" onclick="mostrarTabPerfil('paseos', this)">
-                    <i class="fas fa-calendar"></i> Mis Paseos
-                </button>
-                <button class="perfil-tab" onclick="mostrarTabPerfil('mascotas', this)">
-                    <i class="fas fa-paw"></i> Mis Mascotas
-                </button>
-                <button class="perfil-tab" onclick="mostrarTabPerfil('datos', this)">
-                    <i class="fas fa-user"></i> Mi Perfil
-                </button>
-                <button class="perfil-tab" onclick="mostrarTabPerfil('facturacion', this)">
-                    <i class="fas fa-file-invoice"></i> Facturación
-                </button>
-            </div>
-            
-            <!-- TAB: PASEOS -->
-            <div class="perfil-tab-content active" id="tab-paseos">
+            <!-- VISTA: PASEOS -->
+            <div class="perfil-vista active" id="vista-paseos">
                 <div class="perfil-section">
                     <div class="perfil-section-header">
-                        <h3>📅 Paseos Activos</h3>
-                        <button class="btn-perfil btn-outline" onclick="abrirModalPaseoAdicional()">
-                            <i class="fas fa-plus"></i> Agendar Paseo Adicional
-                        </button>
+                        <h3>🐕 Paseos</h3>
+                        <span class="perfil-badge-precio">Desde $19.990</span>
                     </div>
-                    <div id="listaPaseosActivos"></div>
+                    <p style="color:#9CA3AF;font-size:0.8rem;">Paseos con GPS en vivo, fotos y paseador certificado</p>
+                    <div class="paseo-info-detalle">
+                        <p><i class="fas fa-check-circle"></i> GPS en vivo</p>
+                        <p><i class="fas fa-check-circle"></i> Fotos del paseo</p>
+                        <p><i class="fas fa-check-circle"></i> Paseador certificado</p>
+                    </div>
+                    <div class="perfil-divider"></div>
+                    <h4 style="font-family:'Fredoka One',cursive;font-size:0.85rem;">📋 Planes Disponibles</h4>
+                    <div class="planes-mini-grid">
+                        <div class="plan-mini-card">
+                            <span class="plan-mini-icon">⚡</span>
+                            <strong>Paseo Único</strong>
+                            <span class="plan-mini-precio">$19.990</span>
+                            <span class="plan-mini-detalle">1 paseo • 55 min</span>
+                        </div>
+                        <div class="plan-mini-card">
+                            <span class="plan-mini-icon">🌟</span>
+                            <strong>3 Días/Semana</strong>
+                            <span class="plan-mini-precio">$189.990</span>
+                            <span class="plan-mini-detalle">3 paseos/sem • 55 min</span>
+                        </div>
+                        <div class="plan-mini-card">
+                            <span class="plan-mini-icon">🔥</span>
+                            <strong>5 Días/Semana</strong>
+                            <span class="plan-mini-precio">$299.990</span>
+                            <span class="plan-mini-detalle">5 paseos/sem • 55 min</span>
+                        </div>
+                    </div>
                 </div>
-                
                 <div class="perfil-section">
-                    <h3>📋 Historial de Paseos</h3>
-                    <div id="listaHistorialPaseos"></div>
+                    <h4 style="font-family:'Fredoka One',cursive;font-size:0.9rem;">📅 Mis Paseos Activos</h4>
+                    <div id="listaServiciosPaseos"></div>
                 </div>
-                
-                <div class="btn-cta">
-                    <a href="../servicios/" class="btn-perfil btn-primary">
-                        <i class="fas fa-star"></i> Contratar Plan Completo
+                <div class="perfil-section" style="text-align:center;">
+                    <a href="../servicios/index.html" class="btn-perfil btn-primary" style="font-size:0.85rem;padding:0.7rem 1.5rem;">
+                        <i class="fas fa-calendar-plus"></i> Agendar Paseo
                     </a>
                 </div>
             </div>
             
-            <!-- TAB: MASCOTAS -->
-            <div class="perfil-tab-content" id="tab-mascotas">
-                <div class="perfil-section">
-                    <div class="perfil-section-header">
-                        <h3>🐕 Mis Mascotas</h3>
-                        <button class="btn-perfil btn-outline" onclick="mostrarFormMascota()">
-                            <i class="fas fa-plus"></i> Agregar Mascota
-                        </button>
-                    </div>
-                    <div id="listaMascotas"></div>
+            <!-- ================================================================ -->
+            <!-- VISTA: MASCOTAS - CON PERFIL DE PERRITO -->
+            <!-- ================================================================ -->
+            <div class="perfil-vista" id="vista-mascotas">
+                
+                <!-- Título y botón agregar -->
+                <div class="mascotas-header">
+                    <h3>🐕 Mis Mascotas</h3>
+                    <button class="btn-perfil btn-primary" onclick="mostrarFormMascota()">
+                        <i class="fas fa-plus"></i> Agregar Mascota
+                    </button>
+                </div>
+                
+                <!-- Grid de mascotas -->
+                <div class="mascotas-grid" id="listaMascotas"></div>
+                
+                <!-- Formulario para agregar/editar -->
+                <div id="formMascota" style="display:none;margin-top:1rem;padding:1.25rem;background:#FAFAF8;border-radius:14px;border:2px dashed #E8E0D8;">
+                    <h4 id="formMascotaTitulo" style="font-family:'Fredoka One',cursive;margin-bottom:0.75rem;">Nueva Mascota</h4>
+                    <input type="hidden" id="mascotaIndex" value="-1">
                     
-                    <div id="formMascota" style="display:none;margin-top:1.5rem;padding:1.5rem;background:#FAFAF8;border-radius:16px;border:2px dashed #E8E0D8;">
-                        <h4 id="formMascotaTitulo">Nueva Mascota</h4>
-                        <input type="hidden" id="mascotaIndex" value="-1">
-                        <div class="form-row">
-                            <div class="form-group"><label>Nombre *</label><input type="text" id="mascotaNombre" required></div>
-                            <div class="form-group"><label>Raza *</label><input type="text" id="mascotaRaza" required></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Edad</label><input type="text" id="mascotaEdad"></div>
-                            <div class="form-group"><label>Peso (kg)</label><input type="text" id="mascotaPeso"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Comportamiento</label>
-                            <select id="mascotaComportamiento">
-                                <option value="sociable">Sociable</option><option value="nervioso">Nervioso</option>
-                                <option value="agresivo">Agresivo</option><option value="otro">Otro</option>
-                            </select>
-                        </div>
-                        <div style="display:flex;gap:0.75rem;">
-                            <button class="btn-perfil btn-primary" onclick="guardarMascota()" style="flex:1;">💾 Guardar</button>
-                            <button class="btn-perfil btn-outline" onclick="cancelarFormMascota()" style="flex:1;">Cancelar</button>
-                        </div>
+                    <!-- Foto de la mascota -->
+                    <div class="mascota-foto-upload" onclick="document.getElementById('mascotaFoto').click()">
+                        <img id="mascotaFotoPreview" src="" alt="Foto mascota" style="display:none;width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 0.5rem;">
+                        <span id="mascotaFotoPlaceholder" style="font-size:2rem;">📸</span>
+                        <p style="font-size:0.7rem;color:#9CA3AF;">Click para subir foto</p>
+                        <input type="file" id="mascotaFoto" accept="image/*" style="display:none;" onchange="previewMascotaFoto(this)">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group"><label>Nombre *</label><input type="text" id="mascotaNombre" required></div>
+                        <div class="form-group"><label>Raza *</label><input type="text" id="mascotaRaza" required></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Edad</label><input type="text" id="mascotaEdad" placeholder="Ej: 3 años"></div>
+                        <div class="form-group"><label>Peso (kg)</label><input type="text" id="mascotaPeso" placeholder="Ej: 15"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Comportamiento</label>
+                        <select id="mascotaComportamiento">
+                            <option value="sociable">Sociable</option>
+                            <option value="nervioso">Nervioso</option>
+                            <option value="agresivo">Agresivo</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:0.6rem;">
+                        <button class="btn-perfil btn-primary" onclick="guardarMascota()" style="flex:1;">💾 Guardar</button>
+                        <button class="btn-perfil btn-outline" onclick="cancelarFormMascota()" style="flex:1;">Cancelar</button>
                     </div>
                 </div>
             </div>
             
-            <!-- TAB: PERFIL -->
-            <div class="perfil-tab-content" id="tab-datos">
+            <!-- VISTA: DATOS -->
+            <div class="perfil-vista" id="vista-datos">
                 <div class="perfil-section">
                     <h3>👤 Datos Personales</h3>
                     <form onsubmit="return guardarDatos(event)">
@@ -172,13 +228,12 @@
                         </div>
                         <div class="form-group"><label>Teléfono</label><input type="tel" id="editTelefono"></div>
                         <div class="form-group"><label>Dirección Facturación</label><input type="text" id="editDirFactura"></div>
-                        <button type="submit" class="btn-perfil btn-primary"><i class="fas fa-save"></i> Guardar Cambios</button>
+                        <button type="submit" class="btn-perfil btn-primary"><i class="fas fa-save"></i> Guardar</button>
                     </form>
                 </div>
                 
                 <div class="perfil-section">
                     <h3>📍 Dirección de Servicio</h3>
-                    <p style="color:var(--text-muted);font-size:0.85rem;">Dirección donde se recoge a tu mascota</p>
                     <form onsubmit="return guardarDireccion(event)">
                         <div class="form-row">
                             <div class="form-group"><label>Ciudad</label><input type="text" id="editCiudad" disabled></div>
@@ -212,13 +267,12 @@
                 </div>
             </div>
             
-            <!-- TAB: FACTURACIÓN -->
-            <div class="perfil-tab-content" id="tab-facturacion">
+            <!-- VISTA: FACTURACIÓN -->
+            <div class="perfil-vista" id="vista-facturacion">
                 <div class="perfil-section">
                     <h3>💳 Plan Activo</h3>
                     <div id="resumenPlanActivo"></div>
                 </div>
-                
                 <div class="perfil-section">
                     <h3>📋 Historial de Pagos</h3>
                     <div id="listaHistorialPagos"></div>
@@ -226,54 +280,354 @@
             </div>
             
         </div>
-    </section>
+    </main>
 
-    <!-- MODAL PASEO ADICIONAL -->
-    <div class="modal-overlay" id="modalPaseoAdicional">
-        <div class="modal-container" style="max-width:500px;">
-            <button class="modal-close-btn" onclick="cerrarModalPaseoAdicional()">&times;</button>
-            <h2 style="font-family:'Fredoka One',cursive;text-align:center;">➕ Paseo Adicional</h2>
-            <p style="text-align:center;color:var(--text-muted);">Paseo Único - $19.990</p>
-            <div class="form-group"><label>🐕 Mascota</label><select id="paseoAdicionalMascota"></select></div>
-            <div class="form-group"><label>📅 Fecha *</label><input type="date" id="paseoAdicionalFecha" required></div>
-            <div class="form-group"><label>⏰ Hora *</label><select id="paseoAdicionalHora"><option value="">Seleccionar</option></select></div>
-            <div class="form-group"><label>📍 Dirección</label><input type="text" id="paseoAdicionalDireccion" disabled></div>
-            <div style="background:var(--primary-light);padding:1rem;border-radius:15px;text-align:center;margin:1rem 0;">
-                <p style="font-size:1.5rem;font-family:'Fredoka One',cursive;color:var(--primary);">Total: $19.990</p>
-            </div>
-            <button class="btn-perfil btn-primary" onclick="confirmarPaseoAdicional()" style="width:100%;">💳 Pagar y Agendar</button>
-        </div>
-    </div>
-
-    <!-- MODAL PAGO PRÓXIMO MES -->
+    <!-- MODAL PAGO -->
     <div class="modal-overlay" id="modalPagoProximo">
-        <div class="modal-container" style="max-width:500px;">
+        <div class="modal-container">
             <button class="modal-close-btn" onclick="cerrarModalPagoProximo()">&times;</button>
-            <h2 style="font-family:'Fredoka One',cursive;text-align:center;">💳 Pagar Próximo Mes</h2>
-            <div id="detallePagoProximo"></div>
-            <div style="background:var(--primary-light);padding:1rem;border-radius:15px;text-align:center;margin:1rem 0;">
-                <p style="font-size:1.5rem;font-family:'Fredoka One',cursive;color:var(--primary);" id="totalPagoProximo"></p>
+            <h2 style="font-family:'Fredoka One',cursive;font-size:1.1rem;text-align:center;">💳 Pagar Próximo Mes</h2>
+            <div id="detallePagoProximo" style="background:#FAFAF8;border-radius:10px;padding:0.75rem 1rem;border:1px solid #F0EBE5;"></div>
+            <div class="total-pago-box">
+                <p id="totalPagoProximo" style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#E0633F;margin:0;">$0</p>
             </div>
-            <button class="btn-perfil btn-primary" onclick="confirmarPagoProximo()" style="width:100%;">💳 Confirmar Pago</button>
+            <button class="btn-perfil btn-primary" onclick="confirmarPagoProximo()" style="width:100%;">Confirmar Pago</button>
         </div>
     </div>
 
-    <!-- ========== FOOTER ========== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col"><h4>Conócenos</h4><ul><li><a href="nosotros/">Nosotros</a></li><li><a href="nosotros/equipo.html">Nuestro Equipo</a></li><li><a href="nosotros/trabaja.html">Trabaja con Nosotros</a></li><li><a href="servicios/">Servicios</a></li></ul></div>
-                <div class="footer-col"><h4>Información</h4><ul><li><a href="legal/terminos.html">Términos y Condiciones</a></li><li><a href="#faq">Preguntas Frecuentes</a></li><li><a href="legal/privacidad.html">Política de Privacidad</a></li><li><a href="legal/envios.html">Políticas de Entrega</a></li><li><a href="legal/devoluciones.html">Devoluciones</a></li></ul></div>
-                <div class="footer-col"><h4>Contáctanos</h4><ul><li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li><li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li><li><a href="https://www.instagram.com/petfyservice___/" target="_blank"><i class="fab fa-instagram"></i> @petfyservice___</a></li><li><a href="https://www.facebook.com/share/195h52699J/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook"></i> Petfy Service</a></li></ul></div>
-                <div class="footer-col"><h4>Suscríbete</h4><p>Recibe noticias y promociones diarias</p><form class="newsletter-form" onsubmit="return false;"><input type="email" placeholder="Correo electrónico" required><button type="submit"><i class="fas fa-paper-plane"></i></button></form></div>
+                <div class="footer-col">
+                    <h4>Conócenos</h4>
+                    <ul>
+                        <li><a href="../nosotros/index.html">Nosotros</a></li>
+                        <li><a href="../servicios/index.html">Servicios</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="https://wa.me/573204829244" target="_blank"><i class="fab fa-whatsapp"></i> 320 482 9244</a></li>
+                        <li><a href="mailto:petfyservice@gmail.com"><i class="fas fa-envelope"></i> petfyservice@gmail.com</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="footer-bottom"><div class="footer-bottom-content"><img src="assets/img/petfy.png" alt="Petfy" class="footer-logo-bottom"><p>&copy; 2024 Petfy. Todos los derechos reservados.</p><div class="payment-methods"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-amex"></i><i class="fab fa-cc-paypal"></i></div></div></div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Petfy. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
-
 
     <a href="https://wa.me/573204829244" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
 
     <script src="../assets/js/main.js"></script>
+    <script>
+        // ========== NAVEGACIÓN ==========
+        function toggleDropdown(event, id) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.querySelectorAll('.dropdown-menu-perfil').forEach(function(d) {
+                if (d.id !== id) d.classList.remove('show');
+            });
+            document.getElementById(id).classList.toggle('show');
+        }
+        
+        function mostrarServicio(vistaId, link) {
+            document.querySelectorAll('.dropdown-menu-perfil').forEach(function(d) { d.classList.remove('show'); });
+            mostrarVistaPerfil(vistaId, link);
+        }
+        
+        function mostrarVistaPerfil(id, link) {
+            document.querySelectorAll('.perfil-vista').forEach(function(v) { v.classList.remove('active'); });
+            var vista = document.getElementById(id);
+            if (vista) vista.classList.add('active');
+            
+            document.querySelectorAll('.perfil-nav-link').forEach(function(n) { n.classList.remove('active'); });
+            if (link) {
+                var dropdownLink = link.closest('.dropdown-perfil');
+                if (dropdownLink) {
+                    dropdownLink.querySelector('.perfil-nav-link').classList.add('active');
+                } else {
+                    link.classList.add('active');
+                }
+            }
+            
+            if (id === 'vista-mascotas') cargarMascotas();
+            if (id === 'vista-facturacion') cargarFacturacion();
+            if (id === 'vista-paseos') cargarServiciosPaseos();
+            if (id === 'vista-datos') cargarDatosPerfil();
+        }
+        
+        // ========== CARGAR DATOS ==========
+        function cargarServiciosPaseos() {
+            var servicios = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+            var activos = servicios.filter(function(p) { return p.estado === 'activo'; });
+            var html = '';
+            if (activos.length === 0) {
+                html = '<div class="perfil-empty"><i class="fas fa-calendar"></i><p>No tienes paseos activos</p></div>';
+            } else {
+                activos.forEach(function(p) {
+                    html += '<div class="paseo-card">' +
+                        '<div class="paseo-card-header"><span class="paseo-card-plan">' + (p.plan || '') + '</span><span class="paseo-card-status status-activo">Activo</span></div>' +
+                        '<div class="paseo-card-body"><div><i class="fas fa-dog"></i> ' + (p.mascota || '') + '</div><div><i class="fas fa-calendar"></i> ' + (p.fecha || '') + '</div><div><i class="fas fa-clock"></i> ' + (p.hora || '') + '</div></div>' +
+                        '<div class="paseo-card-footer"><span class="paseo-card-precio">$' + (p.precio || 0).toLocaleString() + '</span></div>' +
+                    '</div>';
+                });
+            }
+            document.getElementById('listaServiciosPaseos').innerHTML = html;
+        }
+        
+        // ========== MASCOTAS CON FOTO ==========
+        function cargarMascotas() {
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            var html = '';
+            
+            if (mascotas.length === 0) {
+                html = '<div class="perfil-empty" style="grid-column:1/-1;"><i class="fas fa-paw"></i><p>No tienes mascotas registradas</p><button class="btn-perfil btn-primary" onclick="mostrarFormMascota()"><i class="fas fa-plus"></i> Agregar primera mascota</button></div>';
+            } else {
+                mascotas.forEach(function(m, i) {
+                    var foto = m.foto || '';
+                    var fotoHTML = foto ? 
+                        '<img src="' + foto + '" alt="' + m.nombre + '" class="mascota-card-foto">' : 
+                        '<div class="mascota-card-foto-placeholder">🐕</div>';
+                    
+                    html += '<div class="mascota-perfil-card">' +
+                        '<div class="mascota-card-foto-container">' + fotoHTML + '</div>' +
+                        '<div class="mascota-card-info">' +
+                            '<strong>' + m.nombre + '</strong>' +
+                            '<p>' + (m.raza || 'Sin raza') + '</p>' +
+                            '<p>' + (m.edad || '') + (m.edad && m.peso ? ' • ' : '') + (m.peso ? m.peso + ' kg' : '') + '</p>' +
+                            '<span class="mascota-badge-comportamiento">' + (m.comportamiento || 'sociable') + '</span>' +
+                        '</div>' +
+                        '<div class="mascota-card-actions">' +
+                            '<button class="btn-icon btn-edit" onclick="editarMascota(' + i + ')" title="Editar"><i class="fas fa-pen"></i></button>' +
+                            '<button class="btn-icon btn-delete" onclick="eliminarMascota(' + i + ')" title="Eliminar"><i class="fas fa-trash"></i></button>' +
+                        '</div>' +
+                    '</div>';
+                });
+            }
+            
+            document.getElementById('listaMascotas').innerHTML = html;
+        }
+        
+        function previewMascotaFoto(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var preview = document.getElementById('mascotaFotoPreview');
+                    var placeholder = document.getElementById('mascotaFotoPlaceholder');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function mostrarFormMascota() {
+            document.getElementById('formMascota').style.display = 'block';
+            document.getElementById('formMascotaTitulo').textContent = 'Nueva Mascota';
+            document.getElementById('mascotaIndex').value = '-1';
+            document.getElementById('mascotaNombre').value = '';
+            document.getElementById('mascotaRaza').value = '';
+            document.getElementById('mascotaEdad').value = '';
+            document.getElementById('mascotaPeso').value = '';
+            document.getElementById('mascotaFotoPreview').style.display = 'none';
+            document.getElementById('mascotaFotoPlaceholder').style.display = 'block';
+            document.getElementById('mascotaFoto').value = '';
+        }
+        
+        function cancelarFormMascota() {
+            document.getElementById('formMascota').style.display = 'none';
+        }
+        
+        function guardarMascota() {
+            var i = parseInt(document.getElementById('mascotaIndex').value);
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            
+            var foto = '';
+            var fotoPreview = document.getElementById('mascotaFotoPreview');
+            if (fotoPreview.style.display === 'block') {
+                foto = fotoPreview.src;
+            }
+            
+            var m = {
+                nombre: document.getElementById('mascotaNombre').value,
+                raza: document.getElementById('mascotaRaza').value,
+                edad: document.getElementById('mascotaEdad').value,
+                peso: document.getElementById('mascotaPeso').value,
+                comportamiento: document.getElementById('mascotaComportamiento').value,
+                foto: foto
+            };
+            
+            if (!m.nombre || !m.raza) { alert('⚠️ Completa nombre y raza'); return; }
+            
+            if (i >= 0) { mascotas[i] = m; } else { mascotas.push(m); }
+            localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+            document.getElementById('formMascota').style.display = 'none';
+            cargarMascotas();
+            cargarKPIs();
+        }
+        
+        function editarMascota(i) {
+            var m = JSON.parse(localStorage.getItem('petfyMascotas') || '[]')[i];
+            document.getElementById('formMascota').style.display = 'block';
+            document.getElementById('formMascotaTitulo').textContent = 'Editar Mascota';
+            document.getElementById('mascotaIndex').value = i;
+            document.getElementById('mascotaNombre').value = m.nombre;
+            document.getElementById('mascotaRaza').value = m.raza;
+            document.getElementById('mascotaEdad').value = m.edad || '';
+            document.getElementById('mascotaPeso').value = m.peso || '';
+            document.getElementById('mascotaComportamiento').value = m.comportamiento || 'sociable';
+            
+            if (m.foto) {
+                document.getElementById('mascotaFotoPreview').src = m.foto;
+                document.getElementById('mascotaFotoPreview').style.display = 'block';
+                document.getElementById('mascotaFotoPlaceholder').style.display = 'none';
+            }
+        }
+        
+        function eliminarMascota(i) {
+            if (!confirm('¿Eliminar esta mascota?')) return;
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            mascotas.splice(i, 1);
+            localStorage.setItem('petfyMascotas', JSON.stringify(mascotas));
+            cargarMascotas();
+            cargarKPIs();
+        }
+        
+        // ========== DATOS ==========
+        function cargarDatosPerfil() {
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            document.getElementById('editNombre').value = user.nombre || '';
+            document.getElementById('editApellido').value = user.apellido || '';
+            document.getElementById('editEmail').value = user.email || '';
+            document.getElementById('editTipoDoc').value = user.tipoDoc || 'CC';
+            document.getElementById('editNumDoc').value = user.numDoc || '';
+            document.getElementById('editTelefono').value = user.telefono || '';
+            document.getElementById('editDirFactura').value = user.dirFactura || '';
+            
+            var dir = JSON.parse(localStorage.getItem('petfyDireccionServicio') || '{}');
+            document.getElementById('editCiudad').value = dir.ciudad || 'Bogotá';
+            document.getElementById('editLocalidad').value = dir.localidad || 'Usaquén';
+            document.getElementById('editTipoVia').value = dir.tipoVia || 'calle';
+            document.getElementById('editNumVia').value = dir.numeroVia || '';
+            document.getElementById('editComplemento').value = dir.complemento || '';
+            document.getElementById('editEsConjunto').value = dir.esConjunto || 'no';
+            document.getElementById('editTorre').value = dir.torre || '';
+            document.getElementById('editApto').value = dir.apto || '';
+            toggleConjuntoPerfil();
+        }
+        
+        function guardarDatos(e) {
+            e.preventDefault();
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            user.nombre = document.getElementById('editNombre').value;
+            user.apellido = document.getElementById('editApellido').value;
+            user.tipoDoc = document.getElementById('editTipoDoc').value;
+            user.numDoc = document.getElementById('editNumDoc').value;
+            user.telefono = document.getElementById('editTelefono').value;
+            user.dirFactura = document.getElementById('editDirFactura').value;
+            localStorage.setItem('petfyUser', JSON.stringify(user));
+            alert('✅ Datos guardados');
+            return false;
+        }
+        
+        function guardarDireccion(e) {
+            e.preventDefault();
+            var dir = {
+                ciudad: 'Bogotá', localidad: 'Usaquén',
+                tipoVia: document.getElementById('editTipoVia').value,
+                numeroVia: document.getElementById('editNumVia').value,
+                complemento: document.getElementById('editComplemento').value,
+                esConjunto: document.getElementById('editEsConjunto').value,
+                torre: document.getElementById('editTorre').value,
+                apto: document.getElementById('editApto').value
+            };
+            localStorage.setItem('petfyDireccionServicio', JSON.stringify(dir));
+            alert('✅ Dirección guardada');
+            return false;
+        }
+        
+        function toggleConjuntoPerfil() {
+            var es = document.getElementById('editEsConjunto').value;
+            document.getElementById('datosConjuntoPerfil').style.display = es === 'si' ? 'block' : 'none';
+        }
+        
+        // ========== FACTURACIÓN ==========
+        function cargarFacturacion() {
+            var pagos = JSON.parse(localStorage.getItem('petfyHistorialPagos') || '[]');
+            var servicios = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+            var activo = servicios.filter(function(p) { return p.estado === 'activo'; })[0];
+            
+            var html = '';
+            if (activo) {
+                html = '<div class="factura-card">' +
+                    '<div><strong>' + activo.plan + '</strong></div>' +
+                    '<div>$' + (activo.precio || 0).toLocaleString() + '/mes</div>' +
+                    '<div>Próximo pago: ' + (activo.proximoPago || 'Pendiente') + '</div>' +
+                    '<button class="btn-perfil btn-primary" onclick="abrirModalPagoProximo()">💳 Pagar</button>' +
+                '</div>';
+            } else {
+                html = '<div class="perfil-empty"><i class="fas fa-credit-card"></i><p>Sin plan activo</p></div>';
+            }
+            document.getElementById('resumenPlanActivo').innerHTML = html;
+            
+            var htmlPagos = '';
+            if (pagos.length === 0) {
+                htmlPagos = '<div class="perfil-empty"><i class="fas fa-receipt"></i><p>Sin pagos</p></div>';
+            } else {
+                pagos.reverse().forEach(function(p) {
+                    htmlPagos += '<div class="historial-row"><span>' + p.fecha + '</span><span>$' + p.monto.toLocaleString() + '</span><span class="status-completado">✅</span></div>';
+                });
+            }
+            document.getElementById('listaHistorialPagos').innerHTML = htmlPagos;
+        }
+        
+        function abrirModalPagoProximo() {
+            var servicios = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+            var activo = servicios.filter(function(p) { return p.estado === 'activo'; })[0];
+            if (!activo) { alert('Sin plan activo'); return; }
+            document.getElementById('detallePagoProximo').innerHTML = '<p><strong>' + activo.plan + '</strong></p><p>$' + activo.precio.toLocaleString() + '</p>';
+            document.getElementById('totalPagoProximo').textContent = '$' + activo.precio.toLocaleString();
+            document.getElementById('modalPagoProximo').classList.add('active');
+        }
+        
+        function cerrarModalPagoProximo() {
+            document.getElementById('modalPagoProximo').classList.remove('active');
+        }
+        
+        function confirmarPagoProximo() {
+            cerrarModalPagoProximo();
+            alert('✅ Pago realizado');
+        }
+        
+        // ========== KPIs ==========
+        function cargarKPIs() {
+            var servicios = JSON.parse(localStorage.getItem('petfyHistorialPaseos') || '[]');
+            var mascotas = JSON.parse(localStorage.getItem('petfyMascotas') || '[]');
+            var activos = servicios.filter(function(p) { return p.estado === 'activo'; });
+            document.getElementById('kpiServiciosActivos').textContent = activos.length;
+            document.getElementById('kpiMascotas').textContent = mascotas.length;
+            document.getElementById('kpiPlanActivo').textContent = activos.length > 0 ? activos[0].plan : '-';
+        }
+        
+        // Cerrar dropdown al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown-perfil')) {
+                document.querySelectorAll('.dropdown-menu-perfil').forEach(function(d) { d.classList.remove('show'); });
+            }
+        });
+        
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            var user = JSON.parse(localStorage.getItem('petfyUser') || '{}');
+            document.getElementById('topbarNombre').textContent = user.nombre || 'Usuario';
+            cargarServiciosPaseos();
+            cargarKPIs();
+        });
+    </script>
 </body>
 </html>

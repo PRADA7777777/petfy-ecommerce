@@ -1,0 +1,1065 @@
+/* ============================================================
+   🐾 PETFY - PERFIL DE USUARIO (CSS CORREGIDO)
+   Colores organizados usando variables de Petfy
+   ============================================================ */
+
+/* ========== VARIABLES (si no están en petfy.css) ========== */
+:root {
+    --primary: #E0633F;
+    --primary-dark: #C94E2E;
+    --primary-light: #FFF0E8;
+    --accent: #EA9200;
+    --bg: #F4EBE2;
+    --white: #FFFFFF;
+    --text: #1F1B24;
+    --text-light: #4B5563;
+    --text-muted: #9CA3AF;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --info: #3B82F6;
+    --border: #F0EBE5;
+    --border-dark: #E8E0D8;
+}
+
+/* ========== PÁGINA ========== */
+body.perfil-page {
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text);
+}
+
+/* ========== TOPBAR ========== */
+.perfil-topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.perfil-topbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.perfil-topbar .logo img {
+    height: 38px;
+    width: auto;
+}
+
+.perfil-topbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text);
+}
+
+.perfil-topbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.perfil-topbar-logout {
+    color: var(--danger);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.perfil-topbar-logout:hover {
+    color: var(--primary-dark);
+}
+
+/* ========== NAVEGACIÓN ========== */
+.perfil-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.perfil-nav-links {
+    display: flex;
+    list-style: none;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+}
+
+.perfil-nav-item {
+    position: relative;
+}
+
+.perfil-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 20px;
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.78rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    white-space: nowrap;
+    background: none;
+    border: none;
+}
+
+.perfil-nav-link:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.perfil-nav-link.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.perfil-nav-link .dropdown-arrow {
+    font-size: 0.55rem;
+    transition: transform 0.3s;
+}
+
+/* ========== DROPDOWN ========== */
+.dropdown-perfil {
+    position: relative;
+}
+
+.dropdown-menu-perfil {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    min-width: 190px;
+    padding: 0.4rem;
+    z-index: 1000;
+    margin-top: 0.3rem;
+    border: 1px solid var(--border);
+}
+
+.dropdown-menu-perfil.show {
+    display: block;
+    animation: fadeInUp 0.3s ease;
+}
+
+.dropdown-item-perfil {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.dropdown-item-perfil:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.dropdown-item-perfil span {
+    font-size: 1rem;
+}
+
+/* ========== CONTENIDO PRINCIPAL ========== */
+.perfil-main {
+    padding: 1.5rem 0 3rem;
+}
+
+/* ========== VISTAS ========== */
+.perfil-vista {
+    display: none;
+}
+
+.perfil-vista.active {
+    display: block;
+    animation: fadeInUp 0.4s ease;
+}
+
+/* ========== KPIs ========== */
+.perfil-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.perfil-kpi {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 0.65rem 0.4rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.3s;
+}
+
+.perfil-kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.perfil-kpi-icon {
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.perfil-kpi-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    display: block;
+    color: var(--primary);
+}
+
+.perfil-kpi-label {
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ========== SECCIONES ========== */
+.perfil-section {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 1.1rem;
+    margin-bottom: 0.85rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+}
+
+.perfil-section h3 {
+    font-family: 'Fredoka One', cursive;
+    color: var(--text);
+    font-size: 0.95rem;
+    margin: 0 0 0.7rem 0;
+}
+
+.perfil-section h4 {
+    font-family: 'Fredoka One', cursive;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.perfil-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.7rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.perfil-section-header h3 {
+    margin: 0;
+}
+
+/* ========== BADGE PRECIO ========== */
+.perfil-badge-precio {
+    background: var(--primary-light);
+    color: var(--primary);
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+/* ========== INFO DETALLE ========== */
+.paseo-info-detalle {
+    background: #FAFAF8;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border);
+}
+
+.paseo-info-detalle p {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.paseo-info-detalle i {
+    color: var(--success);
+    font-size: 0.7rem;
+}
+
+/* ========== DIVIDER ========== */
+.perfil-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.75rem 0;
+}
+
+/* ========== FORMULARIOS ========== */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+.form-group {
+    margin-bottom: 0.6rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+    font-size: 0.7rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem 0.65rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+    background: #FAFAF8;
+    color: var(--text);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+    background: var(--white);
+}
+
+.form-group input:disabled {
+    background: #F5F0ED;
+    cursor: not-allowed;
+}
+
+/* ========== BOTONES ========== */
+.btn-perfil {
+    padding: 0.5rem 0.95rem;
+    border-radius: 18px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(224,99,63,0.3);
+}
+
+.btn-outline {
+    background: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+/* ========== CARDS DE PASEOS/SERVICIOS ========== */
+.paseo-card {
+    background: #FAFAF8;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s;
+}
+
+.paseo-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.paseo-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.paseo-card-plan {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.paseo-card-status {
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.55rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.status-activo { 
+    background: #ECFDF5; 
+    color: #059669; 
+}
+
+.status-completado { 
+    background: #EFF6FF; 
+    color: #3B82F6; 
+}
+
+.status-cancelado { 
+    background: #FEE2E2; 
+    color: #EF4444; 
+}
+
+.status-prueba { 
+    background: #FFFBEB; 
+    color: #D97706; 
+}
+
+.paseo-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    color: var(--text-light);
+}
+
+.paseo-card-body i {
+    color: var(--primary);
+    width: 14px;
+    text-align: center;
+}
+
+.paseo-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-dark);
+}
+
+.paseo-card-precio {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    color: var(--primary);
+}
+
+/* ========== MASCOTAS ========== */
+.mascota-card {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.4rem;
+    transition: all 0.3s;
+    background: var(--white);
+}
+
+.mascota-card:hover {
+    border-color: var(--primary);
+    background: #FFF8F5;
+}
+
+.mascota-card-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background: var(--primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.mascota-card-info {
+    flex: 1;
+}
+
+.mascota-card-info strong {
+    color: var(--text);
+    font-size: 0.8rem;
+}
+
+.mascota-card-info p {
+    color: var(--text-light);
+    font-size: 0.65rem;
+    margin: 0.05rem 0 0;
+}
+
+.mascota-card-actions {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.btn-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 0.65rem;
+}
+
+.btn-edit { 
+    background: #EFF6FF; 
+    color: #3B82F6; 
+}
+
+.btn-edit:hover { 
+    background: #3B82F6; 
+    color: var(--white); 
+}
+
+.btn-delete { 
+    background: #FEE2E2; 
+    color: #EF4444; 
+}
+
+.btn-delete:hover { 
+    background: #EF4444; 
+    color: var(--white); 
+}
+
+/* ========== FACTURACIÓN ========== */
+.factura-card {
+    background: linear-gradient(135deg, #FFF8F5, #FFEDE4);
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    padding: 0.85rem;
+}
+
+.factura-card div {
+    padding: 0.2rem 0;
+    font-size: 0.75rem;
+    color: var(--text);
+}
+
+/* ========== EMPTY STATES ========== */
+.perfil-empty {
+    text-align: center;
+    padding: 1.25rem 0.75rem;
+    color: var(--text-muted);
+}
+
+.perfil-empty i {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.perfil-empty p {
+    font-size: 0.75rem;
+}
+
+/* ========== MODAL ========== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10001;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-container {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: modalIn 0.3s ease;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.modal-close-btn:hover {
+    color: var(--danger);
+}
+
+.total-pago-box {
+    background: var(--primary-light);
+    border-radius: 10px;
+    padding: 0.75rem;
+    text-align: center;
+    margin: 0.75rem 0;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+    background: #1F1B24;
+    color: var(--white);
+    padding: 2.5rem 0 0;
+    margin-top: 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-col h4 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 0.4rem;
+}
+
+.footer-col ul li a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: all 0.3s;
+}
+
+.footer-col ul li a:hover {
+    color: var(--accent);
+    padding-left: 3px;
+}
+
+.footer-bottom {
+    padding: 1.25rem 0;
+}
+
+.footer-bottom-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.footer-logo-bottom {
+    height: 25px;
+    width: auto;
+    opacity: 0.85;
+}
+
+.footer-bottom p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.7rem;
+    margin: 0;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.35);
+}
+
+/* ========== WHATSAPP ========== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: #25D366;
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    z-index: 999;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(37,211,102,0.35);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .perfil-nav {
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+    
+    .perfil-nav-links {
+        flex-wrap: nowrap;
+    }
+    
+    .perfil-nav-item {
+        flex-shrink: 0;
+    }
+    
+    .dropdown-menu-perfil {
+        position: static;
+        box-shadow: none;
+        border: 1px solid var(--border);
+    }
+    
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .paseo-card-body {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .whatsapp-float {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+}
+/* ========== BADGE PRÓXIMAMENTE ========== */
+.perfil-badge-proximo {
+    background: #FFFBEB;
+    color: #D97706;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.7rem;
+    white-space: nowrap;
+}
+
+/* ========== CAJA PRÓXIMAMENTE ========== */
+.proximamente-box {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: #FAFAF8;
+    border-radius: 12px;
+    border: 2px dashed #E8E0D8;
+}
+
+.proximamente-icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.6;
+}
+
+.proximamente-box h4 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: #1F1B24;
+    margin: 0 0 0.5rem 0;
+}
+
+.proximamente-box p {
+    color: #9CA3AF;
+    font-size: 0.8rem;
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+/* ========== PLANES MINI ========== */
+.planes-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+}
+
+.plan-mini-card {
+    background: #FAFAF8;
+    border: 2px solid #F0EBE5;
+    border-radius: 12px;
+    padding: 0.85rem;
+    text-align: center;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.plan-mini-card:hover {
+    border-color: #E0633F;
+    background: #FFF8F5;
+    transform: translateY(-2px);
+}
+
+.plan-mini-icon {
+    font-size: 1.5rem;
+}
+
+.plan-mini-card strong {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.8rem;
+    color: #1F1B24;
+}
+
+.plan-mini-precio {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: #E0633F;
+}
+
+.plan-mini-detalle {
+    font-size: 0.65rem;
+    color: #9CA3AF;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .planes-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* ========== DROPDOWN ITEMS CON ESTADO ========== */
+.dropdown-item-perfil {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    color: #1F1B24;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+.dropdown-item-perfil:hover {
+    background: #FFF0E8;
+    color: #E0633F;
+}
+
+/* Item PRÓXIMAMENTE - Opaco */
+.dropdown-item-perfil.proximamente {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.dropdown-item-perfil.proximamente:hover {
+    background: #F5F0ED;
+    color: #9CA3AF;
+}
+
+/* Badge Disponible */
+.dropdown-badge-disponible {
+    margin-left: auto;
+    background: #ECFDF5;
+    color: #059669;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.55rem;
+    font-weight: 800;
+}
+
+/* Badge Próximamente */
+.dropdown-badge-proximo {
+    margin-left: auto;
+    background: #FFFBEB;
+    color: #D97706;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.55rem;
+    font-weight: 800;
+}
+/* Dropdown items inactivos */
+.dropdown-item-perfil.inactivo {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(0.5);
+}
+/* ========== SECCIÓN MASCOTAS MEJORADA ========== */
+.mascotas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mascotas-header h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: #1F1B24;
+    margin: 0;
+}
+
+.mascotas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+}
+
+/* Card de mascota con foto */
+.mascota-perfil-card {
+    background: #FFFFFF;
+    border: 2px solid #F0EBE5;
+    border-radius: 14px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.mascota-perfil-card:hover {
+    border-color: #E0633F;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
+
+.mascota-card-foto-container {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #FFF0E8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mascota-card-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mascota-card-foto-placeholder {
+    font-size: 1.8rem;
+}
+
+.mascota-badge-comportamiento {
+    display: inline-block;
+    background: #FFF0E8;
+    color: #E0633F;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+}
+
+/* Upload foto */
+.mascota-foto-upload {
+    text-align: center;
+    padding: 0.75rem;
+    border: 2px dashed #E8E0D8;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s;
+    background: #FFFFFF;
+}
+
+.mascota-foto-upload:hover {
+    border-color: #E0633F;
+    background: #FFF8F5;
+}
