@@ -1,6 +1,4 @@
-// ================================================================
-// PETFY - MAIN SCRIPTS v3.0 FINAL (LIMPIO)
-// ================================================================
+// Petfy funciones
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -15,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var nl = document.querySelector('.nav-links');
     if (mb && nl) {
         mb.onclick = function () {
-            nl.classList.toggle('open'); // <--- CAMBIADO DE 'active' A 'open'
+            nl.classList.toggle('open');
             var icon = this.querySelector('i');
             if (icon) { icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times'); }
         };
@@ -448,7 +446,17 @@ function crearCard3D(i) {
     p.features.forEach(function (f) {
         feats += '<li><i class="fas fa-check-circle"></i> ' + f + '</li>';
     });
-    return '<div class="plan-card-3d" id="card3d-' + i + '" onclick="if(this.classList.contains(\'center\')) elegirPlan(\'' + p.id + '\')"><div class="plan-emoji">' + p.emoji + '</div><h3>' + p.nombre + '</h3><span class="plan-tag ' + p.tag + '">' + p.tagText + '</span><div class="plan-precio">$' + p.precio.toLocaleString() + '<small>' + p.periodo + '</small></div><ul class="plan-features">' + feats + '</ul><p style="font-size:0.7rem;color:var(--text-muted);">*Duración: ' + p.duracionLetra + '</p><button class="plan-btn-elegir" onclick="elegirPlan(\'' + p.id + '\')">Elegir este Plan →</button></div>';
+    var urlDestino = 'https://wa.me/573204829244' + p.id;
+
+        return '<div class="plan-card-3d" id="card3d-' + i + '">' +
+        '<div class="plan-emoji">' + p.emoji + '</div>' +
+        '<h3>' + p.nombre + '</h3>' +
+        '<span class="plan-tag ' + p.tag + '">' + p.tagText + '</span>' +
+        '<div class="plan-precio">$' + p.precio.toLocaleString() + '<small>' + p.periodo + '</small></div>' +
+        '<ul class="plan-features">' + feats + '</ul>' +
+        '<p style="font-size:0.7rem;color:var(--text-muted);">*Duración: ' + p.duracionLetra + '</p>' +
+        '<a href="' + urlDestino + '" target="_blank" class="plan-btn-elegir" style="display:block; text-align:center; text-decoration:none;">Elegir este Plan →</a>' +
+    '</div>';
 }
 
 function actualizarClases3D() {
