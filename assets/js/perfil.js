@@ -496,3 +496,39 @@ function irAlPago() {
     verificarVistaPaseos();
     cargarKPIs();
 }
+// ========== DROPDOWN FUNCIONAL ==========
+function toggleDropdown(event, id) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    var dropdown = document.getElementById(id);
+    var todosDropdowns = document.querySelectorAll('.dropdown-menu-perfil');
+    
+    // Cerrar todos los dropdowns excepto el actual
+    todosDropdowns.forEach(function(d) {
+        if (d.id !== id) {
+            d.classList.remove('show');
+        }
+    });
+    
+    // Toggle del dropdown actual
+    dropdown.classList.toggle('show');
+}
+
+// Cerrar dropdown al hacer clic en cualquier parte
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown-perfil')) {
+        document.querySelectorAll('.dropdown-menu-perfil').forEach(function(d) {
+            d.classList.remove('show');
+        });
+    }
+});
+
+// Cerrar con tecla Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        document.querySelectorAll('.dropdown-menu-perfil').forEach(function(d) {
+            d.classList.remove('show');
+        });
+    }
+});

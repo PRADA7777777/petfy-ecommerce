@@ -18,6 +18,50 @@
         <div class="container">
             <div class="perfil-topbar-content">
                 <div class="logo">
+                    <!-- Dentro de .perfil-topbar-content, después del logo -->
+<button class="perfil-menu-toggle" onclick="toggleSidebarMobile()">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- SIDEBAR MÓVIL -->
+<div class="perfil-sidebar-overlay" id="sidebarOverlayMobile" onclick="cerrarSidebarMobile()"></div>
+<div class="perfil-sidebar-mobile" id="sidebarMobile">
+    <div class="sidebar-header">
+        <strong>🐾 Menú</strong>
+        <button class="sidebar-close" onclick="cerrarSidebarMobile()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <button class="sidebar-item active" onclick="navegarDesdeSidebar('vista-paseos', this)">
+        <i class="fas fa-concierge-bell"></i> Mis Servicios
+    </button>
+    <div class="sidebar-submenu">
+        <a href="#" onclick="navegarDesdeSidebar('vista-paseos')">🐕 Paseos</a>
+        <a href="#" class="inactivo">🏠 Guardería</a>
+        <a href="#" class="inactivo">🛁 Baños</a>
+        <a href="#" class="inactivo">🩺 Veterinaria</a>
+        <a href="#" class="inactivo">🎓 Entrenamiento</a>
+    </div>
+    
+    <button class="sidebar-item" onclick="navegarDesdeSidebar('vista-mascotas', this)">
+        <i class="fas fa-paw"></i> Mis Mascotas
+    </button>
+    
+    <button class="sidebar-item" onclick="navegarDesdeSidebar('vista-datos', this)">
+        <i class="fas fa-user"></i> Mi Perfil
+    </button>
+    
+    <button class="sidebar-item" onclick="navegarDesdeSidebar('vista-facturacion', this)">
+        <i class="fas fa-file-invoice"></i> Facturación
+    </button>
+    
+    <div class="sidebar-logout">
+        <button onclick="cerrarSesion()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+    </div>
+</div>
                     <a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a>
                 </div>
                 

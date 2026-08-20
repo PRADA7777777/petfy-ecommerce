@@ -2824,3 +2824,606 @@ body.perfil-page {
     }
     */
 }
+/* ============================================================
+   🐾 PETFY - RESPONSIVE CON MENÚ LATERAL (HAMBURGUESA)
+   ============================================================ */
+
+/* ========== VARIABLES DEL MENÚ ========== */
+:root {
+    --sidebar-width: 260px;
+    --topbar-height: 50px;
+}
+
+/* ========== MENÚ HAMBURGUESA (MÓVIL) ========== */
+@media (max-width: 768px) {
+    
+    /* Contenedor */
+    .perfil-page .container {
+        padding: 0 12px;
+        max-width: 100%;
+    }
+    
+    /* Topbar fijo */
+    .perfil-topbar {
+        height: var(--topbar-height);
+        display: flex;
+        align-items: center;
+    }
+    
+    .perfil-topbar-content {
+        flex-wrap: nowrap;
+        gap: 0.5rem;
+        padding: 0;
+    }
+    
+    /* Logo */
+    .perfil-topbar .logo img {
+        height: 26px;
+    }
+    
+    /* Ocultar nav normal */
+    .perfil-nav {
+        display: none;
+    }
+    
+    /* Botón hamburguesa */
+    .perfil-menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        background: none;
+        border: 2px solid #F0EBE5;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #1F1B24;
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+    
+    .perfil-menu-toggle:hover {
+        background: #FFF0E8;
+        border-color: #E0633F;
+        color: #E0633F;
+    }
+    
+    /* Overlay del sidebar */
+    .perfil-sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        backdrop-filter: blur(3px);
+    }
+    
+    .perfil-sidebar-overlay.active {
+        display: block;
+    }
+    
+    /* Sidebar lateral */
+    .perfil-sidebar-mobile {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: var(--sidebar-width);
+        height: 100vh;
+        background: #FFFFFF;
+        z-index: 999;
+        transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        overflow-y: auto;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+    
+    .perfil-sidebar-mobile.active {
+        left: 0;
+    }
+    
+    /* Header del sidebar */
+    .perfil-sidebar-mobile .sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #F0EBE5;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-header strong {
+        font-family: 'Fredoka One', cursive;
+        font-size: 0.9rem;
+        color: #1F1B24;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-close {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #F5F0ED;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: #4B5563;
+    }
+    
+    /* Items del sidebar */
+    .perfil-sidebar-mobile .sidebar-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.6rem 0.75rem;
+        border-radius: 8px;
+        color: #4B5563;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.75rem;
+        transition: all 0.3s;
+        cursor: pointer;
+        border: none;
+        background: none;
+        width: 100%;
+        font-family: 'Nunito', sans-serif;
+        margin-bottom: 0.2rem;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-item:hover {
+        background: #FFF0E8;
+        color: #E0633F;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-item.active {
+        background: #E0633F;
+        color: #FFFFFF;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-item i {
+        width: 18px;
+        text-align: center;
+        font-size: 0.8rem;
+    }
+    
+    /* Submenu servicios */
+    .perfil-sidebar-mobile .sidebar-submenu {
+        padding-left: 2.2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-submenu a {
+        display: block;
+        padding: 0.4rem 0.5rem;
+        color: #4B5563;
+        text-decoration: none;
+        font-size: 0.7rem;
+        font-weight: 600;
+        border-radius: 6px;
+        transition: all 0.3s;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-submenu a:hover {
+        background: #FFF0E8;
+        color: #E0633F;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-submenu a.inactivo {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+    
+    /* Cerrar sesión */
+    .perfil-sidebar-mobile .sidebar-logout {
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid #F0EBE5;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-logout button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        color: #EF4444;
+        background: none;
+        border: none;
+        font-weight: 700;
+        font-size: 0.72rem;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 8px;
+        font-family: 'Nunito', sans-serif;
+    }
+    
+    .perfil-sidebar-mobile .sidebar-logout button:hover {
+        background: #FEE2E2;
+    }
+    
+    /* KPIs */
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+    
+    .perfil-kpi {
+        padding: 0.45rem 0.25rem;
+    }
+    
+    /* Planes */
+    .planes-mini-grid {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+    
+    .plan-mini-card {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.6rem;
+        text-align: left;
+    }
+    
+    /* Mascotas */
+    #mascotaSeleccionadaAgendamiento .mascotas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Agenda */
+    #agendaContenido .form-row,
+    #agendaContenido .form-row-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Formularios generales */
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Dashboard */
+    #listaPaseosDashboard .paseo-card-body {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Modal */
+    .modal-container {
+        max-width: 92%;
+        padding: 0.9rem;
+    }
+    
+    .modal-mascota .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========== MÓVILES PEQUEÑOS (≤ 480px) ========== */
+@media (max-width: 480px) {
+    
+    .perfil-page .container {
+        padding: 0 10px;
+    }
+    
+    .perfil-topbar .logo img {
+        height: 22px;
+    }
+    
+    .perfil-menu-toggle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+    
+    .perfil-topbar-user span {
+        display: none;
+    }
+    
+    .perfil-kpi-icon {
+        font-size: 0.7rem;
+    }
+    
+    .perfil-kpi-num {
+        font-size: 0.68rem;
+    }
+    
+    .perfil-kpi-label {
+        font-size: 0.4rem;
+    }
+    
+    .perfil-section {
+        padding: 0.6rem;
+    }
+    
+    .perfil-section h3 {
+        font-size: 0.72rem;
+    }
+    
+    .btn-perfil {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.6rem;
+    }
+    
+    .plan-mini-icon {
+        font-size: 0.9rem;
+    }
+    
+    .plan-mini-card strong {
+        font-size: 0.62rem;
+    }
+    
+    .plan-mini-precio {
+        font-size: 0.65rem;
+    }
+    
+    .whatsapp-float {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        bottom: 12px;
+        right: 12px;
+    }
+}
+/* ============================================================
+   🐾 PETFY - RESPONSIVE CORREGIDO
+   Menú hamburguesa SOLO en móvil
+   Desktop: nav normal centrada
+   ============================================================ */
+
+/* ========== DESKTOP (por defecto, > 768px) ========== */
+/* El menú hamburguesa y sidebar están OCULTOS */
+
+.perfil-menu-toggle {
+    display: none !important; /* Oculto en desktop */
+}
+
+.perfil-sidebar-overlay {
+    display: none !important;
+}
+
+.perfil-sidebar-mobile {
+    display: none !important;
+}
+
+/* Nav normal visible en desktop */
+.perfil-nav {
+    display: flex !important;
+    flex: 1;
+    justify-content: center;
+}
+
+.perfil-nav-links {
+    display: flex !important;
+    flex-direction: row;
+    gap: 0.15rem;
+    justify-content: center;
+}
+
+/* ========== TABLET Y MÓVIL (≤ 768px) ========== */
+@media (max-width: 768px) {
+    
+    /* Ocultar nav normal */
+    .perfil-nav {
+        display: none !important;
+    }
+    
+    /* Mostrar botón hamburguesa */
+    .perfil-menu-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        background: none;
+        border: 2px solid #F0EBE5;
+        cursor: pointer;
+        font-size: 1rem;
+        color: #1F1B24;
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+    
+    .perfil-menu-toggle:hover {
+        background: #FFF0E8;
+        border-color: #E0633F;
+        color: #E0633F;
+    }
+    
+    /* Sidebar overlay */
+    .perfil-sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+        backdrop-filter: blur(3px);
+    }
+    
+    .perfil-sidebar-overlay.active {
+        display: block;
+    }
+    
+    /* Sidebar lateral */
+    .perfil-sidebar-mobile {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 260px;
+        height: 100vh;
+        background: #FFFFFF;
+        z-index: 999;
+        transition: left 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        overflow-y: auto;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+    
+    .perfil-sidebar-mobile.active {
+        left: 0;
+    }
+    
+    /* Resto de estilos responsive */
+    .perfil-page .container {
+        padding: 0 12px;
+    }
+    
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+    
+    .planes-mini-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    #agendaContenido .form-row,
+    #agendaContenido .form-row-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    #listaPaseosDashboard .paseo-card-body {
+        grid-template-columns: 1fr;
+    }
+    
+    #mascotaSeleccionadaAgendamiento .mascotas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-container {
+        max-width: 92%;
+        padding: 0.9rem;
+    }
+    
+    .modal-mascota .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========== MÓVILES PEQUEÑOS (≤ 480px) ========== */
+@media (max-width: 480px) {
+    .perfil-page .container {
+        padding: 0 10px;
+    }
+    
+    .perfil-topbar .logo img {
+        height: 24px;
+    }
+    
+    .perfil-menu-toggle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.85rem;
+    }
+    
+    .perfil-topbar-user span {
+        display: none;
+    }
+    
+    .perfil-kpi-icon {
+        font-size: 0.7rem;
+    }
+    
+    .perfil-kpi-num {
+        font-size: 0.68rem;
+    }
+    
+    .perfil-kpi-label {
+        font-size: 0.4rem;
+    }
+    
+    .perfil-section {
+        padding: 0.6rem;
+    }
+    
+    .btn-perfil {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.6rem;
+    }
+    
+    .whatsapp-float {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        bottom: 12px;
+        right: 12px;
+    }
+}
+/* ========== DROPDOWN FUNCIONAL ========== */
+.dropdown-perfil {
+    position: relative;
+}
+
+.dropdown-menu-perfil {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    min-width: 160px;
+    padding: 0.3rem;
+    z-index: 1000;
+    margin-top: 0.3rem;
+    border: 1px solid #F0EBE5;
+}
+
+.dropdown-menu-perfil.show {
+    display: block !important;
+    animation: fadeInUp 0.3s ease;
+}
+
+.dropdown-item-perfil {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 8px;
+    color: #1F1B24;
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 700;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.dropdown-item-perfil:hover {
+    background: #FFF0E8;
+    color: #E0633F;
+}
+
+.dropdown-item-perfil span {
+    font-size: 0.85rem;
+}
+
+.dropdown-item-perfil.inactivo {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(0.5);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
