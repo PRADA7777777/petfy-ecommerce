@@ -2377,4 +2377,450 @@ body.perfil-page {
         grid-template-columns: 1fr;
     }
 }
-//nuevo//
+/* ============================================================
+   🐾 PETFY - RESPONSIVE COMPLETO PARA PERFIL
+   ============================================================ */
+
+/* ========== TABLETS (≤ 1024px) ========== */
+@media (max-width: 1024px) {
+    .perfil-page .container {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .perfil-topbar .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+    
+    .perfil-kpis {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.35rem;
+    }
+}
+
+/* ========== MÓVILES GRANDES (≤ 768px) ========== */
+@media (max-width: 768px) {
+    /* Contenedor */
+    .perfil-page .container {
+        padding: 0 15px;
+    }
+    
+    /* Topbar */
+    .perfil-topbar-content {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+    }
+    
+    .perfil-topbar .logo img {
+        height: 28px;
+    }
+    
+    /* Navegación */
+    .perfil-nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    
+    .perfil-nav::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .perfil-nav-links {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 0.2rem;
+    }
+    
+    .perfil-nav-item {
+        flex-shrink: 0;
+    }
+    
+    .perfil-nav-link {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.65rem;
+    }
+    
+    /* Dropdown */
+    .dropdown-menu-perfil {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 160px;
+    }
+    
+    /* KPIs */
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+    
+    .perfil-kpi {
+        padding: 0.5rem 0.3rem;
+    }
+    
+    /* Secciones */
+    .perfil-section {
+        padding: 0.7rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Planes */
+    .planes-mini-grid {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+    
+    .plan-mini-card {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 0.7rem;
+        text-align: left;
+    }
+    
+    .plan-mini-icon {
+        font-size: 1.2rem;
+    }
+    
+    .plan-mini-card strong {
+        font-size: 0.7rem;
+    }
+    
+    .plan-mini-precio {
+        font-size: 0.75rem;
+        margin-left: auto;
+    }
+    
+    .plan-mini-detalle {
+        font-size: 0.55rem;
+    }
+    
+    /* Mascotas en agendamiento */
+    #mascotaSeleccionadaAgendamiento .mascotas-grid {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+    
+    #mascotaSeleccionadaAgendamiento .mascota-perfil-card {
+        padding: 0.5rem;
+    }
+    
+    /* Agenda */
+    #agendaContenido .form-row,
+    #agendaContenido .form-row-3 {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+    
+    /* Dashboard */
+    #listaPaseosDashboard .paseo-card-body {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Formularios */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+    
+    .form-group {
+        margin-bottom: 0.3rem;
+    }
+    
+    /* Modal */
+    .modal-container {
+        max-width: 95%;
+        padding: 1rem;
+    }
+    
+    .modal-mascota .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Vista mascotas */
+    .mascotas-grid {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+    
+    .mascota-perfil-card {
+        padding: 0.5rem;
+    }
+    
+    /* Historial */
+    .historial-row {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        font-size: 0.6rem;
+    }
+}
+
+/* ========== MÓVILES PEQUEÑOS (≤ 480px) ========== */
+@media (max-width: 480px) {
+    /* Contenedor */
+    .perfil-page .container {
+        padding: 0 10px;
+    }
+    
+    /* Topbar */
+    .perfil-topbar-content {
+        gap: 0.3rem;
+    }
+    
+    .perfil-topbar .logo img {
+        height: 24px;
+    }
+    
+    .perfil-topbar-user {
+        font-size: 0.6rem;
+        gap: 0.3rem;
+    }
+    
+    .perfil-topbar-avatar {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+    }
+    
+    /* Navegación */
+    .perfil-nav-link {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.6rem;
+        gap: 0.2rem;
+    }
+    
+    .perfil-nav-link i {
+        font-size: 0.6rem;
+    }
+    
+    /* KPIs */
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.25rem;
+    }
+    
+    .perfil-kpi {
+        padding: 0.4rem 0.2rem;
+        border-radius: 6px;
+    }
+    
+    .perfil-kpi-icon {
+        font-size: 0.75rem;
+    }
+    
+    .perfil-kpi-num {
+        font-size: 0.7rem;
+    }
+    
+    .perfil-kpi-label {
+        font-size: 0.42rem;
+    }
+    
+    /* Secciones */
+    .perfil-section {
+        padding: 0.6rem;
+        border-radius: 8px;
+    }
+    
+    .perfil-section h3 {
+        font-size: 0.75rem;
+    }
+    
+    .perfil-section h4 {
+        font-size: 0.68rem;
+    }
+    
+    /* Planes */
+    .plan-mini-card {
+        padding: 0.4rem 0.5rem;
+        gap: 0.4rem;
+    }
+    
+    .plan-mini-icon {
+        font-size: 1rem;
+    }
+    
+    .plan-mini-card strong {
+        font-size: 0.65rem;
+    }
+    
+    .plan-mini-precio {
+        font-size: 0.7rem;
+    }
+    
+    /* Mascotas */
+    .mascota-card-foto-container {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .mascota-card-foto-placeholder {
+        font-size: 0.9rem;
+    }
+    
+    .mascota-card-info strong {
+        font-size: 0.62rem;
+    }
+    
+    .mascota-card-info p {
+        font-size: 0.52rem;
+    }
+    
+    /* Botones */
+    .btn-perfil {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.62rem;
+        border-radius: 12px;
+    }
+    
+    /* Agenda */
+    #agendaContenido .form-group label {
+        font-size: 0.58rem;
+    }
+    
+    #agendaContenido .form-group input,
+    #agendaContenido .form-group select,
+    #agendaContenido .form-group textarea {
+        font-size: 0.62rem;
+        padding: 0.3rem 0.4rem;
+    }
+    
+    .agenda-nota {
+        font-size: 0.52rem;
+        padding: 0.3rem 0.4rem;
+    }
+    
+    /* Días */
+    .dia-cb {
+        padding: 0.2rem 0.35rem;
+        font-size: 0.55rem;
+    }
+    
+    .dia-cb input {
+        width: 12px;
+        height: 12px;
+    }
+    
+    /* Dashboard cards */
+    #listaPaseosDashboard .paseo-card {
+        padding: 0.5rem;
+    }
+    
+    #listaPaseosDashboard .paseo-card-plan {
+        font-size: 0.65rem;
+    }
+    
+    #listaPaseosDashboard .paseo-card-body {
+        font-size: 0.58rem;
+    }
+    
+    #listaPaseosDashboard .paseo-card-precio {
+        font-size: 0.65rem;
+    }
+    
+    /* Modal */
+    .modal-container {
+        padding: 0.8rem;
+        border-radius: 10px;
+    }
+    
+    .modal-mascota-header {
+        margin-bottom: 0.5rem;
+    }
+    
+    .modal-mascota-icon {
+        font-size: 1.5rem;
+    }
+    
+    .modal-mascota h2 {
+        font-size: 0.95rem;
+    }
+    
+    .modal-mascota p {
+        font-size: 0.6rem;
+    }
+    
+    .modal-mascota .form-group label {
+        font-size: 0.58rem;
+    }
+    
+    .modal-mascota .form-group input,
+    .modal-mascota .form-group select,
+    .modal-mascota .form-group textarea {
+        font-size: 0.62rem;
+        padding: 0.3rem 0.4rem;
+    }
+    
+    .mascota-foto-upload {
+        padding: 0.4rem;
+    }
+    
+    .mascota-foto-upload span {
+        font-size: 1.3rem;
+    }
+    
+    .mascota-vacuna-upload {
+        padding: 0.3rem;
+        font-size: 0.55rem;
+    }
+    
+    /* WhatsApp */
+    .whatsapp-float {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* ========== MÓVILES MUY PEQUEÑOS (≤ 360px) ========== */
+@media (max-width: 360px) {
+    .perfil-kpis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.2rem;
+    }
+    
+    .perfil-kpi-num {
+        font-size: 0.65rem;
+    }
+    
+    .perfil-kpi-label {
+        font-size: 0.38rem;
+    }
+    
+    .perfil-nav-link {
+        padding: 0.25rem 0.4rem;
+        font-size: 0.55rem;
+    }
+    
+    .plan-mini-precio {
+        font-size: 0.62rem;
+    }
+    
+    .btn-perfil {
+        font-size: 0.58rem;
+        padding: 0.3rem 0.5rem;
+    }
+}
+
+/* ========== MODO OSCURO (opcional) ========== */
+@media (prefers-color-scheme: dark) {
+    /* Si quieres modo oscuro, descomenta esto */
+    /*
+    :root {
+        --bg: #1a1a1a;
+        --white: #2a2a2a;
+        --text: #ffffff;
+        --text-light: #cccccc;
+        --border: #3a3a3a;
+    }
+    */
+}
