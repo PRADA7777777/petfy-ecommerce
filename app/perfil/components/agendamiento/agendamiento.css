@@ -1,0 +1,1054 @@
+/* AGENDAMIENTO */
+
+.pfa-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: var(--teal);
+    margin: 0.5rem 0 0.25rem;
+    text-align: center;
+}
+
+.pfa-sub {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-align: center;
+    margin: 2rem;
+    line-height: 1.4;
+}
+
+.pfa-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+}
+
+.pfa-actions .btn-perfil {
+    min-width: 110px;
+}
+
+.pfa-actions .btn-perfil:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ── Stepper ─────────────────────────────────────── */
+.pfa-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.pfa-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.75rem;
+    transition: all 0.25s;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+}
+
+/* 🎯 Naranja sólido, sin gradiente */
+.pfa-dot.pfa-active {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(224, 99, 63, 0.32);
+    transform: scale(1.1);
+    border-color: var(--white);
+}
+
+.pfa-dot.pfa-done {
+    background: var(--teal);
+    color: var(--white);
+    box-shadow: var(--shadow-teal);
+}
+
+.pfa-dot-line {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin: 0 4px;
+    border-radius: 2px;
+}
+
+/* ── Paso 1: Mascotas ────────────────────────────── */
+.pfa-mascotas-grid {
+     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.7rem;
+    width: 100%;
+    margin: 1rem auto 0;
+}
+
+.pfa-mascota-card {
+    flex: 0 1 180px;
+    min-width: 140px;
+    max-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem;
+    background: var(--cream-light);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Nunito', sans-serif;
+}
+
+.pfa-mascota-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-orange);
+}
+
+.pfa-mascota-card.pfa-selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 6px 16px rgba(224, 99, 63, 0.2);
+}
+
+.pfa-mascota-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    color: var(--white);
+    box-shadow: 0 3px 8px rgba(224, 99, 63, 0.25);
+}
+
+.pfa-mascota-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pfa-mascota-avatar.pfa-plus {
+    background: var(--teal);
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.pfa-mascota-info {
+    min-width: 0;
+}
+
+.pfa-mascota-info strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--teal);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pfa-mascota-info small {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.pfa-mascota-nueva {
+    border-style: dashed;
+}
+
+/* ── Paso 2: Planes ──────────────────────────────── */
+.pfa-planes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.pfa-plan-card {
+    position: relative;
+    padding: 1.2rem 1rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.pfa-plan-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-orange);
+}
+
+.pfa-plan-card.pfa-selected {
+    border-color: var(--primary);
+    background: linear-gradient(180deg, #FFF8F5 0%, #FFFFFF 60%);
+    box-shadow: 0 10px 28px rgba(224, 99, 63, 0.22);
+}
+
+.pfa-plan-icono {
+    font-size: 2.2rem;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+
+.pfa-plan-nombre {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: var(--teal);
+    margin: 0 0 0.5rem;
+}
+
+.pfa-plan-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+}
+
+.pfa-badge-verde {
+    background: #DCFCE7;
+    color: #15803D;
+}
+
+.pfa-badge-naranja {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.pfa-badge-amarillo {
+    background: var(--orange-light);
+    color: #B45309;
+}
+
+.pfa-plan-precio {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 0.4rem 0 1rem;
+}
+
+.pfa-precio-num {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.85rem;
+    color: var(--primary);
+    line-height: 1;
+}
+
+.pfa-precio-unit {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.pfa-plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    text-align: left;
+}
+
+.pfa-plan-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    color: var(--text-light);
+}
+
+.pfa-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: var(--white);
+    font-size: 0.6rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pfa-plan-duracion {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0.3rem 0 0.9rem;
+    text-align: center;
+}
+
+.pfa-btn-elegir {
+    width: 100%;
+    padding: 0.65rem;
+    border-radius: 999px;
+    border: none;
+    background: var(--grad-primary);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(224, 99, 63, 0.25);
+}
+
+.pfa-btn-elegir:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(224, 99, 63, 0.35);
+    filter: brightness(1.05);
+}
+
+.pfa-btn-elegir.pfa-elegido {
+    background: var(--teal);
+    box-shadow: var(--shadow-teal);
+}
+
+.pfa-btn-elegir.pfa-elegido:hover {
+    background: var(--teal-dark);
+}
+
+/* ── Paso 3: Días chips ──────────────────────────── */
+.pfa-dias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.3rem;
+}
+
+.pfa-dia-chip {
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background: var(--white);
+    color: var(--text-light);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pfa-dia-chip:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/* 🎯 Naranja sólido */
+.pfa-dia-chip.pfa-selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(224, 99, 63, 0.28);
+}
+
+.pfa-dia-chip:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: var(--cream);
+}
+
+/* ── Resumen (Paso 4) ────────────────────────────── */
+.pfa-resumen {
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0.9rem 1rem;
+    margin: 0.5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.pfa-resumen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+}
+
+.pfa-resumen-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.45rem 0;
+    font-size: 0.8rem;
+    border-bottom: 1px dashed var(--border);
+}
+
+.pfa-resumen-row:last-of-type {
+    border-bottom: none;
+}
+
+.pfa-resumen-row span {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.pfa-resumen-row strong {
+    color: var(--teal);
+    text-align: right;
+    word-break: break-word;
+    font-weight: 800;
+}
+
+.pfa-resumen-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 0.7rem;
+    margin-top: 0.4rem;
+    border-top: 2px solid var(--primary);
+}
+
+.pfa-resumen-total span {
+    font-weight: 800;
+    color: var(--text);
+    font-size: 0.85rem;
+}
+
+.pfa-resumen-total strong {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+/* ── Mini calendario ────────────────────────────── */
+.mini-calendario {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px;
+    width: 100%;
+    max-width: 340px;
+    user-select: none;
+    margin: 6px auto 0;
+    box-shadow: 0 4px 14px rgba(6, 79, 86, 0.06);
+}
+
+.mini-calendario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--teal);
+}
+
+.mini-calendario-header button {
+    background: var(--primary-light);
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--primary);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: var(--transition);
+}
+
+.mini-calendario-header button:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.mini-calendario-semana,
+.mini-calendario-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.mini-calendario-semana span {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 700;
+    padding: 4px 0;
+}
+
+.mini-calendario-dia {
+    aspect-ratio: 1;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: all 0.15s;
+}
+
+.mini-calendario-dia:hover:not(:disabled) {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* 🎯 Naranja sólido */
+.mini-calendario-dia.seleccionado {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(224, 99, 63, 0.3);
+}
+
+.mini-calendario-dia:disabled {
+    color: #D1D5DB;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+/* ── Select de hora ─────────────────────────────── */
+.pfa-hora-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--white);
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--text);
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.pfa-hora-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--orange-soft);
+}
+
+/* ── Acordeón de planes ─────────────────────────── */
+.pfa-planes-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.pfa-accordion {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+    overflow: hidden;
+    transition: all 0.25s;
+}
+
+.pfa-accordion:hover {
+    border-color: var(--pink);
+}
+
+.pfa-accordion.open {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-orange);
+}
+
+.pfa-accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.pfa-accordion-header:hover {
+    background: var(--cream-light);
+}
+
+.pfa-accordion-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.pfa-accordion-title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pfa-accordion-title strong {
+    font-size: 1rem;
+    color: var(--teal);
+}
+
+.pfa-accordion-title small {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.pfa-accordion-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.pfa-accordion-price strong {
+    font-size: 1rem;
+    color: var(--primary);
+    font-family: 'Fredoka One', cursive;
+}
+
+.pfa-accordion-price small {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.pfa-accordion-header i {
+    color: var(--text-muted);
+    margin-left: 6px;
+    transition: color 0.2s;
+}
+
+.pfa-accordion.open .pfa-accordion-header i {
+    color: var(--primary);
+}
+
+.pfa-accordion-body {
+    padding: 0 18px 16px;
+    border-top: 1px solid var(--border);
+    animation: fadeInUp 0.25s ease;
+}
+
+.pfa-accordion-desc {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin: 12px 0;
+    line-height: 1.45;
+}
+
+.mini-calendario-dia.destacado:not(.seleccionado) {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 800;
+    border: 1px solid var(--primary);
+}
+.mini-calendario-dia.destacado:not(.seleccionado):hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* RESPONSIVE (1024px) */
+@media (max-width: 1024px) {
+    .pfa-stepper {
+        padding: 0 0.5rem;
+    }
+
+    .pfa-plan-card {
+        padding: 1rem 0.85rem 0.85rem;
+    }
+
+    .pfa-precio-num {
+        font-size: 1.7rem;
+    }
+
+    .pfa-accordion-header {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .pfa-accordion-body {
+        padding: 0 14px 14px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - MÓVIL (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+    .pfa-title {
+        font-size: 1rem;
+    }
+
+    .pfa-sub {
+        font-size: 0.72rem;
+    }
+
+    .pfa-stepper {
+        padding: 0 0.25rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .pfa-dot {
+        width: 26px;
+        height: 26px;
+        font-size: 0.68rem;
+    }
+
+    .pfa-mascotas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .pfa-mascota-card {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .pfa-mascota-avatar {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+    }
+
+    .pfa-mascota-info strong {
+        font-size: 0.78rem;
+    }
+
+    .pfa-mascota-info small {
+        font-size: 0.65rem;
+    }
+
+    .pfa-plan-card {
+        padding: 1rem 0.85rem 0.85rem;
+    }
+
+    .pfa-plan-nombre {
+        font-size: 1rem;
+    }
+
+    .pfa-precio-num {
+        font-size: 1.55rem;
+    }
+
+    .pfa-plan-features li {
+        font-size: 0.76rem;
+    }
+
+    .pfa-plan-icono {
+        font-size: 1.9rem;
+    }
+
+    .pfa-accordion-header {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .pfa-accordion-icon {
+        font-size: 1.35rem;
+    }
+
+    .pfa-accordion-title strong {
+        font-size: 0.92rem;
+    }
+
+    .pfa-accordion-title small {
+        font-size: 0.7rem;
+    }
+
+    .pfa-accordion-price strong {
+        font-size: 0.92rem;
+    }
+
+    .pfa-accordion-body {
+        padding: 0 14px 14px;
+    }
+
+    .pfa-accordion-desc {
+        font-size: 0.78rem;
+        margin: 10px 0;
+    }
+
+    .pfa-dia-chip {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .mini-calendario {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .mini-calendario-header {
+        font-size: 0.85rem;
+    }
+
+    .mini-calendario-header button {
+        width: 26px;
+        height: 26px;
+        font-size: 1.05rem;
+    }
+
+    .mini-calendario-dia {
+        font-size: 0.78rem;
+    }
+
+    .pfa-hora-select {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .pfa-resumen {
+        padding: 0.75rem 0.85rem;
+    }
+
+    .pfa-resumen-row {
+        font-size: 0.75rem;
+    }
+
+    .pfa-resumen-total strong {
+        font-size: 1.3rem;
+    }
+
+    .pfa-actions {
+        margin-top: 1rem;
+        padding-top: 0.7rem;
+        gap: 0.5rem;
+    }
+
+    .pfa-actions .btn-perfil {
+        min-width: 90px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE - MÓVIL PEQUEÑO (≤ 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+    .pfa-title {
+        font-size: 0.92rem;
+        margin: 0.4rem 0 0.2rem;
+    }
+
+    .pfa-sub {
+        font-size: 0.68rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .pfa-stepper {
+        margin-bottom: 0.65rem;
+    }
+
+    .pfa-dot {
+        width: 24px;
+        height: 24px;
+        font-size: 0.62rem;
+    }
+
+    .pfa-dot-line {
+        margin: 0 2px;
+    }
+
+    .pfa-mascotas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.4rem;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .pfa-mascota-card {
+        padding: 0.45rem;
+        gap: 0.4rem;
+        flex: 0 1 auto;
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .pfa-mascota-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .pfa-mascota-info strong {
+        font-size: 0.72rem;
+    }
+
+    .pfa-mascota-info small {
+        font-size: 0.6rem;
+    }
+
+    .pfa-plan-card {
+        padding: 0.85rem 0.7rem 0.7rem;
+        border-radius: 12px;
+    }
+
+    .pfa-plan-nombre {
+        font-size: 0.92rem;
+    }
+
+    .pfa-precio-num {
+        font-size: 1.4rem;
+    }
+
+    .pfa-precio-unit {
+        font-size: 0.68rem;
+    }
+
+    .pfa-plan-features {
+        gap: 0.35rem;
+    }
+
+    .pfa-plan-features li {
+        font-size: 0.7rem;
+    }
+
+    .pfa-plan-icono {
+        font-size: 1.6rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .pfa-plan-badge {
+        font-size: 0.55rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    .pfa-plan-duracion {
+        font-size: 0.65rem;
+    }
+
+    .pfa-btn-elegir {
+        padding: 0.55rem;
+        font-size: 0.78rem;
+    }
+
+    .pfa-accordion-header {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .pfa-accordion-icon {
+        font-size: 1.2rem;
+    }
+
+    .pfa-accordion-title strong {
+        font-size: 0.85rem;
+    }
+
+    .pfa-accordion-title small {
+        font-size: 0.65rem;
+    }
+
+    .pfa-accordion-price strong {
+        font-size: 0.85rem;
+    }
+
+    .pfa-accordion-price small {
+        font-size: 0.62rem;
+    }
+
+    .pfa-accordion-body {
+        padding: 0 12px 12px;
+    }
+
+    .pfa-accordion-desc {
+        font-size: 0.72rem;
+    }
+
+    .pfa-dias {
+        gap: 0.25rem;
+    }
+
+    .pfa-dia-chip {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.65rem;
+        border-radius: 8px;
+    }
+
+    .mini-calendario {
+        padding: 8px;
+        border-radius: 12px;
+    }
+
+    .mini-calendario-header {
+        font-size: 0.78rem;
+        margin-bottom: 8px;
+    }
+
+    .mini-calendario-header button {
+        width: 24px;
+        height: 24px;
+        font-size: 0.95rem;
+    }
+
+    .mini-calendario-semana span {
+        font-size: 0.6rem;
+        padding: 3px 0;
+    }
+
+    .mini-calendario-dia {
+        font-size: 0.7rem;
+        border-radius: 6px;
+    }
+
+    .pfa-hora-select {
+        padding: 9px 10px;
+        font-size: 0.82rem;
+        border-radius: 10px;
+    }
+
+    .pfa-resumen {
+        padding: 0.65rem 0.75rem;
+        border-radius: 12px;
+    }
+
+    .pfa-resumen-row {
+        font-size: 0.7rem;
+        padding: 0.35rem 0;
+        gap: 0.6rem;
+    }
+
+    .pfa-resumen-total {
+        padding-top: 0.55rem;
+    }
+
+    .pfa-resumen-total span {
+        font-size: 0.78rem;
+    }
+
+    .pfa-resumen-total strong {
+        font-size: 1.15rem;
+    }
+
+    .pfa-actions {
+        margin-top: 0.85rem;
+        padding-top: 0.6rem;
+        gap: 0.4rem;
+    }
+
+    .pfa-actions .btn-perfil {
+        min-width: 0;
+        flex: 1;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.68rem;
+    }
+}
