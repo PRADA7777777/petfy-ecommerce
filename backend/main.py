@@ -13,6 +13,7 @@ from routers import (
     webhooks_router,
     facturacion_router,     # ← SI FALTA, agregar
     suscripciones_router,   # ← SI FALTA, agregar
+    georreferenciacion_router,
 )
 
 app = FastAPI(
@@ -46,6 +47,7 @@ app.include_router(citas_router.router)
 app.include_router(webhooks_router.router)
 app.include_router(facturacion_router.router)
 app.include_router(suscripciones_router.router)
+app.include_router(georreferenciacion_router.router)
 
 
 @app.get("/")
