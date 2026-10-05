@@ -76,11 +76,28 @@ def generar_codigo(
     }
 
 
+# ─────────────────────────────────────────────────────────────
+# PUNTOS DE INTEGRACIÓN CON LA FASE 3
+# Acordado con el equipo (2026-10-05): la creación de usuarios paseador
+# (cargos) y la asignación de paseador a cada cita hacen parte de la
+# Fase 3 (CRUD y vistas de administrador y paseador). Este módulo
+# (Fase 2) NO crea paseadores ni asigna citas: solo lee esos datos.
+# En desarrollo, el rol y la asignación se configuran a mano en la
+# base de datos local. Cuando la Fase 3 exista, solo se ajustan estas
+# dos funciones.
+# ─────────────────────────────────────────────────────────────
+
+def es_personal_de_paseo(usuario: Usuario) -> bool:
+    """Quién puede registrar recogidas y entregas.
+    Hoy: rol Paseador (id_rol = 3) o Administrador.
+    Fase 3: se definirá con la tabla de cargos (paseador, bañador, cuidador...)."""
+    return usuario.id_rol in (ID_ROL_PASEADOR, ID_ROL_ADMINISTRADOR)
+
+
 def puede_escanear(usuario: Usuario, cita: Cita) -> bool:
-    # PUNTO DE INTEGRACIÓN — asignación de paseador
-    # Supuesto actual: la cita ya trae id_usuario_paseador asignado.
-    # Este módulo NO asigna paseadores; solo lee el campo.
-    # Cuando exista el flujo de asignación, solo se ajusta esta función.
+    """Si el usuario es el paseador de esta cita.
+    Hoy: compara con citas.id_usuario_paseador (asignado a mano en desarrollo).
+    Fase 3: se ajusta según cómo se implemente la asignación de paseadores."""
     return cita.id_usuario_paseador == usuario.id_usuario
 
 
@@ -88,7 +105,7 @@ def _resolver_escaneo(codigo: str, usuario: Usuario, db: Session):
     """Validaciones compartidas por la consulta y la confirmación del escaneo.
     Devuelve (identificador, cita, mascota, accion)."""
     # 1. Solo paseadores o administradores
-    if usuario.id_rol not in (ID_ROL_PASEADOR, ID_ROL_ADMINISTRADOR):
+    if not es_personal_de_paseo(usuario):
         raise HTTPException(status_code=403, detail="No tienes permiso para registrar paseos")
 
     # 2. El código debe existir y estar activo
@@ -126,6 +143,9 @@ def resolver_escaneo(
     """Consulta qué acción corresponde al escanear un código.
     Solo lectura: no registra nada (eso lo hace la confirmación)."""
     _, cita, mascota, accion = _resolver_escaneo(codigo, usuario, db)
+    # Datos del dueño para el aviso por WhatsApp (solo los recibe el paseador
+    # ya validado como asignado a esta cita)
+    dueno = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_cliente).first()
     return {
         "accion": accion,
         "id_cita": cita.id_cita,
@@ -134,6 +154,8 @@ def resolver_escaneo(
         "hora_agendada": cita.hora.strftime("%H:%M") if cita.hora else None,
         "hora_recogida": cita.fecha_hora_real.strftime("%H:%M") if cita.fecha_hora_real else None,
         "direccion": cita.direccion,
+        "nombre_dueno": dueno.nombre if dueno else None,
+        "telefono_dueno": dueno.telefono if dueno else None,
     }
 
 
