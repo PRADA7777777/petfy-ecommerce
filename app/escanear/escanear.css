@@ -1,0 +1,218 @@
+/* =========================================================
+   PETFY · Escaneo de collar (módulo de georreferenciación)
+   Usa solo las variables de marca de globals.css y las clases
+   globales .btn / .btn-primary / .btn-outline.
+   Prefijo "esc-" para no chocar con otros estilos.
+   ========================================================= */
+
+.esc-page {
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: var(--font-nunito), sans-serif;
+  color: var(--text);
+  padding: 1.5rem 1rem 3rem;
+}
+
+.esc-wrap {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.esc-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.esc-logo {
+  height: 44px;
+  width: auto;
+}
+
+.esc-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem 1.5rem;
+}
+
+/* ── Encabezado de la acción ── */
+.esc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-btn);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.esc-badge-recogida {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.esc-badge-entrega {
+  background: rgba(6, 79, 86, 0.1);
+  color: var(--secondary);
+}
+
+.esc-titulo {
+  font-family: var(--font-fredoka), cursive;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin: 0.75rem 0 1.25rem;
+  line-height: 1.25;
+}
+
+.esc-titulo span {
+  color: var(--primary);
+}
+
+/* ── Detalles de la cita ── */
+.esc-detalles {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.esc-detalles li {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+}
+
+.esc-detalles i {
+  color: var(--primary);
+  text-align: center;
+}
+
+.esc-detalles span {
+  color: var(--text-light);
+}
+
+.esc-detalles strong {
+  font-weight: 800;
+  text-align: right;
+}
+
+/* ── Foto ── */
+.esc-foto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 180px;
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.esc-foto i {
+  font-size: 2.2rem;
+}
+
+.esc-foto:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.esc-foto-lista {
+  border-style: solid;
+  padding: 0;
+}
+
+.esc-foto img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.esc-ayuda {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 0;
+}
+
+/* ── Botones (complementan .btn global de Petfy) ── */
+.esc-btn-ancho {
+  width: 100%;
+  justify-content: center;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1.6rem;
+  font-size: 1rem;
+}
+
+.esc-btn-ancho:disabled {
+  background: var(--text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.esc-btn-whatsapp i {
+  font-size: 1.2rem;
+}
+
+/* ── Mensajes (sin sesión, error, confirmado) ── */
+.esc-mensaje {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.esc-mensaje h1 {
+  font-family: var(--font-fredoka), cursive;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin: 0;
+}
+
+.esc-mensaje p {
+  color: var(--text-light);
+  margin: 0;
+}
+
+.esc-mensaje .btn {
+  margin-top: 0.75rem;
+}
+
+.esc-icono {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+
+.esc-icono-error {
+  color: var(--danger);
+}
+
+.esc-icono-exito {
+  color: var(--success);
+}
+
+.esc-aviso {
+  font-size: 0.85rem;
+  color: var(--warning) !important;
+}
