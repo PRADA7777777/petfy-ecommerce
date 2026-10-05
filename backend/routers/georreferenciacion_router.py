@@ -1,14 +1,16 @@
 # backend/routers/georreferenciacion_router.py
 import secrets
 from datetime import date
+from typing import Literal, Optional
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel, Field
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Cita, Mascota, Usuario
-from models_georref import IdentificadorMascota
+from models_georref import EventoPaseo, IdentificadorMascota
 from routers.mascotas_router import usuario_actual
 
 router = APIRouter(prefix="/georreferenciacion", tags=["Georreferenciación"])
@@ -19,6 +21,7 @@ ID_ROL_PASEADOR = 3
 # Estados de cita (catálogo petfy_db.estados_citas)
 ID_ESTADO_CONFIRMADA = 2
 ID_ESTADO_EN_CURSO = 3
+ID_ESTADO_COMPLETADA = 4
 
 
 def _mascota_autorizada(id_mascota: int, usuario: Usuario, db: Session) -> Mascota:
@@ -81,14 +84,9 @@ def puede_escanear(usuario: Usuario, cita: Cita) -> bool:
     return cita.id_usuario_paseador == usuario.id_usuario
 
 
-@router.get("/escaneo/{codigo}")
-def resolver_escaneo(
-    codigo: str,
-    db: Session = Depends(get_db),
-    usuario: Usuario = Depends(usuario_actual),
-):
-    """Consulta qué acción corresponde al escanear un código.
-    Solo lectura: no registra nada (eso lo hace la confirmación)."""
+def _resolver_escaneo(codigo: str, usuario: Usuario, db: Session):
+    """Validaciones compartidas por la consulta y la confirmación del escaneo.
+    Devuelve (identificador, cita, mascota, accion)."""
     # 1. Solo paseadores o administradores
     if usuario.id_rol not in (ID_ROL_PASEADOR, ID_ROL_ADMINISTRADOR):
         raise HTTPException(status_code=403, detail="No tienes permiso para registrar paseos")
@@ -116,12 +114,75 @@ def resolver_escaneo(
     # 4. Recogida o entrega según el estado
     mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
     accion = "entrega" if cita.id_estado == ID_ESTADO_EN_CURSO else "recogida"
+    return identificador, cita, mascota, accion
 
+
+@router.get("/escaneo/{codigo}")
+def resolver_escaneo(
+    codigo: str,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Consulta qué acción corresponde al escanear un código.
+    Solo lectura: no registra nada (eso lo hace la confirmación)."""
+    _, cita, mascota, accion = _resolver_escaneo(codigo, usuario, db)
     return {
         "accion": accion,
         "id_cita": cita.id_cita,
         "id_mascota": cita.id_mascota,
         "nom_mascota": mascota.nom_mascota if mascota else None,
-        "hora": cita.hora.strftime("%H:%M") if cita.hora else None,
+        "hora_agendada": cita.hora.strftime("%H:%M") if cita.hora else None,
+        "hora_recogida": cita.fecha_hora_real.strftime("%H:%M") if cita.fecha_hora_real else None,
         "direccion": cita.direccion,
+    }
+
+
+class ConfirmarEscaneoRequest(BaseModel):
+    metodo_lectura: Literal["QR", "NFC", "MANUAL"] = "QR"
+    latitud: Optional[float] = Field(None, ge=-90, le=90)
+    longitud: Optional[float] = Field(None, ge=-180, le=180)
+
+
+@router.post("/escaneo/{codigo}/confirmar")
+def confirmar_escaneo(
+    codigo: str,
+    payload: ConfirmarEscaneoRequest,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Registra la recogida o la entrega y avanza el estado de la cita:
+    Confirmada -> En Curso (recogida) -> Completada (entrega)."""
+    identificador, cita, mascota, accion = _resolver_escaneo(codigo, usuario, db)
+
+    try:
+        evento = EventoPaseo(
+            id_cita=cita.id_cita,
+            id_identificador=identificador.id_identificador,
+            id_usuario=usuario.id_usuario,
+            tipo_evento=accion.upper(),
+            metodo_lectura=payload.metodo_lectura,
+            latitud=payload.latitud,
+            longitud=payload.longitud,
+        )
+        db.add(evento)
+
+        if accion == "recogida":
+            cita.id_estado = ID_ESTADO_EN_CURSO
+            cita.fecha_hora_real = func.now()
+        else:
+            cita.id_estado = ID_ESTADO_COMPLETADA
+            cita.fecha_fin_real = func.now()
+
+        db.commit()  # evento + cambio de estado en la misma transacción
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Este evento ya fue registrado")
+
+    db.refresh(evento)
+    return {
+        "accion": accion,
+        "id_evento": evento.id_evento,
+        "id_cita": cita.id_cita,
+        "nom_mascota": mascota.nom_mascota if mascota else None,
+        "fecha_hora_evento": evento.fecha_hora,
     }
