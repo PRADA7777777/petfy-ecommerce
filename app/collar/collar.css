@@ -1,0 +1,98 @@
+/* =========================================================
+   PETFY · QR del collar (módulo de georreferenciación)
+   Complementa escanear.css. Usa solo variables de marca.
+   ========================================================= */
+
+.col-contenido {
+  text-align: center;
+}
+
+.col-qr {
+  display: inline-flex;
+  padding: 1rem;
+  background: var(--bg-white);
+  border: 3px solid var(--primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.col-instruccion {
+  margin: 1rem 0 0;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.col-instruccion i {
+  color: var(--primary);
+}
+
+.col-btn-texto {
+  display: block;
+  margin: 1rem auto 0;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-family: var(--font-nunito), sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.col-btn-texto:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.col-confirmar {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--primary-light);
+  border-radius: var(--radius-sm);
+}
+
+.col-confirmar p {
+  margin: 0 0 0.75rem;
+  color: var(--primary-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.col-confirmar-botones {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.col-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  color: var(--text-light);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.col-volver:hover {
+  color: var(--secondary);
+}
+
+/* ── Impresión: solo logo, nombre y QR ── */
+@media print {
+  .esc-page {
+    background: #fff;
+    padding: 0;
+  }
+
+  .esc-card {
+    box-shadow: none;
+  }
+
+  .col-no-imprimir {
+    display: none !important;
+  }
+}

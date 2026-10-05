@@ -59,8 +59,10 @@ function Escanear() {
   const [resultado, setResultado] = useState<ConfirmacionEscaneo | null>(null);
   const [sinUbicacion, setSinUbicacion] = useState(false);
 
-  // 1. Consultar qué toca hacer con este código (solo lectura)
-  //    (mismo patrón setTimeout que usa perfil/page.tsx para leer la sesión)
+  // 1. Al abrir la página, preguntar al backend si este escaneo corresponde a
+  //    una recogida o a una entrega, y de qué mascota. Solo consulta: no
+  //    registra nada (el registro ocurre al presionar "Confirmar").
+  //    La sesión se lee dentro de un setTimeout, igual que en perfil/page.tsx.
   useEffect(() => {
     const timer = setTimeout(() => {
       const token = sesion.obtenerToken();
@@ -122,7 +124,9 @@ function Escanear() {
     }
   };
 
-  // 3. Avisar al dueño por WhatsApp (la foto no se guarda en el sistema)
+  // 3. Avisar al dueño por WhatsApp.
+  //    Por ahora la foto no se sube al sistema: se comparte directo desde el
+  //    celular. Pendiente definir si además se debe guardar como evidencia.
   const avisarPorWhatsApp = async () => {
     if (!info || !resultado) return;
     const verbo = resultado.accion === "recogida" ? "recogido" : "entregado";

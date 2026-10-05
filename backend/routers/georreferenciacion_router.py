@@ -36,6 +36,27 @@ def _mascota_autorizada(id_mascota: int, usuario: Usuario, db: Session) -> Masco
     return mascota
 
 
+@router.get("/mascotas/{id_mascota}/codigo")
+def obtener_codigo(
+    id_mascota: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Devuelve el código activo de la mascota SIN cambiarlo (para mostrar
+    o imprimir el QR). Si aún no tiene código, codigo = null."""
+    mascota = _mascota_autorizada(id_mascota, usuario, db)
+    activo = db.query(IdentificadorMascota).filter(
+        IdentificadorMascota.id_mascota == mascota.id_mascota,
+        IdentificadorMascota.fecha_anulacion.is_(None),
+    ).first()
+    return {
+        "id_mascota": mascota.id_mascota,
+        "nom_mascota": mascota.nom_mascota,
+        "codigo": activo.codigo if activo else None,
+        "fecha_creacion": activo.fecha_creacion if activo else None,
+    }
+
+
 @router.post("/mascotas/{id_mascota}/codigo")
 def generar_codigo(
     id_mascota: int,
@@ -71,33 +92,32 @@ def generar_codigo(
     db.refresh(nuevo)
     return {
         "id_mascota": mascota.id_mascota,
+        "nom_mascota": mascota.nom_mascota,
         "codigo": nuevo.codigo,
         "fecha_creacion": nuevo.fecha_creacion,
     }
 
 
 # ─────────────────────────────────────────────────────────────
-# PUNTOS DE INTEGRACIÓN CON LA FASE 3
-# Acordado con el equipo (2026-10-05): la creación de usuarios paseador
-# (cargos) y la asignación de paseador a cada cita hacen parte de la
-# Fase 3 (CRUD y vistas de administrador y paseador). Este módulo
-# (Fase 2) NO crea paseadores ni asigna citas: solo lee esos datos.
-# En desarrollo, el rol y la asignación se configuran a mano en la
-# base de datos local. Cuando la Fase 3 exista, solo se ajustan estas
-# dos funciones.
+# PUNTOS DE INTEGRACIÓN (roles y asignación de paseadores)
+# Por ahora, el rol de paseador y la asignación del paseador a cada
+# cita se configuran a mano en la base de datos, hasta que se integren
+# los roles y sus vistas (administrador y paseador). Este módulo no crea
+# paseadores ni asigna citas: solo lee esos datos. Cuando esa
+# integración exista, solo se ajustan estas dos funciones.
 # ─────────────────────────────────────────────────────────────
 
 def es_personal_de_paseo(usuario: Usuario) -> bool:
     """Quién puede registrar recogidas y entregas.
-    Hoy: rol Paseador (id_rol = 3) o Administrador.
-    Fase 3: se definirá con la tabla de cargos (paseador, bañador, cuidador...)."""
+    Por ahora: rol Paseador (id_rol = 3) o Administrador.
+    Se ajusta cuando se integren los roles y cargos en las vistas."""
     return usuario.id_rol in (ID_ROL_PASEADOR, ID_ROL_ADMINISTRADOR)
 
 
 def puede_escanear(usuario: Usuario, cita: Cita) -> bool:
     """Si el usuario es el paseador de esta cita.
-    Hoy: compara con citas.id_usuario_paseador (asignado a mano en desarrollo).
-    Fase 3: se ajusta según cómo se implemente la asignación de paseadores."""
+    Por ahora: compara con citas.id_usuario_paseador (asignado a mano).
+    Se ajusta cuando se integre la asignación de paseadores en las vistas."""
     return cita.id_usuario_paseador == usuario.id_usuario
 
 

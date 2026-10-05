@@ -47,7 +47,22 @@ async function pedir<T>(url: string, token: string, options: RequestInit = {}): 
   return data as T;
 }
 
+export interface CodigoMascota {
+  id_mascota: number;
+  nom_mascota: string;
+  codigo: string | null;
+  fecha_creacion: string | null;
+}
+
 export const georreferenciacionAPI = {
+  obtenerCodigo: (idMascota: number, token: string) =>
+    pedir<CodigoMascota>(`${API_URL}/georreferenciacion/mascotas/${idMascota}/codigo`, token),
+
+  generarCodigo: (idMascota: number, token: string) =>
+    pedir<CodigoMascota>(`${API_URL}/georreferenciacion/mascotas/${idMascota}/codigo`, token, {
+      method: "POST",
+    }),
+
   consultarEscaneo: (codigo: string, token: string) =>
     pedir<InfoEscaneo>(
       `${API_URL}/georreferenciacion/escaneo/${encodeURIComponent(codigo)}`,

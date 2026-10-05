@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Mascota, mascotasAPI, sesion, CatalogoItem } from "../../lib/api";
 
 interface VistaMascotasProps {
@@ -178,6 +179,15 @@ export default function VistaMascotas({
 
                 {/* Acciones */}
                 <div className="mascota-card-actions">
+                  {/* Georreferenciación: QR del collar */}
+                  <Link
+                    href={`/collar?m=${m.id_mascota}`}
+                    className="btn-icon btn-edit"
+                    title="QR del collar"
+                    aria-label="QR del collar"
+                  >
+                    <i className="fas fa-qrcode"></i>
+                  </Link>
                   <button
                     className="btn-icon btn-edit"
                     onClick={() => onEditar(m)}
