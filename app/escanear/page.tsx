@@ -129,10 +129,10 @@ function Escanear() {
   //    celular. Pendiente definir si además se debe guardar como evidencia.
   const avisarPorWhatsApp = async () => {
     if (!info || !resultado) return;
-    const verbo = resultado.accion === "recogida" ? "recogido" : "entregado";
+    const verbo = resultado.accion === "recogida" ? "recogimos" : "entregamos";
     const saludo = info.nombre_dueno ? `Hola ${info.nombre_dueno}, ` : "Hola, ";
     const texto =
-      `${saludo}${info.nom_mascota ?? "tu mascota"} fue ${verbo} ` +
+      `${saludo}${verbo} a ${info.nom_mascota ?? "tu mascota"} ` +
       `a las ${formatearHora(resultado.fecha_hora_evento)} 🐾 Petfy`;
 
     // Con foto: menú "Compartir" del celular (el paseador elige WhatsApp y el chat)
