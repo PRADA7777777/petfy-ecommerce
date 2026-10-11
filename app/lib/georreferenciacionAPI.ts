@@ -26,6 +26,9 @@ export interface ConfirmacionEscaneo {
   fecha_hora_evento: string;
 }
 
+// Tiempo máximo de espera por respuesta del backend (datos móviles incluidos).
+const TIEMPO_LIMITE_MS = 15000;
+
 async function pedir<T>(url: string, token: string, options: RequestInit = {}): Promise<T> {
   let res: Response;
   try {
@@ -36,8 +39,12 @@ async function pedir<T>(url: string, token: string, options: RequestInit = {}): 
         Authorization: `Bearer ${token}`,
         ...options.headers,
       },
+      signal: AbortSignal.timeout(TIEMPO_LIMITE_MS),
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      throw new Error("El servidor tardó demasiado en responder. Intenta de nuevo.");
+    }
     throw new Error("Sin conexión con el servidor.");
   }
   const data = await res.json().catch(() => ({}));
