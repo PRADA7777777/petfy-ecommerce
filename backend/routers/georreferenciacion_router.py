@@ -270,3 +270,37 @@ def registrar_ubicacion(
     db.commit()
     db.refresh(ubicacion)
     return {"id_ubicacion": ubicacion.id_ubicacion, "fecha_hora": ubicacion.fecha_hora}
+
+
+@router.get("/citas/{id_cita}/ruta")
+def obtener_ruta(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Devuelve los puntos de la ruta del paseo en orden de tiempo.
+    Solo el dueño de la mascota o el administrador. Solo consulta."""
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    try:
+        mascota = _mascota_autorizada(cita.id_mascota, usuario, db)
+    except HTTPException:
+        # Mismo mensaje que una cita inexistente: no revelar que la cita existe
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+
+    puntos = (
+        db.query(UbicacionPaseo)
+        .filter(UbicacionPaseo.id_cita == cita.id_cita)
+        .order_by(UbicacionPaseo.fecha_hora)
+        .all()
+    )
+    return {
+        "id_cita": cita.id_cita,
+        "nom_mascota": mascota.nom_mascota,
+        "en_curso": cita.id_estado == ID_ESTADO_EN_CURSO,
+        "puntos": [
+            {"latitud": float(p.latitud), "longitud": float(p.longitud), "fecha_hora": p.fecha_hora}
+            for p in puntos
+        ],
+    }
