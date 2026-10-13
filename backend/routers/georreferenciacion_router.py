@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Cita, Mascota, Usuario
-from models_georref import EventoPaseo, IdentificadorMascota
+from models_georref import EventoPaseo, IdentificadorMascota, UbicacionPaseo
 from routers.mascotas_router import usuario_actual
 
 router = APIRouter(prefix="/georreferenciacion", tags=["Georreferenciación"])
@@ -228,3 +228,45 @@ def confirmar_escaneo(
         "nom_mascota": mascota.nom_mascota if mascota else None,
         "fecha_hora_evento": evento.fecha_hora,
     }
+
+
+# ---------------------------------------------------------------------
+# Ubicación en vivo (etapa 2)
+# ---------------------------------------------------------------------
+
+class UbicacionRequest(BaseModel):
+    latitud: float = Field(ge=-90, le=90)
+    longitud: float = Field(ge=-180, le=180)
+    precision_m: Optional[float] = Field(default=None, ge=0, le=100000)
+
+
+@router.post("/citas/{id_cita}/ubicacion", status_code=201)
+def registrar_ubicacion(
+    id_cita: int,
+    payload: UbicacionRequest,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Guarda un punto de la ruta del paseador. Solo se acepta mientras
+    la cita está En Curso (entre la recogida y la entrega)."""
+    if not es_personal_de_paseo(usuario):
+        raise HTTPException(status_code=403, detail="Solo el personal de paseo puede enviar ubicación")
+
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita or not puede_escanear(usuario, cita):
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+
+    if cita.id_estado != ID_ESTADO_EN_CURSO:
+        raise HTTPException(status_code=409, detail="El paseo no está en curso")
+
+    ubicacion = UbicacionPaseo(
+        id_cita=cita.id_cita,
+        id_usuario=usuario.id_usuario,
+        latitud=payload.latitud,
+        longitud=payload.longitud,
+        precision_m=payload.precision_m,
+    )
+    db.add(ubicacion)
+    db.commit()
+    db.refresh(ubicacion)
+    return {"id_ubicacion": ubicacion.id_ubicacion, "fecha_hora": ubicacion.fecha_hora}
