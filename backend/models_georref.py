@@ -31,3 +31,16 @@ class EventoPaseo(Base):
     latitud = Column(Numeric(9, 6))
     longitud = Column(Numeric(9, 6))
     url_foto = Column(Text)
+
+
+class UbicacionPaseo(Base):
+    __tablename__ = "ubicaciones_paseo"
+    __table_args__ = {"schema": "petfy_db"}
+
+    id_ubicacion = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("petfy_db.citas.id_cita"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("petfy_db.usuarios.id_usuario"), nullable=False)
+    latitud = Column(Numeric(9, 6), nullable=False)
+    longitud = Column(Numeric(9, 6), nullable=False)
+    precision_m = Column(Numeric(7, 1))   # margen de error del GPS en metros
+    fecha_hora = Column(DateTime, nullable=False, server_default=func.now())
