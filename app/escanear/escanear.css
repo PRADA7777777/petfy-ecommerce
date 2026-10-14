@@ -216,3 +216,48 @@
   font-size: 0.85rem;
   color: var(--warning) !important;
 }
+
+/* ── Ubicación en vivo (etapa 2) ── */
+.esc-ubicacion {
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--bg);
+  text-align: left;
+}
+
+.esc-ubicacion-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.esc-ubicacion p {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+}
+
+.esc-punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: esc-latido 1.6s ease-in-out infinite;
+}
+
+.esc-punto-inactivo {
+  background: var(--secondary);
+  opacity: 0.3;
+  animation: none;
+}
+
+@keyframes esc-latido {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.4; }
+}
+
+.esc-ubicacion .esc-ayuda {
+  text-align: left;
+}

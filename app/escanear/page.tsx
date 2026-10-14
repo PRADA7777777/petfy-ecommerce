@@ -15,6 +15,7 @@ import {
   ConfirmacionEscaneo,
 } from "../lib/georreferenciacionAPI";
 import "./escanear.css";
+import CompartirUbicacion from "./CompartirUbicacion";
 
 type Estado = "cargando" | "sin-sesion" | "error" | "listo" | "confirmando" | "confirmado";
 
@@ -245,6 +246,9 @@ function Escanear() {
                   <><i className="fas fa-check"></i> Confirmar {esRecogida ? "recogida" : "entrega"}</>
                 )}
               </button>
+
+              {/* Si el paseador volvió a escanear a mitad del paseo, se reanuda el envío */}
+              {!esRecogida && <CompartirUbicacion idCita={info.id_cita} />}
             </>
           )}
 
@@ -266,6 +270,9 @@ function Escanear() {
               <button className="btn btn-primary esc-btn-ancho esc-btn-whatsapp" onClick={avisarPorWhatsApp}>
                 <i className="fab fa-whatsapp"></i> Avisar al dueño por WhatsApp
               </button>
+
+              {/* Después de la recogida empieza a compartir la ubicación */}
+              {resultado.accion === "recogida" && <CompartirUbicacion idCita={resultado.id_cita} />}
             </div>
           )}
         </section>

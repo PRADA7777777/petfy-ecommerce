@@ -29,6 +29,13 @@ export interface ConfirmacionEscaneo {
 // Tiempo máximo de espera por respuesta del backend (datos móviles incluidos).
 const TIEMPO_LIMITE_MS = 15000;
 
+// Error de la API que conserva el código HTTP (por ejemplo, 409 = el paseo ya no está en curso).
+export class ErrorAPI extends Error {
+  constructor(mensaje: string, public status: number) {
+    super(mensaje);
+  }
+}
+
 async function pedir<T>(url: string, token: string, options: RequestInit = {}): Promise<T> {
   let res: Response;
   try {
@@ -49,7 +56,7 @@ async function pedir<T>(url: string, token: string, options: RequestInit = {}): 
   }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error((data as { detail?: string }).detail || "Error en la petición");
+    throw new ErrorAPI((data as { detail?: string }).detail || "Error en la petición", res.status);
   }
   return data as T;
 }
@@ -59,6 +66,11 @@ export interface CodigoMascota {
   nom_mascota: string;
   codigo: string | null;
   fecha_creacion: string | null;
+}
+
+export interface UbicacionRegistrada {
+  id_ubicacion: number;
+  fecha_hora: string;
 }
 
 export const georreferenciacionAPI = {
@@ -86,4 +98,14 @@ export const georreferenciacionAPI = {
       token,
       { method: "POST", body: JSON.stringify(datos) }
     ),
+
+  enviarUbicacion: (
+    idCita: number,
+    token: string,
+    datos: { latitud: number; longitud: number; precision_m: number | null }
+  ) =>
+    pedir<UbicacionRegistrada>(`${API_URL}/georreferenciacion/citas/${idCita}/ubicacion`, token, {
+      method: "POST",
+      body: JSON.stringify(datos),
+    }),
 };
