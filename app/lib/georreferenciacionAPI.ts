@@ -1,7 +1,7 @@
 // app/lib/georreferenciacionAPI.ts
 // Cliente del módulo de georreferenciación (separado de api.ts)
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { API_URL } from "./api";
 
 export type AccionEscaneo = "recogida" | "entrega";
 export type MetodoLectura = "QR" | "NFC" | "MANUAL";
