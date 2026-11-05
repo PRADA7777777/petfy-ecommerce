@@ -1,9 +1,7 @@
 # backend/routers/georreferenciacion_router.py
 import secrets
 from datetime import date
-from typing import Literal, Optional
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -11,17 +9,18 @@ from sqlalchemy.orm import Session
 from database import get_db
 from models import Cita, Mascota, Usuario
 from models_georref import EventoPaseo, IdentificadorMascota, UbicacionPaseo
+from routers.citas_router import (
+    ESTADO_CITA_COMPLETADA,
+    ESTADO_CITA_CONFIRMADA,
+    ESTADO_CITA_EN_CURSO,
+)
 from routers.mascotas_router import usuario_actual
+from schemas_georref import ConfirmarEscaneoRequest, UbicacionRequest
 
 router = APIRouter(prefix="/georreferenciacion", tags=["Georreferenciación"])
 
 ID_ROL_ADMINISTRADOR = 1
 ID_ROL_PASEADOR = 3
-
-# Estados de cita (catálogo petfy_db.estados_citas)
-ID_ESTADO_CONFIRMADA = 2
-ID_ESTADO_EN_CURSO = 3
-ID_ESTADO_COMPLETADA = 4
 
 
 def _mascota_autorizada(id_mascota: int, usuario: Usuario, db: Session) -> Mascota:
@@ -141,7 +140,7 @@ def _resolver_escaneo(codigo: str, usuario: Usuario, db: Session):
     citas_hoy = db.query(Cita).filter(
         Cita.id_mascota == identificador.id_mascota,
         Cita.fecha == date.today(),
-        Cita.id_estado.in_([ID_ESTADO_CONFIRMADA, ID_ESTADO_EN_CURSO]),
+        Cita.id_estado.in_([ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO]),
     ).order_by(Cita.id_estado.desc(), Cita.hora.asc()).all()
 
     cita = next((c for c in citas_hoy if puede_escanear(usuario, c)), None)
@@ -150,7 +149,7 @@ def _resolver_escaneo(codigo: str, usuario: Usuario, db: Session):
 
     # 4. Recogida o entrega según el estado
     mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
-    accion = "entrega" if cita.id_estado == ID_ESTADO_EN_CURSO else "recogida"
+    accion = "entrega" if cita.id_estado == ESTADO_CITA_EN_CURSO else "recogida"
     return identificador, cita, mascota, accion
 
 
@@ -179,12 +178,6 @@ def resolver_escaneo(
     }
 
 
-class ConfirmarEscaneoRequest(BaseModel):
-    metodo_lectura: Literal["QR", "NFC", "MANUAL"] = "QR"
-    latitud: Optional[float] = Field(None, ge=-90, le=90)
-    longitud: Optional[float] = Field(None, ge=-180, le=180)
-
-
 @router.post("/escaneo/{codigo}/confirmar")
 def confirmar_escaneo(
     codigo: str,
@@ -209,10 +202,10 @@ def confirmar_escaneo(
         db.add(evento)
 
         if accion == "recogida":
-            cita.id_estado = ID_ESTADO_EN_CURSO
+            cita.id_estado = ESTADO_CITA_EN_CURSO
             cita.fecha_hora_real = func.now()
         else:
-            cita.id_estado = ID_ESTADO_COMPLETADA
+            cita.id_estado = ESTADO_CITA_COMPLETADA
             cita.fecha_fin_real = func.now()
 
         db.commit()  # evento + cambio de estado en la misma transacción
@@ -234,12 +227,6 @@ def confirmar_escaneo(
 # Ubicación en vivo (etapa 2)
 # ---------------------------------------------------------------------
 
-class UbicacionRequest(BaseModel):
-    latitud: float = Field(ge=-90, le=90)
-    longitud: float = Field(ge=-180, le=180)
-    precision_m: Optional[float] = Field(default=None, ge=0, le=100000)
-
-
 @router.post("/citas/{id_cita}/ubicacion", status_code=201)
 def registrar_ubicacion(
     id_cita: int,
@@ -256,7 +243,7 @@ def registrar_ubicacion(
     if not cita or not puede_escanear(usuario, cita):
         raise HTTPException(status_code=404, detail="Cita no encontrada")
 
-    if cita.id_estado != ID_ESTADO_EN_CURSO:
+    if cita.id_estado != ESTADO_CITA_EN_CURSO:
         raise HTTPException(status_code=409, detail="El paseo no está en curso")
 
     ubicacion = UbicacionPaseo(
@@ -298,7 +285,7 @@ def obtener_ruta(
     return {
         "id_cita": cita.id_cita,
         "nom_mascota": mascota.nom_mascota,
-        "en_curso": cita.id_estado == ID_ESTADO_EN_CURSO,
+        "en_curso": cita.id_estado == ESTADO_CITA_EN_CURSO,
         "puntos": [
             {"latitud": float(p.latitud), "longitud": float(p.longitud), "fecha_hora": p.fecha_hora}
             for p in puntos
