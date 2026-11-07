@@ -1,0 +1,93 @@
+// app/paseo/admin/page.tsx
+// Página del administrador para ver todos los paseos en curso (módulo de georreferenciación).
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { sesion } from "../../lib/api";
+import PantallaCarga from "../../components/PantallaCarga";
+import { georreferenciacionAPI, PaseadorEnCurso } from "../../lib/georreferenciacionAPI";
+import MapaAdmin from "../MapaAdmin";
+
+type Estado = "cargando" | "sin-sesion" | "error" | "listo";
+
+export default function MapaAdminPagina() {
+  const [estado, setEstado] = useState<Estado>("cargando");
+  const [error, setError] = useState("");
+  const [paseadores, setPaseadores] = useState<PaseadorEnCurso[]>([]);
+
+  // La sesión se lee dentro de un setTimeout, igual que en escanear/page.tsx
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const token = sesion.obtenerToken();
+      if (!token) {
+        setEstado("sin-sesion");
+        return;
+      }
+      georreferenciacionAPI
+        .obtenerPaseosEnCurso(token)
+        .then((data) => {
+          setPaseadores(data.paseadores);
+          setEstado("listo");
+        })
+        .catch((e: Error) => {
+          setError(e.message);
+          setEstado("error");
+        });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (estado === "cargando") {
+    return <PantallaCarga mensaje="Cargando los paseos..." />;
+  }
+
+  const totalMascotas = paseadores.reduce((total, p) => total + p.mascotas.length, 0);
+
+  return (
+    <main className="map-page">
+      <div className="map-wrap">
+        <header className="map-header">
+          <img src="/assets/img/Nombre-Petfy-Naranja.png" alt="Petfy" className="map-logo" />
+          <Link href="/perfil" className="btn btn-outline map-volver">
+            <i className="fas fa-arrow-left"></i> Mi perfil
+          </Link>
+        </header>
+
+        {estado === "sin-sesion" && (
+          <div className="map-mensaje">
+            <h1 className="map-titulo">Inicia sesión para ver los paseos</h1>
+            <Link href="/" className="btn btn-primary">
+              <i className="fas fa-right-to-bracket"></i> Ir a iniciar sesión
+            </Link>
+          </div>
+        )}
+
+        {estado === "error" && (
+          <div className="map-mensaje">
+            <h1 className="map-titulo">No se pudieron cargar los paseos</h1>
+            <p>{error}</p>
+            <Link href="/" className="btn btn-outline">
+              <i className="fas fa-house"></i> Volver al inicio
+            </Link>
+          </div>
+        )}
+
+        {estado === "listo" && (
+          <>
+            <h1 className="map-titulo">Paseos en curso</h1>
+            <p className="map-estado">
+              {paseadores.length} {paseadores.length === 1 ? "paseador" : "paseadores"} ·{" "}
+              {totalMascotas} {totalMascotas === 1 ? "mascota" : "mascotas"}
+            </p>
+            {paseadores.length === 0 ? (
+              <p className="map-aviso">No hay paseos en curso en este momento.</p>
+            ) : (
+              <MapaAdmin paseadores={paseadores} />
+            )}
+          </>
+        )}
+      </div>
+    </main>
+  );
+}

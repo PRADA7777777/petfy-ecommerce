@@ -87,6 +87,11 @@
   font-family: var(--font-nunito), sans-serif;
 }
 
+.map-ventana-titulo {
+  color: var(--secondary);
+  font-size: 1rem;
+}
+
 .map-ventana-mascota {
   color: var(--primary);
   font-size: 1rem;

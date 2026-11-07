@@ -82,6 +82,33 @@ export interface PuntoRuta {
   fecha_hora: string;
 }
 
+export interface ContactoPaseo {
+  nombre: string;
+  telefono: string | null;
+}
+
+export interface MascotaEnCurso {
+  id_cita: number;
+  id_mascota: number;
+  nom_mascota: string | null;
+  dueno: ContactoPaseo | null;
+  direccion: string | null;
+  complemento_direccion: string | null;
+  zona: string | null;
+  plan: string | null;
+  duracion_minutos: number | null;
+  novedades: number;
+}
+
+export interface PaseadorEnCurso {
+  id_usuario: number;
+  nombre: string | null;
+  telefono: string | null;
+  inicio: string | null;
+  ultima_posicion: PuntoRuta | null;
+  mascotas: MascotaEnCurso[];
+}
+
 export interface RutaPaseo {
   id_cita: number;
   nom_mascota: string;
@@ -128,4 +155,10 @@ export const georreferenciacionAPI = {
 
   obtenerRuta: (idCita: number, token: string) =>
     pedir<RutaPaseo>(`${API_URL}/georreferenciacion/citas/${idCita}/ruta`, token),
+
+  obtenerPaseosEnCurso: (token: string) =>
+    pedir<{ paseadores: PaseadorEnCurso[] }>(
+      `${API_URL}/georreferenciacion/admin/paseos-en-curso`,
+      token
+    ),
 };
