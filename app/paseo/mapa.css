@@ -1,0 +1,50 @@
+/* =========================================================
+   PETFY · Mapa del paseo (módulo de georreferenciación)
+   Usa solo las variables de marca de globals.css.
+   Prefijo "map-" para no chocar con otros estilos.
+   ========================================================= */
+
+.map-page {
+  min-height: 100vh;
+  background: var(--bg);
+  font-family: var(--font-nunito), sans-serif;
+  color: var(--text);
+  padding: 1.5rem 1rem 3rem;
+}
+
+.map-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.map-titulo {
+  font-size: 1.25rem;
+  color: var(--secondary);
+  margin: 0 0 1rem;
+}
+
+.map-contenedor {
+  height: 60vh;
+  min-height: 320px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Huella de Petfy (marcador del paseador) ── */
+.map-huella {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-md);
+}
+
+.map-huella svg {
+  width: 22px;
+  height: 22px;
+  fill: var(--white);
+}
