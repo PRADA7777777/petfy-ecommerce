@@ -37,16 +37,19 @@ function crearDato(etiqueta: string, valor: string | null | undefined): HTMLElem
 }
 
 /** Un nombre que se despliega al tocarlo (<details>). Recuerda si estaba abierto
- *  para no cerrarlo cuando la ventanita se actualiza. */
+ *  para no cerrarlo cuando la ventanita se actualiza. Los desplegables del mismo
+ *  grupo se abren de a uno: al abrir uno, el navegador cierra el que estaba abierto. */
 function crearDesplegable(
   clave: string,
   titulo: string,
   claseTitulo: string,
   datos: (HTMLElement | null)[],
-  abiertos: Set<string>
+  abiertos: Set<string>,
+  grupo?: string
 ): HTMLElement {
   const desplegable = document.createElement("details");
   desplegable.className = "map-desplegable";
+  if (grupo) desplegable.setAttribute("name", grupo);
   desplegable.open = abiertos.has(clave);
   desplegable.addEventListener("toggle", () => {
     if (desplegable.open) abiertos.add(clave);
@@ -126,7 +129,8 @@ function crearContenidoVentana(
           crearDato("Novedades", String(mascota.novedades)),
           crearBotonRecorrido(mascota.id_cita, acciones),
         ],
-        abiertos
+        abiertos,
+        `mascotas-${paseador.id_usuario}`
       )
     );
   }
@@ -252,7 +256,12 @@ export default function MapaAdmin({ paseadores, cargarRuta }: Props) {
       } else {
         marcador.setLatLng([latitud, longitud]);
       }
-      marcador.setPopupContent(crearContenidoVentana(paseador, abiertos.current, acciones));
+      const ventana = marcador.getPopup();
+      const contenido = crearContenidoVentana(paseador, abiertos.current, acciones);
+      // Al desplegar o plegar un nombre la ventanita cambia de alto: Leaflet la vuelve a medir
+      // para aplicar el alto máximo y mover el mapa si quedó por fuera
+      contenido.addEventListener("toggle", () => ventana?.update(), true);
+      marcador.setPopupContent(contenido);
     }
 
     // Se centra solo la primera vez, para no mover el mapa mientras el admin lo explora
