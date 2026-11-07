@@ -44,3 +44,14 @@ class UbicacionPaseo(Base):
     longitud = Column(Numeric(9, 6), nullable=False)
     precision_m = Column(Numeric(7, 1))   # margen de error del GPS en metros
     fecha_hora = Column(DateTime, nullable=False, server_default=func.now())
+
+
+class NovedadPaseo(Base):
+    __tablename__ = "novedades_paseo"
+    __table_args__ = {"schema": "petfy_db"}
+
+    id_novedad = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("petfy_db.citas.id_cita"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("petfy_db.usuarios.id_usuario"), nullable=False)
+    texto = Column(String(500), nullable=False)
+    fecha_hora = Column(DateTime, nullable=False, server_default=func.now())

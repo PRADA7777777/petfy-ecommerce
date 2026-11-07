@@ -8,14 +8,14 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Cita, Mascota, Usuario
-from models_georref import EventoPaseo, IdentificadorMascota, UbicacionPaseo
+from models_georref import EventoPaseo, IdentificadorMascota, NovedadPaseo, UbicacionPaseo
 from routers.citas_router import (
     ESTADO_CITA_COMPLETADA,
     ESTADO_CITA_CONFIRMADA,
     ESTADO_CITA_EN_CURSO,
 )
 from routers.mascotas_router import usuario_actual
-from schemas_georref import ConfirmarEscaneoRequest, UbicacionRequest
+from schemas_georref import ConfirmarEscaneoRequest, NovedadRequest, UbicacionRequest
 
 router = APIRouter(prefix="/georreferenciacion", tags=["Georreferenciación"])
 
@@ -118,6 +118,35 @@ def puede_escanear(usuario: Usuario, cita: Cita) -> bool:
     Por ahora: compara con citas.id_usuario_paseador (asignado a mano).
     Se ajusta cuando se integre la asignación de paseadores en las vistas."""
     return cita.id_usuario_paseador == usuario.id_usuario
+
+
+def _cita_en_curso_del_paseador(id_cita: int, usuario: Usuario, db: Session, motivo: str) -> Cita:
+    """Validaciones para registrar datos durante el paseo (ubicación y novedades).
+    Solo el paseador asignado y solo mientras la cita está En Curso."""
+    if not es_personal_de_paseo(usuario):
+        raise HTTPException(status_code=403, detail=motivo)
+
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita or not puede_escanear(usuario, cita):
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+
+    if cita.id_estado != ESTADO_CITA_EN_CURSO:
+        raise HTTPException(status_code=409, detail="El paseo no está en curso")
+    return cita
+
+
+def _cita_del_dueno_o_admin(id_cita: int, usuario: Usuario, db: Session):
+    """Devuelve (cita, mascota) si el usuario es el dueño de la mascota o administrador.
+    Responde 404 con el mismo mensaje si la cita no existe o no tiene acceso."""
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    try:
+        mascota = _mascota_autorizada(cita.id_mascota, usuario, db)
+    except HTTPException:
+        # Mismo mensaje que una cita inexistente: no revelar que la cita existe
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    return cita, mascota
 
 
 def _resolver_escaneo(codigo: str, usuario: Usuario, db: Session):
@@ -236,15 +265,9 @@ def registrar_ubicacion(
 ):
     """Guarda un punto de la ruta del paseador. Solo se acepta mientras
     la cita está En Curso (entre la recogida y la entrega)."""
-    if not es_personal_de_paseo(usuario):
-        raise HTTPException(status_code=403, detail="Solo el personal de paseo puede enviar ubicación")
-
-    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
-    if not cita or not puede_escanear(usuario, cita):
-        raise HTTPException(status_code=404, detail="Cita no encontrada")
-
-    if cita.id_estado != ESTADO_CITA_EN_CURSO:
-        raise HTTPException(status_code=409, detail="El paseo no está en curso")
+    cita = _cita_en_curso_del_paseador(
+        id_cita, usuario, db, "Solo el personal de paseo puede enviar ubicación"
+    )
 
     ubicacion = UbicacionPaseo(
         id_cita=cita.id_cita,
@@ -267,14 +290,7 @@ def obtener_ruta(
 ):
     """Devuelve los puntos de la ruta del paseo en orden de tiempo.
     Solo el dueño de la mascota o el administrador. Solo consulta."""
-    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
-    if not cita:
-        raise HTTPException(status_code=404, detail="Cita no encontrada")
-    try:
-        mascota = _mascota_autorizada(cita.id_mascota, usuario, db)
-    except HTTPException:
-        # Mismo mensaje que una cita inexistente: no revelar que la cita existe
-        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    cita, mascota = _cita_del_dueno_o_admin(id_cita, usuario, db)
 
     puntos = (
         db.query(UbicacionPaseo)
@@ -289,5 +305,69 @@ def obtener_ruta(
         "puntos": [
             {"latitud": float(p.latitud), "longitud": float(p.longitud), "fecha_hora": p.fecha_hora}
             for p in puntos
+        ],
+    }
+
+
+# ---------------------------------------------------------------------
+# Novedades del paseo
+# ---------------------------------------------------------------------
+
+@router.post("/citas/{id_cita}/novedades", status_code=201)
+def registrar_novedad(
+    id_cita: int,
+    payload: NovedadRequest,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Guarda una novedad escrita por el paseador. Solo mientras la cita está En Curso."""
+    cita = _cita_en_curso_del_paseador(
+        id_cita, usuario, db, "Solo el personal de paseo puede registrar novedades"
+    )
+
+    novedad = NovedadPaseo(
+        id_cita=cita.id_cita,
+        id_usuario=usuario.id_usuario,
+        texto=payload.texto,
+    )
+    db.add(novedad)
+    db.commit()
+    db.refresh(novedad)
+    return {
+        "id_novedad": novedad.id_novedad,
+        "texto": novedad.texto,
+        "fecha_hora": novedad.fecha_hora,
+    }
+
+
+@router.get("/citas/{id_cita}/novedades")
+def listar_novedades(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Devuelve las novedades de la cita en orden de tiempo.
+    Las ve el paseador asignado, el dueño de la mascota o el administrador. Solo consulta."""
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not (cita and puede_escanear(usuario, cita)):
+        cita, _ = _cita_del_dueno_o_admin(id_cita, usuario, db)
+
+    filas = (
+        db.query(NovedadPaseo, Usuario.nombre)
+        .join(Usuario, Usuario.id_usuario == NovedadPaseo.id_usuario)
+        .filter(NovedadPaseo.id_cita == cita.id_cita)
+        .order_by(NovedadPaseo.fecha_hora)
+        .all()
+    )
+    return {
+        "id_cita": cita.id_cita,
+        "novedades": [
+            {
+                "id_novedad": n.id_novedad,
+                "texto": n.texto,
+                "fecha_hora": n.fecha_hora,
+                "autor": nombre,
+            }
+            for n, nombre in filas
         ],
     }
