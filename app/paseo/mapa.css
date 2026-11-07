@@ -140,3 +140,54 @@
     opacity: 0.35;
   }
 }
+
+/* ── Ventanita del administrador (nombres desplegables) ── */
+.map-desplegable summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.map-desplegable summary::-webkit-details-marker {
+  display: none;
+}
+
+.map-desplegable summary::after {
+  content: " ▸";
+  color: var(--text-muted);
+}
+
+.map-desplegable[open] summary::after {
+  content: " ▾";
+}
+
+.map-desplegable-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.25rem 0 0.5rem 1.25rem;
+}
+
+.map-dato {
+  color: var(--text-light);
+  font-size: 0.85rem;
+}
+
+.map-boton-recorrido {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--text-muted);
+  border-left-width: 5px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-white);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.map-boton-recorrido:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

@@ -16,6 +16,7 @@ import {
 } from "../lib/georreferenciacionAPI";
 import "./escanear.css";
 import CompartirUbicacion from "./CompartirUbicacion";
+import { formatearHora } from "../lib/formatoHora";
 
 type Estado = "cargando" | "sin-sesion" | "error" | "listo" | "confirmando" | "confirmado";
 
@@ -40,10 +41,6 @@ function normalizarTelefono(tel: string | null): string | null {
   const digitos = tel.replace(/\D/g, "");
   if (digitos.length === 10) return `57${digitos}`;
   return digitos || null;
-}
-
-function formatearHora(fechaIso: string): string {
-  return new Date(fechaIso).toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" });
 }
 
 // ── Componente principal ────────────────────────────────────

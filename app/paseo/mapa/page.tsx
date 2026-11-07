@@ -13,12 +13,9 @@ import {
   RutaPaseo,
 } from "../../lib/georreferenciacionAPI";
 import MapaPaseo from "../MapaPaseo";
+import { formatearHoraExacta } from "../../lib/formatoHora";
 
 type Estado = "cargando" | "sin-sesion" | "error" | "listo";
-
-function formatearHoraExacta(fecha: Date): string {
-  return fecha.toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit", second: "2-digit" });
-}
 
 function MapaDelPaseo() {
   const params = useSearchParams();
