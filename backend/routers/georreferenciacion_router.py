@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Cita, Mascota, Usuario
+from models import Cita, Mascota, Plan, Usuario
 from models_georref import EventoPaseo, IdentificadorMascota, NovedadPaseo, UbicacionPaseo
 from routers.citas_router import (
     ESTADO_CITA_COMPLETADA,
@@ -27,7 +27,7 @@ def _mascota_autorizada(id_mascota: int, usuario: Usuario, db: Session) -> Masco
     """Devuelve la mascota si el usuario es su dueño o es administrador.
     Responde 404 en cualquier otro caso (no revela si la mascota existe)."""
     consulta = db.query(Mascota).filter(Mascota.id_mascota == id_mascota)
-    if usuario.id_rol != ID_ROL_ADMINISTRADOR:
+    if not es_administrador(usuario):
         consulta = consulta.filter(Mascota.id_usuario == usuario.id_usuario)
     mascota = consulta.first()
     if not mascota:
@@ -106,11 +106,18 @@ def generar_codigo(
 # integración exista, solo se ajustan estas dos funciones.
 # ─────────────────────────────────────────────────────────────
 
+def es_administrador(usuario: Usuario) -> bool:
+    """Quién ve la información de todos los paseos.
+    Por ahora: rol Administrador (id_rol = 1).
+    Se ajusta cuando se integren los roles y cargos en las vistas."""
+    return usuario.id_rol == ID_ROL_ADMINISTRADOR
+
+
 def es_personal_de_paseo(usuario: Usuario) -> bool:
     """Quién puede registrar recogidas y entregas.
     Por ahora: rol Paseador (id_rol = 3) o Administrador.
     Se ajusta cuando se integren los roles y cargos en las vistas."""
-    return usuario.id_rol in (ID_ROL_PASEADOR, ID_ROL_ADMINISTRADOR)
+    return usuario.id_rol == ID_ROL_PASEADOR or es_administrador(usuario)
 
 
 def puede_escanear(usuario: Usuario, cita: Cita) -> bool:
@@ -378,3 +385,88 @@ def listar_novedades(
             for n, nombre in filas
         ],
     }
+
+
+# ---------------------------------------------------------------------
+# Mapa del administrador
+# ---------------------------------------------------------------------
+
+def _datos_contacto(usuario: Usuario | None) -> dict | None:
+    if not usuario:
+        return None
+    return {
+        "nombre": f"{usuario.nombre} {usuario.apellido}",
+        "telefono": usuario.telefono,
+    }
+
+
+@router.get("/admin/paseos-en-curso")
+def paseos_en_curso(
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    """Paseos en curso agrupados por paseador, con su última posición y los datos
+    de cada mascota. Solo el administrador. Solo consulta."""
+    if not es_administrador(usuario):
+        # Mismo criterio que el resto del módulo: no revelar que el recurso existe
+        raise HTTPException(status_code=404, detail="No encontrado")
+
+    citas = (
+        db.query(Cita)
+        .filter(Cita.id_estado == ESTADO_CITA_EN_CURSO)
+        .order_by(Cita.fecha_hora_real)
+        .all()
+    )
+
+    paseadores: dict[int, dict] = {}
+    for cita in citas:
+        mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
+        dueno = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_cliente).first()
+        plan = db.query(Plan).filter(Plan.id_plan == cita.id_plan).first() if cita.id_plan else None
+        ultimo_punto = (
+            db.query(UbicacionPaseo)
+            .filter(UbicacionPaseo.id_cita == cita.id_cita)
+            .order_by(UbicacionPaseo.fecha_hora.desc())
+            .first()
+        )
+        novedades = db.query(func.count(NovedadPaseo.id_novedad)).filter(
+            NovedadPaseo.id_cita == cita.id_cita
+        ).scalar()
+
+        id_paseador = cita.id_usuario_paseador
+        if id_paseador not in paseadores:
+            paseador = db.query(Usuario).filter(Usuario.id_usuario == id_paseador).first()
+            paseadores[id_paseador] = {
+                "id_usuario": id_paseador,
+                **(_datos_contacto(paseador) or {"nombre": None, "telefono": None}),
+                "inicio": cita.fecha_hora_real,
+                "ultima_posicion": None,
+                "mascotas": [],
+            }
+        grupo = paseadores[id_paseador]
+
+        # La posición del paseador es el punto más reciente entre todas sus mascotas
+        if ultimo_punto and (
+            grupo["ultima_posicion"] is None
+            or ultimo_punto.fecha_hora > grupo["ultima_posicion"]["fecha_hora"]
+        ):
+            grupo["ultima_posicion"] = {
+                "latitud": float(ultimo_punto.latitud),
+                "longitud": float(ultimo_punto.longitud),
+                "fecha_hora": ultimo_punto.fecha_hora,
+            }
+
+        grupo["mascotas"].append({
+            "id_cita": cita.id_cita,
+            "id_mascota": cita.id_mascota,
+            "nom_mascota": mascota.nom_mascota if mascota else None,
+            "dueno": _datos_contacto(dueno),
+            "direccion": cita.direccion,
+            "complemento_direccion": cita.complemento_direccion,
+            "zona": cita.zona,
+            "plan": plan.nom_plan if plan else None,
+            "duracion_minutos": plan.duracion_minutos if plan else None,
+            "novedades": novedades,
+        })
+
+    return {"paseadores": list(paseadores.values())}
