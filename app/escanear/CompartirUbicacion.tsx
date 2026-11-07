@@ -5,10 +5,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { sesion } from "../lib/api";
-import { georreferenciacionAPI, ErrorAPI } from "../lib/georreferenciacionAPI";
+import { georreferenciacionAPI, ErrorAPI, INTERVALO_UBICACION_MS } from "../lib/georreferenciacionAPI";
 
-// El GPS puede reportar varias veces por segundo: se envía como máximo un punto cada 20 s.
-const INTERVALO_ENVIO_MS = 20000;
+// El GPS puede reportar varias veces por segundo: se envía como máximo un punto
+// cada INTERVALO_UBICACION_MS.
 // El backend no acepta precisiones mayores a esta (en metros).
 const PRECISION_MAXIMA_M = 100000;
 
@@ -60,7 +60,7 @@ export default function CompartirUbicacion({ idCita }: { idCita: number }) {
 
     const alRecibirPosicion = async (pos: GeolocationPosition) => {
       const ahora = Date.now();
-      if (!activo || enviando.current || ahora - ultimoEnvioMs.current < INTERVALO_ENVIO_MS) return;
+      if (!activo || enviando.current || ahora - ultimoEnvioMs.current < INTERVALO_UBICACION_MS) return;
       enviando.current = true;
       try {
         await georreferenciacionAPI.enviarUbicacion(idCita, tokenSesion, {

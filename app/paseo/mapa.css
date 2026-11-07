@@ -79,3 +79,36 @@
   color: var(--text-light);
   font-size: 0.875rem;
 }
+
+/* ── Estado del paseo (en curso / terminado) ── */
+.map-estado {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.map-punto {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--success);
+  animation: map-latido 1.6s ease-in-out infinite;
+}
+
+.map-punto-inactivo {
+  background: var(--text-muted);
+  animation: none;
+}
+
+@keyframes map-latido {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}

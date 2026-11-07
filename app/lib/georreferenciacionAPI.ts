@@ -29,6 +29,9 @@ export interface ConfirmacionEscaneo {
 // Tiempo máximo de espera por respuesta del backend (datos móviles incluidos).
 const TIEMPO_LIMITE_MS = 15000;
 
+// Cada cuánto el paseador envía su ubicación y el mapa del dueño la vuelve a consultar.
+export const INTERVALO_UBICACION_MS = 20000;
+
 // Error de la API que conserva el código HTTP (por ejemplo, 409 = el paseo ya no está en curso).
 export class ErrorAPI extends Error {
   constructor(mensaje: string, public status: number) {

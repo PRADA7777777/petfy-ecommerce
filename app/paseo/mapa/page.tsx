@@ -7,10 +7,18 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { sesion } from "../../lib/api";
 import PantallaCarga from "../../components/PantallaCarga";
-import { georreferenciacionAPI, RutaPaseo } from "../../lib/georreferenciacionAPI";
+import {
+  georreferenciacionAPI,
+  INTERVALO_UBICACION_MS,
+  RutaPaseo,
+} from "../../lib/georreferenciacionAPI";
 import MapaPaseo from "../MapaPaseo";
 
 type Estado = "cargando" | "sin-sesion" | "error" | "listo";
+
+function formatearHoraExacta(fecha: Date): string {
+  return fecha.toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit", second: "2-digit" });
+}
 
 function MapaDelPaseo() {
   const params = useSearchParams();
@@ -19,6 +27,8 @@ function MapaDelPaseo() {
   const [estado, setEstado] = useState<Estado>("cargando");
   const [error, setError] = useState("");
   const [ruta, setRuta] = useState<RutaPaseo | null>(null);
+  const [actualizado, setActualizado] = useState<Date | null>(null);
+  const [sinConexion, setSinConexion] = useState(false);
 
   // La sesión se lee dentro de un setTimeout, igual que en escanear/page.tsx
   useEffect(() => {
@@ -37,6 +47,7 @@ function MapaDelPaseo() {
         .obtenerRuta(idCita, token)
         .then((data) => {
           setRuta(data);
+          setActualizado(new Date());
           setEstado("listo");
         })
         .catch((e: Error) => {
@@ -46,6 +57,29 @@ function MapaDelPaseo() {
     }, 0);
     return () => clearTimeout(timer);
   }, [idCita]);
+
+  // Mientras el paseo está en curso, vuelve a consultar la ruta cada INTERVALO_UBICACION_MS.
+  // Si la página no está visible (otra pestaña o pantalla bloqueada) no consulta.
+  const enCurso = ruta?.en_curso ?? false;
+  useEffect(() => {
+    if (!enCurso) return;
+    const token = sesion.obtenerToken();
+    if (!token) return;
+
+    const intervalo = setInterval(() => {
+      if (document.hidden) return;
+      georreferenciacionAPI
+        .obtenerRuta(idCita, token)
+        .then((data) => {
+          setRuta(data);
+          setActualizado(new Date());
+          setSinConexion(false);
+        })
+        .catch(() => setSinConexion(true));
+    }, INTERVALO_UBICACION_MS);
+
+    return () => clearInterval(intervalo);
+  }, [enCurso, idCita]);
 
   if (estado === "cargando") {
     return <PantallaCarga mensaje="Cargando el paseo..." />;
@@ -76,8 +110,31 @@ function MapaDelPaseo() {
         {estado === "listo" && ruta && (
           <>
             <h1 className="map-titulo">Paseo de {ruta.nom_mascota}</h1>
+
+            <div className="map-estado" role="status">
+              {ruta.en_curso ? (
+                <>
+                  <span className="map-punto" aria-hidden="true"></span>
+                  <span>
+                    En curso
+                    {actualizado && ` · actualizado a las ${formatearHoraExacta(actualizado)}`}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="map-punto map-punto-inactivo" aria-hidden="true"></span>
+                  <span>Paseo terminado</span>
+                </>
+              )}
+            </div>
+            {sinConexion && <p className="map-aviso">Sin conexión, reintentando…</p>}
+
             {ruta.puntos.length === 0 ? (
-              <p className="map-aviso">Todavía no hay ubicaciones de este paseo.</p>
+              <p className="map-aviso">
+                {ruta.en_curso
+                  ? "Esperando la primera ubicación del paseador…"
+                  : "Este paseo no tiene ubicaciones registradas."}
+              </p>
             ) : (
               <MapaPaseo
                 puntos={ruta.puntos}
