@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Map as MapaLeaflet, Marker, Polyline } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./mapa.css";
+import { cargarLeaflet, crearIconoHuella, crearMapaBase, ZOOM_INICIAL } from "./mapaComun";
 
 export interface PuntoMapa {
   latitud: number;
@@ -19,21 +20,7 @@ interface Props {
   paseador: string | null;
 }
 
-const ZOOM_INICIAL = 16;
-const CAPA_OSM = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-const ATRIBUCION_OSM =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
-const TAMANO_HUELLA = 40;
 const GROSOR_RECORRIDO = 5;
-
-const HUELLA_SVG =
-  '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-  '<ellipse cx="12" cy="16" rx="5" ry="4.2"/>' +
-  '<ellipse cx="5.2" cy="10.5" rx="2.1" ry="2.7"/>' +
-  '<ellipse cx="9.3" cy="6.6" rx="2.1" ry="2.8"/>' +
-  '<ellipse cx="14.7" cy="6.6" rx="2.1" ry="2.8"/>' +
-  '<ellipse cx="18.8" cy="10.5" rx="2.1" ry="2.7"/>' +
-  "</svg>";
 
 /** Contenido de la ventanita de la huella. Se arma con textContent para que
  *  los nombres se muestren como texto y nunca se interpreten como HTML. */
@@ -63,16 +50,14 @@ export default function MapaPaseo({ puntos, mascota, paseador }: Props) {
   const centrado = useRef(false);
   const [listo, setListo] = useState(false);
 
-  // Leaflet usa el navegador (window), por eso se carga dentro del efecto y el mapa se crea una sola vez
+  // El mapa se crea una sola vez
   useEffect(() => {
     let cancelado = false;
 
-    import("leaflet").then((modulo) => {
-      const L = (modulo as unknown as { default?: typeof modulo }).default ?? modulo;
+    cargarLeaflet().then((L) => {
       if (cancelado || !contenedor.current || mapa.current) return;
 
-      const nuevoMapa = L.map(contenedor.current);
-      L.tileLayer(CAPA_OSM, { maxZoom: 19, attribution: ATRIBUCION_OSM }).addTo(nuevoMapa);
+      const nuevoMapa = crearMapaBase(L, contenedor.current);
 
       const colorRecorrido = getComputedStyle(document.documentElement)
         .getPropertyValue("--secondary")
@@ -83,13 +68,7 @@ export default function MapaPaseo({ puntos, mascota, paseador }: Props) {
         opacity: 0.85,
       }).addTo(nuevoMapa);
 
-      const icono = L.divIcon({
-        className: "map-huella",
-        html: HUELLA_SVG,
-        iconSize: [TAMANO_HUELLA, TAMANO_HUELLA],
-        iconAnchor: [TAMANO_HUELLA / 2, TAMANO_HUELLA / 2],
-      });
-      huella.current = L.marker([0, 0], { icon: icono, keyboard: true }).bindPopup("");
+      huella.current = L.marker([0, 0], { icon: crearIconoHuella(L), keyboard: true }).bindPopup("");
 
       mapa.current = nuevoMapa;
       setListo(true);
