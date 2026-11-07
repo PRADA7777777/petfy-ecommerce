@@ -134,7 +134,10 @@ function Escanear() {
     const saludo = info.nombre_dueno ? `Hola ${info.nombre_dueno}, ` : "Hola, ";
     const texto =
       `${saludo}${verbo} a ${info.nom_mascota ?? "tu mascota"} ` +
-      `a las ${formatearHora(resultado.fecha_hora_evento)} 🐾 Petfy`;
+      `a las ${formatearHora(resultado.fecha_hora_evento)} 🐾 Petfy` +
+      (resultado.accion === "recogida"
+        ? `\nSigue el paseo aquí: ${window.location.origin}/paseo/mapa?cita=${resultado.id_cita}`
+        : "");
 
     // Con foto: menú "Compartir" del celular (el paseador elige WhatsApp y el chat)
     if (foto && navigator.canShare?.({ files: [foto] })) {

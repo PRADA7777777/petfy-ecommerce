@@ -88,6 +88,13 @@ function MapaDelPaseo() {
   return (
     <main className="map-page">
       <div className="map-wrap">
+        <header className="map-header">
+          <img src="/assets/img/Nombre-Petfy-Naranja.png" alt="Petfy" className="map-logo" />
+          <Link href="/perfil" className="btn btn-outline map-volver">
+            <i className="fas fa-arrow-left"></i> Mi perfil
+          </Link>
+        </header>
+
         {estado === "sin-sesion" && (
           <div className="map-mensaje">
             <h1 className="map-titulo">Inicia sesión para ver el paseo</h1>
@@ -112,6 +119,9 @@ function MapaDelPaseo() {
             <h1 className="map-titulo">Paseo de {ruta.nom_mascota}</h1>
 
             <div className="map-estado" role="status">
+              {ruta.nombre_paseador && (
+                <span className="map-paseador">🐾 Con {ruta.nombre_paseador} ·</span>
+              )}
               {ruta.en_curso ? (
                 <>
                   <span className="map-punto" aria-hidden="true"></span>

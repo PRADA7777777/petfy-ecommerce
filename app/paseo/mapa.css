@@ -17,6 +17,23 @@
   margin: 0 auto;
 }
 
+.map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.map-logo {
+  height: 40px;
+  width: auto;
+}
+
+.map-volver {
+  font-size: 0.875rem;
+}
+
 .map-titulo {
   font-size: 1.25rem;
   color: var(--secondary);
@@ -83,11 +100,17 @@
 /* ── Estado del paseo (en curso / terminado) ── */
 .map-estado {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   margin: 0 0 0.75rem;
   color: var(--text-light);
   font-size: 0.9rem;
+}
+
+.map-paseador {
+  color: var(--secondary);
+  font-weight: 700;
 }
 
 .map-punto {
