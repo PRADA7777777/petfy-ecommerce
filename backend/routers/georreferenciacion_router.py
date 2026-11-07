@@ -271,22 +271,42 @@ def registrar_ubicacion(
     usuario: Usuario = Depends(usuario_actual),
 ):
     """Guarda un punto de la ruta del paseador. Solo se acepta mientras
-    la cita está En Curso (entre la recogida y la entrega)."""
+    la cita está En Curso (entre la recogida y la entrega).
+    Las mascotas que el paseador lleva al mismo tiempo están donde él está: el punto
+    se guarda en todas sus citas en curso, para que ningún recorrido quede cortado."""
     cita = _cita_en_curso_del_paseador(
         id_cita, usuario, db, "Solo el personal de paseo puede enviar ubicación"
     )
 
-    ubicacion = UbicacionPaseo(
-        id_cita=cita.id_cita,
-        id_usuario=usuario.id_usuario,
-        latitud=payload.latitud,
-        longitud=payload.longitud,
-        precision_m=payload.precision_m,
+    citas_en_curso = (
+        db.query(Cita)
+        .filter(
+            Cita.id_usuario_paseador == usuario.id_usuario,
+            Cita.id_estado == ESTADO_CITA_EN_CURSO,
+        )
+        .all()
     )
-    db.add(ubicacion)
+
+    ubicaciones = [
+        UbicacionPaseo(
+            id_cita=c.id_cita,
+            id_usuario=usuario.id_usuario,
+            latitud=payload.latitud,
+            longitud=payload.longitud,
+            precision_m=payload.precision_m,
+        )
+        for c in citas_en_curso
+    ]
+    db.add_all(ubicaciones)
     db.commit()
+
+    ubicacion = next(u for u in ubicaciones if u.id_cita == cita.id_cita)
     db.refresh(ubicacion)
-    return {"id_ubicacion": ubicacion.id_ubicacion, "fecha_hora": ubicacion.fecha_hora}
+    return {
+        "id_ubicacion": ubicacion.id_ubicacion,
+        "fecha_hora": ubicacion.fecha_hora,
+        "citas_actualizadas": len(ubicaciones),
+    }
 
 
 @router.get("/citas/{id_cita}/ruta")
