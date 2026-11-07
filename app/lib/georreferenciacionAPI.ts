@@ -73,6 +73,20 @@ export interface UbicacionRegistrada {
   fecha_hora: string;
 }
 
+export interface PuntoRuta {
+  latitud: number;
+  longitud: number;
+  fecha_hora: string;
+}
+
+export interface RutaPaseo {
+  id_cita: number;
+  nom_mascota: string;
+  nombre_paseador: string | null;
+  en_curso: boolean;
+  puntos: PuntoRuta[];
+}
+
 export const georreferenciacionAPI = {
   obtenerCodigo: (idMascota: number, token: string) =>
     pedir<CodigoMascota>(`${API_URL}/georreferenciacion/mascotas/${idMascota}/codigo`, token),
@@ -108,4 +122,7 @@ export const georreferenciacionAPI = {
       method: "POST",
       body: JSON.stringify(datos),
     }),
+
+  obtenerRuta: (idCita: number, token: string) =>
+    pedir<RutaPaseo>(`${API_URL}/georreferenciacion/citas/${idCita}/ruta`, token),
 };

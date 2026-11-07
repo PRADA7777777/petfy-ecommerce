@@ -292,6 +292,12 @@ def obtener_ruta(
     Solo el dueño de la mascota o el administrador. Solo consulta."""
     cita, mascota = _cita_del_dueno_o_admin(id_cita, usuario, db)
 
+    nombre_paseador = None
+    if cita.id_usuario_paseador:
+        nombre = db.query(Usuario.nombre).filter(Usuario.id_usuario == cita.id_usuario_paseador).scalar()
+        # Solo el primer nombre: el dueño no necesita más datos del paseador
+        nombre_paseador = nombre.split()[0] if nombre else None
+
     puntos = (
         db.query(UbicacionPaseo)
         .filter(UbicacionPaseo.id_cita == cita.id_cita)
@@ -301,6 +307,7 @@ def obtener_ruta(
     return {
         "id_cita": cita.id_cita,
         "nom_mascota": mascota.nom_mascota,
+        "nombre_paseador": nombre_paseador,
         "en_curso": cita.id_estado == ESTADO_CITA_EN_CURSO,
         "puntos": [
             {"latitud": float(p.latitud), "longitud": float(p.longitud), "fecha_hora": p.fecha_hora}

@@ -48,3 +48,34 @@
   height: 22px;
   fill: var(--white);
 }
+
+/* ── Mensajes de la página ── */
+.map-mensaje {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+}
+
+.map-aviso {
+  color: var(--text-light);
+}
+
+/* ── Ventanita de la huella ── */
+.map-ventana {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-family: var(--font-nunito), sans-serif;
+}
+
+.map-ventana-mascota {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.map-ventana-paseador {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
