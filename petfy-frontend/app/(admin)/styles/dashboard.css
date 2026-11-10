@@ -1,0 +1,104 @@
+/* app/(admin)/styles/dashboard.css */
+
+.dash-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 80rem;
+}
+
+.dash-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.dash-header p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Grid de Tarjetas */
+.dash-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .dash-kpi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Tabla de Citas */
+.dash-table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.dash-table-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9fafb;
+}
+
+.dash-table-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.dash-table-link {
+  font-size: 0.875rem;
+  color: #ea580c;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dash-table-link:hover {
+  text-decoration: underline;
+}
+
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.dash-table th {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dash-table td {
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dash-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.dash-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #9ca3af;
+}

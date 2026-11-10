@@ -1,0 +1,54 @@
+/* components/StatCard.css */
+
+.stat-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.stat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  margin: 0;
+}
+
+.stat-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.stat-card-hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.stat-card-icon {
+  padding: 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Colores de los iconos */
+.stat-card-blue { background-color: #eff6ff; color: #1d4ed8; }
+.stat-card-purple { background-color: #faf5ff; color: #7e22ce; }
+.stat-card-brand { background-color: #fff7ed; color: #ea580c; }
+.stat-card-green { background-color: #f0fdf4; color: #15803d; }
+.stat-card-indigo { background-color: #eef2ff; color: #4338ca; }
+.stat-card-red { background-color: #fef2f2; color: #b91c1c; }

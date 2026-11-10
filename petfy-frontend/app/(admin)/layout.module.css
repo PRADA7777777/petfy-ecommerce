@@ -1,0 +1,93 @@
+.adminContainer {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f4fbfa 0%, #e8f4f2 100%);
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.pageContent {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar personalizado */
+.pageContent::-webkit-scrollbar {
+  width: 8px;
+}
+.pageContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+.pageContent::-webkit-scrollbar-thumb {
+  background: #0a6b74;
+  border-radius: 10px;
+}
+.pageContent::-webkit-scrollbar-thumb:hover {
+  background: #064f56;
+}
+
+.loading {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: #064f56;
+  font-weight: 500;
+}
+
+/* Lógica del Sidebar*/
+.sidebarWrapper {
+  height: 100vh;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 50;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 40;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Tablets y Móviles (≤ 1024px) */
+@media (max-width: 1024px) {
+  .sidebarWrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+  }
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+  .overlay {
+    display: block;
+  }
+}
+
+/* Móviles pequeños (≤ 768px) */
+@media (max-width: 768px) {
+  .pageContent {
+    padding: 1rem;
+  }
+}
