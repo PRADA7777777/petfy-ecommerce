@@ -1,0 +1,141 @@
+/* ============================================================
+   VISTA DATOS (MIS DATOS)
+   ============================================================ */
+.datos-hero {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    background: var(--grad-warm);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.datos-hero::before, .datos-hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    transform-origin: center;
+    will-change: transform, opacity;
+    filter: blur(0.3px);
+}
+
+.datos-hero::after {
+    right: -30px;
+    top: -30px;
+    width: 130px;
+    height: 130px;
+    background: var(--teal);
+    opacity: 0.08;
+    animation: datosCirculoPrincipal 8s ease-in-out infinite;
+}
+
+.datos-hero::before {
+    right: 80px;
+    bottom: -40px;
+    width: 85px;
+    height: 85px;
+    background: var(--primary);
+    opacity: 0.06;
+    animation: datosCirculoSecundario 10s ease-in-out infinite;
+    animation-delay: -3s;
+}
+
+@keyframes datosCirculoPrincipal {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.08; }
+    50% { transform: translateY(-12px) scale(1.08); opacity: 0.16; }
+}
+
+@keyframes datosCirculoSecundario {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.06; }
+    50% { transform: translate(-8px, 10px) scale(0.92); opacity: 0.14; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .datos-hero::before, .datos-hero::after { animation: none !important; }
+}
+
+.datos-hero-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: var(--white);
+    background: var(--primary);
+    box-shadow: 0 8px 20px rgba(224, 99, 63, 0.3);
+    flex-shrink: 0;
+    border: 3px solid var(--white);
+}
+
+.datos-hero-info { min-width: 0; flex: 1; position: relative; z-index: 1; }
+
+.datos-hero-info h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    color: var(--teal);
+    margin: 0 0 0.2rem 0;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.datos-hero-info p {
+    margin: 0 0 0.4rem 0;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    overflow-wrap: anywhere;
+}
+
+.datos-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+}
+
+.datos-badge-ok { background: #DCFCE7; color: #15803D; }
+.datos-badge-warn { background: var(--orange-light); color: #B45309; }
+
+.datos-acciones { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.datos-alert {
+    padding: 0.65rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    animation: fadeInUp 0.25s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.datos-alert-error { background: #FFEBEE; color: #B91C1C; border: 1px solid #FCA5A5; }
+.datos-alert-success { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+
+/* RESPONSIVE DATOS */
+@media (max-width: 768px) {
+    .datos-hero { padding: 1rem; gap: 0.85rem; }
+    .datos-hero-avatar { width: 60px; height: 60px; font-size: 1.5rem; }
+    .datos-hero-info h2 { font-size: 1.1rem; }
+    .datos-hero-info p { font-size: 0.78rem; }
+}
+
+@media (max-width: 480px) {
+    .datos-hero { flex-direction: row; padding: 0.85rem; gap: 0.75rem; }
+    .datos-hero-avatar { width: 54px; height: 54px; font-size: 1.35rem; }
+    .datos-hero-info h2 { font-size: 1rem; }
+    .datos-hero-info p { font-size: 0.72rem; }
+    .datos-acciones { width: 100%; }
+    .datos-acciones .btn-perfil { flex: 1; }
+}

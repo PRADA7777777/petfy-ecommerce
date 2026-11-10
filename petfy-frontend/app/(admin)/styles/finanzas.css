@@ -1,0 +1,205 @@
+/* app/(admin)/styles/finanzas.css */
+
+.finanzas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 80rem;
+}
+
+.finanzas-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+}
+
+.finanzas-header p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* KPIs Grid */
+.finanzas-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 640px) { .finanzas-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .finanzas-kpi-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.finanzas-kpi-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.finanzas-kpi-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finanzas-kpi-title {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0 0 0.25rem 0;
+}
+
+.finanzas-kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.finanzas-kpi-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Colores KPI */
+.kpi-green .finanzas-kpi-value { color: #15803d; }
+.kpi-green .finanzas-kpi-icon { background-color: #f0fdf4; color: #15803d; }
+
+.kpi-amber .finanzas-kpi-value { color: #d97706; }
+.kpi-amber .finanzas-kpi-icon { background-color: #fffbeb; color: #d97706; }
+
+.kpi-indigo .finanzas-kpi-value { color: #4338ca; }
+.kpi-indigo .finanzas-kpi-icon { background-color: #eef2ff; color: #4338ca; }
+
+.kpi-red .finanzas-kpi-value { color: #b91c1c; }
+.kpi-red .finanzas-kpi-icon { background-color: #fef2f2; color: #b91c1c; }
+
+/* Tabs */
+.finanzas-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-top: 0.5rem;
+}
+
+.finanzas-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.finanzas-tab:hover {
+  color: #374151;
+}
+
+.finanzas-tab.active {
+  border-bottom-color: #ea580c;
+  color: #ea580c;
+}
+
+/* Filtros */
+.finanzas-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.finanzas-search-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 24rem;
+}
+
+.finanzas-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+}
+
+.finanzas-search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.finanzas-search-input:focus {
+  border-color: #ea580c;
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.1);
+}
+
+.finanzas-select {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Tablas */
+.finanzas-table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.finanzas-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.finanzas-table th {
+  padding: 0.75rem 1rem;
+  background-color: #f9fafb;
+  color: #4b5563;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.finanzas-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.finanzas-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.finanzas-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #9ca3af;
+}
+
+.finanzas-code {
+  font-size: 0.75rem;
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: #4b5563;
+}

@@ -1,0 +1,303 @@
+# backend/services/factura_pdf.py
+import os
+import requests
+from io import BytesIO
+from functools import lru_cache
+from datetime import datetime
+
+from reportlab.lib.pagesizes import LETTER
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm, mm
+from reportlab.lib import colors
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+    HRFlowable, Image, KeepTogether
+)
+
+# ═══════════════════════════════════════════════════════════════
+# PALETA DE MARCA PETFY
+# ═══════════════════════════════════════════════════════════════
+PETFY_TEAL       = colors.HexColor("#064F56")
+PETFY_TEAL_LIGHT = colors.HexColor("#0B7A84")
+PETFY_ORANGE     = colors.HexColor("#E0633F")
+PETFY_ORANGE_SOFT= colors.HexColor("#FFB9C4")
+PETFY_YELLOW     = colors.HexColor("#EA9200")
+PETFY_BEIPETFY_GRAY_MID   = colors.HexColor("#4b5563")
+PETFY_GRAY_LIGHT = colors.HexColor("#9ca3af")
+
+# Logo del frontend (mismo que usas en los correos)
+ASSETS_URL = os.getenv("FRONTEND_URL", "https://petfy.com.co")
+LOGO_URL = f"{ASSETS_URL}/assets/img/Logo-Petfy-renovado.png"
+
+
+@lru_cache(maxsize=1)
+def _obtener_logo_bytes() -> bytes:
+    """Descarga el logo una sola vez y lo cachea en memoria."""
+    try:
+        resp = requests.get(LOGO_URL, timeout=8)
+        resp.raise_for_status()
+        return resp.content
+    except Exception as e:
+        print(f"⚠️  No se pudo descargar el logo: {e}")
+        return None
+
+
+def _fmt_cop(v) -> str:
+    try:
+        return "$" + f"{float(v):,.0f}".replace(",", ".")
+    except Exception:
+        return "$0"
+
+
+def _tabla_logo_y_empresa(empresa_nombre, empresa_nit, empresa_dir, empresa_tel, empresa_mail):
+    """Header con logo a la izquierda y datos de la empresa a la derecha."""
+    logo_bytes = _obtener_logo_bytes()
+    if logo_bytes:
+        logo_img = Image(BytesIO(logo_bytes), width=1.6 * cm, height=1.6 * cm)
+    else:
+        logo_img = Paragraph(
+            f'<font color="#064F56" size="22"><b>🐾</b></font>',
+            getSampleStyleSheet()["Normal"]
+        )
+
+    nombre_style = ParagraphStyle(
+        "nombre_marca", fontName="Helvetica-Bold",
+        fontSize=22, textColor=PETFY_TEAL, leading=24,
+    )
+    datos_style = ParagraphStyle(
+        "datos_empresa", fontName="Helvetica",
+        fontSize=8, textColor=PETFY_GRAY_MID, leading=11, alignment=2,
+    )
+
+    izquierda = Table(
+        [[logo_img, Paragraph(f"{empresa_nombre}", nombre_style)]],
+        colWidths=[1.9 * cm, 5.5 * cm],
+        style=[("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+               ("LEFTPADDING", (0, 0), (-1, -1), 0)],
+    )
+
+    derecha = Paragraph(
+        f"<b>NIT:</b> {empresa_nit}<br/>"
+        f"{empresa_dir}<br/>"
+        f"Tel: {empresa_tel}<br/>"
+        f"{empresa_mail}",
+        datos_style,
+    )
+
+    return Table(
+        [[izquierda, derecha]],
+        colWidths=[9.5 * cm, 7.7 * cm],
+        style=[
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ],
+    )
+
+
+def generar_pdf_factura(factura, detalles) -> bytes:
+    """Genera el PDF de la factura con identidad visual Petfy."""
+    buffer = BytesIO()
+
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=LETTER,
+        topMargin=1.3 * cm,
+        bottomMargin=1.3 * cm,
+        leftMargin=1.6 * cm,
+        rightMargin=1.6 * cm,
+        title=f"Factura {factura.num_factura}",
+        author=os.getenv("EMPRESA_NOMBRE", "Petfy"),
+    )
+
+    styles = getSampleStyleSheet()
+
+    # ── Estilos ──
+    s_titulo = ParagraphStyle(
+        "titulo_factura", fontName="Helvetica-Bold",
+        fontSize=16, textColor=PETFY_TEAL, leading=20,
+    )
+    s_numero = ParagraphStyle(
+        "numero_factura", fontName="Helvetica-Bold",
+        fontSize=13, textColor=PETFY_ORANGE, leading=16,
+    )
+    s_seccion = ParagraphStyle(
+        "seccion", fontName="Helvetica-Bold",
+        fontSize=9, textColor=PETFY_TEAL, leading=12,
+        spaceAfter=4,
+    )
+    s_normal = ParagraphStyle(
+        "normal", fontName="Helvetica", fontSize=9, leading=12,
+        textColor=PETFY_GRAY_DARK,
+    )
+    s_label = ParagraphStyle(
+        "label", fontName="Helvetica-Bold", fontSize=8,
+        leading=11, textColor=PETFY_GRAY_MID,
+    )
+    s_valor = ParagraphStyle(
+        "valor", fontName="Helvetica", fontSize=9,
+        leading=11, textColor=PETFY_GRAY_DARK,
+    )
+    s_small = ParagraphStyle(
+        "small", fontName="Helvetica", fontSize=7.5,
+        leading=10, textColor=PETFY_GRAY_LIGHT,
+    )
+
+    empresa_nombre = os.getenv("EMPRESA_NOMBRE", "Petfy")
+    empresa_nit    = os.getenv("EMPRESA_NIT", "900.000.000-0")
+    empresa_dir    = os.getenv("EMPRESA_DIRECCION", "Bogotá, Colombia")
+    empresa_tel    = os.getenv("EMPRESA_TELEFONO", "+57 300 000 0000")
+    empresa_mail   = os.getenv("EMPRESA_EMAIL", "facturacion@petfy.com.co")
+
+    story = []
+
+    # ══════════════════════════════════════════════
+    # HEADER: Logo + nombre + datos empresa
+    # ══════════════════════════════════════════════
+    story.append(_tabla_logo_y_empresa(
+        empresa_nombre, empresa_nit, empresa_dir, empresa_tel, empresa_mail
+    ))
+    story.append(Spacer(1, 0.25 * cm))
+
+    # Línea decorativa tricolor
+    story.append(HRFlowable(
+        width="100%", thickness=2.5, color=PETFY_TEAL,
+        spaceBefore=2, spaceAfter=0,
+    ))
+    story.append(HRFlowable(
+        width="100%", thickness=1, color=PETFY_ORANGE,
+        spaceBefore=0, spaceAfter=0,
+    ))
+    story.append(Spacer(1, 0.5 * cm))
+
+    # ══════════════════════════════════════════════
+    # TÍTULO FACTURA
+    # ══════════════════════════════════════════════
+    titulo_tabla = Table(
+        [[
+            Paragraph("FACTURA DE VENTA", s_titulo),
+            Paragraph(f"N° {factura.num_factura}", s_numero),
+        ]],
+        colWidths=[10 * cm, 7.2 * cm],
+        style=[
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("ALIGN", (1, 0), (1, 0), "RIGHT"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+        ],
+    )
+    story.append(titulo_tabla)
+    story.append(Spacer(1, 0.6 * cm))
+
+    # ══════════════════════════════════════════════
+    # BLOQUE DE INFORMACIÓN (EMISIÓN + CLIENTE)
+    # ══════════════════════════════════════════════
+    fecha_em  = factura.fecha_emision.strftime("%d/%m/%Y %H:%M") if factura.fecha_emision else "-"
+    fecha_ven = factura.fecha_vencimiento.strftime("%d/%m/%Y") if factura.fecha_vencimiento else "-"
+
+    def _fila(label, valor):
+        return [Paragraph(label, s_label), Paragraph(str(valor or "-"), s_valor)]
+
+    info_izq = [
+        _fila("Fecha de emisión", fecha_em),
+        _fila("Fecha de vencimiento", fecha_ven),
+        _fila("Moneda", factura.moneda or "COP"),
+        _fila("Forma de pago", factura.plan_pago or "-"),
+    ]
+    info_der = [
+        _fila("Cliente", factura.nombre_cliente or "-"),
+        _fila("Documento", factura.documento_cliente or "-"),
+        _fila("Correo", factura.correo_cliente or "-"),
+        _fila("Dirección", factura.direccion_cliente or "-"),
+    ]
+
+    tabla_izq = Table(info_izq, colWidths=[4.0 * cm, 4.4 * cm])
+    tabla_der = Table(info_der, colWidths=[3.2 * cm, 5.0 * cm])
+
+    for t in (tabla_izq, tabla_der):
+        t.setStyle(TableStyle([
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 0),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+            ("TOPPADDING", (0, 0), (-1, -1), 3),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ]))
+
+    bloque_info = Table(
+        [[tabla_izq, tabla_der]],
+        colWidths=[8.6 * cm, 8.6 * cm],
+        style=[
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("BACKGROUND", (0, 0), (-1, -1), PETFY_BEIGE_SOFT),
+            ("BOX", (0, 0), (-1, -1), 0.5, PETFY_BEIGE),
+            ("LEFTPADDING", (0, 0), (-1, -1), 12),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+            ("TOPPADDING", (0, 0), (-1, -1), 10),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+        ],
+    )
+    story.append(bloque_info)
+    story.append(Spacer(1, 0.7 * cm))
+
+    # ══════════════════════════════════════════════
+    # TABLA DE DETALLES
+    # ══════════════════════════════════════════════
+    story.append(Paragraph("DETALLE DE SERVICIOS", s_seccion))
+    story.append(Spacer(1, 0.15 * cm))
+
+    encabezado = ["Concepto", "Cant.", "Vr. Unitario", "IVA", "Total"]
+    filas = [encabezado]
+
+    for d in detalles:
+        filas.append([
+            Paragraph(d.concepto or "-", s_normal),
+            str(d.cantidad),
+            _fmt_cop(d.precio_uni),
+            _fmt_cop(d.iva),
+            _fmt_cop(d.total_linea),
+        ])
+
+    tabla = Table(
+        filas,
+        colWidths=[8.0 * cm, 1.4 * cm, 2.7 * cm, 2.2 * cm, 2.9 * cm],
+    )
+    tabla.setStyle(TableStyle([
+        # Encabezado
+        ("BACKGROUND", (0, 0), (-1, 0), PETFY_TEAL),
+        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTSIZE", (0, 0), (-1, 0), 9),
+       GN", (2, 1), (-1, -1), "RIGHT"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("GRID", (0, 0), (-1, -1), 0.4, PETFY_BEIGE),
+        ("LINEBELOW", (0, 0), (-1, 0), 0.4, PETFY_TEAL),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, PETFY_BEIGE_SOFT]),
+        ("TOPPADDING", (0, 1), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 1), (-1, -1), 8),
+        ("LEFTPADDING", (0, 1), (0, -1), 8),
+        ("RIGHTPADDING", (-1, 1), (-1, -1), 8),
+    ]))
+    story.append(tabla)
+    story.append(Spacer(1, 0.5 * cm))
+
+    # ══════════════════════════════════════════════
+    # TOTALES
+    # ══════════════════════════════════════════════
+    totales = Table(
+        [
+            ["Subtotal", _fmt_cop(factura.sub_total)],
+            ["IVA", _fmt_cop(factura.iva)],
+            ["TOTAL", _fmt_cop(factura.total)],
+        ],
+        colWidths=[3.5 * cm, 3.5 * cm],
+        style=[
+            ("ALIGN", (0, 0), (-1, -1), "RIGHT"),
+            ("FONTSIZE", (0, 0), (-1, 1), 9),
+            ("TEXTCOLOR", (0, 0), (-1, 1), PETFY_GRAY_MID),
+            ("FONTNAME", (0, 2), (-1, 2), "Helvetica-Bold"),
+            ("FONTSIZE", (0, 2), (-1, 2), 12),
+            ("TEXTCOLOR", (0, 2), (-1, 2), PETFY_ORANGE),
+            ("LINEABOVE", (0, 2), (-1, 2), 1.2, PETFY_ORANGE),
+            ("TOPPADDING", (0, 0), (-1, -1), 6),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+            (

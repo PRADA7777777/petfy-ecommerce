@@ -1,0 +1,602 @@
+/* ============================================================
+   AGENDAMIENTO - WIZARD Y COMPONENTES
+   ============================================================ */
+
+/* --- Textos y Títulos --- */
+.pfa-title {
+    font-family: "Fredoka One", cursive;
+    font-size: 1.2rem;
+    color: var(--teal);
+    margin: 0.5rem 0 0.25rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.pfa-sub {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-align: center;
+    margin: 0 0 1rem;
+    line-height: 1.4;
+}
+
+/* --- BARRA DE ACCIONES STICKY (Evita que los botones se pierdan) --- */
+.pfa-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.6rem;
+    position: sticky;
+    bottom: -1.25rem; /* Se ajusta al padding del modal-container */
+    background: var(--white);
+    padding: 1rem 0 0.5rem 0;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border);
+    z-index: 10;
+}
+
+.pfa-actions .btn-perfil {
+    min-width: 110px;
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 12px;
+}
+
+.pfa-actions .btn-perfil:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* --- Stepper (Indicador de Pasos) --- */
+.pfa-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0 0.5rem;
+}
+
+.pfa-step-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.pfa-step-item:last-child {
+    flex: 0;
+}
+
+.pfa-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream);
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.85rem;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.pfa-dot.pfa-active {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(224, 99, 63, 0.3);
+}
+
+.pfa-dot.pfa-done {
+    background: var(--teal);
+    color: white;
+}
+
+.pfa-dot-line {
+    flex: 1;
+    height: 3px;
+    background: var(--border);
+    margin: 0 8px;
+    border-radius: 2px;
+    transition: background 0.3s ease;
+}
+
+/* --- Paso 1: Mascotas --- */
+.pfa-mascotas-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 0.8rem;
+    width: 100%;
+    margin: 1rem auto 0;
+}
+
+.pfa-mascota-card {
+    flex: 0 1 180px;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    font-family: "Nunito", sans-serif;
+}
+
+.pfa-mascota-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-orange);
+}
+
+.pfa-mascota-card.pfa-selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 6px 16px rgba(224, 99, 63, 0.2);
+}
+
+.pfa-mascota-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    color: var(--white);
+    background: var(--primary);
+    box-shadow: 0 3px 8px rgba(224, 99, 63, 0.25);
+}
+
+.pfa-mascota-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pfa-mascota-info strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--teal);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pfa-mascota-info small {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* --- Paso 2: Planes (Acordeón) --- */
+.pfa-planes-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.pfa-accordion {
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+    overflow: hidden;
+    transition: all 0.25s;
+}
+
+.pfa-accordion:hover {
+    border-color: var(--pink);
+}
+
+.pfa-accordion.open {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-orange);
+}
+
+.pfa-accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.pfa-accordion-header:hover {
+    background: var(--cream-light);
+}
+
+.pfa-accordion-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.pfa-accordion-title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pfa-accordion-title strong {
+    font-size: 1rem;
+    color: var(--teal);
+}
+
+.pfa-accordion-title small {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.pfa-accordion-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.pfa-accordion-price strong {
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-family: "Fredoka One", cursive;
+}
+
+.pfa-accordion-price small {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.pfa-accordion-header i {
+    color: var(--text-muted);
+    margin-left: 6px;
+    transition: color 0.2s;
+}
+
+.pfa-accordion.open .pfa-accordion-header i {
+    color: var(--primary);
+}
+
+.pfa-accordion-body {
+    padding: 0 18px 16px;
+    border-top: 1px solid var(--border);
+    animation: fadeInUp 0.25s ease;
+}
+
+.pfa-accordion-desc {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin: 12px 0;
+    line-height: 1.45;
+}
+
+/* --- Paso 3: Calendario Compacto y Hora --- */
+.mini-calendario, .vp-calendario {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px;
+    margin: 10px auto;
+    width: 100%;
+    max-width: 340px;
+    box-shadow: 0 4px 14px rgba(6, 79, 86, 0.04);
+}
+
+.mini-calendario-header, .vp-cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 800;
+    color: var(--teal);
+    font-size: 0.95rem;
+}
+
+.mini-calendario-header button, .vp-cal-header button {
+    background: var(--primary-light);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: var(--primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-calendario-header button:hover, .vp-cal-header button:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.mini-calendario-semana, .mini-calendario-grid,
+.vp-cal-semana, .vp-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.mini-calendario-semana span, .vp-cal-semana span {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    padding: 4px 0;
+}
+
+.mini-calendario-dia, .vp-cal-dia {
+    aspect-ratio: 1 / 1.1;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: var(--cream-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+}
+
+.mini-calendario-dia:hover:not(:disabled), .vp-cal-dia:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.mini-calendario-dia.seleccionado, .vp-cal-dia.seleccionado {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(224, 99, 63, 0.3);
+}
+
+.mini-calendario-dia:disabled, .vp-cal-dia.vacio {
+    background: transparent;
+    color: #d1d5db;
+    cursor: not-allowed;
+}
+
+.pfa-hora-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: var(--white);
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--text);
+    transition: var(--transition);
+    box-sizing: border-box;
+    margin-top: 0.5rem;
+}
+
+.pfa-hora-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--orange-soft);
+}
+
+/* --- Paso 4: Resumen --- */
+.pfa-resumen {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin: 0.5rem 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.pfa-resumen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary);
+}
+
+.pfa-resumen-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px dashed var(--border);
+}
+
+.pfa-resumen-row:last-of-type {
+    border-bottom: none;
+}
+
+.pfa-resumen-row span {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.pfa-resumen-row strong {
+    color: var(--teal);
+    text-align: right;
+    word-break: break-word;
+    font-weight: 800;
+}
+
+.pfa-resumen-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 0.8rem;
+    margin-top: 0.4rem;
+    border-top: 2px solid var(--primary);
+}
+
+.pfa-resumen-total span {
+    font-weight: 800;
+    color: var(--text);
+    font-size: 0.9rem;
+}
+
+.pfa-resumen-total strong {
+    font-family: "Fredoka One", cursive;
+    font-size: 1.6rem;
+    color: var(--primary);
+}
+
+/* ============================================================
+   PANTALLA DE ÉXITO (Reemplazo del alert)
+   ============================================================ */
+.pfa-exito-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    border-radius: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+.pfa-exito-box {
+    text-align: center;
+    padding: 2rem;
+    animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pfa-exito-icon {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+}
+
+.pfa-exito-box h2 {
+    font-family: "Fredoka One", cursive;
+    color: var(--teal);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.pfa-exito-box p {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* ============================================================
+   RESPONSIVE (TABLETS Y MÓVILES)
+   ============================================================ */
+@media (max-width: 768px) {
+    .pfa-title { font-size: 1.1rem; }
+    .pfa-sub { font-size: 0.75rem; margin-bottom: 0.8rem; }
+
+    .pfa-mascotas-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .pfa-mascota-card {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .pfa-accordion-header {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .pfa-accordion-title strong { font-size: 0.9rem; }
+    .pfa-accordion-price strong { font-size: 1rem; }
+
+    .pfa-resumen-row { font-size: 0.8rem; }
+    .pfa-resumen-total strong { font-size: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+    .pfa-dot { width: 28px; height: 28px; font-size: 0.7rem; }
+    .pfa-dot-line { margin: 0 4px; }
+    
+    .pfa-accordion-icon { font-size: 1.4rem; }
+    .pfa-accordion-header { padding: 10px; gap: 8px; }
+    .pfa-accordion-title small { display: none; } /* Ocultar subtítulo en móviles muy pequeños */
+    
+    .mini-calendario, .vp-calendario { padding: 8px; }
+    .mini-calendario-dia, .vp-cal-dia { font-size: 0.7rem; }
+    
+    .pfa-hora-select { padding: 10px; font-size: 0.9rem; }
+    
+    /* En celular, los botones ocupan todo el ancho abajo */
+    .pfa-actions {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+    .pfa-actions .btn-perfil { 
+        width: 100%;
+        min-width: 0; 
+        padding: 0.7rem; 
+        font-size: 0.85rem; 
+    }
+}
+
+/* ============================================================
+   EFECTOS TÁCTILES (TAP) PARA CELULARES
+   ============================================================ */
+@media (hover: none) {
+    .pfa-mascota-card:active {
+        transform: scale(0.97);
+        background: var(--primary-light);
+        border-color: var(--primary);
+    }
+
+    .pfa-accordion-header:active {
+        background: var(--cream-light);
+    }
+
+    .btn-perfil:active {
+        transform: scale(0.95);
+        opacity: 0.85;
+    }
+
+    .mini-calendario-dia:active:not(:disabled), .vp-cal-dia:active {
+        transform: scale(0.9);
+        background: var(--primary);
+        color: var(--white);
+    }
+    
+    .pfa-hora-select:active {
+        background: var(--cream-light);
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
+
+@keyframes scaleUp { 
+    from { transform: scale(0.8); opacity: 0; } 
+    to { transform: scale(1); opacity: 1; } 
+}

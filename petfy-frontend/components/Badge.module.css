@@ -1,0 +1,24 @@
+/* Estilos base de la etiqueta */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  letter-spacing: 0.025em;
+}
+
+/* Colores */
+.red { background-color: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+.blue { background-color: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
+.green { background-color: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.yellow { background-color: #fef9c3; color: #a16207; border-color: #fef08a; }
+.gray { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+.orange { background-color: #ffedd5; color: #c2410c; border-color: #fed7aa; }
+.indigo { background-color: #e0e7ff; color: #4338ca; border-color: #c7d2fe; }
+.purple { background-color: #f3e8ff; color: #6b21a8; border-color: #e9d5ff; }
+
+/* El nuevo color Teal para el Admin */
+.teal { background-color: #e0f2f1; color: #064f56; border-color: #b2dfdb; }

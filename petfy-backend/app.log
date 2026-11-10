@@ -1,0 +1,97 @@
+nohup: ignoring input
+INFO:     Started server process [3225408]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:47732 - "GET /health HTTP/1.1" 200 OK
+INFO:     44.202.1.4:0 - "GET /robots.txt HTTP/1.1" 404 Not Found
+INFO:     179.1.218.187:0 - "OPTIONS /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     181.63.25.9:0 - "OPTIONS /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     181.63.25.9:0 - "GET /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     181.63.25.9:0 - "OPTIONS /auth/registro HTTP/1.1" 200 OK
+[ERROR] Al enviar correo a davcal20000@gmail.com: ResendError: You can only send testing emails to your own email address (gerencia@petfy.com.co). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[DEV] CODIGO DE RESPALDO: 997223
+INFO:     181.63.25.9:0 - "POST /auth/registro HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /auth/registro HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /auth/registro HTTP/1.1" 400 Bad Request
+INFO:     179.1.218.187:0 - "POST /auth/registro HTTP/1.1" 400 Bad Request
+INFO:     179.1.218.187:0 - "POST /auth/registro HTTP/1.1" 400 Bad Request
+[ERROR] Al enviar correo a jhon.dj.3103@gmail.com: ResendError: You can only send testing emails to your own email address (gerencia@petfy.com.co). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[DEV] CODIGO DE RESPALDO: 184744
+INFO:     179.1.218.187:0 - "POST /auth/registro HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /auth/reenviar-codigo HTTP/1.1" 200 OK
+[ERROR] Al enviar correo a jhon.dj.3103@gmail.com: ResendError: You can only send testing emails to your own email address (gerencia@petfy.com.co). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[DEV] CODIGO DE RESPALDO: 741589
+INFO:     179.1.218.187:0 - "POST /auth/reenviar-codigo HTTP/1.1" 200 OK
+INFO:     181.63.25.9:0 - "OPTIONS /auth/reenviar-codigo HTTP/1.1" 200 OK
+[ERROR] Al enviar correo a davcal20000@gmail.com: ResendError: You can only send testing emails to your own email address (gerencia@petfy.com.co). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[DEV] CODIGO DE RESPALDO: 802326
+INFO:     181.63.25.9:0 - "POST /auth/reenviar-codigo HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /auth/registro HTTP/1.1" 400 Bad Request
+INFO:     179.1.218.187:0 - "GET /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /auth/login HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /auth/login HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /suscripciones/mia HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mia HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /mascotas/catalogos/condiciones HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /mascotas/catalogos/comportamientos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/condiciones HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/comportamientos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /citas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /suscripciones/mias HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mias HTTP/1.1" 422 Unprocessable Entity
+INFO:     179.1.218.187:0 - "GET /citas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /planes?servicio=paseos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /citas/mascotas/1/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /citas/mascotas/1/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/condiciones HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/comportamientos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /mascotas/catalogos/razas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/comportamientos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/condiciones HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/razas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /citas/mascotas/2/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /citas/mascotas/2/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /planes?servicio=paseos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /citas/mascotas/2/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /planes/1/disponibilidad HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /citas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /citas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mia HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mia HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/comportamientos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas/catalogos/condiciones HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mias HTTP/1.1" 422 Unprocessable Entity
+INFO:     179.1.218.187:0 - "GET /citas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /planes?servicio=paseos HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /citas/mascotas/2/paseo-prueba-disponible HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /planes/2/disponibilidad HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "POST /citas HTTP/1.1" 200 OK
+[OK] Factura PETFY-2026-000002 enviada a gerencia@petfy.com.co - ID: 01a13c2d-a346-75cc-9f62-d83aa580c78f
+INFO:     3.216.160.40:0 - "POST /webhooks/wompi HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /mascotas HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /suscripciones/mia HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /facturacion HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /facturacion HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /facturacion/2 HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /facturacion/2 HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /facturacion/2 HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "OPTIONS /facturacion/2/pdf HTTP/1.1" 200 OK
+INFO:     179.1.218.187:0 - "GET /facturacion/2/pdf HTTP/1.1" 200 OK
+INFO:     191.156.148.189:0 - "OPTIONS /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     191.156.148.189:0 - "GET /auth/tipos-documento HTTP/1.1" 200 OK
+INFO:     191.156.148.189:0 - "OPTIONS /auth/registro HTTP/1.1" 200 OK
+[ERROR] Al enviar correo a davcal20000@gmail.com: ResendError: You can only send testing emails to your own email address (gerencia@petfy.com.co). To send emails to other recipients, please verify a domain at resend.com/domains, and change the `from` address to an email using this domain.
+[DEV] CODIGO DE RESPALDO: 973569
+INFO:     191.156.148.189:0 - "POST /auth/registro HTTP/1.1" 200 OK
+INFO:     191.156.148.189:0 - "OPTIONS /auth/verificar HTTP/1.1" 200 OK
+INFO:     191.156.148.189:0 - "POST /auth/verificar HTTP/1.1" 400 Bad Request
+INFO:     179.1.218.187:0 - "GET /webhooks/wompi HTTP/1.1" 405 Method Not Allowed
+INFO:     179.1.218.187:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found

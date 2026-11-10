@@ -1,0 +1,146 @@
+/* ============================================================
+   MODALES (GENERAL Y MASCOTAS)
+   ============================================================ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(6, 79, 86, 0.55);
+    z-index: 10001;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-container {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 1.25rem;
+    max-width: 420px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 24px 50px rgba(6, 79, 86, 0.3);
+    animation: fadeInUp 0.3s ease;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    -ms-overflow-style: none;
+}
+
+.modal-container::-webkit-scrollbar { display: none; }
+
+.modal-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 16px 16px 0 0;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: var(--cream-light);
+    border: none;
+    font-size: 1.2rem;
+    color: var(--teal);
+    cursor: pointer;
+    z-index: 10;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.modal-close-btn:hover { background: var(--danger); color: var(--white); transform: rotate(90deg); }
+
+/* Modal Mascota Específico */
+.modal-mascota {
+    max-width: 500px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.modal-mascota::-webkit-scrollbar { display: none; }
+.modal-mascota h2 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--teal); margin: 0.2rem 0; }
+.modal-mascota p { color: var(--text-muted); font-size: 0.7rem; margin: 0; }
+
+.form-row-uploads { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.form-row-uploads .form-group { margin-bottom: 0; }
+.modal-mascota .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.modal-mascota .form-group { margin-bottom: 0.5rem; min-width: 0; }
+.modal-mascota .form-group label { display: block; font-weight: 700; color: var(--teal); margin-bottom: 0.15rem; font-size: 0.65rem; }
+.modal-mascota .form-group input, .modal-mascota .form-group select, .modal-mascota .form-group textarea { width: 100%; padding: 0.4rem 0.5rem; border: 2px solid var(--border); border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 0.75rem; transition: var(--transition); background: var(--cream-light); color: var(--text); box-sizing: border-box; }
+.modal-mascota .form-group input:focus, .modal-mascota .form-group select:focus, .modal-mascota .form-group textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--orange-soft); background: var(--white); }
+.modal-mascota .form-group textarea { min-height: 50px; resize: vertical; }
+
+.modal-mascota-footer {
+    position: sticky;
+    bottom: -1.25rem;
+    margin: 0.5rem -1.25rem -1.25rem;
+    padding: 0.85rem 1.25rem 1.25rem;
+    background: linear-gradient(to top, #FFFFFF 75%, rgba(255, 255, 255, 0));
+    pointer-events: none;
+    z-index: 5;
+}
+
+.modal-mascota-footer>* { pointer-events: auto; }
+.modal-error { background: #FFEBEE; color: #C62828; padding: 0.6rem 0.75rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.82rem; text-align: center; border: 1px solid #FCA5A5; }
+
+/* Subida de Fotos */
+.foto-upload {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--cream-light);
+    text-align: center;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.foto-upload:hover { border-color: var(--primary); background: var(--orange-light); }
+.foto-preview { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); box-shadow: 0 6px 16px rgba(224, 99, 63, 0.28); }
+.foto-placeholder { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+.foto-icon { font-size: 2.2rem; opacity: 0.7; }
+.foto-placeholder p { margin: 0; font-size: 0.82rem; font-weight: 700; color: var(--teal); }
+.foto-placeholder small { font-size: 0.65rem; color: var(--text-muted); }
+
+/* RESPONSIVE MODALES */
+@media (max-width: 768px) {
+    .modal-container { max-width: 92%; padding: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .modal-container { padding: 0.8rem; border-radius: 10px; }
+    .modal-mascota { max-width: 95%; }
+    .modal-mascota-header { margin-bottom: 0.5rem; }
+    .modal-mascota h2 { font-size: 0.95rem; }
+    .modal-mascota p { font-size: 0.6rem; }
+    .modal-mascota .form-group label { font-size: 0.58rem; }
+    .modal-mascota .form-group input, .modal-mascota .form-group select, .modal-mascota .form-group textarea { font-size: 0.62rem; padding: 0.3rem 0.4rem; }
+    .foto-preview { width: 100px; height: 100px; }
+    .form-row-uploads { grid-template-columns: 1fr; }
+    .foto-upload, .carne-upload { height: 140px; }
+}
