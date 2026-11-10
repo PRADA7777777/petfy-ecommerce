@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Royal Canin Adult Raza Pequeña 2kg - Petfy">
+    <title>Royal Canin Adult Raza Pequeña 2kg - Petfy</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/petfy.css">
+    
+    <style>
+        .producto-page { padding: 2rem 0 4rem; background: var(--gray-100); min-height: 100vh; }
+        .producto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .producto-galeria { position: sticky; top: 100px; }
+        .producto-main-img { width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; background: var(--white); }
+        .producto-main-img img { width: 100%; height: 100%; object-fit: cover; }
+        .producto-thumbs { display: flex; gap: 0.5rem; margin-top: 1rem; }
+        .producto-thumb { width: 70px; height: 70px; border-radius: var(--radius-sm); overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.7; transition: var(--transition); }
+        .producto-thumb.active, .producto-thumb:hover { border-color: var(--primary); opacity: 1; }
+        .producto-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .producto-info { background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow); }
+        .producto-marca { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
+        .producto-titulo { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin: 0.5rem 0; }
+        .producto-rating { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .producto-rating i { color: #FFD700; }
+        .producto-precio { margin-bottom: 1.5rem; }
+        .producto-precio-old { color: var(--gray-500); text-decoration: line-through; font-size: 1.1rem; margin-right: 1rem; }
+        .producto-precio-current { font-size: 2.5rem; font-weight: 800; color: var(--dark); }
+        .producto-badge { display: inline-block; background: var(--danger); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; margin-left: 0.75rem; }
+        .producto-desc { color: var(--gray-600); line-height: 1.8; margin-bottom: 1.5rem; }
+        .producto-cantidad { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .cantidad-selector { display: flex; align-items: center; border: 2px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; }
+        .cantidad-btn { padding: 0.75rem 1rem; background: var(--gray-100); border: none; cursor: pointer; font-size: 1.1rem; font-weight: 600; }
+        .cantidad-input { width: 60px; text-align: center; border: none; font-size: 1.1rem; font-weight: 600; font-family: inherit; }
+        .btn-agregar { flex: 1; padding: 0.875rem 2rem; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: inherit; font-size: 1rem; transition: var(--transition); }
+        .btn-agregar:hover { background: var(--primary-dark); }
+        .btn-comprar { width: 100%; padding: 1rem; background: var(--dark); color: white; border: none; border-radius: var(--radius); font-weight: 700; font-size: 1rem; cursor: pointer; margin-bottom: 1.5rem; font-family: inherit; transition: var(--transition); }
+        .btn-comprar:hover { background: #000; }
+        .producto-meta { border-top: 1px solid var(--gray-200); padding-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .producto-meta-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--gray-600); }
+        .producto-meta-item i { color: var(--success); }
+        @media (max-width: 768px) { .producto-grid { grid-template-columns: 1fr; } .producto-galeria { position: static; } }
+    </style>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><a href="../index.html"><img src="../assets/img/petfy.png" alt="Petfy"></a></div>
+                <ul class="nav-links">
+                    <li class="nav-item dropdown-trigger"><a href="../tienda/index.html" class="nav-link active">Tienda <i class="fas fa-chevron-down dropdown-arrow"></i></a></li>
+                    <li class="nav-item"><a href="../servicios/index.html" class="nav-link">Servicios</a></li>
+                    <li class="nav-item"><a href="../contacto/index.html" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar..."><button>Buscar</button></div>
+                    <div class="user-actions">
+                        <a href="../cuenta/login.html" class="icon-link"><i class="fas fa-user"></i></a>
+                        <a href="carrito.html" class="icon-link cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb-wrapper"><div class="container"><nav class="breadcrumb"><ol class="breadcrumb-list" id="breadcrumbList"></ol></nav></div></div>
+
+    <main class="producto-page">
+        <div class="container">
+            <div class="producto-grid">
+                <div class="producto-galeria">
+                    <div class="producto-main-img">
+                        <img src="../assets/img/productos/producto-01.jpg" alt="Royal Canin Adult" id="mainImage">
+                    </div>
+                    <div class="producto-thumbs">
+                        <div class="producto-thumb active" onclick="changeImage('../assets/img/productos/producto-01.jpg', this)"><img src="../assets/img/productos/producto-01.jpg" alt="Vista 1"></div>
+                    </div>
+                </div>
+                
+                <div class="producto-info">
+                    <div class="producto-marca">Royal Canin</div>
+                    <h1 class="producto-titulo">Alimento para Perros Adultos Raza Pequeña - 2kg</h1>
+                    <div class="producto-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><span>4.8 (128 reseñas)</span></div>
+                    <div class="producto-precio"><span class="producto-precio-old">$25.000</span><span class="producto-precio-current">$19.999</span><span class="producto-badge">-20%</span></div>
+                    <p class="producto-desc">Alimento premium para perros adultos de razas pequeñas (1-10 kg). Croquetas adaptadas, salud digestiva y peso ideal.</p>
+                    <div class="producto-cantidad">
+                        <div class="cantidad-selector">
+                            <button class="cantidad-btn" onclick="cambiarCantidad(-1)">-</button>
+                            <input type="number" class="cantidad-input" value="1" min="1" id="cantidad">
+                            <button class="cantidad-btn" onclick="cambiarCantidad(1)">+</button>
+                        </div>
+                        <button class="btn-agregar" onclick="agregarAlCarrito()"><i class="fas fa-shopping-cart"></i> Añadir al Carrito</button>
+                    </div>
+                    <button class="btn-comprar" onclick="comprarAhora()"><i class="fas fa-bolt"></i> Comprar Ahora</button>
+                    <div class="producto-meta">
+                        <div class="producto-meta-item"><i class="fas fa-check-circle"></i> En stock - Envío inmediato</div>
+                        <div class="producto-meta-item"><i class="fas fa-truck"></i> Envío gratis +$30.000</div>
+                        <div class="producto-meta-item"><i class="fas fa-undo"></i> 30 días de garantía</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><img src="../assets/img/petfy.png" alt="Petfy" class="footer-logo"><p>Tu tienda de confianza.</p></div>
+                <div class="footer-col"><h4>Tienda</h4><ul><li><a href="index.html">Productos</a></li><li><a href="carrito.html">Carrito</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2024 Petfy.</p></div>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        let cantidad = 1;
+        function cambiarCantidad(d) { cantidad = Math.max(1, Math.min(10, cantidad + d)); document.getElementById('cantidad').value = cantidad; }
+        function agregarAlCarrito() {
+            let cart = JSON.parse(localStorage.getItem('petfyCart')) || [];
+            const item = { id: 'prod-01', name: 'Royal Canin Adult Raza Pequeña 2kg', price: '$19.999', image: '../assets/img/productos/producto-01.jpg', quantity: cantidad };
+            const idx = cart.findIndex(i => i.id === item.id);
+            if (idx > -1) cart[idx].quantity += cantidad; else cart.push(item);
+            localStorage.setItem('petfyCart', JSON.stringify(cart));
+            alert('✅ Añadido al carrito');
+        }
+        function comprarAhora() { agregarAlCarrito(); window.location.href = 'checkout.html'; }
+        function changeImage(src, thumb) {
+            document.getElementById('mainImage').src = src;
+            document.querySelectorAll('.producto-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+    </script>
+</body>
+</html>
