@@ -4,13 +4,14 @@ from datetime import datetime, date, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Usuario, Cita, CodigoPaseo, IntentoCodigo, EventoPaseo
-from schemas import IniciarPaseoRequest
+from models import Usuario, Cita, Mascota, CodigoPaseo, IntentoCodigo, EventoPaseo, UbicacionPaseo, NovedadPaseo
+from schemas import IniciarPaseoRequest, PuntoGPSRequest, NovedadRequest, FinalizarPaseoRequest
 from routers.auth_router import usuario_autenticado
-from routers.citas_router import ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO
+from routers.citas_router import ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO, ESTADO_CITA_COMPLETADA
 
 router = APIRouter(prefix="/paseos", tags=["Paseos"])
 
+ROL_ADMIN = 1
 ROL_STAFF = 3
 SERVICIO_PASEOS = "paseos"
 
@@ -19,6 +20,7 @@ MINUTOS_BLOQUEO_CODIGO = 15
 
 EVENTO_LLEGADA = "LLEGADA"
 EVENTO_INICIO  = "INICIO"
+EVENTO_FIN     = "FIN"
 
 
 # ═════════════════════════════════════════════════════════════
@@ -57,6 +59,23 @@ def _evento_registrado(db: Session, id_cita: int, tipo_evento: str) -> bool:
         EventoPaseo.id_cita == id_cita,
         EventoPaseo.tipo_evento == tipo_evento,
     ).first() is not None
+
+
+def _validar_cita_en_curso(cita: Cita):
+    if cita.id_estado != ESTADO_CITA_EN_CURSO:
+        raise HTTPException(status_code=409, detail="El paseo no está en curso")
+
+
+def _cita_visible(db: Session, id_cita: int, usuario: Usuario) -> Cita:
+    # Pueden verla el paseador asignado, el dueño de la mascota y el administrador
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    if usuario.id_rol != ROL_ADMIN and usuario.id_usuario not in (
+        cita.id_usuario_paseador, cita.id_usuario_cliente
+    ):
+        raise HTTPException(status_code=403, detail="No tienes acceso a esta cita")
+    return cita
 
 
 # ═════════════════════════════════════════════════════════════
@@ -160,3 +179,150 @@ def iniciar_paseo(
     db.commit()
 
     return {"mensaje": "Paseo iniciado", "id_cita": cita.id_cita, "fecha_hora_real": ahora}
+
+
+@router.post("/{id_cita}/gps")
+def enviar_punto_gps(
+    id_cita: int,
+    payload: PuntoGPSRequest,
+    db: Session = Depends(get_db),
+    paseador: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Validar permisos y que el paseo esté en curso
+    cita = _cita_del_paseador(db, id_cita, paseador)
+    _validar_cita_en_curso(cita)
+
+    # 2. Las mascotas que lleva al mismo tiempo están donde él está:
+    #    el punto se guarda en todas sus citas en curso
+    citas_en_curso = db.query(Cita).filter(
+        Cita.id_usuario_paseador == paseador.id_usuario,
+        Cita.id_estado == ESTADO_CITA_EN_CURSO,
+    ).all()
+
+    ahora = datetime.now()
+    db.add_all([
+        UbicacionPaseo(
+            id_cita=c.id_cita,
+            id_usuario=paseador.id_usuario,
+            latitud=payload.lat,
+            longitud=payload.lng,
+            fecha_hora=ahora,
+        )
+        for c in citas_en_curso
+    ])
+    db.commit()
+
+    return {"mensaje": "Punto registrado", "fecha_hora": ahora, "citas_actualizadas": len(citas_en_curso)}
+
+
+@router.post("/{id_cita}/novedades")
+def registrar_novedad(
+    id_cita: int,
+    payload: NovedadRequest,
+    db: Session = Depends(get_db),
+    paseador: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Validar permisos y que el paseo esté en curso
+    cita = _cita_del_paseador(db, id_cita, paseador)
+    _validar_cita_en_curso(cita)
+
+    # 2. No se aceptan novedades vacías
+    texto = payload.texto.strip()
+    if not texto:
+        raise HTTPException(status_code=422, detail="La novedad no puede estar vacía")
+
+    # 3. Guardar la novedad
+    novedad = NovedadPaseo(
+        id_cita=cita.id_cita,
+        id_usuario=paseador.id_usuario,
+        texto=texto,
+        fecha_hora=datetime.now(),
+    )
+    db.add(novedad)
+    db.commit()
+    db.refresh(novedad)
+
+    return {"id_novedad": novedad.id_novedad, "texto": novedad.texto, "fecha_hora": novedad.fecha_hora}
+
+
+@router.get("/{id_cita}/novedades")
+def listar_novedades(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado),
+):
+    cita = _cita_visible(db, id_cita, usuario)
+    novedades = db.query(NovedadPaseo).filter(
+        NovedadPaseo.id_cita == cita.id_cita
+    ).order_by(NovedadPaseo.fecha_hora.asc()).all()
+
+    return [
+        {"id_novedad": n.id_novedad, "texto": n.texto, "fecha_hora": n.fecha_hora}
+        for n in novedades
+    ]
+
+
+@router.get("/{id_cita}/ruta")
+def obtener_ruta(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado),
+):
+    cita = _cita_visible(db, id_cita, usuario)
+    paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first()
+    mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
+    puntos = db.query(UbicacionPaseo).filter(
+        UbicacionPaseo.id_cita == cita.id_cita
+    ).order_by(UbicacionPaseo.fecha_hora.asc()).all()
+
+    return {
+        "id_cita": cita.id_cita,
+        "id_estado": cita.id_estado,
+        "nombre_paseador": paseador.nombre if paseador else None,
+        "nom_mascota": mascota.nom_mascota if mascota else None,
+        "inicio": cita.fecha_hora_real,
+        "fin": cita.fecha_fin_real,
+        "puntos": [
+            {"lat": float(p.latitud), "lng": float(p.longitud), "fecha_hora": p.fecha_hora}
+            for p in puntos
+        ],
+    }
+
+
+@router.post("/{id_cita}/finalizar")
+def finalizar_paseo(
+    id_cita: int,
+    payload: FinalizarPaseoRequest,
+    db: Session = Depends(get_db),
+    paseador: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Validar permisos y que el paseo esté en curso
+    cita = _cita_del_paseador(db, id_cita, paseador)
+    _validar_cita_en_curso(cita)
+
+    # 2. Evidencia de la entrega con la foto
+    ahora = datetime.now()
+    db.add(EventoPaseo(
+        id_cita=cita.id_cita,
+        id_usuario=paseador.id_usuario,
+        tipo_evento=EVENTO_FIN,
+        fecha_hora=ahora,
+        foto=payload.foto,
+    ))
+
+    # 3. La novedad es opcional
+    novedad = (payload.novedad or "").strip()
+    if novedad:
+        db.add(NovedadPaseo(
+            id_cita=cita.id_cita,
+            id_usuario=paseador.id_usuario,
+            texto=novedad,
+            fecha_hora=ahora,
+        ))
+
+    # 4. Terminar el paseo
+    cita.id_estado = ESTADO_CITA_COMPLETADA
+    cita.fecha_fin_real = ahora
+    db.commit()
+
+    return {"mensaje": "Paseo finalizado", "id_cita": cita.id_cita, "fecha_fin_real": ahora}

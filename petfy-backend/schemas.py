@@ -212,3 +212,14 @@ class CrearStaffResponse(BaseModel):
 
 class IniciarPaseoRequest(BaseModel):
     codigo: str = Field(..., pattern=r"^[0-9]{4}$")
+
+class PuntoGPSRequest(BaseModel):
+    lat: float = Field(..., ge=-90, le=90)
+    lng: float = Field(..., ge=-180, le=180)
+
+class NovedadRequest(BaseModel):
+    texto: str = Field(..., min_length=1, max_length=500)
+
+class FinalizarPaseoRequest(BaseModel):
+    foto: str = Field(..., max_length=3_000_000, pattern=r"^data:image/(png|jpeg|jpg|webp);base64,")
+    novedad: Optional[str] = Field(None, max_length=500)

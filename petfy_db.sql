@@ -2773,7 +2773,7 @@ CREATE TABLE IF NOT EXISTS public.eventos_paseo (
     fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     latitud numeric(9,6) CHECK (latitud BETWEEN -90 AND 90),
     longitud numeric(9,6) CHECK (longitud BETWEEN -180 AND 180),
-    url_foto text,
+    foto text,
     CONSTRAINT uq_evento_por_cita UNIQUE (id_cita, tipo_evento)
 );
 

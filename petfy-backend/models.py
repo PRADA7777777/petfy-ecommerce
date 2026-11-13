@@ -328,7 +328,7 @@ class EventoPaseo(Base):
     fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)
     latitud = Column(Numeric(9, 6))
     longitud = Column(Numeric(9, 6))
-    url_foto = Column(Text)
+    foto = Column(Text)
 
     __table_args__ = (
         UniqueConstraint("id_cita", "tipo_evento", name="uq_evento_por_cita"),
