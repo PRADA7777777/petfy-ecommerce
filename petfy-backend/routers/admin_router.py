@@ -1,13 +1,13 @@
 # backend/routers/admin_router.py
 import re
-from datetime import date, datetime
+from datetime import date, datetime, time, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo, EstadoCita, EventoPaseo
-from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest, AsignarPaseadorRequest, CambiarEstadoPaseoRequest
+from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo, EstadoCita, EventoPaseo, Suscripcion, Raza
+from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest, AsignarPaseadorRequest, CambiarEstadoPaseoRequest, AsignarMasivoRequest
 from auth import hash_password
 from routers.auth_router import usuario_autenticado
 from routers.citas_router import (
@@ -364,6 +364,34 @@ def _perros_en_franja(db: Session, id_paseador: int, fecha, hora, excluir_cita: 
     return consulta.count()
 
 
+def _validar_cita_asignable(cita: Cita):
+    if cita.id_estado not in (ESTADO_CITA_PENDIENTE, ESTADO_CITA_CONFIRMADA):
+        raise HTTPException(status_code=409, detail=f"Solo se puede asignar en citas pendientes o confirmadas (cita {cita.id_cita})")
+
+
+def _buscar_paseador(db: Session, id_usuario: int) -> Usuario:
+    paseador = db.query(Usuario).filter(
+        Usuario.id_usuario == id_usuario,
+        Usuario.id_rol == ROL_STAFF,
+    ).first()
+    if not paseador or not any(s.nombre == SERVICIO_PASEOS for s in paseador.servicios):
+        raise HTTPException(status_code=404, detail=f"Paseador {id_usuario} no encontrado")
+    return paseador
+
+
+def _validar_cupo(db: Session, cita: Cita, paseador: Usuario, ya_en_franja: int = 0) -> int:
+    """Paseador activo y con cupo en la franja; ya_en_franja suma lo asignado en la misma petición."""
+    if not paseador.activo:
+        raise HTTPException(status_code=409, detail=f"El paseador {paseador.nombre} está inactivo")
+    ocupados = _perros_en_franja(db, paseador.id_usuario, cita.fecha, cita.hora, excluir_cita=cita.id_cita) + ya_en_franja
+    if ocupados >= CAPACIDAD_PASEADOR:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{paseador.nombre} ya tiene {CAPACIDAD_PASEADOR} perros el {cita.fecha} a las {cita.hora.strftime('%H:%M')}",
+        )
+    return ocupados
+
+
 @router.get("/paseos")
 def get_paseos(
     fecha: str = "",
@@ -442,8 +470,7 @@ def asignar_paseador(
     cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
     if not cita:
         raise HTTPException(status_code=404, detail="Cita no encontrada")
-    if cita.id_estado not in (ESTADO_CITA_PENDIENTE, ESTADO_CITA_CONFIRMADA):
-        raise HTTPException(status_code=409, detail="Solo se puede asignar en citas pendientes o confirmadas")
+    _validar_cita_asignable(cita)
 
     # 3. Quitar el paseador
     if payload.id_usuario_paseador is None:
@@ -452,23 +479,9 @@ def asignar_paseador(
         db.commit()
         return {"mensaje": "Paseador retirado", "id_cita": cita.id_cita}
 
-    # 4. Debe ser un paseador activo
-    paseador = db.query(Usuario).filter(
-        Usuario.id_usuario == payload.id_usuario_paseador,
-        Usuario.id_rol == ROL_STAFF,
-    ).first()
-    if not paseador or not any(s.nombre == SERVICIO_PASEOS for s in paseador.servicios):
-        raise HTTPException(status_code=404, detail="Paseador no encontrado")
-    if not paseador.activo:
-        raise HTTPException(status_code=409, detail="El paseador está inactivo")
-
-    # 5. Máximo 3 perros en la misma franja
-    ocupados = _perros_en_franja(db, paseador.id_usuario, cita.fecha, cita.hora, excluir_cita=cita.id_cita)
-    if ocupados >= CAPACIDAD_PASEADOR:
-        raise HTTPException(
-            status_code=409,
-            detail=f"El paseador ya tiene {CAPACIDAD_PASEADOR} perros en esa franja",
-        )
+    # 4. Paseador activo y con cupo: máximo 3 perros en la misma franja
+    paseador = _buscar_paseador(db, payload.id_usuario_paseador)
+    ocupados = _validar_cupo(db, cita, paseador)
 
     cita.id_usuario_paseador = paseador.id_usuario
     cita.fecha_asignacion = datetime.now()
@@ -512,3 +525,156 @@ def cambiar_estado_paseo(
         enviar_codigos_al_cliente(db, codigos_nuevos)
 
     return {"mensaje": "Estado actualizado", "id_cita": cita.id_cita, "id_estado": cita.id_estado}
+
+
+# ═════════════════════════════════════════════════════════════
+# PLANIFICACIÓN: AGENDA, CARGA Y ASIGNACIÓN MASIVA (georreferenciación)
+# ═════════════════════════════════════════════════════════════
+
+@router.get("/agenda")
+def get_agenda(
+    inicio: str,
+    fin: str,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos y rango
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+    try:
+        desde, hasta = date.fromisoformat(inicio), date.fromisoformat(fin)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Formato de fecha inválido")
+    if hasta < desde or (hasta - desde).days > 62:
+        raise HTTPException(status_code=400, detail="El rango debe ser de máximo 62 días")
+
+    # 2. Paseos del rango, sin los cancelados
+    citas = db.query(Cita).join(Plan, Plan.id_plan == Cita.id_plan).join(
+        Servicio, Servicio.id_servicio == Plan.id_servicio
+    ).filter(
+        Servicio.nombre == SERVICIO_PASEOS,
+        Cita.fecha >= desde,
+        Cita.fecha <= hasta,
+        Cita.id_estado != ESTADO_CITA_CANCELADA,
+    ).order_by(Cita.fecha, Cita.hora).all()
+
+    # 3. Cantidad de paseos por día para el calendario
+    por_dia = {}
+    for c in citas:
+        por_dia[c.fecha.isoformat()] = por_dia.get(c.fecha.isoformat(), 0) + 1
+
+    return {"citas": [_datos_paseo(db, c) for c in citas], "porDia": por_dia}
+
+
+@router.get("/paseadores/carga")
+def get_carga_paseadores(
+    fecha: str,
+    hora: str,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos y franja
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+    try:
+        dia, franja = date.fromisoformat(fecha), time.fromisoformat(hora)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Formato de fecha u hora inválido")
+
+    # 2. Paseadores activos y cuántos perros llevan en esa franja
+    paseadores = db.query(Usuario).filter(
+        Usuario.id_rol == ROL_STAFF,
+        Usuario.activo == True,
+        Usuario.servicios.any(Servicio.nombre == SERVICIO_PASEOS),
+    ).order_by(Usuario.nombre, Usuario.apellido).all()
+
+    return [
+        {
+            "id_usuario": p.id_usuario,
+            "nombre": p.nombre,
+            "apellido": p.apellido,
+            "perros_asignados": _perros_en_franja(db, p.id_usuario, dia, franja),
+            "capacidad_maxima": CAPACIDAD_PASEADOR,
+        }
+        for p in paseadores
+    ]
+
+
+@router.post("/paseos/asignar-masivo")
+def asignar_paseador_masivo(
+    payload: AsignarMasivoRequest,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+
+    # 2. Validar todas antes de guardar: se asignan todas o ninguna
+    en_esta_peticion = {}
+    cambios = []
+    for item in payload.asignaciones:
+        cita = db.query(Cita).filter(Cita.id_cita == item.id_cita).first()
+        if not cita:
+            raise HTTPException(status_code=404, detail=f"Cita {item.id_cita} no encontrada")
+        _validar_cita_asignable(cita)
+        paseador = _buscar_paseador(db, item.id_usuario_paseador)
+
+        franja = (paseador.id_usuario, cita.fecha, cita.hora)
+        _validar_cupo(db, cita, paseador, ya_en_franja=en_esta_peticion.get(franja, 0))
+        en_esta_peticion[franja] = en_esta_peticion.get(franja, 0) + 1
+        cambios.append((cita, paseador))
+
+    # 3. Guardar
+    ahora = datetime.now()
+    for cita, paseador in cambios:
+        cita.id_usuario_paseador = paseador.id_usuario
+        cita.fecha_asignacion = ahora
+    db.commit()
+
+    return {"mensaje": "Paseos asignados", "count": len(cambios)}
+
+
+@router.get("/paseos/macro")
+def get_macro_paseos_mes(
+    mes: str,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos y mes (AAAA-MM)
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+    try:
+        primer_dia = date.fromisoformat(f"{mes}-01")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Formato de mes inválido (AAAA-MM)")
+    siguiente = (primer_dia.replace(day=28) + timedelta(days=4)).replace(day=1)
+
+    # 2. Planes activos que tienen paseos dentro del mes
+    suscripciones = db.query(Suscripcion).filter(
+        Suscripcion.activa == True,
+        Suscripcion.fecha_inicio < siguiente,
+        Suscripcion.fecha_fin >= primer_dia,
+    ).all()
+
+    # 3. Agrupados por zona, para planear las rutas
+    zonas = {}
+    for susc in suscripciones:
+        primera = db.query(Cita).filter(Cita.id_suscripcion == susc.id_suscripcion).order_by(Cita.fecha).first()
+        mascota = db.query(Mascota).filter(Mascota.id_mascota == susc.id_mascota).first()
+        cliente = db.query(Usuario).filter(Usuario.id_usuario == susc.id_usuario).first()
+        raza = db.query(Raza).filter(Raza.id_raza == mascota.id_raza).first() if mascota and mascota.id_raza else None
+        zona = (primera.zona if primera and primera.zona else "Sin zona").strip()
+
+        grupo = zonas.setdefault(zona, {"zona": zona, "mascotas": 0, "rutas": []})
+        grupo["mascotas"] += 1
+        grupo["rutas"].append({
+            "id_suscripcion": susc.id_suscripcion,
+            "mascota": mascota.nom_mascota if mascota else None,
+            "raza": raza.nom_raza if raza else (mascota.raza if mascota else None),
+            "cliente": f"{cliente.nombre} {cliente.apellido}" if cliente else None,
+            "hora_preferida": susc.hora_preferida.strftime("%H:%M") if susc.hora_preferida else None,
+            "dias": susc.dias_semana,
+        })
+
+    return sorted(zonas.values(), key=lambda z: z["mascotas"], reverse=True)

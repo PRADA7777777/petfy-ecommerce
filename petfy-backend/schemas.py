@@ -232,3 +232,10 @@ class AsignarPaseadorRequest(BaseModel):
 
 class CambiarEstadoPaseoRequest(BaseModel):
     id_estado: int
+
+class AsignacionItem(BaseModel):
+    id_cita: int
+    id_usuario_paseador: int
+
+class AsignarMasivoRequest(BaseModel):
+    asignaciones: List[AsignacionItem] = Field(..., min_length=1)
