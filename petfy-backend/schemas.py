@@ -207,3 +207,8 @@ class CrearStaffResponse(BaseModel):
     mensaje: str
     correo_generado: str
     contrasena_temporal: str
+
+# --- GEORREFERENCIACIÓN DEL PASEO ---
+
+class IniciarPaseoRequest(BaseModel):
+    codigo: str = Field(..., pattern=r"^[0-9]{4}$")

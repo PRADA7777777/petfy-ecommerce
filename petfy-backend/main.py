@@ -22,6 +22,7 @@ from routers import (
     suscripciones_router,
     contacto_router,
     admin_router,
+    paseos_router,
 )
 
 ENV = os.getenv("ENV", "dev")
@@ -66,6 +67,7 @@ app.include_router(facturacion_router.router)
 app.include_router(suscripciones_router.router)
 app.include_router(contacto_router.router)
 app.include_router(admin_router.router)
+app.include_router(paseos_router.router)
 
 @app.get("/")
 def root():
