@@ -106,6 +106,7 @@ class Usuario(Base):
     verificado = Column(Boolean, default=False)
     id_tipo_doc = Column(Integer, ForeignKey("tipos_documentos.id_tipo_doc"))
     id_rol = Column(Integer, ForeignKey("roles.id_rol"), nullable=False)
+    activo = Column(Boolean, default=True, nullable=False)
     
     # --- SE ELIMINÓ id_cargo DE AQUÍ ---
 
@@ -297,3 +298,56 @@ class PasswordResetToken(Base):
     email = Column(String, index=True)
     codigo = Column(String)
     expira_en = Column(DateTime)
+
+# --- GEORREFERENCIACIÓN DEL PASEO ---
+# Código de inicio, evidencia de llegada/inicio/fin, recorrido GPS y novedades
+
+class CodigoPaseo(Base):
+    __tablename__ = "codigos_paseo"
+    id_codigo = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita", ondelete="CASCADE"), unique=True, nullable=False)
+    codigo = Column(String(4), nullable=False)
+    fecha_creacion = Column(DateTime, server_default=func.now(), nullable=False)
+    fecha_uso = Column(DateTime)
+    id_usuario_valida = Column(Integer, ForeignKey("usuarios.id_usuario"))
+
+class IntentoCodigo(Base):
+    __tablename__ = "intentos_codigo"
+    id_intento = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita", ondelete="CASCADE"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+    exitoso = Column(Boolean, nullable=False)
+    fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)
+
+class EventoPaseo(Base):
+    __tablename__ = "eventos_paseo"
+    id_evento = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita", ondelete="CASCADE"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+    tipo_evento = Column(String(20), nullable=False)  # LLEGADA | INICIO | FIN
+    fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)
+    latitud = Column(Numeric(9, 6))
+    longitud = Column(Numeric(9, 6))
+    url_foto = Column(Text)
+
+    __table_args__ = (
+        UniqueConstraint("id_cita", "tipo_evento", name="uq_evento_por_cita"),
+    )
+
+class UbicacionPaseo(Base):
+    __tablename__ = "ubicaciones_paseo"
+    id_ubicacion = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita", ondelete="CASCADE"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+    latitud = Column(Numeric(9, 6), nullable=False)
+    longitud = Column(Numeric(9, 6), nullable=False)
+    precision_m = Column(Numeric(7, 1))
+    fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)
+
+class NovedadPaseo(Base):
+    __tablename__ = "novedades_paseo"
+    id_novedad = Column(Integer, primary_key=True)
+    id_cita = Column(Integer, ForeignKey("citas.id_cita", ondelete="CASCADE"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+    texto = Column(String(500), nullable=False)
+    fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)

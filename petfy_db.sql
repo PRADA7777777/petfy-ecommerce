@@ -2739,3 +2739,65 @@ ALTER TABLE ONLY public.usuarios
 
 \unrestrict egdeLEQ1qDN0cRaNkyhCunFKMYAhkcgN0MipVJEbFL8cz124zNRRYWYqc3duH1u
 
+--
+-- Georreferenciación del paseo: código de inicio, eventos, ubicaciones y novedades
+--
+
+ALTER TABLE public.usuarios ADD COLUMN IF NOT EXISTS activo boolean DEFAULT true NOT NULL;
+
+CREATE TABLE IF NOT EXISTS public.codigos_paseo (
+    id_codigo SERIAL PRIMARY KEY,
+    id_cita integer NOT NULL UNIQUE REFERENCES public.citas(id_cita) ON DELETE CASCADE,
+    codigo character varying(4) NOT NULL CHECK (codigo ~ '^[0-9]{4}$'),
+    fecha_creacion timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    fecha_uso timestamp without time zone,
+    id_usuario_valida integer REFERENCES public.usuarios(id_usuario)
+);
+
+CREATE TABLE IF NOT EXISTS public.intentos_codigo (
+    id_intento SERIAL PRIMARY KEY,
+    id_cita integer NOT NULL REFERENCES public.citas(id_cita) ON DELETE CASCADE,
+    id_usuario integer NOT NULL REFERENCES public.usuarios(id_usuario),
+    exitoso boolean NOT NULL,
+    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ix_intentos_codigo_cita_usuario_fecha
+    ON public.intentos_codigo (id_cita, id_usuario, fecha_hora);
+
+CREATE TABLE IF NOT EXISTS public.eventos_paseo (
+    id_evento SERIAL PRIMARY KEY,
+    id_cita integer NOT NULL REFERENCES public.citas(id_cita) ON DELETE CASCADE,
+    id_usuario integer NOT NULL REFERENCES public.usuarios(id_usuario),
+    tipo_evento character varying(20) NOT NULL CHECK (tipo_evento IN ('LLEGADA', 'INICIO', 'FIN')),
+    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    latitud numeric(9,6) CHECK (latitud BETWEEN -90 AND 90),
+    longitud numeric(9,6) CHECK (longitud BETWEEN -180 AND 180),
+    url_foto text,
+    CONSTRAINT uq_evento_por_cita UNIQUE (id_cita, tipo_evento)
+);
+
+CREATE TABLE IF NOT EXISTS public.ubicaciones_paseo (
+    id_ubicacion SERIAL PRIMARY KEY,
+    id_cita integer NOT NULL REFERENCES public.citas(id_cita) ON DELETE CASCADE,
+    id_usuario integer NOT NULL REFERENCES public.usuarios(id_usuario),
+    latitud numeric(9,6) NOT NULL CHECK (latitud BETWEEN -90 AND 90),
+    longitud numeric(9,6) NOT NULL CHECK (longitud BETWEEN -180 AND 180),
+    precision_m numeric(7,1),
+    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ix_ubicaciones_paseo_cita_fecha
+    ON public.ubicaciones_paseo (id_cita, fecha_hora);
+
+CREATE TABLE IF NOT EXISTS public.novedades_paseo (
+    id_novedad SERIAL PRIMARY KEY,
+    id_cita integer NOT NULL REFERENCES public.citas(id_cita) ON DELETE CASCADE,
+    id_usuario integer NOT NULL REFERENCES public.usuarios(id_usuario),
+    texto character varying(500) NOT NULL CHECK (char_length(btrim(texto)) > 0),
+    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS ix_novedades_paseo_cita_fecha
+    ON public.novedades_paseo (id_cita, fecha_hora);
+
