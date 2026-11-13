@@ -1,11 +1,12 @@
 # backend/routers/admin_router.py
 import re
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo
-from schemas import CrearStaffRequest, CrearStaffResponse
+from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest
 from auth import hash_password
 from routers.auth_router import usuario_autenticado
 from routers.citas_router import ESTADO_CITA_EN_CURSO
@@ -181,3 +182,121 @@ def get_paseadores_activos(
         })
 
     return list(paseadores.values())
+
+
+# ═════════════════════════════════════════════════════════════
+# PERSONAL: STAFF Y PASEADORES (georreferenciación)
+# ═════════════════════════════════════════════════════════════
+
+ROL_STAFF = 3
+SERVICIO_PASEOS = "paseos"
+
+
+def _datos_staff(db: Session, usuario: Usuario) -> dict:
+    return {
+        "id_usuario": usuario.id_usuario,
+        "nombre": usuario.nombre,
+        "apellido": usuario.apellido,
+        "correo": usuario.correo,
+        "telefono": usuario.telefono,
+        "activo": usuario.activo,
+        "servicios": [{"id_servicio": s.id_servicio, "nombre": s.nombre} for s in usuario.servicios],
+        "paseos_en_curso": db.query(Cita).filter(
+            Cita.id_usuario_paseador == usuario.id_usuario,
+            Cita.id_estado == ESTADO_CITA_EN_CURSO,
+        ).count(),
+    }
+
+
+def _listar_staff(db: Session, search: str, estado: str, page: int, pageSize: int, solo_paseadores: bool) -> dict:
+    # 1. Solo empleados, y si se pide, solo los que tienen el servicio de paseos
+    consulta = db.query(Usuario).filter(Usuario.id_rol == ROL_STAFF)
+    if solo_paseadores:
+        consulta = consulta.filter(Usuario.servicios.any(Servicio.nombre == SERVICIO_PASEOS))
+
+    # 2. Filtros de la pantalla
+    if search:
+        patron = f"%{search.strip()}%"
+        consulta = consulta.filter(or_(
+            Usuario.nombre.ilike(patron),
+            Usuario.apellido.ilike(patron),
+            Usuario.correo.ilike(patron),
+        ))
+    if estado == "activo":
+        consulta = consulta.filter(Usuario.activo == True)
+    elif estado == "inactivo":
+        consulta = consulta.filter(Usuario.activo == False)
+
+    # 3. Paginación
+    page = max(page, 1)
+    pageSize = min(max(pageSize, 1), 100)
+    total = consulta.count()
+    usuarios = consulta.order_by(Usuario.nombre, Usuario.apellido).offset((page - 1) * pageSize).limit(pageSize).all()
+
+    return {
+        "data": [_datos_staff(db, u) for u in usuarios],
+        "total": total,
+        "page": page,
+        "pageSize": pageSize,
+    }
+
+
+@router.get("/staff")
+def get_staff(
+    search: str = "",
+    estado: str = "",
+    page: int = 1,
+    pageSize: int = 10,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+    return _listar_staff(db, search, estado, page, pageSize, solo_paseadores=False)
+
+
+@router.get("/paseadores")
+def get_paseadores(
+    search: str = "",
+    estado: str = "",
+    page: int = 1,
+    pageSize: int = 10,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+    return _listar_staff(db, search, estado, page, pageSize, solo_paseadores=True)
+
+
+@router.put("/paseadores/{id_usuario}/activar")
+def activar_paseador(
+    id_usuario: int,
+    payload: ActivarPaseadorRequest,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+
+    # 2. Solo se activan o desactivan empleados
+    empleado = db.query(Usuario).filter(
+        Usuario.id_usuario == id_usuario,
+        Usuario.id_rol == ROL_STAFF,
+    ).first()
+    if not empleado:
+        raise HTTPException(status_code=404, detail="Empleado no encontrado")
+
+    # 3. No se desactiva a quien tiene un paseo en curso
+    if not payload.activo and db.query(Cita).filter(
+        Cita.id_usuario_paseador == empleado.id_usuario,
+        Cita.id_estado == ESTADO_CITA_EN_CURSO,
+    ).count() > 0:
+        raise HTTPException(status_code=409, detail="El paseador tiene un paseo en curso; desactívalo cuando termine")
+
+    empleado.activo = payload.activo
+    db.commit()
+
+    estado = "activado" if payload.activo else "desactivado"
+    return {"mensaje": f"Empleado {estado}", "id_usuario": empleado.id_usuario, "activo": empleado.activo}

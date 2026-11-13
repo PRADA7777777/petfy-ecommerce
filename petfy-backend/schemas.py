@@ -223,3 +223,6 @@ class NovedadRequest(BaseModel):
 class FinalizarPaseoRequest(BaseModel):
     foto: str = Field(..., max_length=3_000_000, pattern=r"^data:image/(png|jpeg|jpg|webp);base64,")
     novedad: Optional[str] = Field(None, max_length=500)
+
+class ActivarPaseadorRequest(BaseModel):
+    activo: bool
