@@ -13,6 +13,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 from services.factura_pdf import generar_pdf_factura
 from email_service import enviar_factura_email
+from services.codigos_paseo import asignar_codigos_paseo, enviar_codigos_al_cliente
 from database import SessionLocal
 from models import (
     Pago, Cita, Factura, FacturaDetalle,
@@ -331,6 +332,7 @@ async def wompi_webhook(request: Request):
                 pass
 
         # 5. Si aprobado: confirmar cita + crear factura
+        codigos_nuevos = []
         if status == "APPROVED" and pago.id_cita:
             cita = db.query(Cita).filter(Cita.id_cita == pago.id_cita).first()
             if cita:
@@ -385,7 +387,18 @@ async def wompi_webhook(request: Request):
                     for ch in citas_hermanas:
                         ch.id_estado = ESTADO_CITA_CONFIRMADA
 
+                # 6. Código de inicio para cada paseo confirmado
+                confirmadas = [cita] + (citas_hermanas if cita.id_suscripcion else [])
+                codigos_nuevos = asignar_codigos_paseo(db, confirmadas)
+
         db.commit()
+
+        # 7. Enviar los códigos al cliente, ya guardados
+        if codigos_nuevos:
+            try:
+                enviar_codigos_al_cliente(db, codigos_nuevos)
+            except Exception as e:
+                logger.error(f"Error enviando códigos de paseo por correo: {e}")
 
     except Exception as e:
         db.rollback()

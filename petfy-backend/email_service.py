@@ -309,6 +309,126 @@ def enviar_codigo_email(correo: str, codigo: str, nombre: str) -> bool:
 
 
 # ═══════════════════════════════════════════════════════════════
+# TEMPLATE: CÓDIGOS DE INICIO DEL PASEO
+# ═══════════════════════════════════════════════════════════════
+
+DIAS_CORTOS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
+
+
+def _fecha_paseo(fila: dict) -> str:
+    fecha = fila["fecha"]
+    return f"{DIAS_CORTOS[fecha.weekday()]} {fecha.strftime('%d/%m/%Y')} · {fila['hora'].strftime('%H:%M')}"
+
+
+def _template_codigos_paseo(nombre: str, filas: list) -> str:
+    filas_html = "".join(f"""
+                <tr>
+                  <td style="padding:12px 14px;border-bottom:1px solid #f0e6dc;color:{C_TEXT};font-size:14px;font-family:Arial,Helvetica,sans-serif;">{_fecha_paseo(fila)}</td>
+                  <td style="padding:12px 14px;border-bottom:1px solid #f0e6dc;color:{C_TEXT_MID};font-size:14px;font-family:Arial,Helvetica,sans-serif;">{fila["mascota"]}</td>
+                  <td align="center" style="padding:12px 14px;border-bottom:1px solid #f0e6dc;color:{C_ORANGE};font-size:20px;font-weight:900;letter-spacing:4px;font-family:'Courier New',Courier,monospace;">{fila["codigo"]}</td>
+                </tr>""" for fila in filas)
+
+    contenido = f"""
+          {_header_petfy()}
+
+          <tr>
+            <td align="center" class="px" style="padding:38px 40px 0 40px;">
+              <span style="display:inline-block;background:#fff0e8;color:{C_ORANGE};font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;padding:8px 18px;border-radius:100px;font-family:Arial,Helvetica,sans-serif;">
+                Códigos de inicio del paseo
+              </span>
+            </td>
+          </tr>
+
+          <tr>
+            <td align="center" class="px" style="padding:22px 40px 8px 40px;">
+              <h1 style="margin:0;color:{C_TEXT};font-size:26px;font-weight:800;line-height:1.3;font-family:Arial,Helvetica,sans-serif;">
+                Hola, {nombre}
+              </h1>
+              <p style="margin:14px 0 0 0;color:{C_TEXT_MID};font-size:15px;line-height:1.6;font-family:Arial,Helvetica,sans-serif;">
+                Tu agendamiento quedó confirmado. Cuando el paseador llegue por tu mascota, dale el código de ese día para iniciar el paseo.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px" style="padding:24px 40px 0 40px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:{C_BEIGE_2};border:2px dashed {C_ORANGE};border-radius:18px;">
+                <tr>
+                  <td style="padding:12px 14px;color:{C_TEXT_LT};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;font-family:Arial,Helvetica,sans-serif;">Paseo</td>
+                  <td style="padding:12px 14px;color:{C_TEXT_LT};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;font-family:Arial,Helvetica,sans-serif;">Mascota</td>
+                  <td align="center" style="padding:12px 14px;color:{C_TEXT_LT};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;font-family:Arial,Helvetica,sans-serif;">Código</td>
+                </tr>{filas_html}
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="px" style="padding:26px 40px 8px 40px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#F0FDFA;border-left:4px solid {C_TEAL_2};border-radius:10px;">
+                <tr>
+                  <td style="padding:15px 18px;color:#0a5c63;font-size:12.5px;line-height:1.55;font-family:Arial,Helvetica,sans-serif;">
+                    <strong>Cada código sirve solo el día de su paseo.</strong> Si otra persona entrega a tu mascota, compártele el código de ese día. También lo encuentras en tu perfil de Petfy.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          {_puntitos_marca()}
+
+          {_footer_petfy()}
+"""
+
+    return _html_wrapper(
+        titulo="Códigos de tus paseos - Petfy",
+        preheader="Tu agendamiento quedó confirmado. Aquí están los códigos para iniciar cada paseo.",
+        contenido=contenido,
+    )
+
+
+def _template_codigos_paseo_texto(nombre: str, filas: list) -> str:
+    lineas = "\n".join(f"- {_fecha_paseo(fila)} | {fila['mascota']} | Codigo: {fila['codigo']}" for fila in filas)
+    return f"""
+Hola, {nombre}!
+
+Tu agendamiento quedo confirmado. Cuando el paseador llegue por tu mascota, dale el codigo de ese dia para iniciar el paseo.
+
+{lineas}
+
+Cada codigo sirve solo el dia de su paseo. Tambien lo encuentras en tu perfil de Petfy.
+
+---
+Petfy - Paseos y Servicios para Mascotas
+https://petfy.com.co
+WhatsApp: https://wa.me/573204829244
+"""
+
+
+def enviar_codigos_paseo_email(correo: str, nombre: str, filas: list) -> bool:
+    if not resend.api_key:
+        print("\n" + "=" * 60)
+        print(f"[DEV] Codigos de paseo para {nombre} ({correo}):")
+        for fila in filas:
+            print(f"   {_fecha_paseo(fila)} | {fila['mascota']} | CODIGO: {fila['codigo']}")
+        print("=" * 60 + "\n")
+        return True
+
+    try:
+        response = resend.Emails.send({
+            "from": f"{EMPRESA_NOMBRE} <{RESEND_FROM}>",
+            "to": [correo],
+            "subject": f"Códigos de inicio de tus paseos - {EMPRESA_NOMBRE}",
+            "html": _template_codigos_paseo(nombre, filas),
+            "text": _template_codigos_paseo_texto(nombre, filas),
+        })
+        print(f"[OK] Codigos de paseo enviados a {correo} - ID: {response.get('id', 'N/A')}")
+        return True
+    except Exception as e:
+        print(f"[ERROR] Enviando codigos de paseo a {correo}: {type(e).__name__}: {e}")
+        return False
+
+
+# ═══════════════════════════════════════════════════════════════
 # TEMPLATE: FACTURA
 # ═══════════════════════════════════════════════════════════════
 

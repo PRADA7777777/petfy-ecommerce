@@ -18,6 +18,7 @@ from schemas import (
     CambiarDiaRequest
 )
 from routers.mascotas_router import usuario_actual
+from services.codigos_paseo import asignar_codigos_paseo, enviar_codigos_al_cliente
 
 router = APIRouter(prefix="/citas", tags=["Citas"])
 
@@ -519,8 +520,13 @@ def crear_cita(
         fecha_pago=datetime.now() if payload.es_paseo_prueba else None,
     )
     db.add(pago)
+
+    # El paseo de prueba queda confirmado sin pasar por Wompi: su código se genera aquí
+    codigos_nuevos = asignar_codigos_paseo(db, [cita]) if payload.es_paseo_prueba else []
     db.commit()
     db.refresh(cita)
+    if codigos_nuevos:
+        enviar_codigos_al_cliente(db, codigos_nuevos)
 
     monto_cent = int(round(precio_final * 100))
     return CitaResponse(

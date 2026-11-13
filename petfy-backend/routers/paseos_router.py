@@ -326,3 +326,34 @@ def finalizar_paseo(
     db.commit()
 
     return {"mensaje": "Paseo finalizado", "id_cita": cita.id_cita, "fecha_fin_real": ahora}
+
+
+# ═════════════════════════════════════════════════════════════
+# ENDPOINTS DEL DUEÑO
+# ═════════════════════════════════════════════════════════════
+
+@router.get("/{id_cita}/codigo")
+def ver_codigo(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Solo el dueño de la mascota (o el administrador); el paseador nunca lo ve
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    if usuario.id_rol != ROL_ADMIN and usuario.id_usuario != cita.id_usuario_cliente:
+        raise HTTPException(status_code=403, detail="Solo el dueño de la mascota puede ver el código")
+
+    # 2. El código existe desde que la cita se confirma
+    codigo = db.query(CodigoPaseo).filter(CodigoPaseo.id_cita == cita.id_cita).first()
+    if not codigo:
+        raise HTTPException(status_code=404, detail="Esta cita todavía no tiene código")
+
+    return {
+        "id_cita": cita.id_cita,
+        "fecha": cita.fecha,
+        "codigo": codigo.codigo,
+        "usado": codigo.fecha_uso is not None,
+        "fecha_uso": codigo.fecha_uso,
+    }
