@@ -226,3 +226,9 @@ class FinalizarPaseoRequest(BaseModel):
 
 class ActivarPaseadorRequest(BaseModel):
     activo: bool
+
+class AsignarPaseadorRequest(BaseModel):
+    id_usuario_paseador: Optional[int] = None
+
+class CambiarEstadoPaseoRequest(BaseModel):
+    id_estado: int

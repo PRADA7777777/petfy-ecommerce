@@ -1,15 +1,20 @@
 # backend/routers/admin_router.py
 import re
+from datetime import date, datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo
-from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest
+from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo, EstadoCita, EventoPaseo
+from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest, AsignarPaseadorRequest, CambiarEstadoPaseoRequest
 from auth import hash_password
 from routers.auth_router import usuario_autenticado
-from routers.citas_router import ESTADO_CITA_EN_CURSO
+from routers.citas_router import (
+    ESTADO_CITA_PENDIENTE, ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO,
+    ESTADO_CITA_COMPLETADA, ESTADO_CITA_CANCELADA,
+)
+from services.codigos_paseo import asignar_codigos_paseo, enviar_codigos_al_cliente
 
 router = APIRouter(prefix="/admin", tags=["Administración"])
 
@@ -300,3 +305,210 @@ def activar_paseador(
 
     estado = "activado" if payload.activo else "desactivado"
     return {"mensaje": f"Empleado {estado}", "id_usuario": empleado.id_usuario, "activo": empleado.activo}
+
+
+# ═════════════════════════════════════════════════════════════
+# PASEOS: LISTADO Y ASIGNACIÓN DE PASEADOR (georreferenciación)
+# ═════════════════════════════════════════════════════════════
+
+CAPACIDAD_PASEADOR = 3  # perros al mismo tiempo (misma fecha y hora)
+
+
+def _datos_paseo(db: Session, cita: Cita) -> dict:
+    mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
+    cliente = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_cliente).first()
+    paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first() if cita.id_usuario_paseador else None
+    estado = db.query(EstadoCita).filter(EstadoCita.id_estado == cita.id_estado).first()
+    llego = db.query(EventoPaseo).filter(
+        EventoPaseo.id_cita == cita.id_cita,
+        EventoPaseo.tipo_evento == "LLEGADA",
+    ).first() is not None
+
+    return {
+        "id_cita": cita.id_cita,
+        "fecha": cita.fecha,
+        "hora": cita.hora.strftime("%H:%M") if cita.hora else None,
+        "id_estado": cita.id_estado,
+        "estado": estado.nom_estado if estado else None,
+        "llego": llego,
+        "zona": cita.zona,
+        "direccion": cita.direccion,
+        "complemento_direccion": cita.complemento_direccion,
+        "id_usuario_paseador": cita.id_usuario_paseador,
+        "paseador": {
+            "id_usuario": paseador.id_usuario,
+            "nombre": paseador.nombre,
+            "apellido": paseador.apellido,
+        } if paseador else None,
+        "mascota": {
+            "id_mascota": mascota.id_mascota,
+            "nom_mascota": mascota.nom_mascota,
+        } if mascota else None,
+        "cliente": {
+            "nombre": cliente.nombre,
+            "apellido": cliente.apellido,
+            "telefono": cliente.telefono,
+        } if cliente else None,
+    }
+
+
+def _perros_en_franja(db: Session, id_paseador: int, fecha, hora, excluir_cita: int = None) -> int:
+    consulta = db.query(Cita).filter(
+        Cita.id_usuario_paseador == id_paseador,
+        Cita.fecha == fecha,
+        Cita.hora == hora,
+        Cita.id_estado != ESTADO_CITA_CANCELADA,
+    )
+    if excluir_cita:
+        consulta = consulta.filter(Cita.id_cita != excluir_cita)
+    return consulta.count()
+
+
+@router.get("/paseos")
+def get_paseos(
+    fecha: str = "",
+    estado: str = "",
+    paseador: str = "",
+    page: int = 1,
+    pageSize: int = 50,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+
+    # 1. Solo citas del servicio de paseos
+    consulta = db.query(Cita).join(Plan, Plan.id_plan == Cita.id_plan).join(
+        Servicio, Servicio.id_servicio == Plan.id_servicio
+    ).filter(Servicio.nombre == SERVICIO_PASEOS)
+
+    # 2. Filtros de la pantalla
+    if fecha:
+        try:
+            consulta = consulta.filter(Cita.fecha == date.fromisoformat(fecha))
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Formato de fecha inválido")
+    if estado.isdigit():
+        consulta = consulta.filter(Cita.id_estado == int(estado))
+    if paseador.isdigit():
+        consulta = consulta.filter(Cita.id_usuario_paseador == int(paseador))
+
+    # 3. Paginación
+    page = max(page, 1)
+    pageSize = min(max(pageSize, 1), 200)
+    total = consulta.count()
+    citas = consulta.order_by(Cita.fecha, Cita.hora).offset((page - 1) * pageSize).limit(pageSize).all()
+
+    return {
+        "data": [_datos_paseo(db, c) for c in citas],
+        "total": total,
+        "page": page,
+        "pageSize": pageSize,
+    }
+
+
+@router.get("/paseos/hoy")
+def get_paseos_hoy(
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado)
+):
+    # 1. El administrador ve todos los paseos de hoy; el paseador, solo los suyos
+    if usuario.id_rol not in (1, ROL_STAFF):
+        raise HTTPException(status_code=403, detail="Acceso denegado")
+
+    consulta = db.query(Cita).filter(
+        Cita.fecha == date.today(),
+        Cita.id_estado != ESTADO_CITA_CANCELADA,
+    )
+    if usuario.id_rol == ROL_STAFF:
+        consulta = consulta.filter(Cita.id_usuario_paseador == usuario.id_usuario)
+
+    citas = consulta.order_by(Cita.hora).all()
+    return {"todos": [_datos_paseo(db, c) for c in citas]}
+
+
+@router.put("/paseos/{id_cita}/asignar")
+def asignar_paseador(
+    id_cita: int,
+    payload: AsignarPaseadorRequest,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+
+    # 2. Solo se asigna en citas que todavía no empiezan
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+    if cita.id_estado not in (ESTADO_CITA_PENDIENTE, ESTADO_CITA_CONFIRMADA):
+        raise HTTPException(status_code=409, detail="Solo se puede asignar en citas pendientes o confirmadas")
+
+    # 3. Quitar el paseador
+    if payload.id_usuario_paseador is None:
+        cita.id_usuario_paseador = None
+        cita.fecha_asignacion = None
+        db.commit()
+        return {"mensaje": "Paseador retirado", "id_cita": cita.id_cita}
+
+    # 4. Debe ser un paseador activo
+    paseador = db.query(Usuario).filter(
+        Usuario.id_usuario == payload.id_usuario_paseador,
+        Usuario.id_rol == ROL_STAFF,
+    ).first()
+    if not paseador or not any(s.nombre == SERVICIO_PASEOS for s in paseador.servicios):
+        raise HTTPException(status_code=404, detail="Paseador no encontrado")
+    if not paseador.activo:
+        raise HTTPException(status_code=409, detail="El paseador está inactivo")
+
+    # 5. Máximo 3 perros en la misma franja
+    ocupados = _perros_en_franja(db, paseador.id_usuario, cita.fecha, cita.hora, excluir_cita=cita.id_cita)
+    if ocupados >= CAPACIDAD_PASEADOR:
+        raise HTTPException(
+            status_code=409,
+            detail=f"El paseador ya tiene {CAPACIDAD_PASEADOR} perros en esa franja",
+        )
+
+    cita.id_usuario_paseador = paseador.id_usuario
+    cita.fecha_asignacion = datetime.now()
+    db.commit()
+
+    return {
+        "mensaje": "Paseador asignado",
+        "id_cita": cita.id_cita,
+        "id_usuario_paseador": paseador.id_usuario,
+        "perros_en_franja": ocupados + 1,
+    }
+
+
+@router.put("/paseos/{id_cita}/estado")
+def cambiar_estado_paseo(
+    id_cita: int,
+    payload: CambiarEstadoPaseoRequest,
+    db: Session = Depends(get_db),
+    admin_actual: Usuario = Depends(usuario_autenticado)
+):
+    # 1. Validar permisos
+    if admin_actual.id_rol != 1:
+        raise HTTPException(status_code=403, detail="Solo administradores")
+
+    cita = db.query(Cita).filter(Cita.id_cita == id_cita).first()
+    if not cita:
+        raise HTTPException(status_code=404, detail="Cita no encontrada")
+
+    # 2. "En curso" y "Completada" solo los pone el paseador con el código y al finalizar
+    if payload.id_estado not in (ESTADO_CITA_PENDIENTE, ESTADO_CITA_CONFIRMADA, ESTADO_CITA_CANCELADA):
+        raise HTTPException(status_code=400, detail="Ese estado lo registra el paseador durante el paseo")
+    if cita.id_estado in (ESTADO_CITA_EN_CURSO, ESTADO_CITA_COMPLETADA):
+        raise HTTPException(status_code=409, detail="No se puede cambiar el estado de un paseo en curso o terminado")
+
+    cita.id_estado = payload.id_estado
+
+    # 3. Al confirmarla a mano también recibe su código de inicio
+    codigos_nuevos = asignar_codigos_paseo(db, [cita]) if payload.id_estado == ESTADO_CITA_CONFIRMADA else []
+    db.commit()
+    if codigos_nuevos:
+        enviar_codigos_al_cliente(db, codigos_nuevos)
+
+    return {"mensaje": "Estado actualizado", "id_cita": cita.id_cita, "id_estado": cita.id_estado}
