@@ -15,6 +15,8 @@ from routers.citas_router import (
     ESTADO_CITA_COMPLETADA, ESTADO_CITA_CANCELADA,
 )
 from services.codigos_paseo import asignar_codigos_paseo, enviar_codigos_al_cliente
+from services.paginacion import paginar
+from services.paseadores import ROL_STAFF, filtro_paseadores, consulta_citas_de_paseo
 
 router = APIRouter(prefix="/admin", tags=["Administración"])
 
@@ -193,10 +195,6 @@ def get_paseadores_activos(
 # PERSONAL: STAFF Y PASEADORES (georreferenciación)
 # ═════════════════════════════════════════════════════════════
 
-ROL_STAFF = 3
-SERVICIO_PASEOS = "paseos"
-
-
 def _datos_staff(db: Session, usuario: Usuario) -> dict:
     return {
         "id_usuario": usuario.id_usuario,
@@ -217,7 +215,7 @@ def _listar_staff(db: Session, search: str, estado: str, page: int, pageSize: in
     # 1. Solo empleados, y si se pide, solo los que tienen el servicio de paseos
     consulta = db.query(Usuario).filter(Usuario.id_rol == ROL_STAFF)
     if solo_paseadores:
-        consulta = consulta.filter(Usuario.servicios.any(Servicio.nombre == SERVICIO_PASEOS))
+        consulta = consulta.filter(filtro_paseadores())
 
     # 2. Filtros de la pantalla
     if search:
@@ -233,17 +231,9 @@ def _listar_staff(db: Session, search: str, estado: str, page: int, pageSize: in
         consulta = consulta.filter(Usuario.activo == False)
 
     # 3. Paginación
-    page = max(page, 1)
-    pageSize = min(max(pageSize, 1), 100)
-    total = consulta.count()
-    usuarios = consulta.order_by(Usuario.nombre, Usuario.apellido).offset((page - 1) * pageSize).limit(pageSize).all()
-
-    return {
-        "data": [_datos_staff(db, u) for u in usuarios],
-        "total": total,
-        "page": page,
-        "pageSize": pageSize,
-    }
+    pagina = paginar(consulta.order_by(Usuario.nombre, Usuario.apellido), page, pageSize)
+    pagina["data"] = [_datos_staff(db, u) for u in pagina["data"]]
+    return pagina
 
 
 @router.get("/staff")
@@ -372,9 +362,9 @@ def _validar_cita_asignable(cita: Cita):
 def _buscar_paseador(db: Session, id_usuario: int) -> Usuario:
     paseador = db.query(Usuario).filter(
         Usuario.id_usuario == id_usuario,
-        Usuario.id_rol == ROL_STAFF,
+        filtro_paseadores(),
     ).first()
-    if not paseador or not any(s.nombre == SERVICIO_PASEOS for s in paseador.servicios):
+    if not paseador:
         raise HTTPException(status_code=404, detail=f"Paseador {id_usuario} no encontrado")
     return paseador
 
@@ -406,9 +396,7 @@ def get_paseos(
         raise HTTPException(status_code=403, detail="Solo administradores")
 
     # 1. Solo citas del servicio de paseos
-    consulta = db.query(Cita).join(Plan, Plan.id_plan == Cita.id_plan).join(
-        Servicio, Servicio.id_servicio == Plan.id_servicio
-    ).filter(Servicio.nombre == SERVICIO_PASEOS)
+    consulta = consulta_citas_de_paseo(db)
 
     # 2. Filtros de la pantalla
     if fecha:
@@ -422,17 +410,9 @@ def get_paseos(
         consulta = consulta.filter(Cita.id_usuario_paseador == int(paseador))
 
     # 3. Paginación
-    page = max(page, 1)
-    pageSize = min(max(pageSize, 1), 200)
-    total = consulta.count()
-    citas = consulta.order_by(Cita.fecha, Cita.hora).offset((page - 1) * pageSize).limit(pageSize).all()
-
-    return {
-        "data": [_datos_paseo(db, c) for c in citas],
-        "total": total,
-        "page": page,
-        "pageSize": pageSize,
-    }
+    pagina = paginar(consulta.order_by(Cita.fecha, Cita.hora), page, pageSize, maximo=200)
+    pagina["data"] = [_datos_paseo(db, c) for c in pagina["data"]]
+    return pagina
 
 
 @router.get("/paseos/hoy")
@@ -549,10 +529,7 @@ def get_agenda(
         raise HTTPException(status_code=400, detail="El rango debe ser de máximo 62 días")
 
     # 2. Paseos del rango, sin los cancelados
-    citas = db.query(Cita).join(Plan, Plan.id_plan == Cita.id_plan).join(
-        Servicio, Servicio.id_servicio == Plan.id_servicio
-    ).filter(
-        Servicio.nombre == SERVICIO_PASEOS,
+    citas = consulta_citas_de_paseo(db).filter(
         Cita.fecha >= desde,
         Cita.fecha <= hasta,
         Cita.id_estado != ESTADO_CITA_CANCELADA,
@@ -583,9 +560,8 @@ def get_carga_paseadores(
 
     # 2. Paseadores activos y cuántos perros llevan en esa franja
     paseadores = db.query(Usuario).filter(
-        Usuario.id_rol == ROL_STAFF,
+        filtro_paseadores(),
         Usuario.activo == True,
-        Usuario.servicios.any(Servicio.nombre == SERVICIO_PASEOS),
     ).order_by(Usuario.nombre, Usuario.apellido).all()
 
     return [

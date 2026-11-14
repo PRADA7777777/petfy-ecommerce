@@ -1,22 +1,28 @@
 # backend/routers/paseos_router.py
 import hmac
+import math
 from datetime import datetime, date, timedelta
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Usuario, Cita, Mascota, CodigoPaseo, IntentoCodigo, EventoPaseo, UbicacionPaseo, NovedadPaseo
+from models import Usuario, Cita, Mascota, Plan, CodigoPaseo, IntentoCodigo, EventoPaseo, UbicacionPaseo, NovedadPaseo
 from schemas import IniciarPaseoRequest, PuntoGPSRequest, NovedadRequest, FinalizarPaseoRequest
 from routers.auth_router import usuario_autenticado
 from routers.citas_router import ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO, ESTADO_CITA_COMPLETADA
+from services.paginacion import paginar
+from services.paseadores import es_paseador
 
 router = APIRouter(prefix="/paseos", tags=["Paseos"])
 
 ROL_ADMIN = 1
-ROL_STAFF = 3
-SERVICIO_PASEOS = "paseos"
+ROL_CLIENTE = 2
 
 MAX_INTENTOS_CODIGO = 5
 MINUTOS_BLOQUEO_CODIGO = 15
+
+RADIO_TIERRA_KM = 6371
 
 # La foto de la entrega se comparte por WhatsApp desde el celular del paseador
 GUARDAR_FOTO_ENTREGA = False
@@ -30,15 +36,9 @@ EVENTO_FIN     = "FIN"
 # HELPERS (sin decorador — NO son endpoints)
 # ═════════════════════════════════════════════════════════════
 
-def _es_paseador(usuario: Usuario) -> bool:
-    return usuario.id_rol == ROL_STAFF and any(
-        servicio.nombre == SERVICIO_PASEOS for servicio in usuario.servicios
-    )
-
-
 def _cita_del_paseador(db: Session, id_cita: int, paseador: Usuario) -> Cita:
     # 1. Solo staff activo con el servicio de paseos
-    if not _es_paseador(paseador) or not paseador.activo:
+    if not es_paseador(paseador) or not paseador.activo:
         raise HTTPException(status_code=403, detail="Solo paseadores activos")
 
     # 2. La cita debe existir y estar asignada a este paseador
@@ -79,6 +79,22 @@ def _cita_visible(db: Session, id_cita: int, usuario: Usuario) -> Cita:
     ):
         raise HTTPException(status_code=403, detail="No tienes acceso a esta cita")
     return cita
+
+
+def _distancia_km(puntos: list) -> float:
+    # Suma de la distancia entre puntos GPS consecutivos (fórmula de haversine)
+    total = 0.0
+    for a, b in zip(puntos, puntos[1:]):
+        lat1, lng1, lat2, lng2 = map(math.radians, (float(a.latitud), float(a.longitud), float(b.latitud), float(b.longitud)))
+        h = math.sin((lat2 - lat1) / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin((lng2 - lng1) / 2) ** 2
+        total += 2 * RADIO_TIERRA_KM * math.asin(math.sqrt(h))
+    return round(total, 2)
+
+
+def _minutos(inicio: Optional[datetime], fin: Optional[datetime]) -> Optional[int]:
+    if not inicio or not fin:
+        return None
+    return round((fin - inicio).total_seconds() / 60)
 
 
 # ═════════════════════════════════════════════════════════════
@@ -360,3 +376,79 @@ def ver_codigo(
         "usado": codigo.fecha_uso is not None,
         "fecha_uso": codigo.fecha_uso,
     }
+
+
+# ═════════════════════════════════════════════════════════════
+# HISTORIAL DE PASEOS
+# ═════════════════════════════════════════════════════════════
+
+@router.get("/historial")
+def historial_paseos(
+    desde: Optional[date] = None,
+    hasta: Optional[date] = None,
+    id_paseador: Optional[int] = None,
+    id_mascota: Optional[int] = None,
+    page: int = 1,
+    pageSize: int = 10,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Cada rol ve solo lo suyo; el administrador ve todo
+    consulta = db.query(Cita).filter(Cita.id_estado == ESTADO_CITA_COMPLETADA)
+    if usuario.id_rol == ROL_ADMIN:
+        if id_paseador:
+            consulta = consulta.filter(Cita.id_usuario_paseador == id_paseador)
+    elif es_paseador(usuario):
+        consulta = consulta.filter(Cita.id_usuario_paseador == usuario.id_usuario)
+    elif usuario.id_rol == ROL_CLIENTE:
+        consulta = consulta.filter(Cita.id_usuario_cliente == usuario.id_usuario)
+    else:
+        raise HTTPException(status_code=403, detail="No tienes acceso al historial de paseos")
+
+    # 2. Filtros opcionales
+    if desde and hasta and hasta < desde:
+        raise HTTPException(status_code=400, detail="La fecha final no puede ser anterior a la inicial")
+    if desde:
+        consulta = consulta.filter(Cita.fecha >= desde)
+    if hasta:
+        consulta = consulta.filter(Cita.fecha <= hasta)
+    if id_mascota:
+        consulta = consulta.filter(Cita.id_mascota == id_mascota)
+
+    # 3. Paginación, del más reciente al más antiguo
+    pagina = paginar(consulta.order_by(Cita.fecha.desc(), Cita.hora.desc()), page, pageSize)
+    citas = pagina["data"]
+
+    # 4. Datos relacionados de la página en una sola consulta por tabla
+    ids_citas = [c.id_cita for c in citas]
+    mascotas = {m.id_mascota: m for m in db.query(Mascota).filter(Mascota.id_mascota.in_({c.id_mascota for c in citas})).all()}
+    paseadores = {u.id_usuario: u for u in db.query(Usuario).filter(Usuario.id_usuario.in_({c.id_usuario_paseador for c in citas})).all()}
+    planes = {p.id_plan: p for p in db.query(Plan).filter(Plan.id_plan.in_({c.id_plan for c in citas})).all()}
+    novedades = dict(db.query(NovedadPaseo.id_cita, func.count()).filter(
+        NovedadPaseo.id_cita.in_(ids_citas)
+    ).group_by(NovedadPaseo.id_cita).all())
+    puntos = {}
+    for p in db.query(UbicacionPaseo).filter(UbicacionPaseo.id_cita.in_(ids_citas)).order_by(UbicacionPaseo.fecha_hora.asc()).all():
+        puntos.setdefault(p.id_cita, []).append(p)
+
+    data = []
+    for c in citas:
+        mascota = mascotas.get(c.id_mascota)
+        paseador = paseadores.get(c.id_usuario_paseador)
+        plan = planes.get(c.id_plan)
+        data.append({
+            "id_cita": c.id_cita,
+            "fecha": c.fecha,
+            "hora": c.hora.strftime("%H:%M") if c.hora else None,
+            "mascota": {"id_mascota": mascota.id_mascota, "nom_mascota": mascota.nom_mascota} if mascota else None,
+            "paseador": {"id_usuario": paseador.id_usuario, "nombre": f"{paseador.nombre} {paseador.apellido}"} if paseador else None,
+            "hora_inicio_real": c.fecha_hora_real,
+            "hora_fin_real": c.fecha_fin_real,
+            "duracion_real_min": _minutos(c.fecha_hora_real, c.fecha_fin_real),
+            "duracion_plan_min": plan.duracion_minutos if plan else None,
+            "distancia_km": _distancia_km(puntos.get(c.id_cita, [])),
+            "novedades": novedades.get(c.id_cita, 0),
+        })
+
+    pagina["data"] = data
+    return pagina
