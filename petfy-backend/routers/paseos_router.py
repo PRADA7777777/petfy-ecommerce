@@ -97,6 +97,42 @@ def _minutos(inicio: Optional[datetime], fin: Optional[datetime]) -> Optional[in
     return round((fin - inicio).total_seconds() / 60)
 
 
+def _datos_punto(punto: UbicacionPaseo) -> dict:
+    return {"lat": float(punto.latitud), "lng": float(punto.longitud), "fecha_hora": punto.fecha_hora}
+
+
+def _puntos_de_cita(db: Session, id_cita: int) -> list:
+    return db.query(UbicacionPaseo).filter(
+        UbicacionPaseo.id_cita == id_cita
+    ).order_by(UbicacionPaseo.fecha_hora.asc()).all()
+
+
+def _novedades_de_cita(db: Session, id_cita: int) -> list:
+    novedades = db.query(NovedadPaseo).filter(
+        NovedadPaseo.id_cita == id_cita
+    ).order_by(NovedadPaseo.fecha_hora.asc()).all()
+    return [
+        {"id_novedad": n.id_novedad, "texto": n.texto, "fecha_hora": n.fecha_hora}
+        for n in novedades
+    ]
+
+
+def _fila_historial(cita: Cita, mascota: Mascota, paseador: Usuario, plan: Plan, puntos: list, total_novedades: int) -> dict:
+    return {
+        "id_cita": cita.id_cita,
+        "fecha": cita.fecha,
+        "hora": cita.hora.strftime("%H:%M") if cita.hora else None,
+        "mascota": {"id_mascota": mascota.id_mascota, "nom_mascota": mascota.nom_mascota} if mascota else None,
+        "paseador": {"id_usuario": paseador.id_usuario, "nombre": f"{paseador.nombre} {paseador.apellido}"} if paseador else None,
+        "hora_inicio_real": cita.fecha_hora_real,
+        "hora_fin_real": cita.fecha_fin_real,
+        "duracion_real_min": _minutos(cita.fecha_hora_real, cita.fecha_fin_real),
+        "duracion_plan_min": plan.duracion_minutos if plan else None,
+        "distancia_km": _distancia_km(puntos),
+        "novedades": total_novedades,
+    }
+
+
 # ═════════════════════════════════════════════════════════════
 # ENDPOINTS DEL PASEADOR
 # ═════════════════════════════════════════════════════════════
@@ -271,14 +307,7 @@ def listar_novedades(
     usuario: Usuario = Depends(usuario_autenticado),
 ):
     cita = _cita_visible(db, id_cita, usuario)
-    novedades = db.query(NovedadPaseo).filter(
-        NovedadPaseo.id_cita == cita.id_cita
-    ).order_by(NovedadPaseo.fecha_hora.asc()).all()
-
-    return [
-        {"id_novedad": n.id_novedad, "texto": n.texto, "fecha_hora": n.fecha_hora}
-        for n in novedades
-    ]
+    return _novedades_de_cita(db, cita.id_cita)
 
 
 @router.get("/{id_cita}/ruta")
@@ -290,9 +319,7 @@ def obtener_ruta(
     cita = _cita_visible(db, id_cita, usuario)
     paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first()
     mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
-    puntos = db.query(UbicacionPaseo).filter(
-        UbicacionPaseo.id_cita == cita.id_cita
-    ).order_by(UbicacionPaseo.fecha_hora.asc()).all()
+    puntos = _puntos_de_cita(db, cita.id_cita)
 
     return {
         "id_cita": cita.id_cita,
@@ -301,10 +328,7 @@ def obtener_ruta(
         "nom_mascota": mascota.nom_mascota if mascota else None,
         "inicio": cita.fecha_hora_real,
         "fin": cita.fecha_fin_real,
-        "puntos": [
-            {"lat": float(p.latitud), "lng": float(p.longitud), "fecha_hora": p.fecha_hora}
-            for p in puntos
-        ],
+        "puntos": [_datos_punto(p) for p in puntos],
     }
 
 
@@ -431,24 +455,38 @@ def historial_paseos(
     for p in db.query(UbicacionPaseo).filter(UbicacionPaseo.id_cita.in_(ids_citas)).order_by(UbicacionPaseo.fecha_hora.asc()).all():
         puntos.setdefault(p.id_cita, []).append(p)
 
-    data = []
-    for c in citas:
-        mascota = mascotas.get(c.id_mascota)
-        paseador = paseadores.get(c.id_usuario_paseador)
-        plan = planes.get(c.id_plan)
-        data.append({
-            "id_cita": c.id_cita,
-            "fecha": c.fecha,
-            "hora": c.hora.strftime("%H:%M") if c.hora else None,
-            "mascota": {"id_mascota": mascota.id_mascota, "nom_mascota": mascota.nom_mascota} if mascota else None,
-            "paseador": {"id_usuario": paseador.id_usuario, "nombre": f"{paseador.nombre} {paseador.apellido}"} if paseador else None,
-            "hora_inicio_real": c.fecha_hora_real,
-            "hora_fin_real": c.fecha_fin_real,
-            "duracion_real_min": _minutos(c.fecha_hora_real, c.fecha_fin_real),
-            "duracion_plan_min": plan.duracion_minutos if plan else None,
-            "distancia_km": _distancia_km(puntos.get(c.id_cita, [])),
-            "novedades": novedades.get(c.id_cita, 0),
-        })
-
-    pagina["data"] = data
+    pagina["data"] = [
+        _fila_historial(
+            c,
+            mascotas.get(c.id_mascota),
+            paseadores.get(c.id_usuario_paseador),
+            planes.get(c.id_plan),
+            puntos.get(c.id_cita, []),
+            novedades.get(c.id_cita, 0),
+        )
+        for c in citas
+    ]
     return pagina
+
+
+@router.get("/{id_cita}/detalle")
+def detalle_paseo(
+    id_cita: int,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Pueden verlo el administrador, el paseador asignado y el dueño de la mascota
+    cita = _cita_visible(db, id_cita, usuario)
+
+    # 2. Datos del paseo, recorrido y novedades
+    mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
+    paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first()
+    plan = db.query(Plan).filter(Plan.id_plan == cita.id_plan).first()
+    puntos = _puntos_de_cita(db, cita.id_cita)
+    novedades = _novedades_de_cita(db, cita.id_cita)
+
+    return {
+        "paseo": _fila_historial(cita, mascota, paseador, plan, puntos, len(novedades)),
+        "puntos": [_datos_punto(p) for p in puntos],
+        "novedades": novedades,
+    }
