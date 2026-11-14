@@ -18,6 +18,9 @@ SERVICIO_PASEOS = "paseos"
 MAX_INTENTOS_CODIGO = 5
 MINUTOS_BLOQUEO_CODIGO = 15
 
+# La foto de la entrega se comparte por WhatsApp desde el celular del paseador
+GUARDAR_FOTO_ENTREGA = False
+
 EVENTO_LLEGADA = "LLEGADA"
 EVENTO_INICIO  = "INICIO"
 EVENTO_FIN     = "FIN"
@@ -300,14 +303,14 @@ def finalizar_paseo(
     cita = _cita_del_paseador(db, id_cita, paseador)
     _validar_cita_en_curso(cita)
 
-    # 2. Evidencia de la entrega con la foto
+    # 2. Registrar la entrega
     ahora = datetime.now()
     db.add(EventoPaseo(
         id_cita=cita.id_cita,
         id_usuario=paseador.id_usuario,
         tipo_evento=EVENTO_FIN,
         fecha_hora=ahora,
-        foto=payload.foto,
+        foto=payload.foto if GUARDAR_FOTO_ENTREGA else None,
     ))
 
     # 3. La novedad es opcional
