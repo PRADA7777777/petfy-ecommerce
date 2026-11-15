@@ -6,7 +6,7 @@ from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from database import get_db
-from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, UbicacionPaseo, NovedadPaseo, EstadoCita, EventoPaseo, Suscripcion, Raza
+from models import Usuario, Rol, Servicio, Cita, Mascota, Factura, Plan, EstadoCita, EventoPaseo, Suscripcion, Raza
 from schemas import CrearStaffRequest, CrearStaffResponse, ActivarPaseadorRequest, AsignarPaseadorRequest, CambiarEstadoPaseoRequest, AsignarMasivoRequest
 from auth import hash_password
 from routers.auth_router import usuario_autenticado
@@ -17,6 +17,7 @@ from routers.citas_router import (
 from services.codigos_paseo import asignar_codigos_paseo, enviar_codigos_al_cliente
 from services.paginacion import paginar
 from services.paseadores import ROL_STAFF, filtro_paseadores, consulta_citas_de_paseo
+from services.recorrido import puntos_de_cita, minutos_entre
 
 router = APIRouter(prefix="/admin", tags=["Administración"])
 
@@ -125,6 +126,14 @@ def get_citas_admin(
 # MAPA DE PASEOS EN CURSO (georreferenciación)
 # ═════════════════════════════════════════════════════════════
 
+ZONA_SIN_DEFINIR = "Sin zona"
+
+
+def _progreso(inicio: datetime, duracion_minutos: int) -> int:
+    transcurrido = minutos_entre(inicio, datetime.now())
+    return min(100, max(0, round(transcurrido / duracion_minutos * 100)))
+
+
 @router.get("/paseadores/activos")
 def get_paseadores_activos(
     db: Session = Depends(get_db),
@@ -134,61 +143,34 @@ def get_paseadores_activos(
     if admin_actual.id_rol != 1:
         raise HTTPException(status_code=403, detail="Solo administradores")
 
-    # 2. Paseos en curso agrupados por paseador: una huella por paseador en el mapa
-    citas = db.query(Cita).filter(
+    # 2. Paseos en curso, uno por mascota
+    citas = consulta_citas_de_paseo(db).filter(
         Cita.id_estado == ESTADO_CITA_EN_CURSO,
         Cita.id_usuario_paseador.isnot(None),
     ).order_by(Cita.fecha_hora_real).all()
 
-    paseadores = {}
+    paseos = []
     for cita in citas:
-        if cita.id_usuario_paseador not in paseadores:
-            paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first()
-            paseadores[cita.id_usuario_paseador] = {
-                "id_usuario": paseador.id_usuario,
-                "nombre": f"{paseador.nombre} {paseador.apellido}",
-                "telefono": paseador.telefono,
-                "inicio": cita.fecha_hora_real,
-                "ultima_posicion": None,
-                "mascotas": [],
-            }
-        grupo = paseadores[cita.id_usuario_paseador]
+        # 3. Sin ningún punto GPS todavía no hay dónde ubicarlo en el mapa
+        puntos = puntos_de_cita(db, cita.id_cita)
+        if not puntos:
+            continue
 
-        # 3. La posición del paseador es el punto más reciente entre todas sus mascotas
-        ultimo_punto = db.query(UbicacionPaseo).filter(
-            UbicacionPaseo.id_cita == cita.id_cita
-        ).order_by(UbicacionPaseo.fecha_hora.desc()).first()
-        if ultimo_punto and (
-            grupo["ultima_posicion"] is None
-            or ultimo_punto.fecha_hora > grupo["ultima_posicion"]["fecha_hora"]
-        ):
-            grupo["ultima_posicion"] = {
-                "lat": float(ultimo_punto.latitud),
-                "lng": float(ultimo_punto.longitud),
-                "fecha_hora": ultimo_punto.fecha_hora,
-            }
-
-        # 4. Datos de cada mascota que lleva
+        paseador = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_paseador).first()
         mascota = db.query(Mascota).filter(Mascota.id_mascota == cita.id_mascota).first()
-        dueno = db.query(Usuario).filter(Usuario.id_usuario == cita.id_usuario_cliente).first()
-        plan = db.query(Plan).filter(Plan.id_plan == cita.id_plan).first() if cita.id_plan else None
-        grupo["mascotas"].append({
+        plan = db.query(Plan).filter(Plan.id_plan == cita.id_plan).first()
+        paseos.append({
             "id_cita": cita.id_cita,
-            "id_mascota": cita.id_mascota,
-            "nom_mascota": mascota.nom_mascota if mascota else None,
-            "dueno": {
-                "nombre": f"{dueno.nombre} {dueno.apellido}",
-                "telefono": dueno.telefono,
-            } if dueno else None,
-            "direccion": cita.direccion,
-            "complemento_direccion": cita.complemento_direccion,
-            "zona": cita.zona,
-            "plan": plan.nom_plan if plan else None,
-            "duracion_minutos": plan.duracion_minutos if plan else None,
-            "novedades": db.query(NovedadPaseo).filter(NovedadPaseo.id_cita == cita.id_cita).count(),
+            "paseador_nombre": f"{paseador.nombre} {paseador.apellido}",
+            "mascota_nombre": mascota.nom_mascota if mascota else None,
+            "zona": cita.zona or ZONA_SIN_DEFINIR,
+            "progreso": _progreso(cita.fecha_hora_real, plan.duracion_minutos),
+            "ruta": [[float(p.latitud), float(p.longitud)] for p in puntos],
+            "lat_actual": float(puntos[-1].latitud),
+            "lng_actual": float(puntos[-1].longitud),
         })
 
-    return list(paseadores.values())
+    return paseos
 
 
 # ═════════════════════════════════════════════════════════════
@@ -640,7 +622,7 @@ def get_macro_paseos_mes(
         mascota = db.query(Mascota).filter(Mascota.id_mascota == susc.id_mascota).first()
         cliente = db.query(Usuario).filter(Usuario.id_usuario == susc.id_usuario).first()
         raza = db.query(Raza).filter(Raza.id_raza == mascota.id_raza).first() if mascota and mascota.id_raza else None
-        zona = (primera.zona if primera and primera.zona else "Sin zona").strip()
+        zona = (primera.zona if primera and primera.zona else ZONA_SIN_DEFINIR).strip()
 
         grupo = zonas.setdefault(zona, {"zona": zona, "mascotas": 0, "rutas": []})
         grupo["mascotas"] += 1
