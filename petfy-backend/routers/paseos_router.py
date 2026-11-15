@@ -374,7 +374,7 @@ def obtener_ruta(
     return {
         "id_cita": cita.id_cita,
         "id_estado": cita.id_estado,
-        "nombre_paseador": paseador.nombre if paseador else None,
+        "nombre_paseador": f"{paseador.nombre} {paseador.apellido}" if paseador else None,
         "nom_mascota": mascota.nom_mascota if mascota else None,
         "inicio": cita.fecha_hora_real,
         "fin": cita.fecha_fin_real,
