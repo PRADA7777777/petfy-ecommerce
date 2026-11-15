@@ -64,6 +64,14 @@ export const api = {
     return real<any>("/admin/paseadores/activos");
   },
 
+  async getHistorialPaseos(params: { desde?: string; hasta?: string; id_paseador?: number; id_mascota?: number; page?: number; pageSize?: number } = {}) {
+    return real<any>("/paseos/historial?" + new URLSearchParams(params as any));
+  },
+
+  async getDetallePaseo(idCita: number) {
+    return real<any>(`/paseos/${idCita}/detalle`);
+  },
+
   async getAdministradores(params: { search?: string; estado?: string; page?: number; pageSize?: number } = {}) {
     return real<any>("/admin/administradores?" + new URLSearchParams(params as any));
   },

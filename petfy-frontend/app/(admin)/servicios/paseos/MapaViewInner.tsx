@@ -7,6 +7,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapPin, Users, Activity, History } from "lucide-react";
 import { Badge } from "@/components/Badge";
+import { RutaPaseo } from "@/components/RutaPaseo";
+import { formatearFechaLarga } from "@/lib/fechas";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -34,8 +36,21 @@ export default function MapaViewInner() {
     enabled: modo === "vivo",
   });
 
+  const { data: historial, isLoading: cargandoHistorial } = useQuery({
+    queryKey: ["historial-paseos-mapa"],
+    queryFn: () => api.getHistorialPaseos({ pageSize: 50 }),
+    enabled: modo === "historial",
+  });
+
+  const { data: detalle } = useQuery({
+    queryKey: ["detalle-paseo-mapa", seleccionado],
+    queryFn: () => api.getDetallePaseo(seleccionado as number),
+    enabled: modo === "historial" && seleccionado !== null,
+  });
+
   const centro: [number, number] = [4.6097, -74.0817];
   const paseos = paseosActivos ?? [];
+  const completados = historial?.data ?? [];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -71,6 +86,7 @@ export default function MapaViewInner() {
                 </Marker>
               </div>
             ))}
+            {modo === "historial" && detalle && <RutaPaseo puntos={detalle.puntos} />}
           </MapContainer>
         </div>
 
@@ -102,6 +118,35 @@ export default function MapaViewInner() {
                 <div className="mapa-progress-bar">
                   <div className="mapa-progress-fill" style={{ width: `${p.progreso}%` }} />
                 </div>
+              </div>
+            ))}
+
+            {modo === "historial" && cargandoHistorial && <div style={{ padding: '1rem', textAlign: 'center', color: '#9ca3af' }}>Cargando…</div>}
+            {modo === "historial" && !cargandoHistorial && completados.length === 0 && (
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#9ca3af', fontSize: '0.875rem' }}>
+                <History size={32} style={{ margin: '0 auto 0.5rem', color: '#d1d5db' }} />
+                Todavía no hay paseos completados.
+              </div>
+            )}
+            {modo === "historial" && completados.map((p: any) => (
+              <div key={p.id_cita} className="mapa-list-item" onClick={() => setSeleccionado(p.id_cita)}
+                style={seleccionado === p.id_cita ? { backgroundColor: '#fff7ed' } : undefined}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.25rem' }}>
+                  <div style={{ fontWeight: 500, color: '#111827', fontSize: '0.875rem' }}>{p.paseador?.nombre}</div>
+                  <Badge color="green">{p.distancia_km} km</Badge>
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#4b5563' }}>🐕 {p.mascota?.nom_mascota}</div>
+                <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+                  {formatearFechaLarga(p.fecha)} · {p.hora}
+                </div>
+                <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                  {p.duracion_real_min ?? "—"} de {p.duracion_plan_min ?? "—"} min · {p.novedades} novedad(es)
+                </div>
+                {seleccionado === p.id_cita && detalle?.novedades?.length > 0 && (
+                  <ul style={{ margin: '0.5rem 0 0', paddingLeft: '1rem', fontSize: '0.75rem', color: '#374151' }}>
+                    {detalle.novedades.map((n: any) => <li key={n.id_novedad}>{n.texto}</li>)}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
