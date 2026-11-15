@@ -268,6 +268,14 @@ export interface CitaResumen {
   dias_semana?: string | null;
 }
 
+export interface CodigoPaseo {
+  id_cita: number;
+  fecha: string;
+  codigo: string;
+  usado: boolean;
+  fecha_uso: string | null;
+}
+
 export interface PaseoPruebaDisponible {
   disponible: boolean;
   id_cita_prueba: number | null;
@@ -686,6 +694,17 @@ cambiarDia: (
     "No se pudo cambiar el día"
   ),
 
+};
+
+// ==================== PASEOS ====================
+
+export const paseosAPI = {
+  codigo: (idCita: number, token: string): Promise<CodigoPaseo> =>
+    fetchRaw<CodigoPaseo>(
+      `${API_URL}/paseos/${idCita}/codigo`,
+      { headers: { Authorization: `Bearer ${token}` } },
+      "No se pudo consultar el código del paseo"
+    ),
 };
 
 // ==================== SUSCRIPCIONES ====================

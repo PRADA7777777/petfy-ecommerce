@@ -5,6 +5,7 @@ import {
   citasAPI, sesion, suscripcionesAPI, CitaResumen, SuscripcionActiva, Usuario, Mascota
 } from "@/lib/api";
 import CalendarioPaseos from "./CalendarioPaseos";
+import CodigoPaseoHoy from "./CodigoPaseoHoy";
 import "./paseos.css";
 
 interface VistaPaseosProps {
@@ -206,6 +207,8 @@ export default function VistaPaseos({ usuario, mascotas, onAgendar, recargarKey,
                 </button>
               </div>
             ) : null}
+
+            <CodigoPaseoHoy citas={citasFiltradas} />
 
             {paseosHoy.length > 0 && (
               <div className="vp-card-hoy">
