@@ -23,6 +23,12 @@ export function formatearHora12(hm: string): string {
     return `${String(h12).padStart(2, "0")}:00 ${periodo}`;
 }
 
+/** "2026-11-15T16:39:12" → "4:39 p. m." */
+export function horaDeFecha(fechaHora?: string | null): string {
+    if (!fechaHora) return "";
+    return new Date(fechaHora).toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" });
+}
+
 /** Nombres para el calendario */
 export const NOMBRES_MESES = MESES_CORTOS;
 export const DIAS_CORTOS = ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"];

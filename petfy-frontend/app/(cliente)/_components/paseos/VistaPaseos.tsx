@@ -6,6 +6,8 @@ import {
 } from "@/lib/api";
 import CalendarioPaseos from "./CalendarioPaseos";
 import CodigoPaseoHoy from "./CodigoPaseoHoy";
+import MapaPaseoDueno from "./MapaPaseoDueno";
+import { usePaseosDeHoy } from "./paseoHoy";
 import "./paseos.css";
 
 interface VistaPaseosProps {
@@ -85,6 +87,8 @@ export default function VistaPaseos({ usuario, mascotas, onAgendar, recargarKey,
     if (mascotaFiltro === "todos") return citas;
     return citas.filter((c) => c.id_mascota === mascotaFiltro);
   }, [citas, mascotaFiltro]);
+
+  const rutasHoy = usePaseosDeHoy(citasFiltradas);
 
   const { paseosHoy, proximosPaseos, historialPaseos } = useMemo(() => {
     const hoyArr: CitaResumen[] = [];
@@ -167,6 +171,7 @@ export default function VistaPaseos({ usuario, mascotas, onAgendar, recargarKey,
           
           {/* COLUMNA IZQUIERDA: Solo Calendario */}
           <div className="vp-main-card">
+            <MapaPaseoDueno rutas={rutasHoy} />
             <div className="vp-calendario-wrapper">
               {loading ? (
                 <p style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem" }}>Cargando agenda...</p>
@@ -208,7 +213,7 @@ export default function VistaPaseos({ usuario, mascotas, onAgendar, recargarKey,
               </div>
             ) : null}
 
-            <CodigoPaseoHoy citas={citasFiltradas} />
+            <CodigoPaseoHoy citas={citasFiltradas} rutas={rutasHoy} />
 
             {paseosHoy.length > 0 && (
               <div className="vp-card-hoy">

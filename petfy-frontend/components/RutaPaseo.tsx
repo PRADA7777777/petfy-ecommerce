@@ -1,7 +1,8 @@
 "use client";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { Marker, Polyline, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
+import { horaDeFecha } from "@/lib/fechas";
 
 type Punto = { lat: number; lng: number; fecha_hora?: string };
 
@@ -17,23 +18,20 @@ function icono(color: string, emoji: string) {
 const iconoInicio = icono("#16a34a", "🏁");
 const iconoFin = icono("#f97316", "🐕");
 
-function hora(fechaHora?: string) {
-  return fechaHora ? new Date(fechaHora).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" }) : "";
-}
-
-/** Ajusta el zoom para que el recorrido completo quepa en el mapa */
+/** Ajusta el zoom al recorrido cuando se abre uno nuevo; mientras avanza no lo mueve */
 function AjustarVista({ puntos }: { puntos: Punto[] }) {
   const map = useMap();
+  const inicio = puntos[0];
   useEffect(() => {
     if (puntos.length > 0) {
       map.fitBounds(L.latLngBounds(puntos.map((p) => [p.lat, p.lng] as [number, number])), { padding: [40, 40] });
     }
-  }, [map, puntos]);
+  }, [map, inicio?.lat, inicio?.lng, inicio?.fecha_hora]);
   return null;
 }
 
 /** Dibuja el recorrido de un paseo: línea, punto de inicio y última posición */
-export function RutaPaseo({ puntos }: { puntos: Punto[] }) {
+export function RutaPaseo({ puntos, detalle }: { puntos: Punto[]; detalle?: ReactNode }) {
   if (puntos.length === 0) return null;
   const inicio = puntos[0];
   const fin = puntos[puntos.length - 1];
@@ -42,10 +40,10 @@ export function RutaPaseo({ puntos }: { puntos: Punto[] }) {
     <>
       <Polyline positions={puntos.map((p) => [p.lat, p.lng] as [number, number])} pathOptions={{ color: "#f97316", weight: 4, opacity: 0.8 }} />
       <Marker position={[inicio.lat, inicio.lng]} icon={iconoInicio}>
-        <Popup>Inicio {hora(inicio.fecha_hora)}</Popup>
+        <Popup>Inicio {horaDeFecha(inicio.fecha_hora)}</Popup>
       </Marker>
       <Marker position={[fin.lat, fin.lng]} icon={iconoFin}>
-        <Popup>Último punto {hora(fin.fecha_hora)}</Popup>
+        <Popup>{detalle ?? `Último punto ${horaDeFecha(fin.fecha_hora)}`}</Popup>
       </Marker>
       <AjustarVista puntos={puntos} />
     </>

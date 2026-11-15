@@ -276,6 +276,16 @@ export interface CodigoPaseo {
   fecha_uso: string | null;
 }
 
+export interface RutaPaseo {
+  id_cita: number;
+  id_estado: number;
+  nombre_paseador: string | null;
+  nom_mascota: string | null;
+  inicio: string | null;
+  fin: string | null;
+  puntos: { lat: number; lng: number; fecha_hora: string }[];
+}
+
 export interface PaseoPruebaDisponible {
   disponible: boolean;
   id_cita_prueba: number | null;
@@ -704,6 +714,13 @@ export const paseosAPI = {
       `${API_URL}/paseos/${idCita}/codigo`,
       { headers: { Authorization: `Bearer ${token}` } },
       "No se pudo consultar el código del paseo"
+    ),
+
+  ruta: (idCita: number, token: string): Promise<RutaPaseo> =>
+    fetchRaw<RutaPaseo>(
+      `${API_URL}/paseos/${idCita}/ruta`,
+      { headers: { Authorization: `Bearer ${token}` } },
+      "No se pudo consultar el recorrido del paseo"
     ),
 };
 

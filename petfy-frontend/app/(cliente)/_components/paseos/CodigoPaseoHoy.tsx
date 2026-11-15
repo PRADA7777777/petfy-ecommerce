@@ -1,17 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { paseosAPI, sesion, CitaResumen, CodigoPaseo } from "@/lib/api";
+import { paseosAPI, sesion, CitaResumen, CodigoPaseo, RutaPaseo } from "@/lib/api";
+import { ESTADO_CONFIRMADA, hoyISO } from "./paseoHoy";
 
-const ESTADO_CONFIRMADA = 2;
-
-const hoyISO = () => {
-  const hoy = new Date();
-  return `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;
-};
-
-/** Código de 4 dígitos que el dueño entrega al paseador para iniciar el paseo de hoy */
-export default function CodigoPaseoHoy({ citas }: { citas: CitaResumen[] }) {
+/** Código de 4 dígitos que el dueño entrega al paseador; desaparece cuando el paseo empieza */
+export default function CodigoPaseoHoy({ citas, rutas }: { citas: CitaResumen[]; rutas: Record<number, RutaPaseo> }) {
   const [codigos, setCodigos] = useState<Record<number, CodigoPaseo>>({});
 
   const citasHoy = useMemo(
@@ -29,7 +23,7 @@ export default function CodigoPaseoHoy({ citas }: { citas: CitaResumen[] }) {
     });
   }, [citasHoy]);
 
-  const conCodigo = citasHoy.filter((c) => codigos[c.id_cita]);
+  const conCodigo = citasHoy.filter((c) => codigos[c.id_cita] && (rutas[c.id_cita]?.id_estado ?? c.id_estado) === ESTADO_CONFIRMADA);
   if (conCodigo.length === 0) return null;
 
   const compartir = (c: CitaResumen) => {
