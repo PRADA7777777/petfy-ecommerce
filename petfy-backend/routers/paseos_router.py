@@ -7,7 +7,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from database import get_db
 from models import Usuario, Cita, Mascota, Plan, CodigoPaseo, IntentoCodigo, EventoPaseo, UbicacionPaseo, NovedadPaseo
-from schemas import IniciarPaseoRequest, PuntoGPSRequest, NovedadRequest, FinalizarPaseoRequest
+from schemas import IniciarPaseoRequest, PuntoGPSRequest, LotePuntosGPSRequest, NovedadRequest, FinalizarPaseoRequest
 from routers.auth_router import usuario_autenticado
 from routers.citas_router import ESTADO_CITA_CONFIRMADA, ESTADO_CITA_EN_CURSO, ESTADO_CITA_COMPLETADA
 from services.paginacion import paginar
@@ -24,6 +24,9 @@ MINUTOS_BLOQUEO_CODIGO = 15
 
 # La foto de la entrega se comparte por WhatsApp desde el celular del paseador
 GUARDAR_FOTO_ENTREGA = False
+
+# Tolerancia para un celular con el reloj un poco adelantado respecto al servidor
+MARGEN_RELOJ_SEGUNDOS = 60
 
 EVENTO_LLEGADA = "LLEGADA"
 EVENTO_INICIO  = "INICIO"
@@ -65,6 +68,59 @@ def _evento_registrado(db: Session, id_cita: int, tipo_evento: str) -> bool:
 def _validar_cita_en_curso(cita: Cita):
     if cita.id_estado != ESTADO_CITA_EN_CURSO:
         raise HTTPException(status_code=409, detail="El paseo no está en curso")
+
+
+def _guardar_puntos(db: Session, paseador: Usuario, puntos: list) -> dict:
+    # 1. Las mascotas que lleva al mismo tiempo están donde él está:
+    #    cada punto se guarda en todas sus citas en curso
+    citas_en_curso = db.query(Cita).filter(
+        Cita.id_usuario_paseador == paseador.id_usuario,
+        Cita.id_estado == ESTADO_CITA_EN_CURSO,
+    ).all()
+
+    # 2. Hora de cada punto: la del celular pasada a hora local, o la de llegada si no la trae
+    ahora = datetime.now()
+    horas = [
+        (p.fecha_hora.astimezone().replace(tzinfo=None) if p.fecha_hora.tzinfo else p.fecha_hora)
+        if p.fecha_hora else ahora
+        for p in puntos
+    ]
+    limite = ahora + timedelta(seconds=MARGEN_RELOJ_SEGUNDOS)
+
+    guardados = ignorados = rechazados = 0
+    for cita in citas_en_curso:
+        # 3. Horas que la cita ya tiene: un lote reenviado no duplica puntos
+        inicio = cita.fecha_hora_real or ahora
+        ya_guardadas = {
+            fila.fecha_hora for fila in db.query(UbicacionPaseo.fecha_hora).filter(
+                UbicacionPaseo.id_cita == cita.id_cita,
+                UbicacionPaseo.fecha_hora.in_(horas),
+            )
+        }
+        for punto, hora in zip(puntos, horas):
+            # 4. Solo cuentan los puntos entre el inicio de este paseo y ahora
+            if hora < inicio or hora > limite:
+                rechazados += 1
+            elif hora in ya_guardadas:
+                ignorados += 1
+            else:
+                ya_guardadas.add(hora)
+                db.add(UbicacionPaseo(
+                    id_cita=cita.id_cita,
+                    id_usuario=paseador.id_usuario,
+                    latitud=punto.lat,
+                    longitud=punto.lng,
+                    fecha_hora=hora,
+                ))
+                guardados += 1
+    db.commit()
+
+    return {
+        "citas_actualizadas": len(citas_en_curso),
+        "guardados": guardados,
+        "ignorados": ignorados,
+        "rechazados": rechazados,
+    }
 
 
 def _cita_visible(db: Session, id_cita: int, usuario: Usuario) -> Cita:
@@ -223,27 +279,24 @@ def enviar_punto_gps(
     cita = _cita_del_paseador(db, id_cita, paseador)
     _validar_cita_en_curso(cita)
 
-    # 2. Las mascotas que lleva al mismo tiempo están donde él está:
-    #    el punto se guarda en todas sus citas en curso
-    citas_en_curso = db.query(Cita).filter(
-        Cita.id_usuario_paseador == paseador.id_usuario,
-        Cita.id_estado == ESTADO_CITA_EN_CURSO,
-    ).all()
+    # 2. Guardar el punto en sus citas en curso
+    return {"mensaje": "Punto registrado", **_guardar_puntos(db, paseador, [payload])}
 
-    ahora = datetime.now()
-    db.add_all([
-        UbicacionPaseo(
-            id_cita=c.id_cita,
-            id_usuario=paseador.id_usuario,
-            latitud=payload.lat,
-            longitud=payload.lng,
-            fecha_hora=ahora,
-        )
-        for c in citas_en_curso
-    ])
-    db.commit()
 
-    return {"mensaje": "Punto registrado", "fecha_hora": ahora, "citas_actualizadas": len(citas_en_curso)}
+@router.post("/{id_cita}/gps/lote")
+def enviar_lote_gps(
+    id_cita: int,
+    payload: LotePuntosGPSRequest,
+    db: Session = Depends(get_db),
+    paseador: Usuario = Depends(usuario_autenticado),
+):
+    # 1. Validar permisos y que el paseo esté en curso
+    cita = _cita_del_paseador(db, id_cita, paseador)
+    _validar_cita_en_curso(cita)
+
+    # 2. Guardar los puntos que el celular acumuló sin señal.
+    #    Siempre responde 200 para que el celular vacíe su cola, aunque haya repetidos o rechazados
+    return {"mensaje": "Lote registrado", **_guardar_puntos(db, paseador, payload.puntos)}
 
 
 @router.post("/{id_cita}/novedades")

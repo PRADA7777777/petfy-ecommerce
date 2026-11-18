@@ -1,6 +1,7 @@
 # backend/schemas.py
 from pydantic import BaseModel, EmailStr, Field
 from datetime import date, time
+from datetime import datetime
 from typing import Optional, List
 
 class Config:
@@ -216,6 +217,12 @@ class IniciarPaseoRequest(BaseModel):
 class PuntoGPSRequest(BaseModel):
     lat: float = Field(..., ge=-90, le=90)
     lng: float = Field(..., ge=-180, le=180)
+    # Hora en que el celular tomó el punto; sin ella se usa la hora de llegada al servidor
+    fecha_hora: Optional[datetime] = None
+
+class LotePuntosGPSRequest(BaseModel):
+    # Puntos guardados en el celular mientras no hubo señal (500 = ~40 min a un punto cada 5 s)
+    puntos: List[PuntoGPSRequest] = Field(..., min_length=1, max_length=500)
 
 class NovedadRequest(BaseModel):
     texto: str = Field(..., min_length=1, max_length=500)

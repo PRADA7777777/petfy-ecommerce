@@ -344,6 +344,10 @@ class UbicacionPaseo(Base):
     precision_m = Column(Numeric(7, 1))
     fecha_hora = Column(DateTime, server_default=func.now(), nullable=False)
 
+    __table_args__ = (
+        UniqueConstraint("id_cita", "fecha_hora", name="uq_ubicacion_por_cita_hora"),
+    )
+
 class NovedadPaseo(Base):
     __tablename__ = "novedades_paseo"
     id_novedad = Column(Integer, primary_key=True)

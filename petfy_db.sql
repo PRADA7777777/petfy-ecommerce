@@ -2784,11 +2784,9 @@ CREATE TABLE IF NOT EXISTS public.ubicaciones_paseo (
     latitud numeric(9,6) NOT NULL CHECK (latitud BETWEEN -90 AND 90),
     longitud numeric(9,6) NOT NULL CHECK (longitud BETWEEN -180 AND 180),
     precision_m numeric(7,1),
-    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    fecha_hora timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT uq_ubicacion_por_cita_hora UNIQUE (id_cita, fecha_hora)
 );
-
-CREATE INDEX IF NOT EXISTS ix_ubicaciones_paseo_cita_fecha
-    ON public.ubicaciones_paseo (id_cita, fecha_hora);
 
 CREATE TABLE IF NOT EXISTS public.novedades_paseo (
     id_novedad SERIAL PRIMARY KEY,
