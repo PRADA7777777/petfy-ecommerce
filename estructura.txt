@@ -1,0 +1,195 @@
+﻿Petfy - Estructura del proyecto
+Generado: 2026-11-20 20:05:46
+Directorio raíz: D:\USUARIO\Escritorio\petfy-ecommerce
+======================================================================
+
+petfy-ecommerce/
+├── petfy-backend/
+│   ├── assets/
+│   │   └── img/
+│   │       ├── Logo-Petfy-renovado.png
+│   │       ├── Nombre-Petfy-Naranja.png
+│   │       └── Nombre-Petfy-Verde.png
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── admin_router.py
+│   │   ├── auth_router.py
+│   │   ├── citas_router.py
+│   │   ├── contacto_router.py
+│   │   ├── facturacion_router.py
+│   │   ├── mascotas_router.py
+│   │   ├── planes_router.py
+│   │   ├── servicios_router.py
+│   │   ├── suscripciones_router.py
+│   │   └── webhooks_router.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── factura_pdf.py
+│   │   ├── factura_pdf.py.save
+│   │   └── wompi_service.py
+│   ├── tmp/
+│   │   └── restart.txt
+│   ├── .env
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── app.log
+│   ├── auth.py
+│   ├── database.py
+│   ├── email_service.py
+│   ├── main.py
+│   ├── models.py
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── passenger_wsgi.py
+│   ├── rate_limit.py
+│   ├── rate_limiter.py
+│   ├── requirements.txt
+│   ├── schemas.py
+│   ├── start_api.sh
+│   ├── stderr.log
+│   ├── stdout.log
+│   └── test_connection.py
+├── petfy-frontend/
+│   ├── app/
+│   │   ├── (admin)/
+│   │   │   ├── _components/
+│   │   │   │   ├── Sidebar.module.css
+│   │   │   │   └── Sidebar.tsx
+│   │   │   ├── dashboard/
+│   │   │   │   └── page.tsx
+│   │   │   ├── finanzas/
+│   │   │   │   └── page.tsx
+│   │   │   ├── servicios/
+│   │   │   │   └── paseos/
+│   │   │   │       ├── AgendaView.tsx
+│   │   │   │       ├── MapaView.tsx
+│   │   │   │       ├── MapaViewInner.tsx
+│   │   │   │       └── page.tsx
+│   │   │   ├── styles/
+│   │   │   │   ├── dashboard.css
+│   │   │   │   ├── finanzas.css
+│   │   │   │   └── paseos.css
+│   │   │   ├── usuarios/
+│   │   │   │   ├── administradores/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── clientes/
+│   │   │   │   │   ├── [id]/
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── staff/
+│   │   │   │       └── page.tsx
+│   │   │   ├── layout.module.css
+│   │   │   └── layout.tsx
+│   │   ├── (cliente)/
+│   │   │   ├── _components/
+│   │   │   │   ├── agendamiento/
+│   │   │   │   │   ├── agendamiento.css
+│   │   │   │   │   ├── AgendamientoWizard.tsx
+│   │   │   │   │   ├── PasoDetalle.tsx
+│   │   │   │   │   ├── PasoMascota.tsx
+│   │   │   │   │   ├── PasoPlan.tsx
+│   │   │   │   │   ├── PasoResumen.tsx
+│   │   │   │   │   └── Stepper.tsx
+│   │   │   │   ├── paseos/
+│   │   │   │   │   ├── CalendarioPaseos.tsx
+│   │   │   │   │   ├── paseos.css
+│   │   │   │   │   └── VistaPaseos.tsx
+│   │   │   │   ├── ModalMascota.tsx
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   ├── Topbar.tsx
+│   │   │   │   ├── VistaDatos.tsx
+│   │   │   │   ├── VistaFacturacion.tsx
+│   │   │   │   ├── VistaInicio.tsx
+│   │   │   │   ├── VistaMascotas.tsx
+│   │   │   │   └── VistaProximamente.tsx
+│   │   │   ├── perfil/
+│   │   │   │   └── page.tsx
+│   │   │   ├── styles/
+│   │   │   │   ├── dashboard.css
+│   │   │   │   ├── datos.css
+│   │   │   │   ├── mascotas.css
+│   │   │   │   ├── modales.css
+│   │   │   │   └── perfil_layout.css
+│   │   │   └── layout.tsx
+│   │   ├── (public)/
+│   │   │   ├── _components/
+│   │   │   │   ├── AuthBanner.tsx
+│   │   │   │   ├── Contacto.tsx
+│   │   │   │   ├── Footer.tsx
+│   │   │   │   ├── Header.tsx
+│   │   │   │   ├── Inicio.tsx
+│   │   │   │   ├── ModalLogin.tsx
+│   │   │   │   ├── ModalManager.tsx
+│   │   │   │   ├── ModalOferta.tsx
+│   │   │   │   ├── ModalRecuperar.tsx
+│   │   │   │   ├── ModalRegistro.tsx
+│   │   │   │   ├── ModalVerificacion.tsx
+│   │   │   │   ├── Nosotros.tsx
+│   │   │   │   ├── PantallaCarga.css
+│   │   │   │   ├── PantallaCarga.tsx
+│   │   │   │   ├── Resenas.tsx
+│   │   │   │   └── Servicios.tsx
+│   │   │   ├── _context/
+│   │   │   │   └── ModalContext.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── (staff)/
+│   │   │   ├── paseador/
+│   │   │   │   ├── agenda/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── dashboard/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── ganancias/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── horario/
+│   │   │   │       └── page.tsx
+│   │   │   └── layout.tsx
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── providers.tsx
+│   ├── components/
+│   │   ├── Badge.module.css
+│   │   ├── Badge.tsx
+│   │   ├── StatCard.css
+│   │   ├── StatCard.tsx
+│   │   ├── Topbar.css
+│   │   └── Topbar.tsx
+│   ├── context/
+│   │   └── AuthContext.tsx
+│   ├── lib/
+│   │   ├── api.ts
+│   │   ├── api-admin.ts
+│   │   ├── colores-servicio.ts
+│   │   ├── fechas.ts
+│   │   ├── session-guard.ts
+│   │   └── utils.ts
+│   ├── public/
+│   │   └── assets/
+│   │       ├── css/
+│   │       │   └── legal.module.css
+│   │       └── img/
+│   │           ├── Group 1.png
+│   │           ├── huellaCorazon.png
+│   │           ├── LogoPetfy.png
+│   │           ├── LogoPetfy.zip
+│   │           ├── Logo-Petfy-renovado.png
+│   │           ├── Logo-Petfy-renovado-2.png
+│   │           ├── Nombre-Petfy-Beige.png
+│   │           ├── Nombre-Petfy-Naranja.png
+│   │           ├── Nombre-Petfy-Verde.png
+│   │           ├── Petfy-Carrusel-3.jpg
+│   │           ├── Petfy-Carrusel-4.jpg
+│   │           ├── Petfy-Carusell-1.jpg
+│   │           ├── Petfy-Carusell-2.jpg
+│   │           └── SAM00838.jpg
+│   ├── .env.local
+│   ├── .env.production
+│   ├── next.config.ts
+│   ├── next-env.d.ts
+│   ├── package.json
+│   ├── package-lock.json
+│   └── tsconfig.json
+├── .gitignore
+├── estructura.txt
+├── petfy_db.sql
+└── PETFY_PROYECTO_COMPLETO.txt

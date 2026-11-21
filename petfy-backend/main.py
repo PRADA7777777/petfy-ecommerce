@@ -75,3 +75,15 @@ def root():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+# ═══════════════════════════════════════════════════════════════
+# Endpoints públicos (NFC mascotas)
+# ═══════════════════════════════════════════════════════════════
+from routers.public_router import router as public_router
+app.include_router(public_router)
+
+
+# Endpoints de placas (NFC/QR)
+from routers import placas_router
+app.include_router(placas_router.router)
