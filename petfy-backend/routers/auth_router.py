@@ -179,7 +179,7 @@ def login(request: Request, payload: LoginRequest, db: Session = Depends(get_db)
     servicios_usuario = []
     if usuario.id_rol == 3:
         servicios_usuario = [
-            {"id_servicio": s.id_servicio, "nombre": s.nombre} 
+            {"id_servicio": s.id_servicio, "nombre": s.nombre, "orden": s.orden}
             for s in usuario.servicios
         ]
 
