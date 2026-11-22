@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Mascota, mascotasAPI, sesion, CatalogoItem } from "@/lib/api";
+import ActivarPlacaModal from "./ActivarPlacaModal";
 
 interface VistaMascotasProps {
   mascotas: Mascota[];
@@ -20,6 +21,8 @@ export default function VistaMascotas({
 }: VistaMascotasProps) {
   const [comportamientos, setComportamientos] = useState<CatalogoItem[]>([]);
   const [condiciones, setCondiciones] = useState<CatalogoItem[]>([]);
+  const [copiadoId, setCopiadoId] = useState<number | null>(null);
+  const [mascotaParaPlaca, setMascotaParaPlaca] = useState<Mascota | null>(null);
 
   useEffect(() => {
     let cancelado = false;
@@ -76,21 +79,32 @@ export default function VistaMascotas({
     }
   };
 
+  const handleCopiarLink = async (id: number) => {
+    const url = `${window.location.origin}/pet/${id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiadoId(id);
+      setTimeout(() => setCopiadoId(null), 2000);
+    } catch {
+      prompt("Copia este link para tu chip NFC:", url);
+    }
+  };
+
   return (
     <div className="perfil-vista active">
       {/* Header centrado */}
-<div className="mascotas-header">
-  <div className="mascotas-header-icon">
-    <Image
-      src="/assets/img/huellaCorazon.png"
-      alt=""
-      width={50}
-      height={50}
-      priority
-    />
-  </div>
-  <h2 className="mascotas-titulo">Mis Mascotas</h2>
-</div>
+      <div className="mascotas-header">
+        <div className="mascotas-header-icon">
+          <Image
+            src="/assets/img/huellaCorazon.png"
+            alt=""
+            width={50}
+            height={50}
+            priority
+          />
+        </div>
+        <h2 className="mascotas-titulo">Mis Mascotas</h2>
+      </div>
 
       {/* Estado vacío */}
       {mascotas.length === 0 ? (
@@ -149,7 +163,7 @@ export default function VistaMascotas({
                     )}
                   </div>
 
-                  {/* Detalles opcionales con íconos */}
+                  {/* Detalles opcionales */}
                   {comp && (
                     <p className="mascota-card-detail">
                       <span className="mascota-detail-icon">🎾</span>
@@ -178,6 +192,47 @@ export default function VistaMascotas({
 
                 {/* Acciones */}
                 <div className="mascota-card-actions">
+                  {/* PLACA */}
+                  <button
+                    className="btn-icon btn-placa"
+                    onClick={() => setMascotaParaPlaca(m)}
+                    title="Activar placa Petfy"
+                    aria-label="Activar placa Petfy"
+                  >
+                    <i className="fas fa-tag"></i>
+                  </button>
+
+                  {/* VER PERFIL */}
+                  <a
+                    className="btn-icon btn-public"
+                    href={`/pet/${m.id_mascota}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Ver perfil público"
+                    aria-label="Ver perfil público"
+                  >
+                    <i className="fas fa-id-card"></i>
+                  </a>
+
+                  {/* COPIAR LINK */}
+                  <button
+                    className="btn-icon btn-share"
+                    onClick={() => handleCopiarLink(m.id_mascota)}
+                    title={
+                      copiadoId === m.id_mascota ? "¡Copiado!" : "Copiar link"
+                    }
+                    aria-label="Copiar link"
+                  >
+                    <i
+                      className={
+                        copiadoId === m.id_mascota
+                          ? "fas fa-check"
+                          : "fas fa-link"
+                      }
+                    ></i>
+                  </button>
+
+                  {/* EDITAR */}
                   <button
                     className="btn-icon btn-edit"
                     onClick={() => onEditar(m)}
@@ -186,6 +241,8 @@ export default function VistaMascotas({
                   >
                     <i className="fas fa-pen"></i>
                   </button>
+
+                  {/* ELIMINAR */}
                   <button
                     className="btn-icon btn-delete"
                     onClick={() => handleEliminar(m.id_mascota, m.nom_mascota)}
@@ -199,7 +256,7 @@ export default function VistaMascotas({
             );
           })}
 
-          {/* Card agregar — llamativa */}
+          {/* Card agregar */}
           <button
             className="mascota-card-add"
             onClick={onAgregar}
@@ -213,6 +270,15 @@ export default function VistaMascotas({
             </span>
           </button>
         </div>
+      )}
+
+      {/* Modal de activar placa */}
+      {mascotaParaPlaca && (
+        <ActivarPlacaModal
+          mascota={mascotaParaPlaca}
+          onClose={() => setMascotaParaPlaca(null)}
+          onActivada={onRecargar}
+        />
       )}
     </div>
   );

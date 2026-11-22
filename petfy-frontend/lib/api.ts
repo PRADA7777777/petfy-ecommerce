@@ -549,6 +549,25 @@ export const authAPI = {
 
 // ==================== MASCOTAS ====================
 
+export interface MascotaPublica {
+  id_mascota: number;
+  nom_mascota: string;
+  raza?: string | null;
+  edad?: number | null;
+  peso?: number | null;
+  img_masc?: string | null;
+  comportamiento?: string | null;
+  otras_indicaciones?: string | null;
+  nombre_dueno?: string | null;
+  telefono_dueno?: string | null;
+  condicion_medica?: string | null;
+  modo_perdido?: boolean;
+  fecha_perdida?: string | null;
+  ultima_ubicacion?: string | null;
+  recompensa?: string | null;
+  mensaje_perdido?: string | null;
+}
+
 export const mascotasAPI = {
   crear: (data: MascotaData, token: string): Promise<Mascota> =>
     fetchRaw<Mascota>(
@@ -596,6 +615,33 @@ export const mascotasAPI = {
     fetchAPI<CatalogoItem[]>("/mascotas/catalogos/condiciones"),
 
   getRazas: () => fetchAPI<CatalogoItem[]>("/mascotas/catalogos/razas"),
+
+  publica: (id: number | string): Promise<MascotaPublica> =>
+    fetchAPI<MascotaPublica>(`/public/mascotas/${id}`),
+
+  marcarPerdida: (
+    id: number,
+    payload: {
+      perdido: boolean;
+      fecha_perdida?: string | null;
+      ultima_ubicacion?: string | null;
+      recompensa?: string | null;
+      mensaje_perdido?: string | null;
+    },
+    token: string
+  ): Promise<{ mensaje: string; modo_perdido: boolean; id_mascota: number }> =>
+    fetchRaw(
+      `${API_URL}/mascotas/${id}/perdido`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      },
+      "No se pudo actualizar el modo perdido"
+    ),
 };
 
 // ==================== SERVICIOS ====================
@@ -1054,4 +1100,64 @@ export const facturacionAPI = {
     a.remove();
     window.URL.revokeObjectURL(url);
   },
+};
+
+// ═══════════════════════════════════════════════════════════════
+// PLACAS (NFC/QR)
+// ═══════════════════════════════════════════════════════════════
+
+export interface PlacaInfo {
+  codigo: string;
+  url_publica: string;
+  fecha_activacion: string | null;
+}
+
+export interface VerPlacaResponse {
+  tiene_placa: boolean;
+  placa: PlacaInfo | null;
+}
+
+export interface ActivarPlacaResponse {
+  mensaje: string;
+  codigo: string;
+  id_mascota: number;
+  nom_mascota: string;
+  url_publica: string;
+}
+
+export const placasAPI = {
+  verDeMascota: (idMascota: number, token: string): Promise<VerPlacaResponse> =>
+    fetchRaw<VerPlacaResponse>(
+      `${API_URL}/mascotas/${idMascota}/placa`,
+      { headers: { Authorization: `Bearer ${token}` } },
+      "No se pudo consultar la placa"
+    ),
+
+  activar: (codigo: string, idMascota: number, token: string): Promise<ActivarPlacaResponse> =>
+    fetchRaw<ActivarPlacaResponse>(
+      `${API_URL}/placas/activar`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ codigo, id_mascota: idMascota }),
+      },
+      "No se pudo activar la placa"
+    ),
+
+  desactivar: (codigo: string, token: string): Promise<{ mensaje: string }> =>
+    fetchRaw<{ mensaje: string }>(
+      `${API_URL}/placas/desactivar?codigo=${encodeURIComponent(codigo)}`,
+      { method: "POST", headers: { Authorization: `Bearer ${token}` } },
+      "No se pudo desactivar la placa"
+    ),
+
+  consultarPublica: (codigo: string) =>
+    fetchRaw<{ codigo: string; estado: string; tiene_mascota: boolean; id_mascota: number | null }>(
+      `${API_URL}/public/placas/${codigo.toUpperCase()}`,
+      {},
+      "Código de placa no válido"
+    ),
 };

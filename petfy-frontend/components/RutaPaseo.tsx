@@ -18,8 +18,8 @@ function icono(color: string, emoji: string) {
 const iconoInicio = icono("#16a34a", "🏁");
 const iconoFin = icono("#f97316", "🐕");
 
-/** Ajusta el zoom al recorrido cuando se abre uno nuevo; mientras avanza no lo mueve */
-function AjustarVista({ puntos }: { puntos: Punto[] }) {
+/** Ajusta el zoom al recorrido cuando se abre uno nuevo; mientras avanza no lo mueve (también lo usa el mapa del dueño) */
+export function AjustarVista({ puntos }: { puntos: Punto[] }) {
   const map = useMap();
   const inicio = puntos[0];
   useEffect(() => {

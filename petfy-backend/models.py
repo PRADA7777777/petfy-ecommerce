@@ -299,6 +299,20 @@ class PasswordResetToken(Base):
     codigo = Column(String)
     expira_en = Column(DateTime)
 
+class Placa(Base):
+    __tablename__ = "placas"
+    id_placa = Column(Integer, primary_key=True)
+    codigo = Column(String(20), unique=True, nullable=False, index=True)
+    estado = Column(String(20), nullable=False, default="disponible")
+    id_mascota = Column(Integer, ForeignKey("mascotas.id_mascota", ondelete="SET NULL"), nullable=True)
+    lote = Column(String(50))
+    material = Column(String(50))
+    fecha_generacion = Column(DateTime, default=datetime.now)
+    fecha_activacion = Column(DateTime, nullable=True)
+    notas = Column(Text)
+
+    mascota = relationship("Mascota")
+
 # --- GEORREFERENCIACIÓN DEL PASEO ---
 # Código de inicio, evidencia de llegada/inicio/fin, recorrido GPS y novedades
 

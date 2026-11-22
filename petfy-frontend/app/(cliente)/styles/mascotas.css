@@ -388,3 +388,213 @@
     .mascotas-titulo { font-size: 1.3rem; }
     .mascotas-header-icon { width: 44px; height: 44px; }
 }
+/* ═══════════════════════════════════════════════════════════
+   Botones de perfil público (chip NFC)
+   ═══════════════════════════════════════════════════════════ */
+
+.btn-icon.btn-public {
+  color: #064f56;
+  background: #f0f9f8;
+  border-color: #a7d8d3;
+}
+
+.btn-icon.btn-public:hover {
+  background: #064f56;
+  color: #ffffff;
+  border-color: #064f56;
+  transform: translateY(-1px);
+}
+
+.btn-icon.btn-share {
+  color: #ea580c;
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.btn-icon.btn-share:hover {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+  transform: translateY(-1px);
+}
+/* ═══════════════════════════════════════════════════════════
+   BOTÓN Y MODAL DE PLACA NFC
+   ═══════════════════════════════════════════════════════════ */
+
+.btn-icon.btn-placa {
+  color: #ea580c;
+  background: #fff7ed;
+  border-color: #fed7aa;
+}
+.btn-icon.btn-placa:hover {
+  background: #ea580c;
+  color: #ffffff;
+  border-color: #ea580c;
+  transform: translateY(-1px);
+}
+
+.placa-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: placa-fade 0.2s ease;
+}
+@keyframes placa-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.placa-modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: placa-slide 0.25s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+@keyframes placa-slide {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.placa-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #9ca3af;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.placa-modal-close:hover { background: #f3f4f6; color: #111827; }
+
+.placa-modal-header { text-align: center; margin-bottom: 1.25rem; }
+.placa-modal-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.placa-modal-header h2 { margin: 0 0 0.25rem 0; font-size: 1.25rem; color: #111827; }
+.placa-modal-header p { margin: 0; font-size: 0.85rem; color: #6b7280; }
+
+.placa-modal-loading { text-align: center; color: #9ca3af; padding: 1.5rem 0; }
+
+.placa-modal-desc { font-size: 0.85rem; color: #4b5563; margin: 0 0 0.75rem 0; line-height: 1.5; }
+
+.placa-modal-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-family: "Courier New", monospace;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #064f56;
+  outline: none;
+  margin-bottom: 0.75rem;
+}
+.placa-modal-input:focus { border-color: #064f56; box-shadow: 0 0 0 3px rgba(6, 79, 86, 0.1); }
+
+.placa-modal-error {
+  background: #fef2f2;
+  color: #991b1b;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  margin-bottom: 0.75rem;
+}
+
+.placa-modal-btn {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  margin-bottom: 0.5rem;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-decoration: none;
+}
+.placa-modal-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.placa-modal-btn-primary {
+  background: linear-gradient(135deg, #064f56, #0a6b74);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(6, 79, 86, 0.25);
+}
+.placa-modal-btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
+
+.placa-modal-btn-secondary {
+  background: linear-gradient(135deg, #ea580c, #c2410c);
+  color: #fff;
+}
+
+.placa-modal-btn-outline {
+  background: #fff;
+  color: #064f56;
+  border-color: #064f56;
+}
+.placa-modal-btn-outline:hover { background: #f4fbfa; }
+
+.placa-modal-btn-danger {
+  background: #fff;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+.placa-modal-btn-danger:hover { background: #fef2f2; border-color: #dc2626; }
+
+.placa-modal-success {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.placa-modal-codigo {
+  font-family: "Courier New", monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-align: center;
+  color: #064f56;
+  background: #f4fbfa;
+  padding: 1rem;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  border: 2px dashed #064f56;
+}
+
+.placa-modal-url {
+  font-family: "Courier New", monospace;
+  font-size: 0.82rem;
+  text-align: center;
+  color: #4b5563;
+  background: #f9fafb;
+  padding: 0.65rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  word-break: break-all;
+}
+
+

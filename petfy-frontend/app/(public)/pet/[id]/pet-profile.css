@@ -1,0 +1,48 @@
+.petp-wrapper { max-width: 560px; margin: 0 auto; padding: 1rem 0.9rem 2.5rem; font-family: inherit; color: #111827; }
+.petp-loading { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: #064f56; font-size: 0.9rem; }
+.petp-spinner { width: 40px; height: 40px; border: 3px solid #cce6e4; border-top-color: #064f56; border-radius: 50%; animation: petp-spin 0.8s linear infinite; }
+@keyframes petp-spin { to { transform: rotate(360deg); } }
+.petp-error { max-width: 380px; margin: 3rem auto; padding: 2rem 1.25rem; text-align: center; background: #fff; border: 1px solid #e5e7eb; border-radius: 20px; }
+.petp-error-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
+.petp-error h2 { margin: 0 0 0.5rem; font-size: 1.3rem; color: #111827; }
+.petp-error p { margin: 0 0 1.25rem; color: #6b7280; font-size: 0.88rem; }
+.petp-alert-perdido { display: flex; gap: 0.75rem; padding: 1rem; background: linear-gradient(135deg, #fee2e2, #fecaca); border: 2px solid #dc2626; border-radius: 16px; margin-bottom: 1rem; animation: petp-pulse-alert 2s ease-in-out infinite; }
+@keyframes petp-pulse-alert { 0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.4); } 50% { box-shadow: 0 0 0 8px rgba(220,38,38,0); } }
+.petp-alert-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+.petp-alert-perdido strong { color: #7f1d1d; font-size: 0.95rem; display: block; }
+.petp-alert-perdido p { margin: 0.25rem 0 0; color: #991b1b; font-size: 0.82rem; }
+.petp-hero { background: #fff; border-radius: 22px; overflow: hidden; box-shadow: 0 8px 28px rgba(6,79,86,0.1); border: 1px solid #e5e7eb; margin-bottom: 1rem; }
+.petp-hero-img-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #064f56, #0a6b74); overflow: hidden; }
+.petp-hero-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.petp-hero-img-placeholder { display: flex; align-items: center; justify-content: center; height: 100%; font-size: 6rem; opacity: 0.7; }
+.petp-badge-float { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.96); color: #064f56; font-size: 0.7rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 100px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.petp-hero-info { padding: 1.25rem 1.5rem 1.5rem; }
+.petp-saludo { margin: 0; font-size: 0.85rem; color: #6b7280; font-weight: 500; }
+.petp-nombre { font-size: clamp(2rem, 8vw, 2.8rem); font-weight: 900; margin: 0.15rem 0 0.5rem; color: #064f56; line-height: 1.05; letter-spacing: -0.5px; }
+.petp-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+.petp-meta-item { font-size: 0.82rem; color: #4b5563; font-weight: 500; background: #f4fbfa; padding: 0.25rem 0.6rem; border-radius: 100px; }
+.petp-dueno { margin: 0; font-size: 0.82rem; color: #9ca3af; }
+.petp-dueno strong { color: #6b7280; }
+.petp-contacto-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 18px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(6,79,86,0.06); }
+.petp-contacto-titulo { margin: 0 0 1rem; font-size: 1rem; font-weight: 700; color: #111827; text-align: center; }
+.petp-contacto-btns { display: flex; flex-direction: column; gap: 0.6rem; }
+.petp-sin-tel { padding: 0.85rem; background: #fef3c7; color: #92400e; border-radius: 12px; font-size: 0.85rem; text-align: center; font-weight: 500; }
+.petp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.25rem; border-radius: 12px; font-size: 0.95rem; font-weight: 700; cursor: pointer; border: 2px solid transparent; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; text-align: center; }
+.petp-btn:active { transform: scale(0.98); }
+.petp-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.petp-btn-call { background: linear-gradient(135deg, #064f56, #0a6b74); color: #fff; box-shadow: 0 4px 14px rgba(6,79,86,0.3); font-size: 1.05rem; padding: 1rem; }
+.petp-btn-wa { background: linear-gradient(135deg, #16a34a, #22c55e); color: #fff; box-shadow: 0 4px 14px rgba(22,163,74,0.3); }
+.petp-btn-location { margin-top: 0.75rem; width: 100%; background: #fff; color: #ea580c; border-color: #ea580c; font-size: 0.9rem; }
+.petp-btn-location:hover { background: #fff7ed; }
+.petp-hint { margin: 0.5rem 0 0; font-size: 0.72rem; color: #9ca3af; text-align: center; }
+.petp-btn-primary { background: linear-gradient(135deg, #ea580c, #c2410c); color: #fff; }
+.petp-alert-medica { display: flex; gap: 0.75rem; padding: 1rem; background: #fffbeb; border: 2px solid #f59e0b; border-radius: 16px; margin-bottom: 1rem; }
+.petp-alert-medica-icon { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+.petp-alert-medica strong { color: #78350f; font-size: 0.9rem; display: block; }
+.petp-alert-medica p { margin: 0.3rem 0 0; color: #92400e; font-size: 0.85rem; }
+.petp-section { background: #fff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+.petp-section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #ea580c; margin: 0 0 0.5rem; }
+.petp-bio { margin: 0; font-size: 0.9rem; line-height: 1.6; color: #374151; white-space: pre-line; }
+.petp-comportamiento { margin: 0; font-size: 0.95rem; color: #111827; font-weight: 500; }
+.petp-brand { margin-top: 1.5rem; text-align: center; font-size: 0.72rem; color: #9ca3af; }
+.petp-brand strong { color: #064f56; }

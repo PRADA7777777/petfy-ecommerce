@@ -184,3 +184,60 @@ def eliminar_mascota(
     db.delete(mascota)
     db.commit()
     return {"mensaje": "Mascota eliminada"}
+
+# ═══════════════════════════════════════════════════════════════
+# MODO PERDIDO
+# ═══════════════════════════════════════════════════════════════
+
+from pydantic import BaseModel as _BM
+from datetime import datetime as _dt
+from typing import Optional as _Opt
+
+
+class ReportarPerdidoRequest(_BM):
+    perdido: bool
+    fecha_perdida: _Opt[str] = None
+    ultima_ubicacion: _Opt[str] = None
+    recompensa: _Opt[str] = None
+    mensaje_perdido: _Opt[str] = None
+
+
+@router.put("/{id_mascota}/perdido")
+def marcar_perdido(
+    id_mascota: int,
+    payload: ReportarPerdidoRequest,
+    db: Session = Depends(get_db),
+    usuario: Usuario = Depends(usuario_actual),
+):
+    mascota = db.query(Mascota).filter(
+        Mascota.id_mascota == id_mascota,
+        Mascota.id_usuario == usuario.id_usuario,
+    ).first()
+    if not mascota:
+        raise HTTPException(404, "Mascota no encontrada")
+
+    mascota.modo_perdido = payload.perdido
+    if payload.perdido:
+        if payload.fecha_perdida:
+            try:
+                mascota.fecha_perdida = _dt.fromisoformat(payload.fecha_perdida.replace("Z", "+00:00"))
+            except ValueError:
+                mascota.fecha_perdida = _dt.now()
+        else:
+            mascota.fecha_perdida = _dt.now()
+        mascota.ultima_ubicacion = payload.ultima_ubicacion
+        mascota.recompensa = payload.recompensa
+        mascota.mensaje_perdido = payload.mensaje_perdido
+    else:
+        mascota.fecha_perdida = None
+        mascota.ultima_ubicacion = None
+        mascota.recompensa = None
+        mascota.mensaje_perdido = None
+
+    db.commit()
+    db.refresh(mascota)
+    return {
+        "mensaje": "Mascota marcada como perdida" if payload.perdido else "Mascota marcada como encontrada",
+        "modo_perdido": mascota.modo_perdido,
+        "id_mascota": mascota.id_mascota,
+    }

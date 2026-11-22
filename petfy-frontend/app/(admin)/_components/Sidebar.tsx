@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CreditCard, PawPrint, Users, ShieldCheck, UserCheck, X } from "lucide-react";
+import { LayoutDashboard, CreditCard, PawPrint, Users, ShieldCheck, UserCheck, X, Tag } from "lucide-react";
 import styles from "./Sidebar.module.css";
 
 interface SidebarProps {
@@ -17,6 +17,7 @@ export function Sidebar({ onClose }: SidebarProps) {
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { name: "Finanzas", href: "/finanzas", icon: CreditCard },
     { name: "Paseos", href: "/servicios/paseos", icon: PawPrint },
+    { name: "Placas", href: "/placas", icon: Tag },
     {
       name: "Usuarios",
       icon: Users,
