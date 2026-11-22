@@ -1,6 +1,3 @@
-$petProfilePath = "$((Get-Location).Path)\petfy-frontend\app\(public)\pet\[id]\PetProfileClient.tsx"
-
-$petContent = @'
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,16 +12,6 @@ function normalizarTelefonoWA(tel: string | null | undefined): string {
   if (digits.startsWith("0")) digits = digits.slice(1);
   if (digits.length === 10) return "57" + digits;
   return digits;
-}
-
-function fmtFechaPerdida(iso: string | null | undefined): string {
-  if (!iso) return "recientemente";
-  try {
-    const d = new Date(iso);
-    return d.toLocaleDateString("es-CO", { day: "numeric", month: "long", year: "numeric" });
-  } catch {
-    return "recientemente";
-  }
 }
 
 export function PetProfileClient({ id }: { id: string }) {
@@ -45,19 +32,20 @@ export function PetProfileClient({ id }: { id: string }) {
       }
     }
     cargar();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   useEffect(() => {
-    if (pet) {
-      document.title = pet.modo_perdido
-        ? `¡Se busca a ${pet.nom_mascota}! · Petfy`
-        : `¡Encontraste a ${pet.nom_mascota}! · Petfy`;
-    }
+    if (pet) document.title = `¡Encontraste a ${pet.nom_mascota}! · Petfy`;
   }, [pet]);
 
   const compartirUbicacion = () => {
-    if (!navigator.geolocation) { setGeoStatus("error"); return; }
+    if (!navigator.geolocation) {
+      setGeoStatus("error");
+      return;
+    }
     setGeoStatus("loading");
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -66,7 +54,10 @@ export function PetProfileClient({ id }: { id: string }) {
         const tel = normalizarTelefonoWA(pet?.telefono_dueno);
         const msg = `¡Hola! Encontré a ${pet?.nom_mascota}. Estoy en: ${link}`;
         if (tel) {
-          window.open(`https://wa.me/${tel}?text=${encodeURIComponent(msg)}`, "_blank");
+          window.open(
+            `https://wa.me/${tel}?text=${encodeURIComponent(msg)}`,
+            "_blank"
+          );
         } else {
           navigator.clipboard.writeText(link);
           alert(`📍 Ubicación copiada: ${link}`);
@@ -103,64 +94,44 @@ export function PetProfileClient({ id }: { id: string }) {
   const telWA = normalizarTelefonoWA(pet.telefono_dueno);
   const tieneTel = telWA.length >= 12;
   const waMsg = encodeURIComponent(
-    pet.modo_perdido
-      ? `¡Hola! Vi el cartel de ${pet.nom_mascota}. Creo que lo/a encontré.`
-      : `¡Hola! Encontré a ${pet.nom_mascota}. ¿Puedes venir por él/ella?`
+    `¡Hola! Encontré a ${pet.nom_mascota}. ¿Puedes venir por él/ella?`
   );
 
   return (
     <div className="petp-wrapper">
-      {/* Alerta perdido (datos REALES de la BD) */}
-      {pet.modo_perdido && (
-        <div className="petp-alert-perdido">
-          <span className="petp-alert-icon">🚨</span>
-          <div>
-            <strong>ESTA MASCOTA ESTÁ PERDIDA</strong>
-            <p>
-              Desapareció el {fmtFechaPerdida(pet.fecha_perdida)}
-              {pet.ultima_ubicacion && ` en ${pet.ultima_ubicacion}`}.
-            </p>
-            {pet.mensaje_perdido && (
-              <p style={{ marginTop: "0.4rem", fontStyle: "italic" }}>
-                "{pet.mensaje_perdido}"
-              </p>
-            )}
-            {pet.recompensa && (
-              <div className="petp-recompensa">
-                💰 Recompensa: <strong>{pet.recompensa}</strong>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       <div className="petp-hero">
         <div className="petp-hero-img-wrap">
           {pet.img_masc ? (
-            <img src={pet.img_masc} alt={pet.nom_mascota} className="petp-hero-img" />
+            <img
+              src={pet.img_masc}
+              alt={pet.nom_mascota}
+              className="petp-hero-img"
+            />
           ) : (
             <div className="petp-hero-img-placeholder">🐶</div>
           )}
-          <span className="petp-badge-float">
-            {pet.modo_perdido ? "🚨 PERDIDA" : "🐾 Chip Petfy"}
-          </span>
+          <span className="petp-badge-float">🐾 Chip Petfy</span>
         </div>
         <div className="petp-hero-info">
           <p className="petp-saludo">¡Hola! Me llamo</p>
           <h1 className="petp-nombre">{pet.nom_mascota}</h1>
           <div className="petp-meta">
             {pet.raza && <span className="petp-meta-item">{pet.raza}</span>}
-            {pet.edad != null && <span className="petp-meta-item">🎂 {pet.edad} años</span>}
+            {pet.edad != null && (
+              <span className="petp-meta-item">🎂 {pet.edad} años</span>
+            )}
           </div>
           {pet.nombre_dueno && (
-            <p className="petp-dueno">Mi familia: <strong>{pet.nombre_dueno}</strong></p>
+            <p className="petp-dueno">
+              Mi familia: <strong>{pet.nombre_dueno}</strong>
+            </p>
           )}
         </div>
       </div>
 
       <div className="petp-contacto-card">
         <h2 className="petp-contacto-titulo">
-          {pet.modo_perdido ? "¿Me viste? ¡Llama a mi familia! 🚨" : "¿Me encontraste? Contáctame 🐾"}
+          ¿Me encontraste? Contáctame 🐾
         </h2>
         <div className="petp-contacto-btns">
           {tieneTel ? (
@@ -223,11 +194,10 @@ export function PetProfileClient({ id }: { id: string }) {
       )}
 
       <div className="petp-brand">
-        <span>Chip NFC registrado en <strong>Petfy</strong> · petfy.com.co</span>
+        <span>
+          Chip NFC registrado en <strong>Petfy</strong> · petfy.com.co
+        </span>
       </div>
     </div>
   );
 }
-'@
-[IO.File]::WriteAllText($petProfilePath, $petContent, $utf8)
-Write-Host "✅ PetProfileClient.tsx actualizado" -ForegroundColor Green
