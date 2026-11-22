@@ -49,3 +49,10 @@ export function fmtDateTime(dateString: string | null | undefined): string {
     return dateString;
   }
 }
+
+/**
+ * Une clases de CSS, ignorando las vacías (lo usa la vista del paseador)
+ */
+export function cn(...clases: (string | false | null | undefined)[]): string {
+  return clases.filter(Boolean).join(" ");
+}

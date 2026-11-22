@@ -1,0 +1,32 @@
+/*
+ * Estilos del portal del paseador (diseño de Oscar, hecho con Tailwind).
+ * Se carga solo desde app/(staff)/layout.tsx para no cambiar el CSS del resto de la app.
+ *
+ * - theme y preflight van en capas: el CSS de globals.css (sin capa) siempre les gana.
+ * - utilities va sin capa: si fuera en capa, el reset `* { margin: 0; padding: 0 }`
+ *   de globals.css anularía todos los p-* y m-* del portal.
+ * - source(none) + @source: solo se generan las clases de los archivos del paseador,
+ *   así no salen utilidades que choquen con clases de Jhon (ej. .container, .hidden).
+ * - theme(inline): las clases usan los valores de Tailwind y no las variables de globals.css
+ *   que se llaman igual (ej. --radius-lg de Jhon es 30px; el de Tailwind, 8px).
+ */
+@layer theme, base;
+
+@import "tailwindcss/theme.css" layer(theme) theme(inline);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" source(none);
+
+@source "./";
+@source "../../components/SidebarPaseador.tsx";
+@source "../../components/ModalServicioPaseador.tsx";
+
+/* El prototipo es Tailwind 3: el borde por defecto es gris claro. En Tailwind 4 es del color del texto */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: --theme(--color-gray-200);
+  }
+}

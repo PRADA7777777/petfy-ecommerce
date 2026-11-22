@@ -1,3 +1,7 @@
+// GPS real del paseo y estados de la cita, para el `api` de la vista del paseador (sección PASEOS)
+import { seguirPaseo, dejarDeSeguir, enviarColaGPS } from "@/lib/seguimientoGPS";
+import { ESTADO_CONFIRMADA, ESTADO_EN_CURSO } from "@/app/(cliente)/_components/paseos/paseoHoy";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
 export const WOMPI_PUBLIC_KEY =
@@ -284,6 +288,35 @@ export interface RutaPaseo {
   inicio: string | null;
   fin: string | null;
   puntos: { lat: number; lng: number; fecha_hora: string }[];
+}
+
+/** Paseo de hoy del paseador, tal como lo devuelve /admin/paseos/hoy */
+export interface PaseoDelDia {
+  id_cita: number;
+  fecha: string;
+  hora: string | null;
+  id_estado: number;
+  estado: string | null;
+  llego: boolean;
+  zona: string | null;
+  direccion: string | null;
+  complemento_direccion: string | null;
+  mascota: { id_mascota: number; nom_mascota: string } | null;
+  cliente: { nombre: string; apellido: string; telefono: string | null } | null;
+}
+
+/** Punto GPS tomado en el celular, con su hora real (ISO con zona) */
+export interface PuntoGPS {
+  lat: number;
+  lng: number;
+  fecha_hora: string;
+}
+
+export interface ResultadoLoteGPS {
+  citas_actualizadas: number;
+  guardados: number;
+  ignorados: number;
+  rechazados: number;
 }
 
 export interface PaseoPruebaDisponible {
@@ -708,6 +741,13 @@ cambiarDia: (
 
 // ==================== PASEOS ====================
 
+/** Petición del paseador con su token y, si la acción lleva datos, el body en JSON */
+const peticionPaseador = (token: string, body?: unknown): RequestInit => ({
+  method: "POST",
+  headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  body: body === undefined ? undefined : JSON.stringify(body),
+});
+
 export const paseosAPI = {
   codigo: (idCita: number, token: string): Promise<CodigoPaseo> =>
     fetchRaw<CodigoPaseo>(
@@ -722,6 +762,127 @@ export const paseosAPI = {
       { headers: { Authorization: `Bearer ${token}` } },
       "No se pudo consultar el recorrido del paseo"
     ),
+
+  // --- Paseador ---
+
+  paseosDeHoy: (token: string): Promise<PaseoDelDia[]> =>
+    fetchRaw<{ todos: PaseoDelDia[] }>(
+      `${API_URL}/admin/paseos/hoy`,
+      { headers: { Authorization: `Bearer ${token}` } },
+      "No se pudieron consultar los paseos de hoy"
+    ).then((r) => r.todos),
+
+  llegada: (idCita: number, token: string): Promise<unknown> =>
+    fetchRaw(`${API_URL}/paseos/${idCita}/llegada`, peticionPaseador(token), "No se pudo registrar la llegada"),
+
+  iniciar: (idCita: number, codigo: string, token: string): Promise<unknown> =>
+    fetchRaw(`${API_URL}/paseos/${idCita}/iniciar`, peticionPaseador(token, { codigo }), "No se pudo iniciar el paseo"),
+
+  /** Sin aviso global de red caída: sin señal es lo normal en la calle y los puntos quedan en la cola */
+  gpsLote: async (idCita: number, puntos: PuntoGPS[], token: string): Promise<ResultadoLoteGPS> => {
+    const res = await fetch(`${API_URL}/paseos/${idCita}/gps/lote`, peticionPaseador(token, { puntos }));
+    if (!res.ok) {
+      const err = (await res.json().catch(() => ({}))) as { detail?: string };
+      throw Object.assign(new Error(err.detail || "No se pudieron enviar los puntos GPS"), { status: res.status });
+    }
+    return res.json();
+  },
+
+  novedad: (idCita: number, texto: string, token: string): Promise<unknown> =>
+    fetchRaw(`${API_URL}/paseos/${idCita}/novedades`, peticionPaseador(token, { texto }), "No se pudo registrar la novedad"),
+
+  finalizar: (idCita: number, novedad: string | undefined, token: string): Promise<unknown> =>
+    fetchRaw(`${API_URL}/paseos/${idCita}/finalizar`, peticionPaseador(token, { novedad }), "No se pudo finalizar el paseo"),
+};
+
+// --- Vista del paseador (diseño de Oscar) ---
+// Sus páginas y su modal llaman a `api` con los nombres de su prototipo; aquí se conectan
+// al backend real reutilizando paseosAPI. La sesión es la del paseador que inició sesión.
+
+/** Días hacia atrás y hacia adelante que carga la agenda (el backend acepta hasta 62 en total) */
+const DIAS_AGENDA_PASEADOR = 31;
+
+function tokenDeSesion(): string {
+  const token = sesion.obtenerToken();
+  if (!token) throw new Error("Tu sesión terminó. Vuelve a iniciar sesión");
+  return token;
+}
+
+/** Fecha local en formato AAAA-MM-DD, corrida `dias` desde hoy */
+function fechaLocal(dias: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + dias);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/** Sus páginas leen el estado como objeto (`c.estado?.nom_estado`); el backend lo manda como texto */
+const conEstadoComoObjeto = (paseo: PaseoDelDia & { estado: string | null }) => ({
+  ...paseo,
+  estado: { nom_estado: paseo.estado },
+});
+
+// Su dashboard y su modal usan dos estados que el backend no tiene: 6 (llegó, falta el código)
+// y 7 (en curso). El backend usa el evento de llegada (`llego`) y el estado 3
+const ESTADO_PROTOTIPO_LLEGO = 6;
+const ESTADO_PROTOTIPO_EN_CURSO = 7;
+
+const conEstadoDelPrototipo = (paseo: PaseoDelDia) => ({
+  ...paseo,
+  id_estado:
+    paseo.id_estado === ESTADO_EN_CURSO ? ESTADO_PROTOTIPO_EN_CURSO
+    : paseo.id_estado <= ESTADO_CONFIRMADA && paseo.llego ? ESTADO_PROTOTIPO_LLEGO
+    : paseo.id_estado,
+});
+
+export const api = {
+  /** Su dashboard lo consulta cada 10 s: con un paseo en curso se sigue con el GPS real, sin paseos se suelta */
+  getPaseosHoy: async () => {
+    const todos = await paseosAPI.paseosDeHoy(tokenDeSesion());
+    const enCurso = todos.find((p) => p.id_estado === ESTADO_EN_CURSO);
+    if (enCurso) seguirPaseo(enCurso.id_cita);
+    else dejarDeSeguir();
+    return { todos: todos.map(conEstadoDelPrototipo).map(conEstadoComoObjeto) };
+  },
+
+  /** Paseos del paseador alrededor de hoy, para su agenda y su horario */
+  getCitas: async (_params?: unknown) => {
+    const r = await fetchRaw<{ citas: PaseoDelDia[] }>(
+      `${API_URL}/admin/agenda?inicio=${fechaLocal(-DIAS_AGENDA_PASEADOR)}&fin=${fechaLocal(DIAS_AGENDA_PASEADOR)}`,
+      { headers: { Authorization: `Bearer ${tokenDeSesion()}` } },
+      "No se pudo consultar la agenda"
+    );
+    return { data: r.citas.map(conEstadoComoObjeto) };
+  },
+
+  marcarLlegada: (idCita: number) => paseosAPI.llegada(idCita, tokenDeSesion()),
+
+  iniciarPaseo: async (idCita: number, codigo: string) => {
+    const respuesta = await paseosAPI.iniciar(idCita, codigo, tokenDeSesion());
+    seguirPaseo(idCita);
+    return respuesta;
+  },
+
+  /**
+   * Primero se envía la cola, para que el paseo no pierda su último tramo.
+   * La foto no se envía: va al dueño por WhatsApp y no se guarda (GUARDAR_FOTO_ENTREGA = False)
+   */
+  finalizarPaseo: async (idCita: number, datos: { foto?: string; novedad?: string }) => {
+    await enviarColaGPS();
+    return paseosAPI.finalizar(idCita, datos.novedad, tokenDeSesion());
+  },
+
+  /** No se envía: su modal genera posiciones de prueba. El GPS real lo toma lib/seguimientoGPS.ts */
+  enviarPuntoGPS: async (_idCita: number, _lat: number, _lng: number) => ({ enviado: false }),
+
+  /** Ganancias no tiene backend todavía (no es parte de la georreferenciación); `any` es el tipo de su prototipo */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  getGananciasPaseador: async (_idPaseador: number): Promise<any> => {
+    throw new Error("Las ganancias todavía no están disponibles");
+  },
+
+  pagarSaldoPaseador: async (_idPaseador: number, _monto: number): Promise<unknown> => {
+    throw new Error("Las ganancias todavía no están disponibles");
+  },
 };
 
 // ==================== SUSCRIPCIONES ====================

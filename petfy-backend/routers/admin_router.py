@@ -498,11 +498,11 @@ def get_agenda(
     inicio: str,
     fin: str,
     db: Session = Depends(get_db),
-    admin_actual: Usuario = Depends(usuario_autenticado)
+    usuario: Usuario = Depends(usuario_autenticado)
 ):
-    # 1. Validar permisos y rango
-    if admin_actual.id_rol != 1:
-        raise HTTPException(status_code=403, detail="Solo administradores")
+    # 1. Validar permisos y rango: el administrador ve todos los paseos; el paseador, solo los suyos
+    if usuario.id_rol not in (1, ROL_STAFF):
+        raise HTTPException(status_code=403, detail="Acceso denegado")
     try:
         desde, hasta = date.fromisoformat(inicio), date.fromisoformat(fin)
     except ValueError:
@@ -511,11 +511,14 @@ def get_agenda(
         raise HTTPException(status_code=400, detail="El rango debe ser de máximo 62 días")
 
     # 2. Paseos del rango, sin los cancelados
-    citas = consulta_citas_de_paseo(db).filter(
+    consulta = consulta_citas_de_paseo(db).filter(
         Cita.fecha >= desde,
         Cita.fecha <= hasta,
         Cita.id_estado != ESTADO_CITA_CANCELADA,
-    ).order_by(Cita.fecha, Cita.hora).all()
+    )
+    if usuario.id_rol == ROL_STAFF:
+        consulta = consulta.filter(Cita.id_usuario_paseador == usuario.id_usuario)
+    citas = consulta.order_by(Cita.fecha, Cita.hora).all()
 
     # 3. Cantidad de paseos por día para el calendario
     por_dia = {}
