@@ -163,9 +163,35 @@ export const api = {
   },
 
   async cambiarEstadoDevolucion(id: number, estado: number) {
-    return real<any>(`/admin/finanzas/devoluciones/${id}`, { 
-      method: "PUT", 
-      body: JSON.stringify({ id_est_devo: estado }) 
+    return real<any>(`/admin/finanzas/devoluciones/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({ id_est_devo: estado })
     });
+  },
+
+  // PLANIFICACIÓN DE PASEOS Y STAFF (endpoints de admin_router.py que ya usaban estas pantallas)
+
+  async getAgenda(inicio: string, fin: string) {
+    return real<any>("/admin/agenda?" + new URLSearchParams({ inicio, fin }));
+  },
+
+  async getMacroPaseosMes(mes: string) {
+    return real<any[]>("/admin/paseos/macro?" + new URLSearchParams({ mes }));
+  },
+
+  async getCargaPaseadores(fecha: string, hora: string) {
+    return real<any[]>("/admin/paseadores/carga?" + new URLSearchParams({ fecha, hora }));
+  },
+
+  async asignarPaseadorMasivo(asignaciones: { id_cita: number; id_usuario_paseador: number }[]) {
+    return real<{ mensaje: string; count: number }>("/admin/paseos/asignar-masivo", { method: "POST", body: JSON.stringify({ asignaciones }) });
+  },
+
+  async getStaff(params: { search?: string; estado?: string; page?: number; pageSize?: number } = {}) {
+    return real<any>("/admin/staff?" + new URLSearchParams(params as any));
+  },
+
+  async crearStaff(data: any) {
+    return real<any>("/admin/staff", { method: "POST", body: JSON.stringify(data) });
   }
 };

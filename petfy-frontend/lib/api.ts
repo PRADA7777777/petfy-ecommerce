@@ -158,6 +158,12 @@ export interface Mascota {
   id_raza?: number;
   id_comportamiento?: number;
   id_condicion_medica?: number;
+  // Mascota perdida (placas, otra fase): los mismos campos de MascotaPublica que ya usan sus pantallas
+  modo_perdido?: boolean;
+  fecha_perdida?: string | null;
+  ultima_ubicacion?: string | null;
+  recompensa?: string | null;
+  mensaje_perdido?: string | null;
 }
 
 export interface CatalogoItem {

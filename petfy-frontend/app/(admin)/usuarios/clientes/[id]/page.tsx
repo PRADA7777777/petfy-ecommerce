@@ -1,7 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { api } from "@/lib/api";
+import { api } from "@/lib/api-admin";
 import { Badge } from "@/components/Badge";
 import { 
   ArrowLeft, PawPrint, Mail, Phone, FileText, MapPin, 

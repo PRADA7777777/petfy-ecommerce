@@ -4,7 +4,7 @@ import Link from "next/link";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
 type Resultado =
-  | { ok: true; idMascota: number }
+  | { ok: true; idMascota: number; motivo?: undefined }
   | { ok: false; motivo: "no-existe" | "no-activada" | "error-red" };
 
 async function verificarPlaca(codigo: string): Promise<Resultado> {
