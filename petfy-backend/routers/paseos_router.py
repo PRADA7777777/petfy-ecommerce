@@ -98,8 +98,9 @@ def _guardar_puntos(db: Session, paseador: Usuario, puntos: list) -> dict:
             )
         }
         for punto, hora in zip(puntos, horas):
-            # 4. Solo cuentan los puntos entre el inicio de este paseo y ahora
-            if hora < inicio or hora > limite:
+            # 4. Solo cuentan los puntos entre el inicio de este paseo y ahora, y del mismo día
+            #    de la cita: un paseo que se quedó sin finalizar no recibe recorridos de otro día
+            if hora < inicio or hora > limite or hora.date() != cita.fecha:
                 rechazados += 1
             elif hora in ya_guardadas:
                 ignorados += 1
